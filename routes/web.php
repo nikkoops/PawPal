@@ -1,6 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PetController;
+use App\Http\Controllers\Admin\FormQuestionController;
+use App\Http\Controllers\Admin\AdoptionApplicationController;
+use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\AuthController;
 
 Route::get('/', function () {
     return view('home');
@@ -65,6 +71,11 @@ Route::post('/contact/submit', function () {
     return redirect()->back()
         ->with('success', 'Thank you for your message! We\'ll get back to you soon.');
 });
+
+// Add default login route to redirect to admin login
+Route::get('/login', function () {
+    return redirect()->route('admin.login');
+})->name('login');
 
 Route::get('/pet-details/{id}', function ($id) {
     // Find the pet with the given ID
@@ -208,3 +219,41 @@ Route::get('/pet-details/{id}', function ($id) {
     return view('pet-details', ['pet' => $pet]);
 });
 
+// Admin Routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Admin authentication routes (accessible without admin middleware)
+    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [AuthController::class, 'login']);
+    
+    // Protected admin routes
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+        
+        // Dashboard
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index']);
+        
+        // Pet Management
+        Route::resource('pets', PetController::class);
+        Route::post('pets/{pet}/toggle-availability', [PetController::class, 'toggleAvailability'])->name('pets.toggle-availability');
+        
+        // Form Questions Management
+        Route::resource('form-questions', FormQuestionController::class);
+        Route::post('form-questions/{formQuestion}/toggle-active', [FormQuestionController::class, 'toggleActive'])->name('form-questions.toggle-active');
+        Route::post('form-questions/reorder', [FormQuestionController::class, 'reorder'])->name('form-questions.reorder');
+        
+        // Adoption Applications Management
+        Route::prefix('applications')->name('applications.')->group(function () {
+            Route::get('/', [AdoptionApplicationController::class, 'index'])->name('index');
+            Route::get('{application}', [AdoptionApplicationController::class, 'show'])->name('show');
+            Route::post('{application}/update-status', [AdoptionApplicationController::class, 'updateStatus'])->name('update-status');
+            Route::post('bulk-action', [AdoptionApplicationController::class, 'bulkAction'])->name('bulk-action');
+        });
+        
+        // Analytics
+        Route::prefix('analytics')->name('analytics.')->group(function () {
+            Route::get('/', [AnalyticsController::class, 'index'])->name('index');
+            Route::get('export', [AnalyticsController::class, 'export'])->name('export');
+        });
+    });
+});

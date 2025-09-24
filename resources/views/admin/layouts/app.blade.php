@@ -104,8 +104,16 @@
         }
         
         .admin-content {
-            height: calc(100vh - 4rem);
+            height: calc(100vh - 5rem);
             overflow-y: auto;
+            padding-top: 1rem;
+        }
+        
+        /* Ensure page titles have enough space */
+        @media (max-width: 768px) {
+            .admin-content {
+                padding-top: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -182,22 +190,25 @@
     <div class="lg:pl-72 min-h-screen">
         <!-- Top bar - Fixed -->
         <div class="fixed top-0 right-0 left-0 lg:left-72 z-40 h-16 bg-background/95 backdrop-blur-sm border-b border-border">
-            <div class="flex h-16 items-center justify-between px-6">
-                <button class="lg:hidden p-2 rounded-md hover:bg-muted" onclick="toggleSidebar()">
+            <div class="flex h-16 items-center justify-between px-4 lg:px-6">
+                <button class="lg:hidden p-2 rounded-md hover:bg-muted flex-shrink-0" onclick="toggleSidebar()">
                     <i data-lucide="menu" class="h-5 w-5"></i>
                 </button>
 
-                <div class="flex items-center space-x-4 ml-auto">
-                    <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        System Online
+                <div class="flex items-center space-x-2 lg:space-x-4 ml-auto">
+                    <div class="inline-flex items-center px-2 lg:px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        <span class="hidden sm:inline">System Online</span>
+                        <span class="sm:hidden">Online</span>
                     </div>
-                    <span class="text-sm text-muted-foreground">Last updated: <span id="current-time"></span></span>
+                    <span class="text-xs lg:text-sm text-muted-foreground hidden md:inline">
+                        Last updated: <span id="current-time"></span>
+                    </span>
                 </div>
             </div>
         </div>
 
-        <!-- Page content - With top margin to account for fixed header -->
-        <main class="admin-content pt-4 px-6 pb-6">
+        <!-- Page content - With increased top margin to prevent overlap -->
+        <main class="admin-content pt-20 px-4 lg:px-6 pb-6">
             @yield('content')
         </main>
     </div>

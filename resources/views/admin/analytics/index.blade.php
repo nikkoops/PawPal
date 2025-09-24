@@ -43,15 +43,9 @@
     @endphp
 
     <!-- Header -->
-    <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-3xl font-bold text-foreground">Shelter Analytics</h1>
-            <p class="text-muted-foreground">Real-time insights and performance metrics</p>
-        </div>
-        <div class="flex items-center gap-2 text-sm text-muted-foreground">
-            <i data-lucide="clock" class="h-4 w-4"></i>
-            Last updated: <span id="current-time"></span>
-        </div>
+    <div>
+        <h1 class="text-4xl font-serif font-bold text-foreground">Analytics</h1>
+        <p class="text-lg text-muted-foreground mt-2">Real-time insights and performance metrics for your shelter.</p>
     </div>
 
     <!-- Overcrowding Alerts -->

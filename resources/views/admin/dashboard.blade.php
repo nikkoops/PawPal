@@ -12,7 +12,7 @@
 
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-card rounded-lg border border-border hover:shadow-lg transition-shadow duration-200">
+        <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border hover:shadow-xl transition-all duration-200">
             <div class="p-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -20,14 +20,14 @@
                         <p class="text-3xl font-bold text-foreground mt-2">127</p>
                         <p class="text-sm text-green-600 mt-1">+12 this month</p>
                     </div>
-                    <div class="p-3 rounded-full bg-blue-100">
-                        <i data-lucide="heart" class="h-6 w-6 text-blue-600"></i>
+                    <div class="p-3 rounded-full bg-primary/10">
+                        <i data-lucide="heart" class="h-6 w-6 text-primary"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-card rounded-lg border border-border hover:shadow-lg transition-shadow duration-200">
+        <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border hover:shadow-xl transition-all duration-200">
             <div class="p-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="bg-card rounded-lg border border-border hover:shadow-lg transition-shadow duration-200">
+        <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border hover:shadow-xl transition-all duration-200">
             <div class="p-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <div class="bg-card rounded-lg border border-border hover:shadow-lg transition-shadow duration-200">
+        <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border hover:shadow-xl transition-all duration-200">
             <div class="p-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -65,8 +65,8 @@
                         <p class="text-3xl font-bold text-foreground mt-2">73%</p>
                         <p class="text-sm text-green-600 mt-1">+5% vs last month</p>
                     </div>
-                    <div class="p-3 rounded-full bg-purple-100">
-                        <i data-lucide="trending-up" class="h-6 w-6 text-purple-600"></i>
+                    <div class="p-3 rounded-full bg-primary/10">
+                        <i data-lucide="trending-up" class="h-6 w-6 text-primary"></i>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@
 
     <div class="grid lg:grid-cols-2 gap-8">
         <!-- Recent Activity -->
-        <div class="bg-card rounded-lg border border-border">
+        <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border">
             <div class="p-6 border-b border-border">
                 <h3 class="text-lg font-serif font-semibold text-foreground flex items-center space-x-2">
                     <i data-lucide="clock" class="h-5 w-5"></i>
@@ -130,7 +130,7 @@
         </div>
 
         <!-- Urgent Tasks -->
-        <div class="bg-card rounded-lg border border-border">
+        <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border">
             <div class="p-6 border-b border-border">
                 <h3 class="text-lg font-serif font-semibold text-foreground flex items-center space-x-2">
                     <i data-lucide="alert-triangle" class="h-5 w-5 text-orange-600"></i>
@@ -200,7 +200,7 @@
     </div>
 
     <!-- Quick Actions -->
-    <div class="bg-card rounded-lg border border-border">
+    <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border">
         <div class="p-6 border-b border-border">
             <h3 class="text-lg font-serif font-semibold text-foreground">Quick Actions</h3>
         </div>

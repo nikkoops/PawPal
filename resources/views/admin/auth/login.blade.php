@@ -3,7 +3,7 @@
 @section('title', 'Admin Login - PawPal')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/20 to-secondary/20 px-4">
+<div class="min-h-screen flex items-center justify-center px-4">
     <div class="max-w-md w-full space-y-8">
         <div class="text-center">
             <div class="flex justify-center">
@@ -13,9 +13,9 @@
             <p class="mt-2 text-sm text-muted-foreground">Sign in to access the admin dashboard</p>
         </div>
 
-        <div class="bg-white rounded-lg shadow-lg p-8 border border-border">
+        <div class="bg-white/95 backdrop-blur-sm rounded-lg shadow-xl p-8 border border-border">
             @if ($errors->any())
-                <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <div class="mb-4 p-4 bg-red-50/90 backdrop-blur-sm border border-red-200 rounded-lg">
                     <div class="flex">
                         <i data-lucide="alert-circle" class="h-5 w-5 text-red-400"></i>
                         <div class="ml-3">
@@ -30,7 +30,7 @@
             @endif
 
             @if (session('error'))
-                <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <div class="mb-4 p-4 bg-red-50/90 backdrop-blur-sm border border-red-200 rounded-lg">
                     <div class="flex">
                         <i data-lucide="alert-circle" class="h-5 w-5 text-red-400"></i>
                         <div class="ml-3">

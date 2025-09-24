@@ -12,23 +12,23 @@
             theme: {
                 extend: {
                     colors: {
-                        background: '#ffffff',
-                        foreground: '#8d6e63',
-                        card: '#f5f5f5',
-                        'card-foreground': '#8d6e63',
-                        primary: '#ffb74d',
+                        background: '#faf5ff',
+                        foreground: '#374151',
+                        card: '#ffffff',
+                        'card-foreground': '#374151',
+                        primary: '#9334e9',
                         'primary-foreground': '#ffffff',
-                        secondary: '#ffcc80',
-                        'secondary-foreground': '#8d6e63',
-                        muted: '#f5f5f5',
-                        'muted-foreground': '#8d6e63',
-                        accent: '#ffcc80',
-                        'accent-foreground': '#8d6e63',
-                        destructive: '#e57373',
+                        secondary: '#c084fc',
+                        'secondary-foreground': '#ffffff',
+                        muted: '#f3f4f6',
+                        'muted-foreground': '#6b7280',
+                        accent: '#c084fc',
+                        'accent-foreground': '#ffffff',
+                        destructive: '#ef4444',
                         'destructive-foreground': '#ffffff',
-                        border: '#e0e0e0',
+                        border: '#e5e7eb',
                         input: '#ffffff',
-                        ring: '#ffb74d'
+                        ring: '#9334e9'
                     },
                     fontFamily: {
                         'serif': ['Montserrat', 'serif'],

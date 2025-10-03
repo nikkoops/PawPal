@@ -1,16 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\PetController;
+use App\Http\Controllers\Admin\PetController as AdminPetController;
 use App\Http\Controllers\Admin\FormQuestionController;
 use App\Http\Controllers\Admin\AdoptionApplicationController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\PetController;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [PetController::class, 'index'])->name('home');
+
+Route::get('/pets/{id}', [PetController::class, 'show'])->name('pets.show');
 
 Route::get('/adopt', function () {
     $petName = request()->query('pet');
@@ -229,13 +229,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('logout', [AuthController::class, 'logout'])->name('logout');
         
-        // Dashboard
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('dashboard', [DashboardController::class, 'index']);
+        // Redirect admin root to Pet Management
+        Route::get('/', function () {
+            return redirect()->route('admin.pets.index');
+        });
         
         // Pet Management
-        Route::resource('pets', PetController::class);
-        Route::post('pets/{pet}/toggle-availability', [PetController::class, 'toggleAvailability'])->name('pets.toggle-availability');
+        Route::resource('pets', AdminPetController::class);
+        Route::post('pets/{pet}/toggle-availability', [AdminPetController::class, 'toggleAvailability'])->name('pets.toggle-availability');
         
         // Form Questions Management
         Route::resource('form-questions', FormQuestionController::class);

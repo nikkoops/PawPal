@@ -10,9 +10,9 @@
             <p class="text-muted-foreground mt-1">Review and manage adoption applications</p>
         </div>
         <div class="flex space-x-2">
-            <button onclick="exportApplications()" class="btn-secondary">
-                <i data-lucide="download" class="h-4 w-4"></i>
-                Export
+            <button onclick="exportApplications()" class="btn-secondary" style="display: flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important; transition: all 0.3s ease !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                <i data-lucide="download" style="width: 16px !important; height: 16px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                <span style="transition: color 0.3s ease !important;">Export</span>
             </button>
             <select onchange="bulkAction()" class="input">
                 <option value="">Bulk Actions</option>

@@ -9,7 +9,7 @@
             <h1 class="text-3xl font-serif font-bold text-foreground">Form Builder</h1>
             <p class="text-muted-foreground mt-1">Manage adoption application form questions</p>
         </div>
-        <button onclick="openCreateModal()" class="btn-primary">
+        <button onclick="openCreateModal()" class="btn-primary" style="background-color: #9334e9 !important; color: white !important; border: none !important; padding: 12px 20px !important; border-radius: 8px !important; font-weight: 600 !important; font-size: 14px !important; display: inline-flex !important; align-items: center !important; gap: 8px !important; transition: all 0.3s ease !important; box-shadow: 0 2px 4px rgba(147, 52, 233, 0.2) !important;" onmouseover="this.style.backgroundColor='#7c3aed'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(147, 52, 233, 0.3)'" onmouseout="this.style.backgroundColor='#9334e9'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(147, 52, 233, 0.2)'">
             <i data-lucide="plus" class="h-4 w-4"></i>
             Add Question
         </button>

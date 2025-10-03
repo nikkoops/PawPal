@@ -16,7 +16,10 @@ class AnalyticsController extends Controller
         try {
             $analytics = [
                 'overview' => $this->getOverviewStats(),
+                'capacity' => $this->getCapacityData(),
+                'at_risk_pets' => $this->getAtRiskPets(),
                 'adoption_trends' => $this->getAdoptionTrends(),
+                'length_of_stay' => $this->getLengthOfStayData(),
                 'pet_types' => $this->getPetTypeStats(),
                 'application_status' => $this->getApplicationStatusStats(),
                 'monthly_registrations' => $this->getMonthlyRegistrations(),
@@ -29,13 +32,23 @@ class AnalyticsController extends Controller
                     'total_pets' => 0,
                     'available_pets' => 0,
                     'adopted_pets' => 0,
+                    'pending_pets' => 0,
                     'total_applications' => 0,
                     'pending_applications' => 0,
                     'approved_applications' => 0,
+                    'rejected_applications' => 0,
                     'total_users' => 0,
                     'adoption_rate' => 0,
                 ],
+                'capacity' => [
+                    'current' => 0,
+                    'maximum' => 100,
+                    'dogs' => 0,
+                    'cats' => 0,
+                ],
+                'at_risk_pets' => collect([]),
                 'adoption_trends' => collect([]),
+                'length_of_stay' => collect([]),
                 'pet_types' => collect([]),
                 'application_status' => collect([]),
                 'monthly_registrations' => collect([]),
@@ -53,9 +66,11 @@ class AnalyticsController extends Controller
                 'total_pets' => Pet::count() ?: 0,
                 'available_pets' => Pet::where('is_available', true)->count() ?: 0,
                 'adopted_pets' => Pet::where('is_available', false)->count() ?: 0,
+                'pending_pets' => Pet::where('is_available', true)->count() ?: 0, // Available pets that could be adopted
                 'total_applications' => AdoptionApplication::count() ?: 0,
                 'pending_applications' => AdoptionApplication::where('status', 'pending')->count() ?: 0,
                 'approved_applications' => AdoptionApplication::where('status', 'approved')->count() ?: 0,
+                'rejected_applications' => AdoptionApplication::where('status', 'rejected')->count() ?: 0,
                 'total_users' => User::where('is_admin', false)->count() ?: 0,
                 'adoption_rate' => $this->calculateAdoptionRate(),
             ];
@@ -64,9 +79,11 @@ class AnalyticsController extends Controller
                 'total_pets' => 0,
                 'available_pets' => 0,
                 'adopted_pets' => 0,
+                'pending_pets' => 0,
                 'total_applications' => 0,
                 'pending_applications' => 0,
                 'approved_applications' => 0,
+                'rejected_applications' => 0,
                 'total_users' => 0,
                 'adoption_rate' => 0,
             ];
@@ -142,6 +159,102 @@ class AnalyticsController extends Controller
             ->orderBy('count', 'desc')
             ->take(10)
             ->get();
+    }
+
+    private function getCapacityData()
+    {
+        try {
+            $totalPets = Pet::where('is_available', true)->count();
+            $dogs = Pet::where('is_available', true)->where('type', 'Dog')->count();
+            $cats = Pet::where('is_available', true)->where('type', 'Cat')->count();
+            
+            // Default maximum capacity - this could be configurable
+            $maxCapacity = 180;
+            
+            return [
+                'current' => $totalPets,
+                'maximum' => $maxCapacity,
+                'dogs' => $dogs,
+                'cats' => $cats,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'current' => 0,
+                'maximum' => 100,
+                'dogs' => 0,
+                'cats' => 0,
+            ];
+        }
+    }
+
+    private function getAtRiskPets()
+    {
+        try {
+            return Pet::select('name', 'type', 'created_at')
+                ->where('is_available', true)
+                ->where('created_at', '<=', now()->subDays(60)) // Pets in shelter for 60+ days
+                ->orderBy('created_at', 'asc')
+                ->take(10)
+                ->get()
+                ->map(function ($pet) {
+                    $daysInShelter = now()->diffInDays($pet->created_at);
+                    $reason = 'Long stay';
+                    
+                    if ($daysInShelter >= 120) {
+                        $reason = 'Very long stay';
+                    } elseif ($daysInShelter >= 90) {
+                        $reason = 'Long stay';
+                    } else {
+                        $reason = 'Moderate stay';
+                    }
+                    
+                    return [
+                        'name' => $pet->name,
+                        'type' => $pet->type,
+                        'daysInShelter' => $daysInShelter,
+                        'reason' => $reason,
+                    ];
+                });
+        } catch (\Exception $e) {
+            return collect([]);
+        }
+    }
+
+    private function getLengthOfStayData()
+    {
+        try {
+            $pets = Pet::where('is_available', true)->get();
+            
+            $ranges = [
+                '0-7 days' => 0,
+                '1-4 weeks' => 0,
+                '1-3 months' => 0,
+                '3-6 months' => 0,
+                '6+ months' => 0,
+            ];
+            
+            foreach ($pets as $pet) {
+                $days = now()->diffInDays($pet->created_at);
+                
+                if ($days <= 7) {
+                    $ranges['0-7 days']++;
+                } elseif ($days <= 30) {
+                    $ranges['1-4 weeks']++;
+                } elseif ($days <= 90) {
+                    $ranges['1-3 months']++;
+                } elseif ($days <= 180) {
+                    $ranges['3-6 months']++;
+                } else {
+                    $ranges['6+ months']++;
+                }
+            }
+            
+            return collect($ranges)->map(function ($count, $range) {
+                return ['range' => $range, 'count' => $count];
+            })->values();
+        } catch (\Exception $e) {
+            return collect([]);
+        }
     }
 
     public function export(Request $request)

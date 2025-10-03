@@ -1056,136 +1056,20 @@
   </div>
 
   <script>
-    // Sample pet data
-    const pets = [
-      {
-        id: 1,
-        name: "Max",
-        type: "Dog",
-        age: "Adult",
-        size: "Large",
-        location: "Quezon City",
-        description: "Max was rescued in Quezon City and has been in the shelter for 34 days. Energetic and playful, he'll make a great companion for an active family.",
-        image: "images/golden-retriever-puppy-happy-face.png",
-        urgent: false,
-        vaccinated: true,
-        spayed_neutered: true,
-        good_with_kids: true,
-        good_with_pets: true
-      },
-      {
-        id: 2,
-        name: "Bella",
-        type: "dog",
-        age: "senior",
-        size: "large",
-        location: "Caloocan",
-        description: "Bella, rescued in Caloocan, has spent 60 days in the shelter. A gentle giant, she loves quiet walks and cuddles.",
-        image: "images/white-and-brown-senior-dog-gentle-expression.png",
-        urgent: true,
-        vaccinated: false,
-        spayed_neutered: true,
-        good_with_kids: true,
-        good_with_pets: true
-      },
-      {
-        id: 3,
-        name: "Duke",
-        type: "dog",
-        age: "adult",
-        size: "large",
-        location: "Makati",
-        description: "Duke was found in Makati and has been here 30 days. This happy pup's goofy energy will bring joy to any home.",
-        image: "images/brown-dog-with-blue-collar-smiling.png",
-        urgent: false,
-        vaccinated: true,
-        spayed_neutered: true,
-        good_with_kids: true,
-        good_with_pets: true
-      },
-      {
-        id: 4,
-        name: "Rocky",
-        type: "dog",
-        age: "senior",
-        size: "large",
-        location: "Manila",
-        description: "Rocky, rescued from Manila, has stayed 42 days in the shelter. Loyal and affectionate, perfect for a calm household.",
-        image: "images/senior-dog-with-gray-muzzle-loyal-expression.jpg",
-        urgent: false,
-        vaccinated: true,
-        spayed_neutered: true,
-        good_with_kids: false,
-        good_with_pets: true
-      },
-      {
-        id: 5,
-        name: "Cleo",
-        type: "cat",
-        age: "adult",
-        size: "small",
-        location: "Pasay",
-        description: "Cleo was rescued in Pasay and has been here 25 days. Independent yet loving, she enjoys sunny windowsills.",
-        image: "images/black-and-white-cat-sitting-on-wooden-surface.png",
-        urgent: false,
-        vaccinated: true,
-        spayed_neutered: false,
-        good_with_kids: true,
-        good_with_pets: false
-      },
-      {
-        id: 6,
-        name: "Whiskers",
-        type: "cat",
-        age: "puppy",
-        size: "small",
-        location: "Quezon City",
-        description: "Whiskers, from Quezon City, has been in the shelter 10 days. Playful and sweet, she's eager to find her forever home.",
-        image: "images/orange-tabby-kitten-cute-expression.png",
-        urgent: false,
-        vaccinated: true,
-        spayed_neutered: true,
-        good_with_kids: true,
-        good_with_pets: true
-      },
-      {
-        id: 7,
-        name: "Milo",
-        type: "cat",
-        age: "adult",
-        size: "medium",
-        location: "Taguig",
-        description: "Milo, rescued in Taguig City, has been here 39 days. Mischievous and curious, he loves exploring and playing with toys.",
-        image: "images/tabby-cat-with-green-eyes-alert.png",
-        urgent: false,
-        vaccinated: false,
-        spayed_neutered: true,
-        good_with_kids: true,
-        good_with_pets: true
-      },
-      {
-        id: 8,
-        name: "Oliver",
-        type: "cat",
-        age: "senior",
-        size: "medium",
-        location: "Mandaluyong",
-        description: "Oliver, from Mandaluyong, has been at the shelter 43 days. Calm and graceful, he's perfect for a quiet, loving home.",
-        image: "images/orange-and-white-senior-cat-calm-expression.png",
-        urgent: false,
-        vaccinated: true,
-        spayed_neutered: false,
-        good_with_kids: false,
-        good_with_pets: true
-      },
-    ];
+    // Dynamic pet data from database
+    const pets = @json($pets ?? []);
 
     function renderPets(petsToRender = pets) {
       const grid = document.getElementById('pets-grid');
       grid.innerHTML = '';
       
+      if (petsToRender.length === 0) {
+        grid.innerHTML = '<div class="no-pets-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #6b7280; font-size: 1.1rem;">No pets match your current filters. Try adjusting your search criteria.</div>';
+        return;
+      }
+      
       petsToRender.forEach(pet => {
-        const petEmoji = pet.type === 'dog' ? '🐕' : '🐱';
+        const petEmoji = pet.type.toLowerCase() === 'dog' ? '🐕' : '🐱';
         const petCard = document.createElement('div');
         petCard.className = 'pet-card';
         petCard.innerHTML = `
@@ -1203,6 +1087,10 @@
               ${pet.age.charAt(0).toUpperCase() + pet.age.slice(1)} • ${pet.size.charAt(0).toUpperCase() + pet.size.slice(1)} • ${pet.location}
             </p>
             <p class="pet-description">${pet.description}</p>
+            <div class="pet-extra-info" style="font-size: 0.85rem; color: #6b7280; margin: 0.5rem 0;">
+              ${pet.days_in_shelter > 0 ? `${pet.days_in_shelter} days in shelter` : 'New arrival'}
+              ${pet.breed ? ` • ${pet.breed}` : ''}
+            </div>
             <button class="meet-btn" onclick="meetPet(${pet.id}, '${pet.name}')">Meet ${pet.name}</button>
           </div>
         `;

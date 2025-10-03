@@ -27,7 +27,7 @@ class AuthController extends Controller
             
             if ($user->is_admin) {
                 $request->session()->regenerate();
-                return redirect()->intended(route('admin.dashboard'));
+                return redirect()->intended(route('admin.pets.index'));
             } else {
                 Auth::logout();
                 return back()->withErrors([

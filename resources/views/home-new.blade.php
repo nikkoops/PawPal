@@ -48,54 +48,45 @@
       display: flex;
       align-items: center;
       gap: 0.3rem;
-      font-size: 1.125rem;
-      font-weight: bold;
-      color: #1f2937;
-      text-decoration: none;
     }
 
     .logo img {
-      height: 1.75rem;
-      width: auto;
+      height: 1.5rem;
     }
 
-    .nav {
-      display: none;
+    .logo span {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #1f2937;
     }
 
-    @media (min-width: 768px) {
-      .nav {
-        display: flex;
-        gap: 1.5rem;
-      }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
     }
 
-    .nav-link {
-      color: #4b5563;
+    .nav-links a {
       text-decoration: none;
+      color: #4b5563;
       font-weight: 500;
-      font-size: 0.9rem;
       transition: color 0.3s;
     }
 
-    .nav-link:hover {
+    .nav-links a:hover {
       color: #1f2937;
-      text-decoration: none;
     }
 
-    .nav-link.active {
-      color: #1f2937;
-      font-weight: 600;
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
     }
 
-    /* Main Content Styles */
-    .gradient-bg {
-      background: linear-gradient(to bottom, #f3e8ff, #faf5ff);
-      min-height: 100vh;
-    }
-
-    .hero-section {
-      padding: 4rem 1rem;
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      padding: 4rem 0.75rem;
     }
 
     .hero-content h1 {
@@ -153,7 +144,6 @@
       text-decoration: none;
       display: inline-block;
       transition: background 0.3s;
-      font-size: 1rem;
     }
 
     .btn-primary:hover {
@@ -162,41 +152,41 @@
       text-decoration: none;
     }
 
-    .btn-outline {
+    .btn-secondary {
       background: transparent;
-      color: #000;
+      color: #374151;
       padding: 0.875rem 2rem;
-      border: 1px solid #d1d5db;
+      border: 2px solid #374151;
       border-radius: 0.5rem;
       font-weight: 600;
       text-decoration: none;
       display: inline-block;
       transition: all 0.3s;
-      font-size: 1rem;
     }
 
-    .btn-outline:hover {
-      background: #f9fafb;
-      color: #000;
+    .btn-secondary:hover {
+      background: #374151;
+      color: white;
       text-decoration: none;
     }
 
     .hero-images {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
+      align-items: end;
     }
 
     .hero-images img {
       width: 100%;
       border-radius: 0.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       object-fit: cover;
     }
 
+    /* Pets Section */
     .pets-section {
-      background: white;
-      padding: 4rem 1rem;
+      padding: 4rem 0.75rem;
+      background-color: #f9fafb;
     }
 
     .pets-container {
@@ -218,20 +208,25 @@
 
     .section-header p {
       font-size: 1.125rem;
-      color: #6b7280;
+      color: #4b5563;
       max-width: 600px;
       margin: 0 auto;
     }
 
+    /* Filters */
     .filters {
-      margin-bottom: 3rem;
+      background: white;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
     }
 
     .filters h3 {
-      font-size: 1.125rem;
+      font-size: 1.25rem;
       font-weight: 600;
-      color: #1f2937;
       margin-bottom: 1.5rem;
+      color: #1f2937;
     }
 
     .filter-grid {
@@ -240,14 +235,22 @@
       gap: 1rem;
     }
 
-    .filter-input, .filter-select {
+    .filter-input,
+    .filter-select {
       padding: 0.75rem;
       border: 1px solid #d1d5db;
       border-radius: 0.375rem;
-      font-size: 1rem;
-      width: 100%;
+      font-size: 0.875rem;
+      transition: border-color 0.3s;
     }
 
+    .filter-input:focus,
+    .filter-select:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+
+    /* Pets Grid */
     .pets-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -300,52 +303,87 @@
     }
 
     .pet-name {
-      font-size: 1.25rem;
-      font-weight: bold;
+      font-size: 1.125rem;
+      font-weight: 600;
       color: #1f2937;
       margin: 0;
     }
 
     .pet-type {
-      font-size: 0.875rem;
-      color: #6b7280;
+      background: #e5e7eb;
+      color: #374151;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 500;
     }
 
     .pet-details {
-      font-size: 0.875rem;
       color: #6b7280;
+      font-size: 0.875rem;
       margin-bottom: 0.75rem;
     }
 
     .pet-description {
-      font-size: 0.875rem;
       color: #4b5563;
+      font-size: 0.875rem;
+      line-height: 1.5;
       margin-bottom: 1rem;
-      line-height: 1.4;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
 
     .meet-btn {
-      width: 100%;
-      background: #000;
+      background: #1f2937;
       color: white;
-      padding: 0.75rem;
+      padding: 0.5rem 1rem;
       border: none;
       border-radius: 0.375rem;
       font-weight: 500;
       cursor: pointer;
       transition: background 0.3s;
+      width: 100%;
     }
 
     .meet-btn:hover {
       background: #374151;
     }
 
-    .smooth-scroll {
-      scroll-behavior: smooth;
+    /* Footer Styles */
+    .bg-gray-900 { background-color: #111827; }
+    .text-white { color: white; }
+    .max-w-6xl { max-width: 72rem; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+    .grid { display: grid; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .gap-8 { gap: 2rem; }
+    .w-8 { width: 2rem; }
+    .h-8 { height: 2rem; }
+    .bg-blue-600 { background-color: #2563eb; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .flex { display: flex; }
+    .items-center { align-items: center; }
+    .justify-center { justify-content: center; }
+    .mr-2 { margin-right: 0.5rem; }
+    .w-6 { width: 1.5rem; }
+    .h-6 { height: 1.5rem; }
+    .text-xl { font-size: 1.25rem; }
+    .font-bold { font-weight: 700; }
+    .mb-4 { margin-bottom: 1rem; }
+    .text-gray-400 { color: #9ca3af; }
+    .text-lg { font-size: 1.125rem; }
+    .font-semibold { font-weight: 600; }
+    .space-y-2 > * + * { margin-top: 0.5rem; }
+    .hover\:text-white:hover { color: white; }
+    .border-t { border-top-width: 1px; }
+    .border-gray-800 { border-color: #1f2937; }
+    .mt-8 { margin-top: 2rem; }
+    .pt-8 { padding-top: 2rem; }
+    .text-center { text-align: center; }
+    .text-sm { font-size: 0.875rem; }
+
+    @media (min-width: 768px) {
+      .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
   </style>
 </head>
@@ -355,50 +393,48 @@
   <header class="header">
     <div class="header-container">
       <div class="header-content">
-        <a href="index.php" class="logo">
-          <img src="images/PAWPAL LOGO.png" alt="PawPal Logo">
-          PawPal
-        </a>
-        <nav class="nav">
-          <a href="index.php" class="nav-link active">Home</a>
-          <a href="shop.php" class="nav-link">Find Pets</a>
-          <a href="about.php" class="nav-link">Pet Matching</a>
-          <a href="about.php" class="nav-link">Learn More</a>
-          <a href="contact.php" class="nav-link">Contact Us</a>
+        <div class="logo">
+          <img src="images/PAWPAL LOGO.png" alt="PawPal">
+          <span>PawPal</span>
+        </div>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="#pets-section">Find Pets</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
         </nav>
       </div>
     </div>
   </header>
 
-  <div class="gradient-bg">
+  <!-- Main Content -->
+  <main>
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section class="hero">
       <div class="hero-grid">
         <div class="hero-content">
           <h1>
-            Give a Life a Second Chance<br>
-            <span class="subtitle">– Adopt Today</span>
+            Find Your Perfect <span class="subtitle">Companion</span>
           </h1>
           <p>
-            Thousands of pets face euthanasia each year due to overcrowded shelters and lack of adopters. By
-            adopting, you can save a life, reduce shelter overcrowding, and bring love into your home. Browse pets
-            at risk, fill out an adoption application, and make a lasting difference today.
+            Every pet deserves a loving home. Browse our available pets and find your new best friend today. 
+            We connect families across Metro Manila with rescued pets who need a second chance at happiness.
           </p>
           <div class="hero-buttons">
-            <a href="#pets-section" class="btn-primary" onclick="smoothScroll(event, '#pets-section')">Start Adopting Today</a>
-            <a href="about.php" class="btn-outline">Learn More</a>
+            <a href="#pets-section" class="btn-primary">Find Pets</a>
+            <a href="/about" class="btn-secondary">Learn More</a>
           </div>
         </div>
-
-        <!-- Hero Images Grid -->
         <div class="hero-images">
           <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <img src="images/hero-pet-1.jpg" alt="Adoptable pet" style="height: 200px;" onerror="this.src='images/placeholder-pet.jpg'">
-            <img src="images/hero-pet-3.jpg" alt="Adoptable pet" style="height: 150px;" onerror="this.src='images/placeholder-pet.jpg'">
+            <img src="images/golden-retriever-puppy-happy-face.png" alt="Adoptable pet" style="height: 200px;" onerror="this.src='images/placeholder-pet.jpg'">
+            <img src="images/orange-and-white-kitten-playful-expression.png" alt="Adoptable pet" style="height: 150px;" onerror="this.src='images/placeholder-pet.jpg'">
           </div>
-          <div style="display: flex; flex-direction: column; gap: 1rem; padding-top: 2rem;">
-            <img src="images/hero-pet-2.jpg" alt="Adoptable pet" style="height: 130px;" onerror="this.src='images/placeholder-pet.jpg'">
-            <img src="images/hero-pet-4.jpg" alt="Adoptable pet" style="height: 170px;" onerror="this.src='images/placeholder-pet.jpg'">
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <img src="images/white-and-brown-senior-dog-gentle-expression.png" alt="Adoptable pet" style="height: 130px;" onerror="this.src='images/placeholder-pet.jpg'">
+            <img src="images/tabby-cat-with-green-eyes-alert.png" alt="Adoptable pet" style="height: 170px;" onerror="this.src='images/placeholder-pet.jpg'">
           </div>
         </div>
       </div>
@@ -450,27 +486,64 @@
               <option value="Taguig">Taguig</option>
               <option value="Valenzuela">Valenzuela</option>
             </select>
-              <option value="Parañaque">Parañaque</option>
-              <option value="Pasay">Pasay</option>
-              <option value="Pasig">Pasig</option>
-              <option value="Quezon City">Quezon City</option>
-              <option value="San Juan">San Juan</option>
-              <option value="Taguig">Taguig</option>
-              <option value="Valenzuela">Valenzuela</option>
-            </select>
           </div>
         </div>
 
-        <!-- Pet Cards Grid -->
-        <div id="pets-grid" class="pets-grid">
-          <!-- Pet cards will be generated here -->
-        </div>
+        <!-- Pets Grid -->
+        <div id="pets-grid" class="pets-grid"></div>
       </div>
     </section>
-  </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-2">
+              <img src="images/PAWPAL LOGO.png" alt="PawPal" class="w-6 h-6">
+            </div>
+            <h3 class="text-xl font-bold">PawPal</h3>
+          </div>
+          <p class="text-gray-400 mb-4">
+            Connecting loving families with pets in need across Metro Manila.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
+            <li><a href="#pets-section" class="text-gray-400 hover:text-white">Find Pets</a></li>
+            <li><a href="/about" class="text-gray-400 hover:text-white">About Us</a></li>
+            <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Resources</h3>
+          <ul class="space-y-2">
+            <li><a href="/adoption-process" class="text-gray-400 hover:text-white">Adoption Process</a></li>
+            <li><a href="/pet-care-guides" class="text-gray-400 hover:text-white">Pet Care Guides</a></li>
+            <li><a href="/success-stories" class="text-gray-400 hover:text-white">Success Stories</a></li>
+            <li><a href="/faqs" class="text-gray-400 hover:text-white">FAQs</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li class="text-gray-400">Metro Manila, Philippines</li>
+            <li class="text-gray-400">Phone: (02) 8123-4567</li>
+            <li class="text-gray-400">Email: info@pawpal.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+        <p>&copy; © 2024 PawPal. All rights reserved. Made with ❤️ for pets in need.</p>
+      </div>
+    </div>
+  </footer>
 
   <script>
-    // Sample pet data
     const pets = [
       {
         id: 1,
@@ -479,8 +552,8 @@
         age: "adult",
         size: "large",
         location: "Quezon City",
-        description: "Max was rescued in Quezon City and has been in the shelter for 34 days. Energetic and playful, he'll make a great companion for an active family.",
-        image: "images/pet-1.jpg",
+        description: "Max is a friendly, energetic Golden Retriever looking for an active family. He's been with us for 15 days and loves playing fetch!",
+        image: "images/golden-retriever-puppy-happy-face.png",
         urgent: false,
       },
       {
@@ -488,21 +561,21 @@
         name: "Bella",
         type: "dog",
         age: "senior",
-        size: "large",
+        size: "medium",
         location: "Makati",
-        description: "Bella, rescued in Makati, has spent 60 days in the shelter. A gentle giant, she loves quiet walks and cuddles.",
-        image: "images/pet-2.jpg",
+        description: "Bella, from Makati, has been with us for 28 days. This gentle senior dog has so much love to give and would thrive in a calm home.",
+        image: "images/white-and-brown-senior-dog-gentle-expression.png",
         urgent: true,
       },
       {
         id: 3,
-        name: "Duke",
+        name: "Charlie",
         type: "dog",
         age: "adult",
-        size: "large",
-        location: "Makati",
-        description: "Duke was found in Makati and has been here 30 days. This happy pup's goofy energy will bring joy to any home.",
-        image: "images/pet-3.jpg",
+        size: "medium",
+        location: "Manila",
+        description: "Charlie is an energetic and friendly dog from Manila. He's been waiting 12 days for his forever home!",
+        image: "images/brown-dog-with-blue-collar-smiling.png",
         urgent: false,
       },
       {
@@ -511,42 +584,42 @@
         type: "dog",
         age: "senior",
         size: "large",
-        location: "Manila",
-        description: "Rocky, rescued from Manila, has stayed 42 days in the shelter. Loyal and affectionate, perfect for a calm household.",
-        image: "images/pet-4.jpg",
-        urgent: false,
+        location: "Pasig",
+        description: "Rocky is a wise, gentle senior dog from Pasig who's been with us for 31 days. He enjoys quiet walks and cozy naps.",
+        image: "images/senior-dog-with-gray-muzzle-loyal-expression.jpg",
+        urgent: true,
       },
       {
         id: 5,
-        name: "Cleo",
+        name: "Luna",
         type: "cat",
         age: "adult",
         size: "small",
-        location: "Pasig",
-        description: "Cleo was rescued in Pasig and has been here 25 days. Independent yet loving, she enjoys sunny windowsills.",
-        image: "images/pet-5.jpg",
+        location: "Taguig",
+        description: "Luna is a beautiful, independent cat from Taguig. She's been here 18 days and is looking for a quiet home where she can be the queen.",
+        image: "images/tabby-cat-with-green-eyes-alert.png",
         urgent: false,
       },
       {
         id: 6,
-        name: "Whiskers",
+        name: "Milo",
         type: "cat",
         age: "puppy",
         size: "small",
-        location: "Marikina",
-        description: "Whiskers, from Marikina, has been in the shelter 10 days. Playful and sweet, she's eager to find her forever home.",
-        image: "images/pet-6.jpg",
+        location: "Muntinlupa",
+        description: "Milo is a playful kitten from Muntinlupa who's been with us 8 days. He's full of energy and ready to bring joy to his new family!",
+        image: "images/orange-and-white-kitten-playful-expression.png",
         urgent: false,
       },
       {
         id: 7,
-        name: "Milo",
+        name: "Shadow",
         type: "cat",
         age: "adult",
         size: "medium",
-        location: "Taguig",
-        description: "Milo, rescued in Taguig, has been here 39 days. Mischievous and curious, he loves exploring and playing with toys.",
-        image: "images/pet-7.jpg",
+        location: "Parañaque",
+        description: "Shadow is a calm, affectionate cat from Parañaque. After 22 days with us, he's ready to find a loving family.",
+        image: "images/black-and-white-cat-sitting-on-wooden-surface.png",
         urgent: false,
       },
       {
@@ -557,7 +630,7 @@
         size: "medium",
         location: "San Juan",
         description: "Oliver, from San Juan, has been at the shelter 43 days. Calm and graceful, he's perfect for a quiet, loving home.",
-        image: "images/pet-8.jpg",
+        image: "images/orange-and-white-senior-cat-calm-expression.png",
         urgent: false,
       },
     ];
@@ -598,7 +671,7 @@
 
       const filteredPets = pets.filter(pet => {
         const matchesSearch = pet.name.toLowerCase().includes(searchTerm) || 
-                             pet.description.toLowerCase().includes(searchTerm);
+                            pet.description.toLowerCase().includes(searchTerm);
         const matchesType = !typeFilter || pet.type === typeFilter;
         const matchesAge = !ageFilter || pet.age === ageFilter;
         const matchesLocation = !locationFilter || pet.location === locationFilter;
@@ -609,69 +682,14 @@
       renderPets(filteredPets);
     }
 
-    function meetPet(id, name) {
-      // Redirect to pet details page
-      window.location.href = `pet-details.php?id=${id}`;
+    function meetPet(petId, petName) {
+      alert(`Great choice! You'd like to meet ${petName}. In a real application, this would redirect to the adoption application page for pet ID ${petId}.`);
     }
 
-    function smoothScroll(event, target) {
-      event.preventDefault();
-      document.querySelector(target).scrollIntoView({
-        behavior: 'smooth'
-      });
-    }
-
-    // Initialize the page
+    // Initialize pets display
     document.addEventListener('DOMContentLoaded', function() {
       renderPets();
     });
   </script>
-
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-12">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div>
-          <div class="flex items-center mb-4">
-            <img src="images/PAWPAL LOGO.png" alt="PawPal Logo" class="h-8 w-auto mr-2">
-            <span class="text-xl font-bold">PawPal</span>
-          </div>
-          <p class="text-gray-400 text-sm">
-            Connecting loving families with pets in need of homes.
-          </p>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-          <ul class="space-y-2">
-            <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
-            <li><a href="/find-pets" class="text-gray-400 hover:text-white">Find Pets</a></li>
-            <li><a href="/pet-matching" class="text-gray-400 hover:text-white">Pet Matching</a></li>
-            <li><a href="/learn-more" class="text-gray-400 hover:text-white">Learn More</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Resources</h3>
-          <ul class="space-y-2">
-            <li><a href="/adoption-process" class="text-gray-400 hover:text-white">Adoption Process</a></li>
-            <li><a href="/pet-care-guides" class="text-gray-400 hover:text-white">Pet Care Guides</a></li>
-            <li><a href="/success-stories" class="text-gray-400 hover:text-white">Success Stories</a></li>
-            <li><a href="/faqs" class="text-gray-400 hover:text-white">FAQs</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
-          <ul class="space-y-2">
-            <li class="text-gray-400">Metro Manila, Philippines</li>
-            <li class="text-gray-400">Phone: (02) 8123-4567</li>
-            <li class="text-gray-400">Email: info@pawpal.com</li>
-          </ul>
-        </div>
-      </div>
-      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
-        <p>&copy; © 2024 PawPal. All rights reserved. Made with ❤️ for pets in need.</p>
-      </div>
-    </div>
-  </footer>
-
 </body>
 </html>

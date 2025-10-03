@@ -56,9 +56,15 @@ class PetController extends Controller
             'medical_history' => 'nullable|string',
             'is_vaccinated' => 'boolean',
             'is_neutered' => 'boolean',
+            'is_available' => 'boolean',
         ]);
 
         $data = $request->all();
+        
+        // Ensure boolean fields are properly set
+        $data['is_available'] = $request->has('is_available') ? true : false;
+        $data['is_vaccinated'] = $request->has('is_vaccinated') ? true : false;
+        $data['is_neutered'] = $request->has('is_neutered') ? true : false;
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('pets', 'public');
@@ -95,9 +101,15 @@ class PetController extends Controller
             'medical_history' => 'nullable|string',
             'is_vaccinated' => 'boolean',
             'is_neutered' => 'boolean',
+            'is_available' => 'boolean',
         ]);
 
         $data = $request->all();
+        
+        // Ensure boolean fields are properly set
+        $data['is_available'] = $request->has('is_available') ? true : false;
+        $data['is_vaccinated'] = $request->has('is_vaccinated') ? true : false;
+        $data['is_neutered'] = $request->has('is_neutered') ? true : false;
 
         if ($request->hasFile('image')) {
             // Delete old image if exists

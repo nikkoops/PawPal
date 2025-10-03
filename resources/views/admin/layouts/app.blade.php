@@ -55,20 +55,41 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+        /* Navigation Link Styling - Force proper alignment */
         .nav-link {
-            @apply flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 text-muted-foreground hover:text-foreground hover:bg-muted min-h-[48px] whitespace-nowrap;
+            @apply flex px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 text-muted-foreground hover:text-foreground hover:bg-muted min-h-[48px] whitespace-nowrap;
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
         }
         .nav-link.active {
-            @apply bg-primary text-primary-foreground;
+            @apply bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground;
+        }
+        .nav-link i {
+            width: 20px !important;
+            height: 20px !important;
+            flex-shrink: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
         }
         .nav-link span {
-            @apply flex-1 truncate;
+            flex: 1 !important;
+            line-height: 20px !important;
+            display: flex !important;
+            align-items: center !important;
+            text-overflow: ellipsis !important;
+            overflow: hidden !important;
         }
         
         /* Responsive navigation text */
         @media (max-width: 1024px) {
             .nav-link {
-                @apply text-xs px-3 py-2 space-x-2;
+                @apply text-xs px-3 py-2.5 min-h-[40px];
+                gap: 8px !important;
+            }
+            .nav-link i {
+                @apply w-4 h-4;
             }
         }
         
@@ -78,17 +99,24 @@
                 width: 280px;
             }
         }
+        /* Button Styling */
         .btn-primary {
             @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2;
+            gap: 8px !important;
         }
         .btn-secondary {
             @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2;
+            gap: 6px !important;
         }
         .btn-destructive {
             @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-destructive text-destructive-foreground hover:bg-destructive/90 h-10 px-4 py-2;
+            gap: 6px !important;
         }
         .btn-sm {
-            @apply h-9 px-3;
+            @apply h-8 px-3 text-xs;
+        }
+        .btn-secondary i, .btn-primary i, .btn-destructive i {
+            flex-shrink: 0 !important;
         }
         .input {
             @apply flex h-10 w-full rounded-md border border-border bg-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
@@ -126,7 +154,7 @@
         <div class="flex h-full flex-col">
             <!-- Logo -->
             <div class="flex h-20 items-center justify-between px-6 border-b border-border">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-2 min-w-0">
+                <a href="{{ route('admin.pets.index') }}" class="flex items-center space-x-2 min-w-0">
                     <i data-lucide="heart" class="h-8 w-8 text-primary flex-shrink-0"></i>
                     <span class="text-xl lg:text-2xl font-serif font-bold text-foreground truncate">PawPal Admin</span>
                 </a>
@@ -136,26 +164,22 @@
             </div>
 
             <!-- Navigation -->
-            <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" title="Dashboard">
-                    <i data-lucide="layout-dashboard" class="h-5 w-5 flex-shrink-0"></i>
-                    <span class="font-medium">Dashboard</span>
+            <nav class="flex-1 px-4 py-6 space-y-3 overflow-y-auto">
+                <a href="{{ route('admin.pets.index') }}" class="nav-link {{ request()->routeIs('admin.pets.*') ? 'active' : '' }}" title="Pet Management" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                    <i data-lucide="heart" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                    <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Pet Management</span>
                 </a>
-                <a href="{{ route('admin.pets.index') }}" class="nav-link {{ request()->routeIs('admin.pets.*') ? 'active' : '' }}" title="Pet Management">
-                    <i data-lucide="heart" class="h-5 w-5 flex-shrink-0"></i>
-                    <span class="font-medium">Pet Management</span>
+                <a href="{{ route('admin.form-questions.index') }}" class="nav-link {{ request()->routeIs('admin.form-questions.*') ? 'active' : '' }}" title="Form Builder" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                    <i data-lucide="file-edit" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                    <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Form Builder</span>
                 </a>
-                <a href="{{ route('admin.form-questions.index') }}" class="nav-link {{ request()->routeIs('admin.form-questions.*') ? 'active' : '' }}" title="Form Builder">
-                    <i data-lucide="file-text" class="h-5 w-5 flex-shrink-0"></i>
-                    <span class="font-medium">Form Builder</span>
+                <a href="{{ route('admin.applications.index') }}" class="nav-link {{ request()->routeIs('admin.applications.*') ? 'active' : '' }}" title="Applications" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                    <i data-lucide="users" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                    <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Applications</span>
                 </a>
-                <a href="{{ route('admin.applications.index') }}" class="nav-link {{ request()->routeIs('admin.applications.*') ? 'active' : '' }}" title="Applications">
-                    <i data-lucide="users" class="h-5 w-5 flex-shrink-0"></i>
-                    <span class="font-medium">Applications</span>
-                </a>
-                <a href="{{ route('admin.analytics.index') }}" class="nav-link {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}" title="Analytics">
-                    <i data-lucide="bar-chart-3" class="h-5 w-5 flex-shrink-0"></i>
-                    <span class="font-medium">Analytics</span>
+                <a href="{{ route('admin.analytics.index') }}" class="nav-link {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}" title="Analytics" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                    <i data-lucide="bar-chart-3" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                    <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Analytics</span>
                 </a>
             </nav>
 
@@ -172,13 +196,13 @@
                         </div>
                     </div>
                     <div class="mt-4 flex space-x-2">
-                        <button class="btn-secondary btn-sm flex-1">
-                            <i data-lucide="settings" class="h-4 w-4 mr-2"></i>
-                            Settings
+                        <button class="btn-secondary btn-sm flex-1" style="display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; transition: all 0.3s ease !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                            <i data-lucide="settings" style="width: 16px !important; height: 16px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                            <span style="transition: color 0.3s ease !important;">Settings</span>
                         </button>
-                        <a href="{{ route('admin.logout') }}" class="btn-secondary btn-sm flex-1">
-                            <i data-lucide="log-out" class="h-4 w-4 mr-2"></i>
-                            Logout
+                        <a href="{{ route('admin.logout') }}" class="btn-secondary btn-sm flex-1" style="display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; transition: all 0.3s ease !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                            <i data-lucide="log-out" style="width: 16px !important; height: 16px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                            <span style="transition: color 0.3s ease !important;">Logout</span>
                         </a>
                     </div>
                 </div>

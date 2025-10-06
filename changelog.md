@@ -104,9 +104,9 @@ Author(s): <Team/Developer Name>
 | Version   | Date       | Description                                     | Author/Team     |
 | --------- | ---------- | ----------------------------------------------- | --------------- |
 | **1.0.0** | 2025-10-06 | Initial stable release of PawPal platform.      | DIGI |
-| **1.1.0** | TBD        | Added pet recommendation and filtering.         | DIGI |
-| **1.2.0** | TBD        | Integrated chat system for adopters and admins. | DIGI |
-| **1.2.1** | TBD        | Fixed adoption form submission error.           | DIGI |
+| **1.1.0** | 2025-10-07 | Added pet recommendation and filtering.         | DIGI |
+| **1.2.0** | 2025-10-10 | Integrated chat system for adopters and admins. | DIGI |
+| **1.2.1** | 2025-10-18 | Fixed adoption form submission error.           | DIGI |
 
 ---
 
@@ -130,4 +130,8 @@ When submitting pull requests for release updates:
 
 **Maintained by:**
 **DIGI**
+**Roman Nikko Albania**
+**Abdul Hasheem Ditano**
+**Nekeisha Ashyln Elfa**
+**Edgar Monforte**
 *Last Updated: October 6, 2025*

@@ -75,7 +75,7 @@ Author(s): <Team/Developer Name>
 ### **Version: v1.0.0**
 
 **Date:** October 6, 2025
-**Author(s):** PawPal Development Team
+**Author(s):** DIGI
 
 #### New Features
 

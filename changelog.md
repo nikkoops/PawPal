@@ -130,8 +130,14 @@ When submitting pull requests for release updates:
 
 **Maintained by:**
 **DIGI**
-**Roman Nikko Albania**
-**Abdul Hasheem Ditano**
-**Nekeisha Ashyln Elfa**
-**Edgar Monforte**
+---
+Roman Nikko Albania
+
+Abdul Hasheem Ditano
+
+Nekeisha Ashyln Elfa
+
+Edgar Monforte
+
+---
 *Last Updated: October 6, 2025*

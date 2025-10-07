@@ -111,9 +111,8 @@ class PetController extends Controller
 
     private function getLocation($pet)
     {
-        // You can add a location field to the Pet model if needed
-        // For now, we'll use a default based on the shelter
-        return 'Manila'; // You can make this dynamic later
+        // Return the actual location from the database, fallback to 'Manila' if not set
+        return $pet->location ?? 'Manila';
     }
 
     private function getCharacteristic($pet, $characteristicName)

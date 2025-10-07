@@ -940,23 +940,7 @@
 
 <body>
   <!-- Header -->
-  <nav class="bg-white/80 backdrop-blur-sm border-b sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto pr-4 sm:pr-6 lg:pr-8">
-      <div class="flex items-center h-16 justify-between">
-        <div class="flex items-center space-x-2">
-          <img src="images/PAWPAL LOGO.png?v=<?php echo time(); ?>" alt="PawPal Logo" class="h-8 w-8">
-          <span class="text-xl font-bold text-gray-900">PawPal</span>
-        </div>
-  <div class="hidden md:flex items-center space-x-8 ml-auto">
-          <a href="/" class="text-purple-600 font-semibold">Home</a>
-          <a href="#pets-section" class="text-gray-600 hover:text-gray-900">Find Pets</a>
-          <a href="{{ url('/about') }}" class="text-gray-600 hover:text-gray-900">Pet Matching</a>
-          <a href="{{ url('/learn-more') }}" class="text-gray-600 hover:text-gray-900">Learn More</a>
-          <a href="{{ url('/contact') }}" class="text-gray-600 hover:text-gray-900">Contact Us</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+  @include('components.header')
 
   <div class="gradient-bg">
     <!-- Hero Section -->

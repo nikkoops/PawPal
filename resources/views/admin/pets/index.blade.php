@@ -81,8 +81,8 @@
                             </div>
                         @endif
                         
-                        <span class="absolute top-2 right-2 px-2 py-1 text-xs rounded-full font-medium {{ $pet->is_available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                            {{ $pet->is_available ? 'Available' : 'Adopted' }}
+                        <span class="absolute top-2 right-2 px-3 py-1 text-sm rounded-full font-semibold {{ $pet->is_available ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' }}">
+                            {{ $pet->is_available ? '✓ Available' : '🏠 Adopted' }}
                         </span>
                     </div>
                     
@@ -107,6 +107,12 @@
                                     <i data-lucide="edit" class="h-4 w-4 mr-1"></i>
                                     Edit
                                 </a>
+                                <form method="POST" action="{{ route('admin.pets.toggle-availability', $pet) }}" class="inline-block">
+                                    @csrf
+                                    <button type="submit" class="py-2 px-3 text-xs {{ $pet->is_available ? 'text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200' : 'text-green-600 hover:text-green-700 hover:bg-green-50 border-green-200' }} border rounded-lg transition-colors duration-200" title="{{ $pet->is_available ? 'Mark as Adopted' : 'Mark as Available' }}">
+                                        <i data-lucide="{{ $pet->is_available ? 'x-circle' : 'check-circle' }}" class="h-4 w-4"></i>
+                                    </button>
+                                </form>
                                 <form method="POST" action="{{ route('admin.pets.destroy', $pet) }}" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this pet?')">
                                     @csrf
                                     @method('DELETE')

@@ -23,6 +23,9 @@ class PetSeeder extends Seeder
                 'adoption_fee' => 150.00,
                 'is_vaccinated' => true,
                 'is_neutered' => true,
+                'good_with_kids' => true,
+                'good_with_pets' => true,
+                'location' => 'Quincy City Shelter',
                 'characteristics' => json_encode(['energetic', 'playful', 'friendly']),
             ],
             [
@@ -38,6 +41,9 @@ class PetSeeder extends Seeder
                 'adoption_fee' => 100.00,
                 'is_vaccinated' => true,
                 'is_neutered' => true,
+                'good_with_kids' => true,
+                'good_with_pets' => false,
+                'location' => 'Caboolture Animal Shelter',
                 'characteristics' => json_encode(['gentle', 'calm', 'senior']),
             ],
             [

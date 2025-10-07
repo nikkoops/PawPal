@@ -6,16 +6,7 @@
     <title>Learn More - PawPal</title>
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Include        <footer style="background-color: #2c0b47;" class="p-12">
-            <div class="max-w-6xl mx-auto">
-                <div class="grid md:grid-cols-4 gap-8">
-                    <div>
-                        <div class="flex items-center space-x-2 mb-4">
-                            <i data-lucide="paw-print" class="h-6 w-6 text-white"></i>
-                            <span class="text-lg font-bold text-white">PawPal</span>
-                        </div>
-                        <p class="text-gray-400">Connecting loving families with pets in need of homes.</p>
-                    </div>ons -->
+    <!-- Include Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
     <!-- Add custom styles -->
@@ -31,23 +22,7 @@
 
 <body>
  <!-- Header -->
-  <nav class="bg-white/80 backdrop-blur-sm border-b sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto pr-4 sm:pr-6 lg:pr-8">
-      <div class="flex items-center h-16 justify-between">
-        <div class="flex items-center space-x-2">
-          <img src="images/PAWPAL LOGO.png?v=<?php echo time(); ?>" alt="PawPal Logo" class="h-8 w-8">
-          <span class="text-xl font-bold text-gray-900">PawPal</span>
-        </div>
-  <div class="hidden md:flex items-center space-x-8 ml-auto">
-          <a href="/" class="text-purple-600 font-semibold">Home</a>
-          <a href="#pets-section" class="text-gray-600 hover:text-gray-900">Find Pets</a>
-          <a href="{{ url('/about') }}" class="text-gray-600 hover:text-gray-900">Pet Matching</a>
-          <a href="{{ url('/learn-more') }}" class="text-gray-600 hover:text-gray-900">Learn More</a>
-          <a href="{{ url('/contact') }}" class="text-gray-600 hover:text-gray-900">Contact Us</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+ @include('components.header')
 
   <div class="gradient-bg">
         <!-- Hero Section -->

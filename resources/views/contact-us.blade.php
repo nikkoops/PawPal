@@ -3,18 +3,15 @@
 
 <head>
   <meta charset="utf-8">
-  <link href="http    }
-
-    .nav-link.active {
-      color: #1f2937;
-      font-weight: 600;
-    }
-
-    .container {s.com/css?family=Montserrat:400,700%7CRoboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto" rel="stylesheet">
   <meta http-equiv="x-ua-compatible" content="IE=edge, chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
   <title>PawPal - Contact Us</title>
+  <!-- Include Tailwind CSS for header component -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Include Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
   <link href="styles/bootstrap.min.css" rel="stylesheet">
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
@@ -28,152 +25,6 @@
     body {
       font-family: 'Montserrat', sans-serif;
       background-color: #f3f4f6;
-    }
-
-    /* Header Styles */
-    .header {
-      background: white;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .header-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 0.75rem;
-    }
-
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 3rem;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 1.125rem;
-      font-weight: bold;
-      color: #1f2937;
-      text-decoration: none;
-    }
-
-    .logo img {
-      height: 1.75rem;
-      width: auto;
-    }
-
-    .nav {
-      display: none;
-    }
-
-    @media (min-width: 768px) {
-      .nav {
-        display: flex;
-        gap: 1.5rem;
-      }
-    }
-
-    .nav-link {
-      color: #4b5563;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.9rem;
-      transition: color 0.3s;
-    }
-
-    .nav-link:hover {
-      color: #1f2937;
-      text-decoration: none;
-    }
-
-    .nav-link.active {
-      color: #1f2937;
-      font-weight: 600;
-    }
-      gap: 0.3rem;
-      font-size: 1.125rem;
-      font-weight: bold;
-      color: #1f2937;
-      text-decoration: none;
-    }
-
-    .logo img {
-      height: 1.75rem;
-      width: auto;
-    }
-
-    .nav {
-      display: none;
-    }
-
-    @media (min-width: 768px) {
-      .nav {
-        display: flex;
-        gap: 1.5rem;
-      }
-    }
-
-    .nav-link {
-      color: #4b5563;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.9rem;
-      transition: color 0.3s;
-    }
-
-    .nav-link:hover {
-      color: #1f2937;
-      text-decoration: none;
-    }
-
-    .nav-link.active {
-      color: #1f2937;
-      font-weight: 600;
-    }
-      gap: 0.3rem;
-      font-size: 1.125rem;
-      font-weight: bold;
-      color: #1f2937;
-      text-decoration: none;
-    }
-
-    .logo img {
-      height: 1.75rem;
-      width: auto;
-    }
-
-    .nav {
-      display: none;
-    }
-
-    @media (min-width: 768px) {
-      .nav {
-        display: flex;
-        gap: 1.5rem;
-      }
-    }
-
-    .nav-link {
-      color: #4b5563;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.9rem;
-      transition: color 0.3s;
-    }
-
-    .nav-link:hover {
-      color: #1f2937;
-      text-decoration: none;
-    }
-
-    .nav-link.active {
-      color: #1f2937;
-      font-weight: 600;
     }
 
     /* Main Content Styles */
@@ -364,23 +215,7 @@
 
 <body>
   <!-- Header -->
-  <header class="header">
-    <div class="header-container">
-      <div class="header-content">
-        <a href="{{ url('/') }}" class="logo">
-          <img src="{{ asset('images/PAWPAL LOGO.png') }}" alt="PawPal Logo">
-          <span class="text-xl font-bold">PawPal</span>
-        </a>
-        <nav class="nav">
-          <a href="{{ url('/') }}" class="nav-link">Home</a>
-          <a href="{{ url('/#available-pets') }}" class="nav-link">Find Pets</a>
-          <a href="{{ url('/about') }}" class="nav-link">Pet Matching</a>
-          <a href="{{ url('/learn-more') }}" class="nav-link">Learn More</a>
-          <a href="{{ url('/contact') }}" class="nav-link active">Contact Us</a>
-        </nav>
-      </div>
-    </div>
-  </header>
+  @include('components.header')
 
   <div class="gradient-bg">
 
@@ -527,6 +362,9 @@
       // Reset form
       this.reset();
     });
+
+    // Initialize Lucide icons
+    lucide.createIcons();
   </script>
 </body>
 </html>

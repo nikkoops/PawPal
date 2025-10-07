@@ -111,6 +111,28 @@
                             <option value="large" {{ old('size', $pet->size) === 'large' ? 'selected' : '' }}>Large</option>
                         </select>
                     </div>
+                    <div>
+                        <label for="location" class="block text-sm font-medium text-foreground mb-2">Location</label>
+                        <select id="location" name="location" class="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            <option value="">Select location</option>
+                            <option value="Caloocan" {{ old('location', $pet->location) === 'Caloocan' ? 'selected' : '' }}>Caloocan</option>
+                            <option value="Las Piñas" {{ old('location', $pet->location) === 'Las Piñas' ? 'selected' : '' }}>Las Piñas</option>
+                            <option value="Makati" {{ old('location', $pet->location) === 'Makati' ? 'selected' : '' }}>Makati</option>
+                            <option value="Malabon" {{ old('location', $pet->location) === 'Malabon' ? 'selected' : '' }}>Malabon</option>
+                            <option value="Mandaluyong" {{ old('location', $pet->location) === 'Mandaluyong' ? 'selected' : '' }}>Mandaluyong</option>
+                            <option value="Manila" {{ old('location', $pet->location) === 'Manila' ? 'selected' : '' }}>Manila</option>
+                            <option value="Marikina" {{ old('location', $pet->location) === 'Marikina' ? 'selected' : '' }}>Marikina</option>
+                            <option value="Muntinlupa" {{ old('location', $pet->location) === 'Muntinlupa' ? 'selected' : '' }}>Muntinlupa</option>
+                            <option value="Navotas" {{ old('location', $pet->location) === 'Navotas' ? 'selected' : '' }}>Navotas</option>
+                            <option value="Parañaque" {{ old('location', $pet->location) === 'Parañaque' ? 'selected' : '' }}>Parañaque</option>
+                            <option value="Pasay" {{ old('location', $pet->location) === 'Pasay' ? 'selected' : '' }}>Pasay</option>
+                            <option value="Pasig" {{ old('location', $pet->location) === 'Pasig' ? 'selected' : '' }}>Pasig</option>
+                            <option value="Quezon City" {{ old('location', $pet->location) === 'Quezon City' ? 'selected' : '' }}>Quezon City</option>
+                            <option value="San Juan" {{ old('location', $pet->location) === 'San Juan' ? 'selected' : '' }}>San Juan</option>
+                            <option value="Taguig" {{ old('location', $pet->location) === 'Taguig' ? 'selected' : '' }}>Taguig</option>
+                            <option value="Valenzuela" {{ old('location', $pet->location) === 'Valenzuela' ? 'selected' : '' }}>Valenzuela</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div>

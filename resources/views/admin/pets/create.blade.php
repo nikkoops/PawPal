@@ -93,6 +93,29 @@
                 </div>
 
                 <div>
+                    <label for="location" class="block text-sm font-medium text-foreground mb-2">Location</label>
+                    <select id="location" name="location" class="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        <option value="">Select location</option>
+                        <option value="Caloocan" {{ old('location') === 'Caloocan' ? 'selected' : '' }}>Caloocan</option>
+                        <option value="Las Piñas" {{ old('location') === 'Las Piñas' ? 'selected' : '' }}>Las Piñas</option>
+                        <option value="Makati" {{ old('location') === 'Makati' ? 'selected' : '' }}>Makati</option>
+                        <option value="Malabon" {{ old('location') === 'Malabon' ? 'selected' : '' }}>Malabon</option>
+                        <option value="Mandaluyong" {{ old('location') === 'Mandaluyong' ? 'selected' : '' }}>Mandaluyong</option>
+                        <option value="Manila" {{ old('location') === 'Manila' ? 'selected' : '' }}>Manila</option>
+                        <option value="Marikina" {{ old('location') === 'Marikina' ? 'selected' : '' }}>Marikina</option>
+                        <option value="Muntinlupa" {{ old('location') === 'Muntinlupa' ? 'selected' : '' }}>Muntinlupa</option>
+                        <option value="Navotas" {{ old('location') === 'Navotas' ? 'selected' : '' }}>Navotas</option>
+                        <option value="Parañaque" {{ old('location') === 'Parañaque' ? 'selected' : '' }}>Parañaque</option>
+                        <option value="Pasay" {{ old('location') === 'Pasay' ? 'selected' : '' }}>Pasay</option>
+                        <option value="Pasig" {{ old('location') === 'Pasig' ? 'selected' : '' }}>Pasig</option>
+                        <option value="Quezon City" {{ old('location') === 'Quezon City' ? 'selected' : '' }}>Quezon City</option>
+                        <option value="San Juan" {{ old('location') === 'San Juan' ? 'selected' : '' }}>San Juan</option>
+                        <option value="Taguig" {{ old('location') === 'Taguig' ? 'selected' : '' }}>Taguig</option>
+                        <option value="Valenzuela" {{ old('location') === 'Valenzuela' ? 'selected' : '' }}>Valenzuela</option>
+                    </select>
+                </div>
+
+                <div>
                     <label for="adoption_fee" class="block text-sm font-medium text-foreground mb-2">Adoption Fee ($)</label>
                     <input type="number" id="adoption_fee" name="adoption_fee" value="{{ old('adoption_fee') }}" min="0" step="0.01"
                            class="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"

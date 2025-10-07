@@ -18,12 +18,15 @@ class Pet extends Model
         'description',
         'image',
         'size',
+        'location',
         'characteristics',
         'is_available',
         'adoption_fee',
         'medical_history',
         'is_vaccinated',
         'is_neutered',
+        'good_with_kids',
+        'good_with_pets',
     ];
 
     protected $casts = [
@@ -31,6 +34,8 @@ class Pet extends Model
         'is_available' => 'boolean',
         'is_vaccinated' => 'boolean',
         'is_neutered' => 'boolean',
+        'good_with_kids' => 'boolean',
+        'good_with_pets' => 'boolean',
         'adoption_fee' => 'decimal:2',
     ];
 

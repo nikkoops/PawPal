@@ -1,0 +1,39 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pawpal_app
+    working_dir: /var/www/html
+    user: root
+    volumes:
+      - C:/Users/alban/PawPal:/var/www/html
+    depends_on:
+      - db
+
+  web:
+    image: nginx:latest
+    container_name: pawpal_web
+    ports:
+      - "8000:80"
+    volumes:
+      - C:/Users/alban/PawPal:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    container_name: pawpal_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword123
+      MYSQL_DATABASE: pawpal
+      MYSQL_USER: pawpal_user
+      MYSQL_PASSWORD: pawpal_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

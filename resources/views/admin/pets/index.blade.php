@@ -6,45 +6,45 @@
 <div class="space-y-8">
     <!-- Header -->
     <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-4xl font-serif font-bold text-foreground">Pet Management</h1>
-            <p class="text-lg text-muted-foreground mt-2">
+        <div class="section-header">
+            <h1 class="text-3xl font-serif font-bold text-foreground">Pet Management</h1>
+            <p class="text-muted-foreground mt-1">
                 Manage all pets in the system - add, edit, and track their status.
             </p>
         </div>
-        <a href="{{ route('admin.pets.create') }}" class="inline-flex items-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-lg font-medium transition-colors duration-200">
+        <a href="{{ route('admin.pets.create') }}" class="btn-primary">
             <i data-lucide="plus" class="h-5 w-5"></i>
             <span>Add New Pet</span>
         </a>
     </div>
 
     <!-- Filters and Search -->
-    <div class="bg-white rounded-lg shadow-sm border border-border p-6">
+    <div class="card">
         <form method="GET" action="{{ route('admin.pets.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="relative">
                 <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground"></i>
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search pets..." 
-                       class="pl-10 w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                       class="input" style="padding-left: 3rem;">
             </div>
             
-            <select name="type" class="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+            <select name="type" class="input">
                 <option value="">All Types</option>
                 <option value="dog" {{ request('type') === 'dog' ? 'selected' : '' }}>Dogs</option>
                 <option value="cat" {{ request('type') === 'cat' ? 'selected' : '' }}>Cats</option>
                 <option value="other" {{ request('type') === 'other' ? 'selected' : '' }}>Other</option>
             </select>
             
-            <select name="availability" class="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+            <select name="availability" class="input">
                 <option value="">All Status</option>
                 <option value="available" {{ request('availability') === 'available' ? 'selected' : '' }}>Available</option>
                 <option value="unavailable" {{ request('availability') === 'unavailable' ? 'selected' : '' }}>Adopted</option>
             </select>
             
             <div class="flex items-center space-x-2">
-                <button type="submit" class="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-lg transition-colors duration-200">
+                <button type="submit" class="btn-primary flex-1">
                     Filter
                 </button>
-                <a href="{{ route('admin.pets.index') }}" class="px-4 py-2 bg-transparent border border-border rounded-lg hover:bg-muted transition-colors duration-200">
+                <a href="{{ route('admin.pets.index') }}" class="btn-outline px-4 py-2">
                     Clear
                 </a>
             </div>
@@ -86,7 +86,7 @@
                         </span>
                         
                         @if($pet->is_urgent && $pet->is_available)
-                        <span class="absolute top-2 left-2 px-2 py-1 text-xs rounded-full font-bold bg-orange-100 text-orange-800 border border-orange-200">
+                        <span class="absolute top-2 left-2 px-2 py-1 text-xs font-medium bg-red-500 text-white" style="border-radius: 30px;">
                             🚨 URGENT
                         </span>
                         @endif

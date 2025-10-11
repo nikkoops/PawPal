@@ -309,7 +309,7 @@ $pet = isset($pets[$pet_id]) ? $pets[$pet_id] : $pets[1];
     border: 1px solid #fecaca;
     color: #dc2626;
     padding: 1rem;
-    border-radius: 0.5rem;
+    border-radius: 30px;
     margin-bottom: 1.5rem;
     font-weight: 600;
 }

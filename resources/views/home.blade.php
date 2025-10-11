@@ -384,7 +384,7 @@
       background: #ef4444;
       color: white;
       padding: 0.5rem 0.75rem;
-      border-radius: 0.375rem;
+      border-radius: 30px;
   font-size: 1rem;
       font-weight: 400;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -543,7 +543,7 @@
       background: #ef4444;
       color: white;
       padding: 0.375rem 0.875rem;
-      border-radius: 5px;
+      border-radius: 30px;
       font-size: 0.875rem;
       font-weight: 600;
       box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);

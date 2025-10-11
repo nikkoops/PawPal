@@ -87,8 +87,8 @@
 
     <!-- Header -->
     <div>
-        <h1 class="text-4xl font-serif font-bold text-gray-800">Analytics</h1>
-        <p class="text-lg text-gray-600 mt-2">Real-time insights and performance metrics for your shelter.</p>
+        <h1 class="text-3xl font-serif font-bold text-foreground">Analytics</h1>
+        <p class="text-muted-foreground mt-1">Real-time insights and performance metrics for your shelter.</p>
     </div>
 
     <!-- Overcrowding Alerts -->

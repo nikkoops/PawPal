@@ -190,29 +190,45 @@ class AnalyticsController extends Controller
     private function getAtRiskPets()
     {
         try {
-            return Pet::select('name', 'type', 'created_at')
+            return Pet::select('id', 'name', 'type', 'date_added', 'created_at')
                 ->where('is_available', true)
-                ->where('created_at', '<=', now()->subDays(60)) // Pets in shelter for 60+ days
-                ->orderBy('created_at', 'asc')
-                ->take(10)
+                ->where(function ($query) {
+                    // Include pets urgent based on date_added (7+ days)
+                    $query->where('date_added', '<=', now()->subDays(7))
+                          // Also include pets with old logic as fallback
+                          ->orWhere(function ($subQuery) {
+                              $subQuery->whereNull('date_added')
+                                       ->where('created_at', '<=', now()->subDays(30));
+                          });
+                })
+                ->orderByRaw('CASE WHEN date_added IS NOT NULL THEN date_added ELSE created_at END ASC')
+                ->take(15) // Increased from 10 to show more urgent pets
                 ->get()
                 ->map(function ($pet) {
-                    $daysInShelter = now()->diffInDays($pet->created_at);
-                    $reason = 'Long stay';
+                    // Use date_added if available, otherwise fall back to created_at
+                    $referenceDate = $pet->date_added ?: $pet->created_at;
+                    $daysInShelter = floor(now()->diffInDays($referenceDate));
                     
-                    if ($daysInShelter >= 120) {
-                        $reason = 'Very long stay';
-                    } elseif ($daysInShelter >= 90) {
-                        $reason = 'Long stay';
+                    // Determine reason based on urgency criteria
+                    if ($pet->date_added && $daysInShelter >= 7) {
+                        if ($daysInShelter >= 30) {
+                            $reason = 'URGENT - Very long stay';
+                        } elseif ($daysInShelter >= 14) {
+                            $reason = 'URGENT - Extended stay';
+                        } else {
+                            $reason = 'URGENT - Needs priority';
+                        }
                     } else {
-                        $reason = 'Moderate stay';
+                        $reason = 'Long stay (legacy)';
                     }
                     
                     return [
+                        'id' => $pet->id,
                         'name' => $pet->name,
                         'type' => $pet->type,
                         'daysInShelter' => $daysInShelter,
                         'reason' => $reason,
+                        'is_urgent' => $pet->date_added && $daysInShelter >= 7,
                     ];
                 });
         } catch (\Exception $e) {
@@ -234,7 +250,7 @@ class AnalyticsController extends Controller
             ];
             
             foreach ($pets as $pet) {
-                $days = now()->diffInDays($pet->created_at);
+                $days = floor(now()->diffInDays($pet->created_at));
                 
                 if ($days <= 7) {
                     $ranges['0-7 days']++;

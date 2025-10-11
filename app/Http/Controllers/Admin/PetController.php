@@ -58,6 +58,7 @@ class PetController extends Controller
             'is_vaccinated' => 'boolean',
             'is_neutered' => 'boolean',
             'is_available' => 'boolean',
+            'date_added' => 'required|date',
         ]);
 
         $data = $request->all();
@@ -104,6 +105,7 @@ class PetController extends Controller
             'is_vaccinated' => 'boolean',
             'is_neutered' => 'boolean',
             'is_available' => 'boolean',
+            'date_added' => 'required|date',
         ]);
 
         $data = $request->all();

@@ -176,8 +176,8 @@
                     @php
                         $avgStay = $atRiskPets->avg('daysInShelter') ?: 0;
                         $avgStay = round($avgStay);
-                        $dogAvg = $atRiskPets->where('type', 'Dog')->avg('daysInShelter') ?: 0;
-                        $catAvg = $atRiskPets->where('type', 'Cat')->avg('daysInShelter') ?: 0;
+                        $dogAvg = round($atRiskPets->where('type', 'Dog')->avg('daysInShelter') ?: 0);
+                        $catAvg = round($atRiskPets->where('type', 'Cat')->avg('daysInShelter') ?: 0);
                     @endphp
                     <div class="flex items-center gap-2">
                         <i data-lucide="clock" class="h-5 w-5 text-purple-600"></i>
@@ -191,8 +191,8 @@
                         <span class="text-green-600">Monitoring trends</span>
                     </div>
                     <div class="text-xs text-gray-500 pt-2 border-t border-gray-200">
-                        Dogs: {{ round($dogAvg) ?: 'N/A' }}{{ $dogAvg > 0 ? 'd' : '' }} • 
-                        Cats: {{ round($catAvg) ?: 'N/A' }}{{ $catAvg > 0 ? 'd' : '' }}
+                        Dogs: {{ $dogAvg ?: 'N/A' }}{{ $dogAvg > 0 ? 'd' : '' }} • 
+                        Cats: {{ $catAvg ?: 'N/A' }}{{ $catAvg > 0 ? 'd' : '' }}
                     </div>
                 </div>
             </div>
@@ -536,27 +536,40 @@
                     At-Risk Pets Details
                 </h3>
                 <p class="text-sm text-gray-600 mt-1">
-                    Animals requiring immediate attention due to long stays or special needs
+                    Pets marked as urgent (7+ days in shelter) and requiring priority attention
                 </p>
             </div>
             
             <div class="space-y-4">
                 @foreach($atRiskPets as $pet)
-                    <div class="flex items-center justify-between p-4 rounded-lg bg-gray-50 border border-gray-200">
+                    <div class="flex items-center justify-between p-4 rounded-lg {{ $pet['is_urgent'] ? 'bg-red-50 border-red-200 border-2' : 'bg-gray-50 border-gray-200' }} border">
                         <div class="flex items-center gap-3">
-                            <i data-lucide="heart" class="h-5 w-5 text-gray-600"></i>
+                            @if($pet['is_urgent'])
+                                <i data-lucide="alert-triangle" class="h-5 w-5 text-red-600"></i>
+                            @else
+                                <i data-lucide="heart" class="h-5 w-5 text-gray-600"></i>
+                            @endif
                             <div>
-                                <p class="font-medium text-gray-800">{{ $pet['name'] }}</p>
-                                <p class="text-sm text-gray-600">
-                                    {{ $pet['type'] }} • {{ $pet['daysInShelter'] }} days in shelter
+                                <p class="font-medium {{ $pet['is_urgent'] ? 'text-red-800' : 'text-gray-800' }}">
+                                    <a href="{{ route('admin.pets.edit', $pet['id']) }}" class="hover:underline">
+                                        {{ $pet['name'] }}
+                                    </a>
+                                    @if($pet['is_urgent'])
+                                        <span class="text-red-600 text-sm">🚨</span>
+                                    @endif
+                                </p>
+                                <p class="text-sm {{ $pet['is_urgent'] ? 'text-red-600' : 'text-gray-600' }}">
+                                    {{ ucfirst($pet['type']) }} • {{ $pet['daysInShelter'] }} days in shelter
                                 </p>
                             </div>
                         </div>
                         <div class="text-right">
-                            <span class="status-badge status-critical mb-1">
+                            <span class="status-badge {{ $pet['is_urgent'] ? 'status-critical' : 'status-high' }} mb-1">
                                 {{ $pet['reason'] }}
                             </span>
-                            <p class="text-xs text-gray-600">Needs attention</p>
+                            <p class="text-xs {{ $pet['is_urgent'] ? 'text-red-600' : 'text-gray-600' }}">
+                                {{ $pet['is_urgent'] ? 'URGENT - Needs immediate attention' : 'Needs attention' }}
+                            </p>
                         </div>
                     </div>
                 @endforeach

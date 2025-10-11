@@ -176,7 +176,7 @@
     }
 
     .hero-content p {
-      font-size: 0.875rem;
+      font-size: 1.125rem;
       color: #374151;
       margin-bottom: 2.5rem;
       line-height: 1.6;
@@ -284,7 +284,7 @@
     }
 
     .section-header p {
-      font-size: 0.900rem;
+      font-size: 1rem;
       color: #6b7280;
       max-width: 600px;
       margin: 0 auto;
@@ -1060,7 +1060,7 @@
           <div class="pet-image">
             <img src="${pet.image}" alt="${pet.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="emoji-fallback" style="width: 100%; height: 200px; background: linear-gradient(135deg, #f3e8ff, #e0e7ff); display: none; align-items: center; justify-content: center; font-size: 4rem; border-radius: 0;">${petEmoji}</div>
-            ${pet.urgent ? '<div class="urgent-badge">🚨 Urgent: Adopt this week</div>' : ''}
+            ${pet.urgent ? `<div class="urgent-badge">🚨 URGENT (${Math.floor(pet.days_in_shelter)} days)</div>` : ''}
           </div>
           <div class="pet-info">
             <div class="pet-header">
@@ -1072,7 +1072,7 @@
             </p>
             <p class="pet-description">${pet.description}</p>
             <div class="pet-extra-info" style="font-size: 0.85rem; color: #6b7280; margin: 0.5rem 0;">
-              ${pet.days_in_shelter > 0 ? `${pet.days_in_shelter} days in shelter` : 'New arrival'}
+              ${pet.days_in_shelter > 0 ? `${Math.floor(pet.days_in_shelter)} days in shelter` : 'New arrival'}
               ${pet.breed ? ` • ${pet.breed}` : ''}
             </div>
             <button class="meet-btn" onclick="meetPet(${pet.id}, '${pet.name}')">Meet ${pet.name}</button>
@@ -1138,7 +1138,12 @@
       
       // Show/hide urgent badge based on pet's urgent property
       const urgentBadge = document.getElementById('modalUrgentBadge');
-      urgentBadge.style.display = pet.urgent ? 'block' : 'none';
+      if (pet.urgent) {
+        urgentBadge.style.display = 'block';
+        urgentBadge.textContent = `🚨 URGENT (${Math.floor(pet.days_in_shelter)} days)`;
+      } else {
+        urgentBadge.style.display = 'none';
+      }
       
       // Show modal
       document.getElementById('petModal').style.display = 'block';

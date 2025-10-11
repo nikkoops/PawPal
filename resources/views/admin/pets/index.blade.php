@@ -84,6 +84,12 @@
                         <span class="absolute top-2 right-2 px-3 py-1 text-sm rounded-full font-semibold {{ $pet->is_available ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' }}">
                             {{ $pet->is_available ? '✓ Available' : '🏠 Adopted' }}
                         </span>
+                        
+                        @if($pet->is_urgent && $pet->is_available)
+                        <span class="absolute top-2 left-2 px-2 py-1 text-xs rounded-full font-bold bg-orange-100 text-orange-800 border border-orange-200">
+                            🚨 URGENT
+                        </span>
+                        @endif
                     </div>
                     
                     <div class="p-4">
@@ -95,8 +101,14 @@
                                 </p>
                             </div>
                             <p class="text-sm text-muted-foreground line-clamp-2">{{ $pet->description }}</p>
-                            <div class="text-xs text-muted-foreground">
-                                Added: {{ $pet->created_at->format('M d, Y') }}
+                            <div class="text-xs text-muted-foreground space-y-1">
+                                <div>Added: {{ $pet->created_at->format('M d, Y') }}</div>
+                                @if($pet->date_added)
+                                <div>In shelter: {{ $pet->days_in_shelter }} days</div>
+                                @endif
+                                @if($pet->is_urgent)
+                                <div class="text-orange-600 font-medium">⚠️ {{ $pet->urgent_reason }}</div>
+                                @endif
                             </div>
                             <div class="flex space-x-2">
                                 <a href="{{ route('admin.pets.show', $pet) }}" class="flex-1 text-center py-2 px-3 text-xs bg-transparent border border-border rounded-lg hover:bg-muted transition-colors duration-200 flex items-center justify-center">

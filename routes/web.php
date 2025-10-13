@@ -164,19 +164,7 @@ Route::post('/submit-adoption', function (Request $request) {
             Log::warning('No pet_id provided in form submission');
         }
         
-        // Map form fields to database columns
-        $application->first_name = $request->input('firstName');
-        $application->last_name = $request->input('lastName');
-        $application->address = $request->input('address');
-        $application->phone = $request->input('phone');
-        $application->email = $request->input('email');
-        $application->birth_date = $request->input('birthDate');
-        $application->occupation = $request->input('occupation');
-        $application->company = $request->input('company');
-        $application->social_media = $request->input('socialMedia');
-        $application->pronouns = $request->input('pronouns');
-        
-        // Store remaining answers in the JSON field
+        // Store all form data in the JSON answers field (as designed in migration)
         $application->answers = $answers;
         $application->status = 'pending';
         $application->save();
@@ -412,6 +400,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Adoption Applications Management
         Route::prefix('applications')->name('applications.')->group(function () {
             Route::get('/', [AdoptionApplicationController::class, 'index'])->name('index');
+            Route::get('filter', [AdoptionApplicationController::class, 'filter'])->name('filter');
             Route::get('{application}', [AdoptionApplicationController::class, 'show'])->name('show');
             Route::get('{application}/details', [AdoptionApplicationController::class, 'getApplicationDetails'])->name('details');
             Route::post('{application}/update-status', [AdoptionApplicationController::class, 'updateStatus'])->name('update-status');

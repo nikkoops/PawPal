@@ -16,23 +16,13 @@ class AdoptionApplicationController extends Controller
         if ($request->has('status') && $request->get('status') !== '') {
             $query->where('status', $request->get('status'));
         }
-
-        // Filter by search term
-        if ($request->has('search')) {
-            $search = $request->get('search');
-            $query->where(function($q) use ($search) {
-                $q->where('first_name', 'like', "%{$search}%")
-                  ->orWhere('last_name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhereHas('pet', function($petQuery) use ($search) {
-                      $petQuery->where('name', 'like', "%{$search}%");
-                  });
-            });
-        }
         
-        // Filter by pet if provided
-        if ($request->has('pet_id') && $request->get('pet_id') !== '') {
-            $query->where('pet_id', $request->get('pet_id'));
+        // Filter by pet type if provided
+        if ($request->has('pet_type') && $request->get('pet_type') !== '') {
+            $petType = $request->get('pet_type');
+            $query->whereHas('pet', function($petQuery) use ($petType) {
+                $petQuery->where('type', $petType);
+            });
         }
         
         // Filter by date range
@@ -79,11 +69,8 @@ class AdoptionApplicationController extends Controller
                 ->whereYear('created_at', now()->year)
                 ->count()
         ];
-        
-        // Get all pets for the filter dropdown
-        $pets = \App\Models\Pet::orderBy('name')->get(['id', 'name', 'breed']);
 
-        return view('admin.applications.index', compact('applications', 'stats', 'pets'));
+        return view('admin.applications.index', compact('applications', 'stats'));
     }
 
     public function show(AdoptionApplication $application)
@@ -99,32 +86,58 @@ class AdoptionApplicationController extends Controller
     {
         $application->load('pet');
         
+        // Extract data from the JSON answers field
+        $answers = $application->answers ?? [];
+        
         // Format data for the application modal
         $details = [
             'id' => $application->id,
             'applicant' => [
-                'name' => $application->first_name . ' ' . $application->last_name,
-                'email' => $application->email,
-                'phone' => $application->phone,
-                'address' => $application->address,
-                'occupation' => $application->occupation,
-                'birth_date' => $application->birth_date ? $application->birth_date->format('M d, Y') : null
+                'name' => ($answers['firstName'] ?? '') . ' ' . ($answers['lastName'] ?? ''),
+                'email' => $answers['email'] ?? '',
+                'phone' => $answers['phone'] ?? '',
+                'address' => $answers['address'] ?? '',
+                'occupation' => $answers['occupation'] ?? '',
+                'company' => $answers['company'] ?? '',
+                'birth_date' => isset($answers['birthDate']) ? \Carbon\Carbon::parse($answers['birthDate'])->format('M d, Y') : null,
+                'pronouns' => $answers['pronouns'] ?? '',
+                'social_media' => $answers['socialMedia'] ?? ''
             ],
             'pet' => $application->pet ? [
                 'id' => $application->pet->id,
                 'name' => $application->pet->name,
                 'breed' => $application->pet->breed,
-                'image' => $application->pet->image_url
+                'type' => $application->pet->type,
+                'image' => $application->pet->image_url ?? null
             ] : null,
             'application' => [
                 'status' => $application->status,
-                'created_at' => $application->created_at->format('M d, Y'),
+                'created_at' => $application->created_at->format('M d, Y g:i A'),
                 'time_ago' => $application->created_at->diffForHumans(),
                 'admin_notes' => $application->admin_notes,
-                'reviewed_at' => $application->reviewed_at ? $application->reviewed_at->format('M d, Y') : null,
+                'reviewed_at' => $application->reviewed_at ? $application->reviewed_at->format('M d, Y g:i A') : null,
             ],
-            'form_data' => $application->getAttributes(),
-            'answers' => $application->answers // JSON data from form submission
+            'living_situation' => [
+                'building_type' => $answers['buildingType'] ?? '',
+                'status' => $answers['status'] ?? '',
+                'live_with' => $answers['liveWith'] ?? '',
+                'allergies' => $answers['allergies'] ?? '',
+                'moving_plans' => $answers['movingPlans'] ?? '',
+            ],
+            'pet_care' => [
+                'care_responsible' => $answers['careResponsible'] ?? '',
+                'financial_responsible' => $answers['financialResponsible'] ?? '',
+                'vacation_care' => $answers['vacationCare'] ?? '',
+                'hours_alone' => $answers['hoursAlone'] ?? '',
+                'time_commitment' => $answers['timeCommitment'] ?? '',
+                'introduction_steps' => $answers['introductionSteps'] ?? '',
+            ],
+            'experience' => [
+                'family_support' => $answers['familySupport'] ?? '',
+                'other_pets' => $answers['otherPets'] ?? '',
+                'past_pets' => $answers['pastPets'] ?? '',
+            ],
+            'answers' => $answers // Complete form data for the JavaScript renderFormAnswers function
         ];
         
         return response()->json($details);
@@ -133,7 +146,7 @@ class AdoptionApplicationController extends Controller
     public function updateStatus(Request $request, AdoptionApplication $application)
     {
         $request->validate([
-            'status' => 'required|in:pending,under_review,approved,rejected',
+            'status' => 'required|in:pending,approved,rejected',
             'admin_notes' => 'nullable|string|max:1000',
         ]);
 
@@ -155,7 +168,7 @@ class AdoptionApplicationController extends Controller
     public function bulkAction(Request $request)
     {
         $request->validate([
-            'action' => 'required|in:approve,reject,under_review',
+            'action' => 'required|in:approve,reject,pending',
             'application_ids' => 'required|array',
             'application_ids.*' => 'exists:adoption_applications,id',
         ]);
@@ -164,7 +177,7 @@ class AdoptionApplicationController extends Controller
 
         foreach ($applications as $application) {
             $application->update([
-                'status' => $request->action === 'under_review' ? 'under_review' : $request->action . 'd',
+                'status' => $request->action === 'pending' ? 'pending' : $request->action . 'd',
                 'reviewed_at' => now(),
                 'reviewed_by' => auth()->id(),
             ]);
@@ -177,5 +190,68 @@ class AdoptionApplicationController extends Controller
 
         $count = count($request->application_ids);
         return redirect()->back()->with('success', "{$count} application(s) updated successfully!");
+    }
+
+    /**
+     * Filter applications via AJAX
+     */
+    public function filter(Request $request)
+    {
+        $query = AdoptionApplication::with(['pet']);
+
+        // Filter by status if provided
+        if ($request->has('status') && $request->get('status') !== '') {
+            $query->where('status', $request->get('status'));
+        }
+        
+        // Filter by pet type if provided
+        if ($request->has('pet_type') && $request->get('pet_type') !== '') {
+            $petType = $request->get('pet_type');
+            $query->whereHas('pet', function($petQuery) use ($petType) {
+                $petQuery->where('type', $petType);
+            });
+        }
+        
+        // Filter by date range
+        if ($request->has('date_range') && $request->get('date_range') !== '') {
+            $range = $request->get('date_range');
+            if ($range === 'today') {
+                $query->whereDate('created_at', today());
+            } elseif ($range === 'week') {
+                $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+            } elseif ($range === 'month') {
+                $query->whereMonth('created_at', now()->month)
+                      ->whereYear('created_at', now()->year);
+            }
+        }
+
+        // Get applications with pagination
+        $applications = $query->orderBy('created_at', 'desc')->paginate(15);
+        
+        // Calculate updated statistics
+        $stats = [
+            'total' => AdoptionApplication::count(),
+            'pending' => AdoptionApplication::where('status', 'pending')->count(),
+            'approved' => AdoptionApplication::where('status', 'approved')->count(),
+            'rejected' => AdoptionApplication::where('status', 'rejected')->count(),
+            'this_month' => AdoptionApplication::whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->count()
+        ];
+
+        return response()->json([
+            'success' => true,
+            'applications' => $applications->items(),
+            'pagination' => [
+                'current_page' => $applications->currentPage(),
+                'last_page' => $applications->lastPage(),
+                'per_page' => $applications->perPage(),
+                'total' => $applications->total(),
+                'from' => $applications->firstItem(),
+                'to' => $applications->lastItem(),
+            ],
+            'stats' => $stats,
+            'html' => view('admin.applications.partials.table-rows', compact('applications'))->render()
+        ]);
     }
 }

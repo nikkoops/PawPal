@@ -13,14 +13,7 @@ class PetController extends Controller
     {
         $query = Pet::query();
 
-        if ($request->has('search')) {
-            $search = $request->get('search');
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('breed', 'like', "%{$search}%")
-                  ->orWhere('type', 'like', "%{$search}%");
-            });
-        }
+        // Removed search functionality as requested
 
         if ($request->has('type') && $request->get('type') !== '') {
             $query->where('type', $request->get('type'));
@@ -44,7 +37,7 @@ class PetController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:dog,cat,other',
+            'type' => 'required|in:dog,cat',
             'breed' => 'nullable|string|max:255',
             'age' => 'nullable|integer|min:0',
             'gender' => 'required|in:male,female',
@@ -145,7 +138,7 @@ class PetController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|in:dog,cat,other',
+            'type' => 'required|in:dog,cat',
             'breed' => 'nullable|string|max:255',
             'age' => 'nullable|integer|min:0',
             'gender' => 'required|in:male,female',
@@ -200,5 +193,40 @@ class PetController extends Controller
 
         $status = $pet->is_available ? 'available' : 'unavailable';
         return redirect()->back()->with('success', "Pet marked as {$status}!");
+    }
+
+    /**
+     * Filter pets via AJAX
+     */
+    public function filter(Request $request)
+    {
+        $query = Pet::query();
+
+        // Remove search functionality - no longer needed
+
+        if ($request->has('type') && $request->get('type') !== '') {
+            $query->where('type', $request->get('type'));
+        }
+
+        if ($request->has('availability') && $request->get('availability') !== '') {
+            $query->where('is_available', $request->get('availability') === 'available');
+        }
+
+        $pets = $query->orderBy('created_at', 'desc')->paginate(12);
+
+        return response()->json([
+            'success' => true,
+            'pets' => $pets->items(),
+            'pagination' => [
+                'current_page' => $pets->currentPage(),
+                'last_page' => $pets->lastPage(),
+                'per_page' => $pets->perPage(),
+                'total' => $pets->total(),
+                'from' => $pets->firstItem(),
+                'to' => $pets->lastItem(),
+            ],
+            'total' => $pets->total(),
+            'html' => view('admin.pets.partials.pet-grid', compact('pets'))->render()
+        ]);
     }
 }

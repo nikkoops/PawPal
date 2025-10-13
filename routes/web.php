@@ -390,6 +390,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         // Pet Management
         Route::resource('pets', AdminPetController::class);
+        Route::get('pets-filter', [AdminPetController::class, 'filter'])->name('pets.filter');
         Route::post('pets/{pet}/toggle-availability', [AdminPetController::class, 'toggleAvailability'])->name('pets.toggle-availability');
         
         // Form Questions Management

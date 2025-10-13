@@ -49,6 +49,31 @@ class PetController extends Controller
 
         return view('pet-details', compact('pet'));
     }
+    
+    /**
+     * Get pet details by name - API endpoint
+     *
+     * @param string $name
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getByName($name)
+    {
+        $pet = Pet::where('name', $name)->first();
+        
+        if (!$pet) {
+            return response()->json(['error' => 'Pet not found'], 404);
+        }
+        
+        return response()->json([
+            'id' => $pet->id,
+            'name' => $pet->name,
+            'type' => $pet->type,
+            'breed' => $pet->breed,
+            'age' => $pet->age,
+            'gender' => $pet->gender,
+            'is_available' => $pet->is_available
+        ]);
+    }
 
     private function determineAgeCategory($age)
     {

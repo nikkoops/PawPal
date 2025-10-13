@@ -29,13 +29,7 @@
         <div class="md:flex">
           <!-- Pet Image -->
           <div class="md:w-1/2">
-            @if($pet->image)
-              <img src="{{ Storage::url($pet->image) }}" alt="{{ $pet->name }}" class="w-full h-96 md:h-full object-cover">
-            @else
-              <div class="w-full h-96 md:h-full bg-gray-200 flex items-center justify-center">
-                <i data-lucide="heart" class="h-24 w-24 text-gray-400"></i>
-              </div>
-            @endif
+            <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-96 md:h-full object-cover">
           </div>
 
           <!-- Pet Details -->

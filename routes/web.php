@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PetController as AdminPetController;
 use App\Http\Controllers\Admin\FormQuestionController;
 use App\Http\Controllers\Admin\AdoptionApplicationController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
+use App\Models\AdoptionApplication;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\PetController;
@@ -11,6 +15,9 @@ use App\Http\Controllers\PetController;
 Route::get('/', [PetController::class, 'index'])->name('home');
 
 Route::get('/pets/{id}', [PetController::class, 'show'])->name('pets.show');
+
+// API endpoint to get pet details by name
+Route::get('/api/pets/by-name/{name}', [PetController::class, 'getByName']);
 
 Route::get('/adopt', function () {
     $petName = request()->query('pet');
@@ -32,8 +39,167 @@ Route::get('/contact', function () {
     ]);
 });
 
-Route::post('/submit-adoption', function () {
-    // TODO: Implement adoption form submission
+Route::post('/submit-adoption', function (Request $request) {
+    // Detailed debug log to help trace submission issues
+    Log::info('submit-adoption route hit', [
+        'ip' => $request->ip(),
+        'hasFile' => $request->hasFile('idUpload'),
+        'all_keys' => array_keys($request->all()),
+        'content_type' => $request->header('Content-Type'),
+        'accept' => $request->header('Accept'),
+        'isAjax' => $request->ajax(),
+        'wantsJson' => $request->wantsJson(),
+        'pet_id_present' => $request->has('pet_id'),
+        'pet_id_value' => $request->input('pet_id'),
+        'raw_request' => $request->all()
+    ]);
+
+    $isAjax = $request->wantsJson() || $request->ajax();
+
+    $rules = [
+        'firstName' => 'required|string|max:255',
+        'lastName' => 'required|string|max:255',
+        'address' => 'required|string|max:1000',
+        'phone' => 'required|string|max:50',
+        'email' => 'required|email|max:255',
+        'birthDate' => 'required|date',
+        'occupation' => 'required|string|max:255',
+        'idUpload' => $request->hasFile('idUpload') ? 'file|mimes:png,jpg,jpeg,pdf|max:10240' : 'required',
+        // other fields are optional or validated client-side
+    ];
+    
+    // Additional debugging for the file
+    if ($request->hasFile('idUpload')) {
+        $file = $request->file('idUpload');
+        Log::info('File data', [
+            'originalName' => $file->getClientOriginalName(),
+            'mimeType' => $file->getClientMimeType(),
+            'size' => $file->getSize(),
+            'error' => $file->getError()
+        ]);
+    } else {
+        Log::warning('No file uploaded', [
+            'has_idUpload_key' => $request->has('idUpload'),
+            'all_files' => $request->allFiles(),
+            'file_keys' => array_keys($request->allFiles())
+        ]);
+    }
+
+    $validator = Validator::make($request->all(), $rules);
+
+    if ($validator->fails()) {
+        // Log validation failures for debugging
+        Log::info('Validation failed', [
+            'errors' => $validator->errors()->toArray(),
+            'request_data' => $request->except(['idUpload'])
+        ]);
+        
+        if ($isAjax) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    // Store uploaded ID
+    $idPath = null;
+    if ($request->hasFile('idUpload')) {
+        try {
+            $file = $request->file('idUpload');
+            $idPath = $file->store('adoption_ids', 'public');
+            Log::info('File uploaded successfully', ['path' => $idPath]);
+        } catch (\Exception $e) {
+            Log::error('File upload error: ' . $e->getMessage());
+            if ($isAjax) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error uploading file: ' . $e->getMessage()
+                ], 500);
+            }
+            return redirect()->back()->withErrors(['idUpload' => 'Error uploading file: ' . $e->getMessage()])->withInput();
+        }
+    }
+
+    // Save adoption application
+    $answers = $request->except(['idUpload']);
+    
+    try {
+        // Create application with basic fields
+        $application = new AdoptionApplication();
+        $application->user_id = null; // will be linked to user if logged in
+        
+        // Log all request keys for debugging
+        Log::info('All request data keys:', [
+            'all_request_keys' => array_keys($request->all()),
+            'pet_id_value' => $request->input('pet_id'),
+            'pet_name' => $request->input('pet_name'),
+            'has_pet_id_key' => $request->has('pet_id')
+        ]);
+        
+        // Associate with pet if pet_id is provided (ensure it's properly converted to integer)
+        $petId = $request->input('pet_id');
+        if (!empty($petId)) {
+            $petId = intval($petId);
+            if ($petId > 0) {
+                // Check if pet exists
+                $pet = \App\Models\Pet::find($petId);
+                if ($pet) {
+                    $application->pet_id = $petId;
+                    Log::info('Pet found and linked to application', [
+                        'pet_id' => $petId, 
+                        'pet_name' => $pet->name,
+                        'pet_breed' => $pet->breed,
+                        'pet_type' => $pet->type
+                    ]);
+                } else {
+                    $application->pet_id = null;
+                    Log::error('Pet ID exists but pet not found in database: ' . $petId);
+                }
+            } else {
+                $application->pet_id = null;
+                Log::warning('Invalid pet_id value: ' . $request->input('pet_id'));
+            }
+        } else {
+            $application->pet_id = null;
+            Log::warning('No pet_id provided in form submission');
+        }
+        
+        // Map form fields to database columns
+        $application->first_name = $request->input('firstName');
+        $application->last_name = $request->input('lastName');
+        $application->address = $request->input('address');
+        $application->phone = $request->input('phone');
+        $application->email = $request->input('email');
+        $application->birth_date = $request->input('birthDate');
+        $application->occupation = $request->input('occupation');
+        $application->company = $request->input('company');
+        $application->social_media = $request->input('socialMedia');
+        $application->pronouns = $request->input('pronouns');
+        
+        // Store remaining answers in the JSON field
+        $application->answers = $answers;
+        $application->status = 'pending';
+        $application->save();
+    } catch (\Exception $e) {
+        Log::error('Error saving adoption application: ' . $e->getMessage(), [
+            'exception' => $e,
+            'trace' => $e->getTraceAsString()
+        ]);
+        
+        if ($isAjax) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Database error: ' . $e->getMessage()
+            ], 500);
+        }
+        
+        return redirect()->back()->with('error', 'Error saving application. Please try again.');
+    }
+
+    if ($isAjax) {
+        return response()->json(['success' => true, 'application_id' => $application->id]);
+    }
+
     return redirect('/')->with('success', 'Adoption request submitted successfully!');
 });
 
@@ -247,6 +413,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('applications')->name('applications.')->group(function () {
             Route::get('/', [AdoptionApplicationController::class, 'index'])->name('index');
             Route::get('{application}', [AdoptionApplicationController::class, 'show'])->name('show');
+            Route::get('{application}/details', [AdoptionApplicationController::class, 'getApplicationDetails'])->name('details');
             Route::post('{application}/update-status', [AdoptionApplicationController::class, 'updateStatus'])->name('update-status');
             Route::post('bulk-action', [AdoptionApplicationController::class, 'bulkAction'])->name('bulk-action');
         });

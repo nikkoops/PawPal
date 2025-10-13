@@ -164,7 +164,7 @@
                         @if($pet->image)
                             <div>
                                 <p class="text-sm font-medium text-foreground mb-2">Current Photo:</p>
-                                <img src="{{ Storage::url($pet->image) }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-lg">
+                                <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-lg">
                             </div>
                         @endif
                         <div>

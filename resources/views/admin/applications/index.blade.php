@@ -25,40 +25,44 @@
 
     <!-- Filters -->
     <div class="bg-card rounded-lg border border-border p-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-foreground mb-2">Search</label>
-                <input type="text" placeholder="Search by name, email..." class="input w-full">
+        <form action="{{ route('admin.applications.index') }}" method="GET" id="filterForm">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-foreground mb-2">Search</label>
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name, email..." class="input w-full" onchange="document.getElementById('filterForm').submit()">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-foreground mb-2">Status</label>
+                    <select name="status" class="input w-full" onchange="document.getElementById('filterForm').submit()">
+                        <option value="">All Status</option>
+                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                        <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                        <option value="under_review" {{ request('status') == 'under_review' ? 'selected' : '' }}>In Review</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-foreground mb-2">Pet</label>
+                    <select name="pet_id" class="input w-full" onchange="document.getElementById('filterForm').submit()">
+                        <option value="">All Pets</option>
+                        @foreach($pets as $pet)
+                            <option value="{{ $pet->id }}" {{ request('pet_id') == $pet->id ? 'selected' : '' }}>
+                                {{ $pet->name }} ({{ $pet->breed }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-foreground mb-2">Date Range</label>
+                    <select name="date_range" class="input w-full" onchange="document.getElementById('filterForm').submit()">
+                        <option value="">All Time</option>
+                        <option value="today" {{ request('date_range') == 'today' ? 'selected' : '' }}>Today</option>
+                        <option value="week" {{ request('date_range') == 'week' ? 'selected' : '' }}>This Week</option>
+                        <option value="month" {{ request('date_range') == 'month' ? 'selected' : '' }}>This Month</option>
+                    </select>
+                </div>
             </div>
-            <div>
-                <label class="block text-sm font-medium text-foreground mb-2">Status</label>
-                <select class="input w-full">
-                    <option value="">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="approved">Approved</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="in_review">In Review</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-foreground mb-2">Pet</label>
-                <select class="input w-full">
-                    <option value="">All Pets</option>
-                    <option value="max">Max</option>
-                    <option value="bella">Bella</option>
-                    <option value="charlie">Charlie</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-foreground mb-2">Date Range</label>
-                <select class="input w-full">
-                    <option value="">All Time</option>
-                    <option value="today">Today</option>
-                    <option value="week">This Week</option>
-                    <option value="month">This Month</option>
-                </select>
-            </div>
-        </div>
+        </form>
     </div>
 
     <!-- Statistics Cards -->
@@ -67,7 +71,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Total Applications</p>
-                    <p class="text-2xl font-bold text-foreground">{{ $stats['total'] ?? 128 }}</p>
+                    <p class="text-2xl font-bold text-foreground">{{ $stats['total'] }}</p>
                 </div>
                 <div class="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center">
                     <i data-lucide="file-text" class="h-6 w-6 text-primary"></i>
@@ -78,7 +82,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Pending Review</p>
-                    <p class="text-2xl font-bold text-foreground">{{ $stats['pending'] ?? 23 }}</p>
+                    <p class="text-2xl font-bold text-foreground">{{ $stats['pending'] }}</p>
                 </div>
                 <div class="h-12 w-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                     <i data-lucide="clock" class="h-6 w-6 text-yellow-600"></i>
@@ -89,7 +93,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Approved</p>
-                    <p class="text-2xl font-bold text-foreground">{{ $stats['approved'] ?? 89 }}</p>
+                    <p class="text-2xl font-bold text-foreground">{{ $stats['approved'] }}</p>
                 </div>
                 <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
                     <i data-lucide="check-circle" class="h-6 w-6 text-green-600"></i>
@@ -100,7 +104,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">This Month</p>
-                    <p class="text-2xl font-bold text-foreground">{{ $stats['this_month'] ?? 16 }}</p>
+                    <p class="text-2xl font-bold text-foreground">{{ $stats['this_month'] }}</p>
                 </div>
                 <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
                     <i data-lucide="calendar" class="h-6 w-6 text-blue-600"></i>
@@ -127,43 +131,60 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-border">
-                    @forelse($applications ?? [] as $application)
+                    @forelse($applications as $application)
                     <tr class="hover:bg-muted/50 transition-colors">
                         <td class="py-4 px-6">
-                            <input type="checkbox" class="application-checkbox rounded border-border text-primary focus:ring-primary" value="{{ $application->id ?? 1 }}">
+                            <input type="checkbox" class="application-checkbox rounded border-border text-primary focus:ring-primary" value="{{ $application->id }}">
                         </td>
                         <td class="py-4 px-6">
                             <div class="flex items-center space-x-3">
                                 <div class="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
-                                    <span class="text-primary font-medium">{{ substr($application->applicant_name ?? 'John Doe', 0, 2) }}</span>
+                                    <span class="text-primary font-medium">{{ substr($application->first_name, 0, 1) }}{{ substr($application->last_name, 0, 1) }}</span>
                                 </div>
                                 <div>
-                                    <p class="font-medium text-foreground">{{ $application->applicant_name ?? 'John Doe' }}</p>
-                                    <p class="text-sm text-muted-foreground">{{ $application->applicant_email ?? 'john@example.com' }}</p>
+                                    <p class="font-medium text-foreground">{{ $application->first_name }} {{ $application->last_name }}</p>
+                                    <p class="text-sm text-muted-foreground">{{ $application->email }}</p>
                                 </div>
                             </div>
                         </td>
                         <td class="py-4 px-6">
                             <div class="flex items-center space-x-3">
-                                <img src="{{ asset('images/golden-retriever-puppy-happy-face.png') }}" alt="Pet" class="h-10 w-10 rounded-full object-cover">
+                                @if($application->pet)
+                                <img src="{{ $application->pet->image_url }}" alt="{{ $application->pet->name }}" class="h-10 w-10 rounded-full object-cover">
+                                @else
+                                <div class="h-10 w-10 bg-muted rounded-full flex items-center justify-center">
+                                    <i data-lucide="paw-print" class="h-5 w-5 text-muted-foreground"></i>
+                                </div>
+                                @endif
                                 <div>
-                                    <p class="font-medium text-foreground">{{ $application->pet_name ?? 'Max' }}</p>
-                                    <p class="text-sm text-muted-foreground">{{ $application->pet_breed ?? 'Golden Retriever' }}</p>
+                                    @if($application->pet)
+                                        <p class="font-medium text-foreground">{{ $application->pet->name }}</p>
+                                        <p class="text-sm text-muted-foreground">{{ $application->pet->breed ?: 'Unknown Breed' }}</p>
+                                        <!-- Debug info - remove in production -->
+                                        <p class="text-xs text-gray-400">ID: {{ $application->pet_id }}</p>
+                                    @else
+                                        <p class="font-medium text-foreground">Unknown Pet</p>
+                                        <p class="text-sm text-muted-foreground">No pet linked</p>
+                                        <!-- Debug info - remove in production -->
+                                        @if($application->pet_id)
+                                            <p class="text-xs text-red-400">Broken link: ID {{ $application->pet_id }}</p>
+                                        @endif
+                                    @endif
                                 </div>
                             </div>
                         </td>
                         <td class="py-4 px-6">
-                            <p class="text-foreground">{{ $application->created_at ?? '2024-03-15' }}</p>
-                            <p class="text-sm text-muted-foreground">{{ $application->time_ago ?? '2 days ago' }}</p>
+                            <p class="text-foreground">{{ $application->created_at->format('M d, Y') }}</p>
+                            <p class="text-sm text-muted-foreground">{{ $application->created_at->diffForHumans() }}</p>
                         </td>
                         <td class="py-4 px-6">
                             @php
-                                $status = $application->status ?? 'pending';
+                                $status = $application->status;
                                 $statusColors = [
                                     'pending' => 'bg-yellow-100 text-yellow-800',
                                     'approved' => 'bg-green-100 text-green-800',
                                     'rejected' => 'bg-red-100 text-red-800',
-                                    'in_review' => 'bg-blue-100 text-blue-800'
+                                    'under_review' => 'bg-blue-100 text-blue-800'
                                 ];
                             @endphp
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusColors[$status] ?? 'bg-gray-100 text-gray-800' }}">
@@ -172,17 +193,29 @@
                         </td>
                         <td class="py-4 px-6">
                             @php
-                                $score = $application->compatibility_score ?? rand(65, 95);
+                                // Simple compatibility score calculation
+                                $score = 70; // Base score
+                                
+                                // Add points for completeness of application
+                                if (!empty($application->first_name) && !empty($application->last_name)) $score += 5;
+                                if (!empty($application->email) && !empty($application->phone)) $score += 5;
+                                if (!empty($application->occupation)) $score += 5;
+                                
+                                // Add points for positive answers in the form
+                                if(isset($application->answers['familySupport']) && $application->answers['familySupport'] === 'yes') $score += 5;
+                                if(isset($application->answers['otherPets']) && $application->answers['otherPets'] === 'yes') $score += 5;
+                                if(isset($application->answers['pastPets']) && $application->answers['pastPets'] === 'yes') $score += 5;
+                                
                                 $scoreColor = $score >= 80 ? 'text-green-600' : ($score >= 60 ? 'text-yellow-600' : 'text-red-600');
                             @endphp
                             <span class="font-medium {{ $scoreColor }}">{{ $score }}%</span>
                         </td>
                         <td class="py-4 px-6">
                             <div class="flex items-center space-x-2">
-                                <button onclick="viewApplication({{ $application->id ?? 1 }})" class="btn-secondary btn-sm">
+                                <button onclick="viewApplication({{ $application->id }})" class="btn-secondary btn-sm">
                                     <i data-lucide="eye" class="h-4 w-4"></i>
                                 </button>
-                                <button onclick="updateStatus({{ $application->id ?? 1 }}, 'approved')" class="btn-success btn-sm">
+                                <button onclick="updateStatus({{ $application->id }}, 'approved')" class="btn-success btn-sm">
                                     <i data-lucide="check" class="h-4 w-4"></i>
                                 </button>
                                 <button onclick="updateStatus({{ $application->id ?? 1 }}, 'rejected')" class="btn-destructive btn-sm">
@@ -279,7 +312,255 @@
 <script>
 function viewApplication(id) {
     document.getElementById('applicationModal').classList.remove('hidden');
-    // In a real implementation, you would fetch application details via AJAX
+    
+    // Show loading state
+    const modalContent = document.querySelector('#applicationModal .p-6.space-y-6');
+    modalContent.innerHTML = `
+        <div class="text-center py-12">
+            <div class="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p class="text-muted-foreground">Loading application details...</p>
+        </div>
+    `;
+    
+    // Set up the buttons for this application
+    const approveBtn = document.querySelector('#applicationModal .btn-success');
+    const rejectBtn = document.querySelector('#applicationModal .btn-destructive');
+    
+    approveBtn.onclick = () => updateStatus(id, 'approved');
+    rejectBtn.onclick = () => updateStatus(id, 'rejected');
+    
+    // Fetch application details via AJAX
+    fetch(`/admin/applications/${id}/details`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Render application details
+            renderApplicationDetails(data, modalContent);
+        })
+        .catch(error => {
+            console.error('Error fetching application details:', error);
+            modalContent.innerHTML = `
+                <div class="text-center py-12 text-red-500">
+                    <i data-lucide="alert-triangle" class="h-16 w-16 mx-auto mb-4"></i>
+                    <p>Error loading application details. Please try again.</p>
+                </div>
+            `;
+            // Initialize icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
+}
+
+function renderApplicationDetails(data, container) {
+    // Create HTML for application details
+    const html = `
+        <div class="space-y-8">
+            <!-- Applicant Section -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold flex items-center">
+                    <i data-lucide="user" class="h-5 w-5 mr-2 text-primary"></i>
+                    Applicant Information
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <p class="text-sm text-muted-foreground">Name</p>
+                        <p class="font-medium">${data.applicant.name}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-sm text-muted-foreground">Email</p>
+                        <p class="font-medium">${data.applicant.email}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-sm text-muted-foreground">Phone</p>
+                        <p class="font-medium">${data.applicant.phone}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-sm text-muted-foreground">Date of Birth</p>
+                        <p class="font-medium">${data.applicant.birth_date || 'Not provided'}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-sm text-muted-foreground">Occupation</p>
+                        <p class="font-medium">${data.applicant.occupation || 'Not provided'}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-sm text-muted-foreground">Address</p>
+                        <p class="font-medium">${data.applicant.address || 'Not provided'}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pet Section -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold flex items-center">
+                    <i data-lucide="paw-print" class="h-5 w-5 mr-2 text-primary"></i>
+                    Pet Information
+                </h3>
+                <div class="flex items-center space-x-4">
+                    ${data.pet ? `
+                        <img src="${data.pet.image || '/images/pet-placeholder.png'}" 
+                             alt="${data.pet.name}" 
+                             class="h-16 w-16 rounded-full object-cover">
+                        <div>
+                            <p class="font-medium text-lg">${data.pet.name}</p>
+                            <p class="text-muted-foreground">${data.pet.breed}</p>
+                            <p class="text-xs text-gray-400">Pet ID: ${data.pet.id}</p>
+                        </div>
+                    ` : `
+                        <div>
+                            <p class="text-muted-foreground">No pet selected for this application</p>
+                            ${data.application && data.application.pet_id ? 
+                              `<p class="text-xs text-red-400">Broken link: Pet ID ${data.application.pet_id} exists but can't be found</p>` : 
+                              ''}
+                        </div>
+                    `}
+                </div>
+            </div>
+            
+            <!-- Form Answers Section -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold flex items-center">
+                    <i data-lucide="clipboard-list" class="h-5 w-5 mr-2 text-primary"></i>
+                    Application Answers
+                </h3>
+                <div class="space-y-6">
+                    ${renderFormAnswers(data.answers)}
+                </div>
+            </div>
+            
+            <!-- Admin Notes Section -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold flex items-center">
+                    <i data-lucide="clipboard" class="h-5 w-5 mr-2 text-primary"></i>
+                    Admin Notes
+                </h3>
+                <textarea 
+                    id="admin-notes" 
+                    class="w-full input min-h-[100px]" 
+                    placeholder="Add notes about this application..."
+                >${data.application.admin_notes || ''}</textarea>
+                <button onclick="saveAdminNotes(${data.id})" class="btn-secondary btn-sm">
+                    Save Notes
+                </button>
+            </div>
+            
+            <!-- Application Status Section -->
+            <div class="border-t border-border pt-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-muted-foreground">Application Status</p>
+                        <p class="font-medium">${getStatusBadge(data.application.status)}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-muted-foreground">Date Applied</p>
+                        <p class="font-medium">${data.application.created_at}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Update the container with the HTML
+    container.innerHTML = html;
+    
+    // Initialize icons
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+}
+
+function renderFormAnswers(answers) {
+    if (!answers || Object.keys(answers).length === 0) {
+        return '<p class="text-muted-foreground">No form answers provided</p>';
+    }
+    
+    // Filter out some keys we don't want to display
+    const excludedKeys = ['_token', 'pet_name'];
+    
+    let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+    
+    // Format and display each answer
+    for (const [key, value] of Object.entries(answers)) {
+        if (excludedKeys.includes(key)) continue;
+        
+        const formattedKey = key
+            .replace(/([A-Z])/g, ' $1') // Add spaces before capital letters
+            .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
+            .replace(/([a-z])(\d)/g, '$1 $2'); // Add space between letter and number
+        
+        let formattedValue = value;
+        // Format value based on type
+        if (typeof value === 'boolean') {
+            formattedValue = value ? 'Yes' : 'No';
+        } else if (value === 'yes' || value === 'no') {
+            formattedValue = value.charAt(0).toUpperCase() + value.slice(1);
+        } else if (value === null || value === '') {
+            formattedValue = 'Not provided';
+        } else if (typeof value === 'object') {
+            formattedValue = JSON.stringify(value);
+        }
+        
+        html += `
+            <div class="space-y-1">
+                <p class="text-sm text-muted-foreground">${formattedKey}</p>
+                <p class="font-medium">${formattedValue}</p>
+            </div>
+        `;
+    }
+    
+    html += '</div>';
+    return html;
+}
+
+function getStatusBadge(status) {
+    const statusColors = {
+        'pending': 'bg-yellow-100 text-yellow-800',
+        'approved': 'bg-green-100 text-green-800',
+        'rejected': 'bg-red-100 text-red-800',
+        'under_review': 'bg-blue-100 text-blue-800'
+    };
+    
+    const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ');
+    
+    return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[status] || 'bg-gray-100 text-gray-800'}">
+        ${formattedStatus}
+    </span>`;
+}
+
+function saveAdminNotes(applicationId) {
+    const notes = document.getElementById('admin-notes').value;
+    
+    fetch(`/admin/applications/${applicationId}/update-status`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+            admin_notes: notes 
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Show success notification
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-4 right-4 bg-green-100 text-green-800 px-4 py-2 rounded-md shadow-lg';
+        notification.innerHTML = 'Notes saved successfully';
+        document.body.appendChild(notification);
+        
+        // Remove notification after 3 seconds
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    })
+    .catch(error => {
+        console.error('Error saving notes:', error);
+        alert('Error saving notes. Please try again.');
+    });
 }
 
 function closeApplicationModal() {

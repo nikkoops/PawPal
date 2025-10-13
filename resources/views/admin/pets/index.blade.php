@@ -73,11 +73,18 @@
             @foreach($pets as $pet)
                 <div class="bg-white rounded-lg shadow-sm border border-border hover:shadow-lg transition-shadow duration-200">
                     <div class="relative">
-                        @if($pet->image)
-                            <img src="{{ Storage::url($pet->image) }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-t-lg">
-                        @else
-                            <div class="w-full h-48 bg-muted rounded-t-lg flex items-center justify-center">
-                                <i data-lucide="heart" class="h-12 w-12 text-muted-foreground"></i>
+                        <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-t-lg">
+                        
+                        @if(config('app.debug'))
+                            <!-- Debug info, remove in production -->
+                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 text-center">
+                                @if($pet->image && $pet->imageFileExists())
+                                    Image: {{ $pet->image }} (File exists)
+                                @elseif($pet->image)
+                                    Image: {{ $pet->image }} (File missing)
+                                @else
+                                    No image (Using default)
+                                @endif
                             </div>
                         @endif
                         

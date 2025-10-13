@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pet Adoption Form</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <style>
     /* CSS Variables matching the provided design system */
     :root {
@@ -387,7 +388,12 @@
 
       <!-- Form Content -->
       <div class="modal-content">
-        <form id="adoptionForm" method="POST" action="submit_adoption.php" enctype="multipart/form-data">
+  <form id="adoptionForm" enctype="multipart/form-data">
+          @csrf
+          <!-- Hidden fields for pet information -->
+          <input type="hidden" name="pet_id" id="petId">
+          <input type="hidden" name="pet_type" id="petType">
+          <input type="hidden" name="pet_breed" id="petBreed">
           <!-- Step 1: Personal Information -->
           <div class="step active" id="step1">
             <div class="form-section">
@@ -611,7 +617,7 @@
                   <p class="text-sm text-gray-600">Click to upload or drag and drop</p>
                   <p class="text-xs text-gray-500 mt-1">PNG, JPG, PDF up to 10MB</p>
                 </div>
-                <input type="file" id="idUpload" name="idUpload" accept=".png,.jpg,.jpeg,.pdf" class="hidden" required>
+                <input type="file" id="idUpload" name="idUpload" accept="image/png,image/jpeg,application/pdf" class="hidden" required>
               </div>
             </div>
           </div>
@@ -633,6 +639,7 @@
             </button>
           </div>
         </form>
+        <div id="formMessage" style="max-width:64rem;margin:0.5rem auto 1rem;color:#b91c1c;display:none;"></div>
       </div>
     </div>
   </div>
@@ -641,10 +648,61 @@
     let currentStep = 1;
     const totalSteps = 3;
 
-    // Get pet name from URL parameter
+    // Get pet name from URL parameter and fetch pet details
     const urlParams = new URLSearchParams(window.location.search);
     const petName = urlParams.get('pet') || 'Bella';
     document.getElementById('petName').textContent = petName;
+    
+    // Fetch pet details by name to populate hidden fields
+    async function fetchPetDetails() {
+      console.log('Fetching pet details for:', petName);
+      try {
+        // Add timestamp to prevent caching
+        const response = await fetch(`/api/pets/by-name/${encodeURIComponent(petName)}?_=${Date.now()}`);
+        console.log('API response status:', response.status);
+        
+        if (response.ok) {
+          const pet = await response.json();
+          console.log('API returned pet data:', pet);
+          
+          if (pet && pet.id) {
+            // Set values in hidden fields
+            document.getElementById('petId').value = pet.id;
+            document.getElementById('petType').value = pet.type || '';
+            document.getElementById('petBreed').value = pet.breed || '';
+            
+            // Store pet data in window for later use
+            window.petData = pet;
+            
+            console.log('Pet details loaded successfully!', {
+              id: pet.id,
+              name: pet.name,
+              type: pet.type,
+              breed: pet.breed
+            });
+            
+            // Debug log to verify data is ready for form submission
+            console.log('Hidden fields populated:',
+              'pet_id=', document.getElementById('petId').value,
+              'pet_type=', document.getElementById('petType').value, 
+              'pet_breed=', document.getElementById('petBreed').value
+            );
+          } else {
+            console.warn('Pet details not found or invalid for:', petName);
+            alert('Warning: Could not load pet details. Your form submission may not be associated with the correct pet.');
+          }
+        } else {
+          console.error('Failed to fetch pet details:', response.status);
+          const text = await response.text();
+          console.error('Error response:', text);
+        }
+      } catch (error) {
+        console.error('Error fetching pet details:', error);
+      }
+    }
+    
+    // Call the function to fetch pet details
+    fetchPetDetails();
 
     function updateUI() {
       // Update step indicator
@@ -677,7 +735,12 @@
           </svg>
           Submit Application
         `;
-        nextBtn.onclick = submitForm;
+        // Add explicit click event listener with debug
+        nextBtn.onclick = function(e) {
+          console.log('Submit button clicked');
+          e.preventDefault(); // Prevent any default action
+          submitForm(); // Call our async function
+        };
       } else {
         nextBtn.innerHTML = `
           Next
@@ -713,16 +776,6 @@
 
     function closePage() {
       window.history.back();
-    }
-
-    function submitForm() {
-      const form = document.getElementById('adoptionForm');
-      if (form.checkValidity()) {
-        alert('Application submitted successfully!');
-        form.submit();
-      } else {
-        form.reportValidity();
-      }
     }
 
     // Initialize
@@ -1069,10 +1122,32 @@
 
   <script>
     function showSuccessModal() {
+      console.log('Inside showSuccessModal function');
       const petName = document.getElementById('petName').textContent;
-      document.getElementById('successPetName').textContent = petName;
-      document.getElementById('successPetNameThankYou').textContent = petName;
-      document.getElementById('successModal').style.display = 'flex';
+      console.log('Pet name:', petName);
+      
+      // Check if elements exist before setting their content
+      const successPetNameEl = document.getElementById('successPetName');
+      if (successPetNameEl) {
+        successPetNameEl.textContent = petName;
+      } else {
+        console.error("Element with ID 'successPetName' not found");
+      }
+      
+      const thankYouEl = document.getElementById('successPetNameThankYou');
+      if (thankYouEl) {
+        thankYouEl.textContent = petName;
+      } else {
+        console.error("Element with ID 'successPetNameThankYou' not found");
+      }
+      
+      const modalEl = document.getElementById('successModal');
+      if (modalEl) {
+        console.log('Setting success modal display to flex');
+        modalEl.style.display = 'flex';
+      } else {
+        console.error("Element with ID 'successModal' not found");
+      }
     }
 
     function closeSuccessModal() {
@@ -1087,22 +1162,162 @@
       window.location.href = 'index.php#pets-section';
     }
 
-    // Update the submit form function to show the success modal
-    function submitForm() {
-      // Remove validation temporarily to test the modal design
-      // const form = document.getElementById('adoptionForm');
-      // if (form.checkValidity()) {
-        // Close the application modal first
-        closeApplicationModal();
-        // Then show the success modal
-        setTimeout(() => {
-          showSuccessModal();
-        }, 100);
-        // Uncomment the line below when you want to actually submit the form
-        // form.submit();
-      // } else {
-      //   alert('Please fill in all required fields.');
-      // }
+    // Submit form via AJAX to backend
+    async function submitForm() {
+      console.log('submitForm called');
+      const form = document.getElementById('adoptionForm');
+      if (!form.checkValidity()) {
+        console.log('Form validation failed');
+        form.reportValidity();
+        return;
+      }
+
+      console.log('Form is valid, preparing submission');
+      const formData = new FormData(form);
+      
+      // Ensure file input is included
+      const fileInput = document.getElementById('idUpload');
+      if (fileInput && fileInput.files.length > 0) {
+        console.log('File detected:', fileInput.files[0].name);
+        // The FormData constructor should automatically include the file,
+        // but we'll explicitly add it to be sure
+        formData.append('idUpload', fileInput.files[0]);
+      } else {
+        console.warn('No file selected for ID upload');
+      }
+      
+      // Append pet name (redundant but kept for backward compatibility)
+      formData.append('pet_name', document.getElementById('petName').textContent);
+      
+      // Explicitly include all pet data fields to ensure they're sent
+      const petId = document.getElementById('petId').value;
+      const petType = document.getElementById('petType').value;
+      const petBreed = document.getElementById('petBreed').value;
+      
+      // If we have stored pet data, use that as a backup
+      if (window.petData && window.petData.id && !petId) {
+        console.log('Using window.petData as fallback for pet information');
+        formData.append('pet_id', window.petData.id);
+        formData.append('pet_type', window.petData.type || '');
+        formData.append('pet_breed', window.petData.breed || '');
+      } else {
+        // Double-check all pet-related fields and add them to formData
+        formData.append('pet_id', petId || '');
+        formData.append('pet_type', petType || '');
+        formData.append('pet_breed', petBreed || '');
+      }
+      
+      console.log('Pet data being submitted:', {
+        pet_id: petId || '(none)',
+        pet_type: petType || '(none)', 
+        pet_breed: petBreed || '(none)'
+      });
+
+      // Get CSRF token
+      const metaToken = document.querySelector('meta[name="csrf-token"]');
+      const token = metaToken ? metaToken.getAttribute('content') : '';
+      
+      // Double check that token is properly included
+      console.log('CSRF token present:', !!token);
+      
+      // Make sure _token is in the form data (Laravel expects this)
+      if (!formData.has('_token')) {
+        console.log('Adding _token to formData');
+        formData.append('_token', token);
+      }
+      
+      const msgEl = document.getElementById('formMessage');
+      msgEl.style.display = 'none';
+      msgEl.textContent = '';
+
+      try {
+        // Important: When sending FormData with files, don't set Content-Type header
+        // The browser will automatically set it with the proper boundary
+        const res = await fetch('/submit-adoption', {
+            method: 'POST',
+            credentials: 'same-origin', // ensure cookies (session) are sent for CSRF
+            headers: {
+              'X-CSRF-TOKEN': token,
+              'Accept': 'application/json'
+              // Don't set Content-Type here, it will be set automatically with boundary for multipart/form-data
+            },
+            body: formData
+          });
+
+        console.log('submit-adoption status', res.status);
+
+        if (res.status === 419) {
+          // CSRF token mismatch or session expired
+          alert('Session expired or CSRF token mismatch. Please reload the page and try again.');
+          return;
+        }
+
+        if (res.status === 422) {
+          const data = await res.json();
+          const firstError = Object.values(data.errors)[0][0];
+          console.warn('validation error', data.errors);
+          msgEl.style.display = 'block';
+          msgEl.textContent = firstError;
+          return;
+        }
+
+        // Try to parse JSON; if parsing fails show generic error
+        let data;
+        try {
+          // For error responses, get the response text first to debug
+          if (!res.ok) {
+            const responseText = await res.text();
+            console.error('Error response text:', responseText);
+            try {
+              // Try to parse it as JSON anyway
+              data = JSON.parse(responseText);
+            } catch (jsonErr) {
+              // If it's not JSON, just use the text as message
+              console.error('Failed to parse error response as JSON', jsonErr);
+              msgEl.style.display = 'block';
+              msgEl.textContent = 'Server error: ' + responseText.substring(0, 100) + '...';
+              return;
+            }
+          } else {
+            data = await res.json();
+          }
+        } catch (err) {
+          console.error('Non-JSON response', err);
+          msgEl.style.display = 'block';
+          msgEl.textContent = 'Unexpected server response. Check the browser console and server logs.';
+          return;
+        }
+
+        if (data && data.success) {
+          console.log('submission success', data);
+          console.log('About to close application modal and show success modal');
+          closeApplicationModal();
+          // Add a delay and log the success modal display
+          setTimeout(() => {
+            console.log('Showing success modal now');
+            showSuccessModal();
+            console.log('Success modal should be visible, display style:', document.getElementById('successModal').style.display);
+          }, 100);
+        } else {
+          console.error('submission failed', data);
+          // Show all error details for debugging
+          console.error('Error details:', JSON.stringify(data, null, 2));
+          
+          msgEl.style.display = 'block';
+          if (data && data.message) {
+            msgEl.textContent = data.message;
+          } else if (data && data.errors) {
+            const errorMessages = Object.values(data.errors).flat();
+            msgEl.textContent = errorMessages.join(', ');
+          } else {
+            msgEl.textContent = 'Submission failed. Please try again.';
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        msgEl.style.display = 'block';
+        msgEl.textContent = 'An error occurred while submitting the form. Check the console for details.';
+      }
     }
   </script>
 </body>

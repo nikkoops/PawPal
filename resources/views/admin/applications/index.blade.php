@@ -25,44 +25,34 @@
 
     <!-- Filters -->
     <div class="bg-card rounded-lg border border-border p-6">
-        <form action="{{ route('admin.applications.index') }}" method="GET" id="filterForm">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-foreground mb-2">Search</label>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name, email..." class="input w-full" onchange="document.getElementById('filterForm').submit()">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-foreground mb-2">Status</label>
-                    <select name="status" class="input w-full" onchange="document.getElementById('filterForm').submit()">
-                        <option value="">All Status</option>
-                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
-                        <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                        <option value="under_review" {{ request('status') == 'under_review' ? 'selected' : '' }}>In Review</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-foreground mb-2">Pet</label>
-                    <select name="pet_id" class="input w-full" onchange="document.getElementById('filterForm').submit()">
-                        <option value="">All Pets</option>
-                        @foreach($pets as $pet)
-                            <option value="{{ $pet->id }}" {{ request('pet_id') == $pet->id ? 'selected' : '' }}>
-                                {{ $pet->name }} ({{ $pet->breed }})
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-foreground mb-2">Date Range</label>
-                    <select name="date_range" class="input w-full" onchange="document.getElementById('filterForm').submit()">
-                        <option value="">All Time</option>
-                        <option value="today" {{ request('date_range') == 'today' ? 'selected' : '' }}>Today</option>
-                        <option value="week" {{ request('date_range') == 'week' ? 'selected' : '' }}>This Week</option>
-                        <option value="month" {{ request('date_range') == 'month' ? 'selected' : '' }}>This Month</option>
-                    </select>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-foreground mb-2">Status</label>
+                <select id="statusFilter" class="input w-full" onchange="filterApplications()">
+                    <option value="">All Status</option>
+                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                    <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                    <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                </select>
             </div>
-        </form>
+            <div>
+                <label class="block text-sm font-medium text-foreground mb-2">Pet Type</label>
+                <select id="petTypeFilter" class="input w-full" onchange="filterApplications()">
+                    <option value="">All Pets</option>
+                    <option value="cat" {{ request('pet_type') == 'cat' ? 'selected' : '' }}>Cats</option>
+                    <option value="dog" {{ request('pet_type') == 'dog' ? 'selected' : '' }}>Dogs</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-foreground mb-2">Date Range</label>
+                <select id="dateRangeFilter" class="input w-full" onchange="filterApplications()">
+                    <option value="">All Time</option>
+                    <option value="today" {{ request('date_range') == 'today' ? 'selected' : '' }}>Today</option>
+                    <option value="week" {{ request('date_range') == 'week' ? 'selected' : '' }}>This Week</option>
+                    <option value="month" {{ request('date_range') == 'month' ? 'selected' : '' }}>This Month</option>
+                </select>
+            </div>
+        </div>
     </div>
 
     <!-- Statistics Cards -->
@@ -71,7 +61,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Total Applications</p>
-                    <p class="text-2xl font-bold text-foreground">{{ $stats['total'] }}</p>
+                    <p class="text-2xl font-bold text-foreground" id="totalCount">{{ $stats['total'] }}</p>
                 </div>
                 <div class="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center">
                     <i data-lucide="file-text" class="h-6 w-6 text-primary"></i>
@@ -82,7 +72,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Pending Review</p>
-                    <p class="text-2xl font-bold text-foreground">{{ $stats['pending'] }}</p>
+                    <p class="text-2xl font-bold text-foreground" id="pendingCount">{{ $stats['pending'] }}</p>
                 </div>
                 <div class="h-12 w-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                     <i data-lucide="clock" class="h-6 w-6 text-yellow-600"></i>
@@ -93,7 +83,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Approved</p>
-                    <p class="text-2xl font-bold text-foreground">{{ $stats['approved'] }}</p>
+                    <p class="text-2xl font-bold text-foreground" id="approvedCount">{{ $stats['approved'] }}</p>
                 </div>
                 <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
                     <i data-lucide="check-circle" class="h-6 w-6 text-green-600"></i>
@@ -104,7 +94,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">This Month</p>
-                    <p class="text-2xl font-bold text-foreground">{{ $stats['this_month'] }}</p>
+                    <p class="text-2xl font-bold text-foreground" id="thisMonthCount">{{ $stats['this_month'] }}</p>
                 </div>
                 <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
                     <i data-lucide="calendar" class="h-6 w-6 text-blue-600"></i>
@@ -126,157 +116,11 @@
                         <th class="text-left py-3 px-6 text-muted-foreground font-medium">Pet</th>
                         <th class="text-left py-3 px-6 text-muted-foreground font-medium">Date Applied</th>
                         <th class="text-left py-3 px-6 text-muted-foreground font-medium">Status</th>
-                        <th class="text-left py-3 px-6 text-muted-foreground font-medium">Score</th>
                         <th class="text-left py-3 px-6 text-muted-foreground font-medium">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-border">
-                    @forelse($applications as $application)
-                    <tr class="hover:bg-muted/50 transition-colors">
-                        <td class="py-4 px-6">
-                            <input type="checkbox" class="application-checkbox rounded border-border text-primary focus:ring-primary" value="{{ $application->id }}">
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="flex items-center space-x-3">
-                                <div class="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
-                                    <span class="text-primary font-medium">{{ substr($application->first_name, 0, 1) }}{{ substr($application->last_name, 0, 1) }}</span>
-                                </div>
-                                <div>
-                                    <p class="font-medium text-foreground">{{ $application->first_name }} {{ $application->last_name }}</p>
-                                    <p class="text-sm text-muted-foreground">{{ $application->email }}</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="flex items-center space-x-3">
-                                @if($application->pet)
-                                <img src="{{ $application->pet->image_url }}" alt="{{ $application->pet->name }}" class="h-10 w-10 rounded-full object-cover">
-                                @else
-                                <div class="h-10 w-10 bg-muted rounded-full flex items-center justify-center">
-                                    <i data-lucide="paw-print" class="h-5 w-5 text-muted-foreground"></i>
-                                </div>
-                                @endif
-                                <div>
-                                    @if($application->pet)
-                                        <p class="font-medium text-foreground">{{ $application->pet->name }}</p>
-                                        <p class="text-sm text-muted-foreground">{{ $application->pet->breed ?: 'Unknown Breed' }}</p>
-                                        <!-- Debug info - remove in production -->
-                                        <p class="text-xs text-gray-400">ID: {{ $application->pet_id }}</p>
-                                    @else
-                                        <p class="font-medium text-foreground">Unknown Pet</p>
-                                        <p class="text-sm text-muted-foreground">No pet linked</p>
-                                        <!-- Debug info - remove in production -->
-                                        @if($application->pet_id)
-                                            <p class="text-xs text-red-400">Broken link: ID {{ $application->pet_id }}</p>
-                                        @endif
-                                    @endif
-                                </div>
-                            </div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <p class="text-foreground">{{ $application->created_at->format('M d, Y') }}</p>
-                            <p class="text-sm text-muted-foreground">{{ $application->created_at->diffForHumans() }}</p>
-                        </td>
-                        <td class="py-4 px-6">
-                            @php
-                                $status = $application->status;
-                                $statusColors = [
-                                    'pending' => 'bg-yellow-100 text-yellow-800',
-                                    'approved' => 'bg-green-100 text-green-800',
-                                    'rejected' => 'bg-red-100 text-red-800',
-                                    'under_review' => 'bg-blue-100 text-blue-800'
-                                ];
-                            @endphp
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusColors[$status] ?? 'bg-gray-100 text-gray-800' }}">
-                                {{ ucfirst(str_replace('_', ' ', $status)) }}
-                            </span>
-                        </td>
-                        <td class="py-4 px-6">
-                            @php
-                                // Simple compatibility score calculation
-                                $score = 70; // Base score
-                                
-                                // Add points for completeness of application
-                                if (!empty($application->first_name) && !empty($application->last_name)) $score += 5;
-                                if (!empty($application->email) && !empty($application->phone)) $score += 5;
-                                if (!empty($application->occupation)) $score += 5;
-                                
-                                // Add points for positive answers in the form
-                                if(isset($application->answers['familySupport']) && $application->answers['familySupport'] === 'yes') $score += 5;
-                                if(isset($application->answers['otherPets']) && $application->answers['otherPets'] === 'yes') $score += 5;
-                                if(isset($application->answers['pastPets']) && $application->answers['pastPets'] === 'yes') $score += 5;
-                                
-                                $scoreColor = $score >= 80 ? 'text-green-600' : ($score >= 60 ? 'text-yellow-600' : 'text-red-600');
-                            @endphp
-                            <span class="font-medium {{ $scoreColor }}">{{ $score }}%</span>
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="flex items-center space-x-2">
-                                <button onclick="viewApplication({{ $application->id }})" class="btn-secondary btn-sm">
-                                    <i data-lucide="eye" class="h-4 w-4"></i>
-                                </button>
-                                <button onclick="updateStatus({{ $application->id }}, 'approved')" class="btn-success btn-sm">
-                                    <i data-lucide="check" class="h-4 w-4"></i>
-                                </button>
-                                <button onclick="updateStatus({{ $application->id ?? 1 }}, 'rejected')" class="btn-destructive btn-sm">
-                                    <i data-lucide="x" class="h-4 w-4"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <!-- Sample Data -->
-                    <tr class="hover:bg-muted/50 transition-colors">
-                        <td class="py-4 px-6">
-                            <input type="checkbox" class="application-checkbox rounded border-border text-primary focus:ring-primary" value="1">
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="flex items-center space-x-3">
-                                <div class="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
-                                    <span class="text-primary font-medium">JD</span>
-                                </div>
-                                <div>
-                                    <p class="font-medium text-foreground">John Doe</p>
-                                    <p class="text-sm text-muted-foreground">john@example.com</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="flex items-center space-x-3">
-                                <img src="{{ asset('images/golden-retriever-puppy-happy-face.png') }}" alt="Pet" class="h-10 w-10 rounded-full object-cover">
-                                <div>
-                                    <p class="font-medium text-foreground">Max</p>
-                                    <p class="text-sm text-muted-foreground">Golden Retriever</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <p class="text-foreground">Mar 15, 2024</p>
-                            <p class="text-sm text-muted-foreground">2 days ago</p>
-                        </td>
-                        <td class="py-4 px-6">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                Pending
-                            </span>
-                        </td>
-                        <td class="py-4 px-6">
-                            <span class="font-medium text-green-600">85%</span>
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="flex items-center space-x-2">
-                                <button onclick="viewApplication(1)" class="btn-secondary btn-sm">
-                                    <i data-lucide="eye" class="h-4 w-4"></i>
-                                </button>
-                                <button onclick="updateStatus(1, 'approved')" class="btn-success btn-sm">
-                                    <i data-lucide="check" class="h-4 w-4"></i>
-                                </button>
-                                <button onclick="updateStatus(1, 'rejected')" class="btn-destructive btn-sm">
-                                    <i data-lucide="x" class="h-4 w-4"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforelse
+                <tbody class="divide-y divide-border" id="applicationsTableBody">
+                    @include('admin.applications.partials.table-rows', compact('applications'))
                 </tbody>
             </table>
         </div>
@@ -520,8 +364,7 @@ function getStatusBadge(status) {
     const statusColors = {
         'pending': 'bg-yellow-100 text-yellow-800',
         'approved': 'bg-green-100 text-green-800',
-        'rejected': 'bg-red-100 text-red-800',
-        'under_review': 'bg-blue-100 text-blue-800'
+        'rejected': 'bg-red-100 text-red-800'
     };
     
     const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ');
@@ -614,17 +457,129 @@ function exportApplications() {
     window.open('/admin/applications/export', '_blank');
 }
 
+// Filter applications via AJAX
+function filterApplications() {
+    const status = document.getElementById('statusFilter').value;
+    const petType = document.getElementById('petTypeFilter').value;
+    const dateRange = document.getElementById('dateRangeFilter').value;
+    
+    // Build query parameters
+    const params = new URLSearchParams();
+    if (status) params.append('status', status);
+    if (petType) params.append('pet_type', petType);
+    if (dateRange) params.append('date_range', dateRange);
+    
+    // Show loading state
+    const tableBody = document.getElementById('applicationsTableBody');
+    tableBody.innerHTML = `
+        <tr>
+            <td colspan="6" class="py-12 text-center">
+                <div class="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+                <p class="text-muted-foreground">Loading applications...</p>
+            </td>
+        </tr>
+    `;
+    
+    // Fetch filtered applications
+    fetch(`{{ route('admin.applications.filter') }}?${params.toString()}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Update table content
+            tableBody.innerHTML = data.html;
+            
+            // Update statistics
+            document.getElementById('totalCount').textContent = data.stats.total;
+            document.getElementById('pendingCount').textContent = data.stats.pending;
+            document.getElementById('approvedCount').textContent = data.stats.approved;
+            document.getElementById('thisMonthCount').textContent = data.stats.this_month;
+            
+            // Reinitialize Lucide icons for new content
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        })
+        .catch(error => {
+            console.error('Error filtering applications:', error);
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="py-12 text-center text-red-500">
+                        <i data-lucide="alert-triangle" class="h-12 w-12 mx-auto mb-4"></i>
+                        <p class="text-lg font-medium">Error Loading Applications</p>
+                        <p class="text-sm">Please refresh the page and try again.</p>
+                    </td>
+                </tr>
+            `;
+            // Reinitialize icons for error state
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
+}
+
 // Initialize Lucide icons
 lucide.createIcons();
 </script>
 
 <style>
 .btn-success {
-    @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-green-600 text-white hover:bg-green-700 h-9 px-3;
+    background: #22c55e !important;
+    color: white !important;
+    border: 1px solid #22c55e !important;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-success:hover {
+    background: #16a34a !important;
+    border-color: #16a34a !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(34, 197, 94, 0.3);
 }
 
 .btn-success.btn-sm {
-    @apply h-8 px-2;
+    padding: 0.375rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.btn-destructive {
+    background: #ef4444 !important;
+    color: white !important;
+    border: 1px solid #ef4444 !important;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-destructive:hover {
+    background: #dc2626 !important;
+    border-color: #dc2626 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-destructive.btn-sm {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.875rem;
 }
 </style>
 @endsection

@@ -17,48 +17,11 @@ class AdoptionApplication extends Model
         'admin_notes',
         'reviewed_at',
         'reviewed_by',
-        // Individual form fields
-        'first_name',
-        'last_name',
-        'address',
-        'phone',
-        'email',
-        'birth_date',
-        'occupation',
-        'company',
-        'social_media',
-        'pronouns',
-        'housing_type',
-        'housing_ownership',
-        'landlord_name',
-        'landlord_phone',
-        'yard_type',
-        'household_size',
-        'household_members',
-        'allergies',
-        'previous_pets',
-        'previous_pets_details',
-        'current_pets',
-        'veterinarian_name',
-        'veterinarian_phone',
-        'pet_care_experience',
-        'daily_routine',
-        'emergency_plan',
-        'reference1_name',
-        'reference1_phone',
-        'reference1_relationship',
-        'reference2_name',
-        'reference2_phone',
-        'reference2_relationship',
-        'additional_comments',
-        'submitted_at',
     ];
 
     protected $casts = [
         'answers' => 'array',
         'reviewed_at' => 'datetime',
-        'birth_date' => 'date',
-        'submitted_at' => 'datetime',
     ];
 
     public function user()
@@ -81,11 +44,6 @@ class AdoptionApplication extends Model
         return $query->where('status', 'pending');
     }
 
-    public function scopeUnderReview($query)
-    {
-        return $query->where('status', 'under_review');
-    }
-
     public function scopeApproved($query)
     {
         return $query->where('status', 'approved');
@@ -94,5 +52,46 @@ class AdoptionApplication extends Model
     public function scopeRejected($query)
     {
         return $query->where('status', 'rejected');
+    }
+
+    // Helper methods to access form data from JSON answers field
+    public function getFirstNameAttribute()
+    {
+        return $this->answers['firstName'] ?? null;
+    }
+
+    public function getLastNameAttribute()
+    {
+        return $this->answers['lastName'] ?? null;
+    }
+
+    public function getEmailAttribute()
+    {
+        return $this->answers['email'] ?? null;
+    }
+
+    public function getPhoneAttribute()
+    {
+        return $this->answers['phone'] ?? null;
+    }
+
+    public function getAddressAttribute()
+    {
+        return $this->answers['address'] ?? null;
+    }
+
+    public function getBirthDateAttribute()
+    {
+        return $this->answers['birthDate'] ?? null;
+    }
+
+    public function getOccupationAttribute()
+    {
+        return $this->answers['occupation'] ?? null;
+    }
+
+    public function getCompanyAttribute()
+    {
+        return $this->answers['company'] ?? null;
     }
 }

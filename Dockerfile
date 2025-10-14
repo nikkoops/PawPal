@@ -1,4 +1,4 @@
-# Use the official PHP image with extensions needed for Laravel
+# Use PHP 8.2 FPM (for Nginx)
 FROM php:8.2-fpm
 
 # Install system dependencies and PHP extensions
@@ -16,7 +16,6 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
 # Start PHP-FPM

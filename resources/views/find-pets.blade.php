@@ -188,7 +188,7 @@
       background: #ef4444;
       color: white;
       padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
+      border-radius: 30px;
       font-size: 0.75rem;
       font-weight: 500;
     }
@@ -517,7 +517,7 @@
           <div class="pet-image">
             <img src="${pet.image}" alt="${pet.name}" onerror="this.src='images/placeholder-pet.jpg'">
             ${pet.urgent ? '<div class="urgent-badge">🚨 Urgent: Adopt this week</div>' : ''}
-          </div>
+          </div>`
           <div class="pet-info">
             <div class="pet-header">
               <h4 class="pet-name">${pet.name}</h4>

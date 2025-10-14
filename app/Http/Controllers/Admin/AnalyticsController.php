@@ -17,6 +17,8 @@ class AnalyticsController extends Controller
             $analytics = [
                 'overview' => $this->getOverviewStats(),
                 'capacity' => $this->getCapacityData(),
+                // Per-location capacity information
+                'location_capacity' => $this->getLocationCapacityData(),
                 'at_risk_pets' => $this->getAtRiskPets(),
                 'adoption_trends' => $this->getAdoptionTrends(),
                 'length_of_stay' => $this->getLengthOfStayData(),
@@ -168,8 +170,9 @@ class AnalyticsController extends Controller
             $dogs = Pet::where('is_available', true)->where('type', 'Dog')->count();
             $cats = Pet::where('is_available', true)->where('type', 'Cat')->count();
             
-            // Default maximum capacity - this could be configurable
-            $maxCapacity = 180;
+            // Derive maximum capacity from location capacities when possible
+            $locationCaps = $this->getLocationCapacityData();
+            $maxCapacity = $locationCaps->sum('maximum') ?: 180;
             
             return [
                 'current' => $totalPets,
@@ -187,32 +190,186 @@ class AnalyticsController extends Controller
         }
     }
 
+    /**
+     * Get capacity breakdown per shelter/location.
+     * Returns a collection of ['location' => string, 'current' => int, 'maximum' => int]
+     */
+    private function getLocationCapacityData()
+    {
+        try {
+            // Current counts grouped by location for available pets
+            $counts = Pet::where('is_available', true)
+                ->select('location', DB::raw('COUNT(*) as current'))
+                ->groupBy('location')
+                ->orderBy('location')
+                ->get()
+                ->keyBy('location');
+
+            // Canonical shelter list (exact names used in pet form) and capacity map
+            $canonicalShelters = [
+                'Manila Shelter',
+                'Quezon City Shelter',
+                'Caloocan Shelter',
+                'Las Piñas Shelter',
+                'Makati Shelter',
+                'Malabon Shelter',
+                'Mandaluyong Shelter',
+                'Marikina Shelter',
+                'Muntinlupa Shelter',
+                'Navotas Shelter',
+                'Parañaque Shelter',
+                'Pasay Shelter',
+                'Pasig Shelter',
+                'San Juan Shelter',
+                'Taguig Shelter',
+                'Valenzuela Shelter',
+            ];
+
+            // Capacities per shelter (each between 15 and 40)
+            $capacityMap = [
+                'Manila Shelter' => 30,
+                'Quezon City Shelter' => 40,
+                'Caloocan Shelter' => 25,
+                'Las Piñas Shelter' => 20,
+                'Makati Shelter' => 25,
+                'Malabon Shelter' => 18,
+                'Mandaluyong Shelter' => 22,
+                'Marikina Shelter' => 20,
+                'Muntinlupa Shelter' => 18,
+                'Navotas Shelter' => 16,
+                'Parañaque Shelter' => 24,
+                'Pasay Shelter' => 20,
+                'Pasig Shelter' => 28,
+                'San Juan Shelter' => 26,
+                'Taguig Shelter' => 30,
+                'Valenzuela Shelter' => 20,
+            ];
+
+
+            $locations = collect();
+
+            // Normalize possible variants of location names to canonical forms.
+            // This mapping helps convert values from the pet creation form / legacy data.
+            $normalizeMap = [
+                // Map common variants to canonical names
+                'Quezon City' => 'Quezon City Shelter',
+                'Quezon City Shelter' => 'Quezon City Shelter',
+                'Quincy City Shelter' => 'Quezon City Shelter',
+                'Taguig' => 'Taguig Shelter',
+                'Taguig City Shelter' => 'Taguig Shelter',
+                // Map 'Plaza City Shelter' to 'Pasig Shelter' or another canonical value if appropriate
+                'Plaza City Shelter' => 'Pasig Shelter',
+                'Manila Bay Shelter' => 'Manila Shelter',
+                'San Juan City Shelter' => 'San Juan Shelter',
+                'San Juan' => 'San Juan Shelter',
+                'Mamallapuram Shelter' => 'Marikina Shelter',
+                'Caboolture Animal Shelter' => 'Caloocan Shelter',
+                // Add more variants as needed
+            ];
+
+            // Build a map of normalized current counts
+            $normalizedCounts = [];
+            foreach ($counts as $row) {
+                $raw = trim($row->location ?: '');
+                $normalized = $normalizeMap[$raw] ?? null;
+
+                // If not in normalize map, try to match by substring or fallback
+                if (!$normalized) {
+                    // Try to find a canonical shelter that contains the raw city name
+                    foreach ($canonicalShelters as $can) {
+                        $cityPart = str_replace(' Shelter', '', $can);
+                        if (strcasecmp($cityPart, $raw) === 0 || stripos($raw, $cityPart) !== false) {
+                            $normalized = $can;
+                            break;
+                        }
+                    }
+                }
+
+                // If still not found, default to raw plus ' Shelter' if it matches a known city
+                if (!$normalized && $raw !== '') {
+                    $maybe = $raw . ' Shelter';
+                    if (in_array($maybe, $canonicalShelters)) {
+                        $normalized = $maybe;
+                    }
+                }
+
+                // Final fallback: ignore or put into 'Other' bucket (we'll keep as raw + ' Shelter')
+                if (!$normalized) {
+                    $normalized = $raw !== '' ? ($raw . ' Shelter') : 'Unknown Shelter';
+                }
+
+                if (!isset($normalizedCounts[$normalized])) {
+                    $normalizedCounts[$normalized] = 0;
+                }
+                $normalizedCounts[$normalized] += (int) $row->current;
+            }
+
+
+            // Ensure all canonical shelters are present in output, compute percent, then sort by percent desc
+            foreach ($canonicalShelters as $loc) {
+                $current = $normalizedCounts[$loc] ?? 0;
+                $maximum = isset($capacityMap[$loc]) ? (int) $capacityMap[$loc] : $defaultCapacity;
+                $percent = $maximum > 0 ? round(($current / $maximum) * 100) : 0;
+
+                $locations->push([
+                    'location' => $loc,
+                    'current' => $current,
+                    'maximum' => $maximum,
+                    'percent' => $percent,
+                ]);
+            }
+
+            // Sort by percent descending
+            $locations = $locations->sortByDesc('percent')->values();
+
+            return $locations;
+        } catch (\Exception $e) {
+            return collect([]);
+        }
+    }
+
     private function getAtRiskPets()
     {
         try {
-            return Pet::select('name', 'type', 'created_at')
+            return Pet::select('id', 'name', 'type', 'date_added', 'created_at')
                 ->where('is_available', true)
-                ->where('created_at', '<=', now()->subDays(60)) // Pets in shelter for 60+ days
-                ->orderBy('created_at', 'asc')
-                ->take(10)
+                ->where(function ($query) {
+                    // Include pets urgent based on date_added (7+ days)
+                    $query->where('date_added', '<=', now()->subDays(7))
+                          // Also include pets with old logic as fallback
+                          ->orWhere(function ($subQuery) {
+                              $subQuery->whereNull('date_added')
+                                       ->where('created_at', '<=', now()->subDays(30));
+                          });
+                })
+                ->orderByRaw('CASE WHEN date_added IS NOT NULL THEN date_added ELSE created_at END ASC')
+                ->take(15) // Increased from 10 to show more urgent pets
                 ->get()
                 ->map(function ($pet) {
-                    $daysInShelter = now()->diffInDays($pet->created_at);
-                    $reason = 'Long stay';
+                    // Use date_added if available, otherwise fall back to created_at
+                    $referenceDate = $pet->date_added ?: $pet->created_at;
+                    $daysInShelter = floor(now()->diffInDays($referenceDate));
                     
-                    if ($daysInShelter >= 120) {
-                        $reason = 'Very long stay';
-                    } elseif ($daysInShelter >= 90) {
-                        $reason = 'Long stay';
+                    // Determine reason based on urgency criteria
+                    if ($pet->date_added && $daysInShelter >= 7) {
+                        if ($daysInShelter >= 30) {
+                            $reason = 'URGENT - Very long stay';
+                        } elseif ($daysInShelter >= 14) {
+                            $reason = 'URGENT - Extended stay';
+                        } else {
+                            $reason = 'URGENT - Needs priority';
+                        }
                     } else {
-                        $reason = 'Moderate stay';
+                        $reason = 'Long stay (legacy)';
                     }
                     
                     return [
+                        'id' => $pet->id,
                         'name' => $pet->name,
                         'type' => $pet->type,
                         'daysInShelter' => $daysInShelter,
                         'reason' => $reason,
+                        'is_urgent' => $pet->date_added && $daysInShelter >= 7,
                     ];
                 });
         } catch (\Exception $e) {
@@ -234,7 +391,7 @@ class AnalyticsController extends Controller
             ];
             
             foreach ($pets as $pet) {
-                $days = now()->diffInDays($pet->created_at);
+                $days = floor(now()->diffInDays($pet->created_at));
                 
                 if ($days <= 7) {
                     $ranges['0-7 days']++;

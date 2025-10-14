@@ -23,7 +23,6 @@ class PetController extends Controller
                     'location' => $this->getLocation($pet),
                     'description' => $pet->description ?? "Meet {$pet->name}, a wonderful {$pet->type} looking for a loving home.",
                     'image' => $this->getImageUrl($pet),
-                    'urgent' => $this->isUrgent($pet),
                     'vaccinated' => $pet->is_vaccinated ?? false,
                     'spayed_neutered' => $pet->is_neutered ?? false,
                     'good_with_kids' => $this->getCharacteristic($pet, 'good_with_kids'),
@@ -31,8 +30,9 @@ class PetController extends Controller
                     'breed' => $pet->breed ?? 'Mixed',
                     'gender' => ucfirst($pet->gender ?? 'Unknown'),
                     'adoption_fee' => $pet->adoption_fee ?? 0,
-                    'days_in_shelter' => $pet->created_at ? now()->diffInDays($pet->created_at) : 0,
-                    'reason' => $this->getUrgentReason($pet),
+                    'days_in_shelter' => $pet->days_in_shelter ?? 0,
+                    'urgent' => $pet->is_urgent ?? false,
+                    'urgent_reason' => $pet->urgent_reason ?? null,
                 ];
             });
 
@@ -49,6 +49,31 @@ class PetController extends Controller
 
         return view('pet-details', compact('pet'));
     }
+    
+    /**
+     * Get pet details by name - API endpoint
+     *
+     * @param string $name
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getByName($name)
+    {
+        $pet = Pet::where('name', $name)->first();
+        
+        if (!$pet) {
+            return response()->json(['error' => 'Pet not found'], 404);
+        }
+        
+        return response()->json([
+            'id' => $pet->id,
+            'name' => $pet->name,
+            'type' => $pet->type,
+            'breed' => $pet->breed,
+            'age' => $pet->age,
+            'gender' => $pet->gender,
+            'is_available' => $pet->is_available
+        ]);
+    }
 
     private function determineAgeCategory($age)
     {
@@ -60,26 +85,6 @@ class PetController extends Controller
         
         // If age is already a category, return lowercase
         return strtolower($age ?? 'adult');
-    }
-
-    private function isUrgent($pet)
-    {
-        // Consider a pet urgent if they've been in shelter for more than 60 days
-        $daysInShelter = $pet->created_at ? now()->diffInDays($pet->created_at) : 0;
-        return $daysInShelter > 60;
-    }
-
-    private function getUrgentReason($pet)
-    {
-        $daysInShelter = $pet->created_at ? now()->diffInDays($pet->created_at) : 0;
-        
-        if ($daysInShelter > 90) {
-            return 'Long Stay';
-        } elseif ($daysInShelter > 60) {
-            return 'Needs Attention';
-        }
-        
-        return null;
     }
 
     private function getImageUrl($pet)

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn More - PawPal</title>
+    <!-- Include Inter font for consistency -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Include Lucide Icons -->
@@ -11,6 +13,175 @@
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
     <!-- Add custom styles -->
     <style>
+        /* CSS Variables for warm pet adoption design - matching Home page */
+        :root {
+            --background: oklch(1 0 0);
+            --foreground: oklch(0.35 0 0);
+            --card: oklch(0.99 0.02 85);
+            --card-foreground: oklch(0.35 0 0);
+            --container-width: min(100% - 2rem, 1200px);
+            --header-height: 3rem;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 4rem;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Main Content Styles */
+        .gradient-bg {
+            background: linear-gradient(to bottom, #f3e8ff, #faf5ff);
+            min-height: 100vh;
+        }
+
+        /* Hero Section - matching Home page scale */
+        .hero-section {
+            padding: 6rem 1rem;
+            background: #f5f6ff;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+            font-family: serif;
+        }
+
+        .hero-content p {
+            font-size: 1.125rem;
+            color: #374151;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Button styles matching Home page */
+        .btn-primary {
+            background: #9333ea;
+            color: white;
+            padding: 0.625rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #7c3aed;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #374151;
+            padding: 0.625rem 1.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .btn-outline:hover {
+            border-color: #9ca3af;
+            background: #f9fafb;
+        }
+
+        /* Section styles */
+        .section {
+            padding: var(--spacing-xl) var(--spacing-md);
+            max-width: var(--container-width);
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1rem;
+            font-family: serif;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Grid layouts */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin: 1rem 0;
+        }
+
+        .card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-section {
+                padding: 4rem 1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+
         .text-balance {
             text-wrap: balance;
         }
@@ -26,53 +197,53 @@
 
   <div class="gradient-bg">
         <!-- Hero Section -->
-        <section class="py-16 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 text-balance">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="text-balance">
                     Everything You Need to Know About Pet Adoption
                 </h1>
-                <p class="text-xl text-gray-600 mb-8 text-pretty">
+                <p class="text-pretty">
                     Discover the joy of giving a rescued pet a loving home. Learn about our adoption process, pet care
                     essentials, and how to prepare for your new furry family member.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg">
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="{{ route('home') }}#pets-section" class="btn-primary">
                         Start Your Adoption Journey
-                        <i data-lucide="arrow-right" class="ml-2 h-4 w-4"></i>
-                    </button>
-                    <button class="px-6 py-3 border border-gray-300 hover:border-gray-400 text-gray-700 font-medium rounded-lg">
+                        <i data-lucide="arrow-right" style="margin-left: 0.5rem; height: 1rem; width: 1rem;"></i>
+                    </a>
+                    <a href="{{ route('home') }}#pets-section" class="btn-outline">
                         Browse Available Pets
-                    </button>
+                    </a>
                 </div>
             </div>
         </section>
 
         <!-- Why Adopt Section -->
-        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Why Choose Adoption?</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        <section style="background: white;">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Why Choose Adoption?</h2>
+                    <p>
                         When you adopt, you're not just gaining a companion—you're saving a life and making room for another pet
                         in need.
                     </p>
                 </div>
 
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-white rounded-lg border p-6 text-center">
-                        <div class="mb-4">
-                            <i data-lucide="heart" class="h-12 w-12 text-red-500 mx-auto"></i>
+                <div class="card-grid">
+                    <div class="card">
+                        <div style="margin-bottom: 1rem;">
+                            <i data-lucide="heart" style="height: 3rem; width: 3rem; color: #ef4444; margin: 0 auto; display: block;"></i>
                         </div>
-                        <h3 class="text-xl font-semibold mb-4">Save a Life</h3>
-                        <p class="text-gray-600">
+                        <h3>Save a Life</h3>
+                        <p>
                             Every year, millions of healthy, loving pets are euthanized due to overcrowding in shelters. Your
                             adoption directly saves a life.
                         </p>
                     </div>
 
-                    <div class="bg-white rounded-lg border p-6 text-center">
-                        <div class="mb-4">
-                            <i data-lucide="home" class="h-12 w-12 text-blue-500 mx-auto"></i>
+                    <div class="card">
+                        <div style="margin-bottom: 1rem;">
+                            <i data-lucide="home" style="height: 3rem; width: 3rem; color: #3b82f6; margin: 0 auto; display: block;"></i>
                         </div>
                         <h3 class="text-xl font-semibold mb-4">Pre-Trained Companions</h3>
                         <p class="text-gray-600">
@@ -81,12 +252,12 @@
                         </p>
                     </div>
 
-                    <div class="bg-white rounded-lg border p-6 text-center">
-                        <div class="mb-4">
-                            <i data-lucide="users" class="h-12 w-12 text-green-500 mx-auto"></i>
+                    <div class="card">
+                        <div style="margin-bottom: 1rem;">
+                            <i data-lucide="users" style="height: 3rem; width: 3rem; color: #10b981; margin: 0 auto; display: block;"></i>
                         </div>
-                        <h3 class="text-xl font-semibold mb-4">Support Your Community</h3>
-                        <p class="text-gray-600">
+                        <h3>Support Your Community</h3>
+                        <p>
                             By adopting, you support local shelter operations and rescue efforts, helping us continue our mission
                             to save more animals in need.
                         </p>
@@ -96,57 +267,49 @@
         </section>
 
         <!-- Adoption Process -->
-        <section class="py-16 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Adoption Process</h2>
-                    <p class="text-lg text-gray-600">
+        <section>
+            <div class="section">
+                <div class="section-header">
+                    <h2>Our Adoption Process</h2>
+                    <p>
                         We've designed a simple, thorough process to ensure the perfect match between pets and families.
                     </p>
                 </div>
 
-                <div class="space-y-8">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
-                                1
-                            </div>
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <div style="width: 2rem; height: 2rem; background: #9333ea; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
+                            1
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Browse & Connect</h3>
-                            <p class="text-gray-600">
+                            <h3 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Browse & Connect</h3>
+                            <p style="color: #6b7280; line-height: 1.6;">
                                 Explore our available pets online or visit our shelter. Use our Pet Matching tool to find companions
                                 that fit your lifestyle.
                             </p>
                         </div>
                     </div>
 
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
-                                2
-                            </div>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <div style="width: 2rem; height: 2rem; background: #9333ea; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
+                            2
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Meet & Greet</h3>
-                            <p class="text-gray-600">
+                            <h3 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Meet & Greet</h3>
+                            <p style="color: #6b7280; line-height: 1.6;">
                                 Schedule a meet-and-greet with your potential new family member. Bring family members and current pets
                                 if applicable.
                             </p>
                         </div>
                     </div>
 
-
-
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
-                                3
-                            </div>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <div style="width: 2rem; height: 2rem; background: #9333ea; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
+                            3
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Welcome Home</h3>
-                            <p class="text-gray-600">
+                            <h3 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Welcome Home</h3>
+                            <p style="color: #6b7280; line-height: 1.6;">
                                 Once approved, finalize the adoption paperwork and take your new companion home!
                             </p>
                         </div>
@@ -156,22 +319,22 @@
         </section>
 
         <!-- Preparation Tips -->
-        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Preparing for Your New Pet</h2>
-                    <p class="text-lg text-gray-600">
+        <section style="background: #f9fafb;">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Preparing for Your New Pet</h2>
+                    <p>
                         Set your new companion up for success with these essential preparation tips.
                     </p>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white rounded-lg border p-6">
-                        <div class="flex items-center mb-4">
-                            <i data-lucide="check-circle" class="h-5 w-5 text-green-500 mr-2"></i>
-                            <h3 class="text-xl font-semibold">Essential Supplies</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+                    <div class="card">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i data-lucide="check-circle" style="height: 1.25rem; width: 1.25rem; color: #10b981; margin-right: 0.5rem;"></i>
+                            <h3 style="margin: 0;">Essential Supplies</h3>
                         </div>
-                        <ul class="space-y-2 text-gray-600">
+                        <ul style="list-style: none; padding: 0; color: #6b7280; line-height: 1.8;">
                             <li>• Food and water bowls</li>
                             <li>• High-quality pet food</li>
                             <li>• Collar with ID tag</li>
@@ -183,12 +346,12 @@
                         </ul>
                     </div>
 
-                    <div class="bg-white rounded-lg border p-6">
-                        <div class="flex items-center mb-4">
-                            <i data-lucide="home" class="h-5 w-5 text-blue-500 mr-2"></i>
-                            <h3 class="text-xl font-semibold">Home Preparation</h3>
+                    <div class="card">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <i data-lucide="home" style="height: 1.25rem; width: 1.25rem; color: #3b82f6; margin-right: 0.5rem;"></i>
+                            <h3 style="margin: 0;">Home Preparation</h3>
                         </div>
-                        <ul class="space-y-2 text-gray-600">
+                        <ul style="list-style: none; padding: 0; color: #6b7280; line-height: 1.8;">
                             <li>• Pet-proof your home</li>
                             <li>• Remove toxic plants and substances</li>
                             <li>• Secure loose wires and small objects</li>
@@ -203,44 +366,46 @@
             </div>
         </section>
 
-    
         <!-- FAQ Section -->
-        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-                    <p class="text-lg text-gray-600">Get answers to common questions about pet adoption and care.</p>
+        <section style="background: white;">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                    <p>Get answers to common questions about pet adoption and care.</p>
                 </div>
 
                 <div class="space-y-6">
-                    <div class="bg-white rounded-lg border p-6">
-                        <h3 class="text-lg font-semibold mb-2">How much does adoption cost?</h3>
-                        <p class="text-gray-600">
+                                    </div>
+
+                <div style="display: grid; gap: 1.5rem;">
+                    <div class="card" style="text-align: left;">
+                        <h3 style="margin-bottom: 0.5rem;">How much does adoption cost?</h3>
+                        <p>
                             Our adoptions are completely free! All pets come spayed/neutered, vaccinated, and microchipped at no
                             cost to you. We believe that financial barriers shouldn't prevent loving families from finding their
                             perfect companion.
                         </p>
                     </div>
 
-                    <div class="bg-white rounded-lg border p-6">
-                        <h3 class="text-lg font-semibold mb-2">What if my new pet doesn't get along with my current pets?</h3>
-                        <p class="text-gray-600">
+                    <div class="card" style="text-align: left;">
+                        <h3 style="margin-bottom: 0.5rem;">What if my new pet doesn't get along with my current pets?</h3>
+                        <p>
                             We offer a trial period and will work with you to ensure a successful integration. Our team provides
                             guidance on proper introductions, and we're always available for support during the adjustment period.
                         </p>
                     </div>
 
-                    <div class="bg-white rounded-lg border p-6">
-                        <h3 class="text-lg font-semibold mb-2">Are shelter pets healthy?</h3>
-                        <p class="text-gray-600">
+                    <div class="card" style="text-align: left;">
+                        <h3 style="margin-bottom: 0.5rem;">Are shelter pets healthy?</h3>
+                        <p>
                             All our pets receive thorough veterinary examinations, vaccinations, and necessary medical treatment
                             before adoption. We provide complete medical histories and ongoing support for any health concerns.
                         </p>
                     </div>
 
-                    <div class="bg-white rounded-lg border p-6">
-                        <h3 class="text-lg font-semibold mb-2">How long does the adoption process take?</h3>
-                        <p class="text-gray-600">
+                    <div class="card" style="text-align: left;">
+                        <h3 style="margin-bottom: 0.5rem;">How long does the adoption process take?</h3>
+                        <p>
                             The process typically takes 1-3 days, depending on application review and scheduling. We prioritize
                             finding the right match over speed, ensuring both you and your new pet will be happy together.
                         </p>
@@ -250,19 +415,19 @@
         </section>
 
         <!-- CTA Section -->
-        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-purple-600">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-3xl font-bold text-white mb-4">Ready to Find Your Perfect Companion?</h2>
-                <p class="text-xl text-purple-100 mb-8">
+        <section style="background: #9333ea; padding: 4rem 1rem;">
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <h2 style="font-size: 2.5rem; font-weight: bold; color: white; margin-bottom: 1rem; font-family: serif;">Ready to Find Your Perfect Companion?</h2>
+                <p style="font-size: 1.125rem; color: #e9d5ff; margin-bottom: 2rem;">
                     Browse our available pets or get matched with your ideal companion today.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button class="px-6 py-3 bg-white text-purple-600 font-medium rounded-lg hover:bg-gray-100">
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="{{ route('home') }}#pets-section" style="padding: 0.625rem 1.5rem; background: white; color: #9333ea; font-weight: 600; border-radius: 0.5rem; text-decoration: none; border: none; transition: all 0.2s;">
                         Browse Available Pets
-                    </button>
-                    <button class="px-6 py-3 border border-white text-white font-medium rounded-lg hover:bg-white hover:text-purple-600">
+                    </a>
+                    <a href="{{ route('home') }}#pets-section" style="padding: 0.625rem 1.5rem; border: 1px solid white; color: white; font-weight: 600; border-radius: 0.5rem; text-decoration: none; background: transparent; transition: all 0.2s;">
                         Try Pet Matching
-                    </button>
+                    </a>
                 </div>
             </div>
         </section>

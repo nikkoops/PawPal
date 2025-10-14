@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Modal Test</title>
+    <style>
+        /* Modal styles copied from adopt.blade.php */
+        .success-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .success-modal-card {
+            background-color: #fff;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            margin: 1rem;
+        }
+
+        .success-modal-content {
+            padding: 2rem;
+        }
+
+        .success-btn-primary {
+            background-color: #10b981;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        /* Add additional styles as needed */
+    </style>
+</head>
+<body>
+    <h1>Modal Testing Page</h1>
+    <button id="testButton">Test Show Modal</button>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="success-modal-overlay">
+        <div class="success-modal-card">
+            <div class="success-modal-content">
+                <h2>Success Modal Test</h2>
+                <p>This is a test modal for <span id="successPetName">Bella</span></p>
+                <p>Thank you for choosing to adopt and give <span id="successPetNameThankYou">Bella</span> a loving home! 💕</p>
+                <button class="success-btn-primary" onclick="closeSuccessModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('testButton').addEventListener('click', showSuccessModal);
+
+        function showSuccessModal() {
+            console.log('Inside showSuccessModal function');
+            document.getElementById('successModal').style.display = 'flex';
+            console.log('Modal should be visible now');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

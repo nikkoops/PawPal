@@ -58,7 +58,12 @@
         <div class="grid lg:grid-cols-2 gap-8">
             <!-- Left Side - Basic Information -->
             <div class="bg-white rounded-lg shadow-sm border border-border p-6 space-y-6">
-                <h2 class="text-2xl font-serif font-bold text-foreground">Basic Information</h2>
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-serif font-bold text-foreground">Basic Information</h2>
+                    <div id="urgency-badge" class="px-3 py-1 text-sm rounded-full font-bold bg-orange-100 text-orange-800 border border-orange-200 {{ $pet->is_urgent ? '' : 'hidden' }}">
+                        🚨 URGENT{{ $pet->is_urgent ? ' (' . $pet->days_in_shelter . ' days)' : '' }}
+                    </div>
+                </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -136,10 +141,10 @@
                 </div>
 
                 <div>
-                    <label for="adoption_fee" class="block text-sm font-medium text-foreground mb-2">Adoption Fee ($)</label>
-                    <input type="number" id="adoption_fee" name="adoption_fee" value="{{ old('adoption_fee', $pet->adoption_fee) }}" min="0" step="0.01"
-                           class="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                           placeholder="0.00">
+                    <label for="date_added" class="block text-sm font-medium text-foreground mb-2">Date Added to Shelter *</label>
+                    <input type="date" id="date_added" name="date_added" value="{{ old('date_added', $pet->date_added ? $pet->date_added->format('Y-m-d') : '') }}" required
+                           class="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                    <p class="text-xs text-muted-foreground mt-1">Pets will be marked as urgent if in shelter for 7+ days</p>
                 </div>
 
                 <div>
@@ -147,13 +152,6 @@
                     <textarea id="description" name="description" rows="3"
                               class="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                               placeholder="Brief description for pet listing">{{ old('description', $pet->description) }}</textarea>
-                </div>
-
-                <div>
-                    <label for="medical_history" class="block text-sm font-medium text-foreground mb-2">Medical History</label>
-                    <textarea id="medical_history" name="medical_history" rows="4"
-                              class="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                              placeholder="Medical history, medications, special needs, etc.">{{ old('medical_history', $pet->medical_history) }}</textarea>
                 </div>
             </div>
 
@@ -166,7 +164,7 @@
                         @if($pet->image)
                             <div>
                                 <p class="text-sm font-medium text-foreground mb-2">Current Photo:</p>
-                                <img src="{{ Storage::url($pet->image) }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-lg">
+                                <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-lg">
                             </div>
                         @endif
                         <div>
@@ -291,5 +289,31 @@
             reader.readAsDataURL(file);
         }
     });
+
+    // Urgency check functionality
+    function checkUrgency() {
+        const dateAddedInput = document.getElementById('date_added');
+        const urgencyBadge = document.getElementById('urgency-badge');
+        
+        if (dateAddedInput.value) {
+            const dateAdded = new Date(dateAddedInput.value);
+            const today = new Date();
+            const diffTime = Math.abs(today - dateAdded);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays >= 7) {
+                urgencyBadge.classList.remove('hidden');
+                urgencyBadge.innerHTML = `🚨 URGENT (${diffDays} days)`;
+            } else {
+                urgencyBadge.classList.add('hidden');
+            }
+        } else {
+            urgencyBadge.classList.add('hidden');
+        }
+    }
+
+    // Check urgency on page load and when date changes
+    document.addEventListener('DOMContentLoaded', checkUrgency);
+    document.getElementById('date_added').addEventListener('change', checkUrgency);
 </script>
 @endsection

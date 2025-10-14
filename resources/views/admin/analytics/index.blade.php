@@ -53,6 +53,43 @@
         padding: 16px;
         border-radius: 8px;
     }
+
+    /* At-Risk table styles (based on provided screenshot) */
+    .compact-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    .compact-table thead th {
+        text-align: left;
+        padding: 12px 8px;
+        color: #374151;
+        font-weight: 600;
+        border-bottom: 1px solid #e6e9ee;
+    }
+
+    .compact-table tbody td {
+        padding: 14px 8px;
+        color: #374151;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    .compact-table tbody tr:hover {
+        background-color: #ffffff;
+    }
+
+    .status-pill {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 9999px;
+        background: #fef3c7;
+        color: #92400e;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .compact-subtitle { color: #6b7280; font-size: 13px; margin-top: 6px; }
 </style>
 
 <div class="max-w-7xl mx-auto space-y-6">
@@ -87,8 +124,57 @@
 
     <!-- Header -->
     <div>
-        <h1 class="text-4xl font-serif font-bold text-gray-800">Analytics</h1>
-        <p class="text-lg text-gray-600 mt-2">Real-time insights and performance metrics for your shelter.</p>
+        <h1 class="text-3xl font-serif font-bold text-foreground">Analytics</h1>
+        <p class="text-muted-foreground mt-1">Real-time insights and performance metrics for your shelter.</p>
+        <div class="analytics-card">
+            <div class="p-4 pb-3">
+                <div class="text-sm font-medium text-gray-600">Shelter Capacities</div>
+            </div>
+            <div class="p-4 pt-0">
+                <div class="space-y-3">
+                    @php
+                        $locations = $analytics['location_capacity'] ?? collect([]);
+                    @endphp
+
+                    @if($locations->isEmpty())
+                        <div class="text-sm text-gray-500">No per-shelter data available.</div>
+                    @else
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th class="text-left py-2 text-gray-600">Shelter</th>
+                                        <th class="text-left py-2 text-gray-600">Current</th>
+                                        <th class="text-left py-2 text-gray-600">Maximum</th>
+                                        <th class="text-left py-2 text-gray-600">% Full</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    @foreach($locations as $loc)
+                                        @php
+                                            $pct = $loc['percent'] ?? ($loc['maximum'] > 0 ? round(($loc['current'] / $loc['maximum']) * 100) : 0);
+                                            $labelClass = $pct <= 75 ? 'status-normal' : ($pct <= 90 ? 'status-high' : 'status-critical');
+                                            $labelText = $pct <= 75 ? 'Normal' : ($pct <= 90 ? 'High' : 'Full');
+                                        @endphp
+                                        <tr>
+                                            <td class="py-2 text-gray-800">{{ $loc['location'] }}</td>
+                                            <td class="py-2 text-gray-600">{{ $loc['current'] }}</td>
+                                            <td class="py-2 text-gray-600">{{ $loc['maximum'] }}</td>
+                                            <td class="py-2">
+                                                <div class="flex items-center justify-between">
+                                                    <div class="text-sm text-gray-600">{{ $pct }}%</div>
+                                                    <div class="status-badge {{ $labelClass }}">{{ $labelText }}</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Overcrowding Alerts -->
@@ -150,7 +236,7 @@
                         <i data-lucide="alert-triangle" class="h-5 w-5 text-orange-600"></i>
                         <span class="text-2xl font-bold text-gray-800">{{ $atRiskPets->count() }}</span>
                     </div>
-                    <p class="text-xs text-gray-500">Pets requiring immediate attention</p>
+                    <p class="compact-subtitle">Pets marked as urgent (7+ days in shelter) and requiring priority attention</p>
                     <div class="space-y-1 pt-2">
                         @foreach($atRiskPets->take(2) as $pet)
                             <div class="flex justify-between text-xs">
@@ -161,6 +247,8 @@
                         @if($atRiskPets->count() == 0)
                             <div class="text-xs text-gray-500">No pets at risk currently</div>
                         @endif
+
+                        <!-- Detailed table removed; summary retained -->
                     </div>
                 </div>
             </div>
@@ -176,8 +264,8 @@
                     @php
                         $avgStay = $atRiskPets->avg('daysInShelter') ?: 0;
                         $avgStay = round($avgStay);
-                        $dogAvg = $atRiskPets->where('type', 'Dog')->avg('daysInShelter') ?: 0;
-                        $catAvg = $atRiskPets->where('type', 'Cat')->avg('daysInShelter') ?: 0;
+                        $dogAvg = round($atRiskPets->where('type', 'Dog')->avg('daysInShelter') ?: 0);
+                        $catAvg = round($atRiskPets->where('type', 'Cat')->avg('daysInShelter') ?: 0);
                     @endphp
                     <div class="flex items-center gap-2">
                         <i data-lucide="clock" class="h-5 w-5 text-purple-600"></i>
@@ -191,8 +279,8 @@
                         <span class="text-green-600">Monitoring trends</span>
                     </div>
                     <div class="text-xs text-gray-500 pt-2 border-t border-gray-200">
-                        Dogs: {{ round($dogAvg) ?: 'N/A' }}{{ $dogAvg > 0 ? 'd' : '' }} • 
-                        Cats: {{ round($catAvg) ?: 'N/A' }}{{ $catAvg > 0 ? 'd' : '' }}
+                        Dogs: {{ $dogAvg ?: 'N/A' }}{{ $dogAvg > 0 ? 'd' : '' }} • 
+                        Cats: {{ $catAvg ?: 'N/A' }}{{ $catAvg > 0 ? 'd' : '' }}
                     </div>
                 </div>
             </div>
@@ -298,42 +386,7 @@
         </div>
     </div>
 
-    <!-- At-Risk Pets Section -->
-    @if($atRiskPets->count() > 0)
-    <div class="analytics-card">
-        <div class="p-4 pb-3">
-            <h3 class="text-lg font-semibold text-gray-800">Pets Requiring Attention</h3>
-        </div>
-        <div class="p-4 pt-0">
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b border-gray-200">
-                            <th class="text-left py-2 text-gray-600">Name</th>
-                            <th class="text-left py-2 text-gray-600">Type</th>
-                            <th class="text-left py-2 text-gray-600">Days in Shelter</th>
-                            <th class="text-left py-2 text-gray-600">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        @foreach($atRiskPets as $pet)
-                            <tr>
-                                <td class="py-2 text-gray-800">{{ $pet['name'] }}</td>
-                                <td class="py-2 text-gray-600">{{ $pet['type'] }}</td>
-                                <td class="py-2 text-gray-600">{{ $pet['daysInShelter'] }}</td>
-                                <td class="py-2">
-                                    <span class="status-badge {{ $pet['daysInShelter'] > 90 ? 'status-critical' : 'status-high' }}">
-                                        {{ $pet['daysInShelter'] > 90 ? 'Critical' : 'Long Stay' }}
-                                    </span>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    @endif
+    <!-- Duplicate At-Risk Pets Details removed: summary card (At-Risk Pets) above is retained -->
 
     <!-- Charts Row -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -536,27 +589,40 @@
                     At-Risk Pets Details
                 </h3>
                 <p class="text-sm text-gray-600 mt-1">
-                    Animals requiring immediate attention due to long stays or special needs
+                    Pets marked as urgent (7+ days in shelter) and requiring priority attention
                 </p>
             </div>
             
             <div class="space-y-4">
                 @foreach($atRiskPets as $pet)
-                    <div class="flex items-center justify-between p-4 rounded-lg bg-gray-50 border border-gray-200">
+                    <div class="flex items-center justify-between p-4 rounded-lg {{ $pet['is_urgent'] ? 'bg-red-50 border-red-200 border-2' : 'bg-gray-50 border-gray-200' }} border">
                         <div class="flex items-center gap-3">
-                            <i data-lucide="heart" class="h-5 w-5 text-gray-600"></i>
+                            @if($pet['is_urgent'])
+                                <i data-lucide="alert-triangle" class="h-5 w-5 text-red-600"></i>
+                            @else
+                                <i data-lucide="heart" class="h-5 w-5 text-gray-600"></i>
+                            @endif
                             <div>
-                                <p class="font-medium text-gray-800">{{ $pet['name'] }}</p>
-                                <p class="text-sm text-gray-600">
-                                    {{ $pet['type'] }} • {{ $pet['daysInShelter'] }} days in shelter
+                                <p class="font-medium {{ $pet['is_urgent'] ? 'text-red-800' : 'text-gray-800' }}">
+                                    <a href="{{ route('admin.pets.edit', $pet['id']) }}" class="hover:underline">
+                                        {{ $pet['name'] }}
+                                    </a>
+                                    @if($pet['is_urgent'])
+                                        <span class="text-red-600 text-sm">🚨</span>
+                                    @endif
+                                </p>
+                                <p class="text-sm {{ $pet['is_urgent'] ? 'text-red-600' : 'text-gray-600' }}">
+                                    {{ ucfirst($pet['type']) }} • {{ $pet['daysInShelter'] }} days in shelter
                                 </p>
                             </div>
                         </div>
                         <div class="text-right">
-                            <span class="status-badge status-critical mb-1">
+                            <span class="status-badge {{ $pet['is_urgent'] ? 'status-critical' : 'status-high' }} mb-1">
                                 {{ $pet['reason'] }}
                             </span>
-                            <p class="text-xs text-gray-600">Needs attention</p>
+                            <p class="text-xs {{ $pet['is_urgent'] ? 'text-red-600' : 'text-gray-600' }}">
+                                {{ $pet['is_urgent'] ? 'URGENT - Needs immediate attention' : 'Needs attention' }}
+                            </p>
                         </div>
                     </div>
                 @endforeach

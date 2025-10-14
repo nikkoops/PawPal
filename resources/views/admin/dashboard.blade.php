@@ -5,69 +5,61 @@
 @section('content')
 <div class="space-y-8">
     <!-- Header -->
-    <div>
-        <h1 class="text-4xl font-serif font-bold text-foreground">Dashboard</h1>
-        <p class="text-lg text-muted-foreground mt-2">Welcome back! Here's what's happening at PawPal today.</p>
+    <div class="section-header">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Welcome back! Here's what's happening at PawPal today.</p>
     </div>
 
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border hover:shadow-xl transition-all duration-200">
-            <div class="p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-muted-foreground">Total Pets</p>
-                        <p class="text-3xl font-bold text-foreground mt-2">{{ $stats['total_pets'] ?? 127 }}</p>
-                        <p class="text-sm text-green-600 mt-1">+12 this month</p>
-                    </div>
-                    <div class="p-3 rounded-full bg-primary/10">
-                        <i data-lucide="heart" class="h-6 w-6 text-primary"></i>
-                    </div>
+        <div class="stats-card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="stats-label">Total Pets</p>
+                    <p class="stats-number">{{ $stats['total_pets'] ?? 127 }}</p>
+                    <p class="text-sm text-green-600 mt-1">+12 this month</p>
+                </div>
+                <div class="p-3 rounded-full bg-primary/10">
+                    <i data-lucide="heart" class="h-6 w-6 text-primary"></i>
                 </div>
             </div>
         </div>
 
-        <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border hover:shadow-xl transition-all duration-200">
-            <div class="p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-muted-foreground">Pending Applications</p>
-                        <p class="text-3xl font-bold text-foreground mt-2">{{ $stats['pending_applications'] ?? 23 }}</p>
-                        <p class="text-sm text-green-600 mt-1">+5 today</p>
-                    </div>
-                    <div class="p-3 rounded-full bg-orange-100">
-                        <i data-lucide="file-text" class="h-6 w-6 text-orange-600"></i>
-                    </div>
+        <div class="stats-card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="stats-label">Pending Applications</p>
+                    <p class="stats-number">{{ $stats['pending_applications'] ?? 23 }}</p>
+                    <p class="text-sm text-green-600 mt-1">+5 today</p>
+                </div>
+                <div class="p-3 rounded-full bg-orange-100">
+                    <i data-lucide="file-text" class="h-6 w-6 text-orange-600"></i>
                 </div>
             </div>
         </div>
 
-        <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border hover:shadow-xl transition-all duration-200">
-            <div class="p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-muted-foreground">Successful Adoptions</p>
-                        <p class="text-3xl font-bold text-foreground mt-2">{{ $stats['approved_applications'] ?? 89 }}</p>
-                        <p class="text-sm text-green-600 mt-1">+8 this month</p>
-                    </div>
-                    <div class="p-3 rounded-full bg-green-100">
-                        <i data-lucide="users" class="h-6 w-6 text-green-600"></i>
-                    </div>
+        <div class="stats-card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="stats-label">Successful Adoptions</p>
+                    <p class="stats-number">{{ $stats['approved_applications'] ?? 89 }}</p>
+                    <p class="text-sm text-green-600 mt-1">+8 this month</p>
+                </div>
+                <div class="p-3 rounded-full bg-green-100">
+                    <i data-lucide="check-circle" class="h-6 w-6 text-green-600"></i>
                 </div>
             </div>
         </div>
 
-        <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border hover:shadow-xl transition-all duration-200">
-            <div class="p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-muted-foreground">Adoption Rate</p>
-                        <p class="text-3xl font-bold text-foreground mt-2">73%</p>
-                        <p class="text-sm text-green-600 mt-1">+5% vs last month</p>
-                    </div>
-                    <div class="p-3 rounded-full bg-primary/10">
-                        <i data-lucide="trending-up" class="h-6 w-6 text-primary"></i>
-                    </div>
+        <div class="stats-card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="stats-label">Adoption Rate</p>
+                    <p class="stats-number">73%</p>
+                    <p class="text-sm text-green-600 mt-1">+5% vs last month</p>
+                </div>
+                <div class="p-3 rounded-full bg-primary/10">
+                    <i data-lucide="trending-up" class="h-6 w-6 text-primary"></i>
                 </div>
             </div>
         </div>
@@ -75,14 +67,14 @@
 
     <div class="grid lg:grid-cols-2 gap-8">
         <!-- Recent Activity -->
-        <div class="bg-card/95 backdrop-blur-sm rounded-lg border border-border">
-            <div class="p-6 border-b border-border">
-                <h3 class="text-lg font-serif font-semibold text-foreground flex items-center space-x-2">
+        <div class="card">
+            <div class="border-b border-border pb-4 mb-6">
+                <h3 class="text-lg font-semibold text-foreground flex items-center space-x-2">
                     <i data-lucide="clock" class="h-5 w-5"></i>
                     <span>Recent Activity</span>
                 </h3>
             </div>
-            <div class="p-6 space-y-4">
+            <div class="space-y-4">
                 @if(isset($stats['recent_applications']) && $stats['recent_applications']->count() > 0)
                     @foreach($stats['recent_applications'] as $application)
                         <div class="flex items-center space-x-4 p-3 rounded-lg bg-muted/50">

@@ -44,11 +44,6 @@ class AdoptionApplication extends Model
         return $query->where('status', 'pending');
     }
 
-    public function scopeUnderReview($query)
-    {
-        return $query->where('status', 'under_review');
-    }
-
     public function scopeApproved($query)
     {
         return $query->where('status', 'approved');
@@ -57,5 +52,46 @@ class AdoptionApplication extends Model
     public function scopeRejected($query)
     {
         return $query->where('status', 'rejected');
+    }
+
+    // Helper methods to access form data from JSON answers field
+    public function getFirstNameAttribute()
+    {
+        return $this->answers['firstName'] ?? null;
+    }
+
+    public function getLastNameAttribute()
+    {
+        return $this->answers['lastName'] ?? null;
+    }
+
+    public function getEmailAttribute()
+    {
+        return $this->answers['email'] ?? null;
+    }
+
+    public function getPhoneAttribute()
+    {
+        return $this->answers['phone'] ?? null;
+    }
+
+    public function getAddressAttribute()
+    {
+        return $this->answers['address'] ?? null;
+    }
+
+    public function getBirthDateAttribute()
+    {
+        return $this->answers['birthDate'] ?? null;
+    }
+
+    public function getOccupationAttribute()
+    {
+        return $this->answers['occupation'] ?? null;
+    }
+
+    public function getCompanyAttribute()
+    {
+        return $this->answers['company'] ?? null;
     }
 }

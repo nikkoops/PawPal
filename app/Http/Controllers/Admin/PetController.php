@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Storage;
 
 class PetController extends Controller
 {
+    /**
+     * Display a listing of pets with filtering capabilities.
+     * 
+     * Enhanced with location filtering to match the adoption site experience.
+     * Provides real-time filtering by type, availability status, and location.
+     * 
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $query = Pet::query();
@@ -23,9 +32,22 @@ class PetController extends Controller
             $query->where('is_available', $request->get('availability') === 'available');
         }
 
-        $pets = $query->orderBy('created_at', 'desc')->paginate(12);
+        // Add location filter
+        if ($request->has('location') && $request->get('location') !== '') {
+            $query->where('location', $request->get('location'));
+        }
 
-        return view('admin.pets.index', compact('pets'));
+        $pets = $query->orderBy('created_at', 'desc')->paginate(12);
+        
+        // Get unique locations for the filter dropdown
+        $locations = Pet::whereNotNull('location')
+            ->where('location', '!=', '')
+            ->distinct()
+            ->pluck('location')
+            ->sort()
+            ->values();
+
+        return view('admin.pets.index', compact('pets', 'locations'));
     }
 
     public function create()
@@ -198,6 +220,9 @@ class PetController extends Controller
     /**
      * Filter pets via AJAX
      */
+    /**
+     * Filter pets via AJAX - Enhanced with location filtering
+     */
     public function filter(Request $request)
     {
         $query = Pet::query();
@@ -210,6 +235,11 @@ class PetController extends Controller
 
         if ($request->has('availability') && $request->get('availability') !== '') {
             $query->where('is_available', $request->get('availability') === 'available');
+        }
+
+        // Add location filter - matches adoption site filtering logic
+        if ($request->has('location') && $request->get('location') !== '') {
+            $query->where('location', $request->get('location'));
         }
 
         $pets = $query->orderBy('created_at', 'desc')->paginate(12);

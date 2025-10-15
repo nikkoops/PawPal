@@ -5,8 +5,8 @@
                 <div class="relative">
                     <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-t-lg">
                     
-                    @if(config('app.debug'))
-                        <!-- Debug info, remove in production -->
+                    {{-- Debug overlay commented out to clean up admin interface --}}
+                    {{-- @if(config('app.debug'))
                         <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 text-center">
                             @if($pet->image && $pet->imageFileExists())
                                 Image: {{ $pet->image }} (File exists)
@@ -16,7 +16,7 @@
                                 No image (Using default)
                             @endif
                         </div>
-                    @endif
+                    @endif --}}
                     
                     <span class="absolute top-2 right-2 px-3 py-1 text-sm rounded-full font-semibold {{ $pet->is_available ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' }}">
                         {{ $pet->is_available ? '✓ Available' : '🏠 Adopted' }}

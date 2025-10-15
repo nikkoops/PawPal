@@ -9,6 +9,11 @@ class PetSeeder extends Seeder
 {
     public function run()
     {
+        // DEMO PETS REMOVED - This seeder has been disabled to prevent auto-loading of demo pets
+        // The following pets (Max, Bella, Charlie, Rocky, Milo, Whiskers) will no longer be automatically created
+        // To re-enable demo pets, uncomment the code below and add PetSeeder::class back to DatabaseSeeder
+        
+        /*
         $pets = [
             [
                 'name' => 'Max',
@@ -107,5 +112,8 @@ class PetSeeder extends Seeder
         foreach ($pets as $petData) {
             Pet::create($petData);
         }
+        */
+        
+        echo "PetSeeder skipped - No demo pets created to keep database clean.\n";
     }
 }

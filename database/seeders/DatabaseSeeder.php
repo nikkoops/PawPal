@@ -14,9 +14,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            PetSeeder::class,
-            FormQuestionSeeder::class,
-            AdoptionApplicationSeeder::class,
+            // PetSeeder::class, // Commented out to prevent demo pets from auto-loading
+            // FormQuestionSeeder::class, // Temporarily commented out due to missing table
+            // AdoptionApplicationSeeder::class, // Temporarily commented out due to missing table
+            AdminUserSeeder::class, // Keep admin user seeder for authentication
         ]);
     }
 }

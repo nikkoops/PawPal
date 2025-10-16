@@ -14,20 +14,16 @@ class AnalyticsController extends Controller
     // Store the current user's shelter location for filtering
     protected $userLocation = null;
 
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            $user = auth()->user();
-            if ($user && $user->hasShelterLocation()) {
-                $this->userLocation = $user->shelter_location;
-            }
-            return $next($request);
-        });
-    }
-
     public function index()
     {
         try {
+            // Set user location for filtering
+            $user = auth()->user();
+            if ($user && method_exists($user, 'hasShelterLocation') && $user->hasShelterLocation()) {
+                $this->userLocation = $user->shelter_location;
+            } elseif ($user && isset($user->shelter_location)) {
+                $this->userLocation = $user->shelter_location;
+            }
             $analytics = [
                 'overview' => $this->getOverviewStats(),
                 'capacity' => $this->getCapacityData(),
@@ -36,6 +32,7 @@ class AnalyticsController extends Controller
                 'at_risk_pets' => $this->getAtRiskPets(),
                 'adoption_trends' => $this->getAdoptionTrends(),
                 'length_of_stay' => $this->getLengthOfStayData(),
+                'avg_length_of_stay' => $this->getAverageLengthOfStay(),
                 'pet_types' => $this->getPetTypeStats(),
                 'application_status' => $this->getApplicationStatusStats(),
                 'monthly_registrations' => $this->getMonthlyRegistrations(),
@@ -65,6 +62,7 @@ class AnalyticsController extends Controller
                 'at_risk_pets' => collect([]),
                 'adoption_trends' => collect([]),
                 'length_of_stay' => collect([]),
+                'avg_length_of_stay' => ['overall' => 0, 'dogs' => 0, 'cats' => 0],
                 'pet_types' => collect([]),
                 'application_status' => collect([]),
                 'monthly_registrations' => collect([]),
@@ -72,7 +70,9 @@ class AnalyticsController extends Controller
             ];
         }
 
-        return view('admin.analytics.index', compact('analytics'));
+        // Use shelter-specific view for shelter admins
+        $view = $this->userLocation ? 'admin.analytics.shelter-index' : 'admin.analytics.index';
+        return view($view, compact('analytics'));
     }
 
     private function getOverviewStats()
@@ -217,9 +217,33 @@ class AnalyticsController extends Controller
             $dogs = (clone $petQuery)->where('is_available', true)->where('type', 'Dog')->count();
             $cats = (clone $petQuery)->where('is_available', true)->where('type', 'Cat')->count();
             
-            // Derive maximum capacity from location capacities when possible
-            $locationCaps = $this->getLocationCapacityData();
-            $maxCapacity = $locationCaps->sum('maximum') ?: 180;
+            // Define shelter capacities
+            $capacityMap = [
+                'Manila Shelter' => 30,
+                'Quezon City Shelter' => 40,
+                'Caloocan Shelter' => 25,
+                'Las Piñas Shelter' => 20,
+                'Makati Shelter' => 25,
+                'Malabon Shelter' => 18,
+                'Mandaluyong Shelter' => 22,
+                'Marikina Shelter' => 20,
+                'Muntinlupa Shelter' => 18,
+                'Navotas Shelter' => 16,
+                'Parañaque Shelter' => 24,
+                'Pasay Shelter' => 20,
+                'Pasig Shelter' => 28,
+                'San Juan Shelter' => 26,
+                'Taguig Shelter' => 30,
+                'Valenzuela Shelter' => 20,
+            ];
+            
+            // If location filter is active, use that specific shelter's capacity
+            if ($this->userLocation && isset($capacityMap[$this->userLocation])) {
+                $maxCapacity = $capacityMap[$this->userLocation];
+            } else {
+                // For system admins (no location filter), sum all capacities
+                $maxCapacity = array_sum($capacityMap);
+            }
             
             return [
                 'current' => $totalPets,
@@ -463,8 +487,55 @@ class AnalyticsController extends Controller
         }
     }
 
+    private function getAverageLengthOfStay()
+    {
+        try {
+            $query = $this->applyLocationFilter(Pet::query());
+            $pets = $query->where('is_available', true)->get();
+            
+            if ($pets->isEmpty()) {
+                return ['overall' => 0, 'dogs' => 0, 'cats' => 0];
+            }
+            
+            $totalDays = 0;
+            $dogDays = 0;
+            $catDays = 0;
+            $dogCount = 0;
+            $catCount = 0;
+            
+            foreach ($pets as $pet) {
+                $days = floor(now()->diffInDays($pet->created_at));
+                $totalDays += $days;
+                
+                if (strtolower($pet->type) === 'dog') {
+                    $dogDays += $days;
+                    $dogCount++;
+                } elseif (strtolower($pet->type) === 'cat') {
+                    $catDays += $days;
+                    $catCount++;
+                }
+            }
+            
+            return [
+                'overall' => $pets->count() > 0 ? round($totalDays / $pets->count()) : 0,
+                'dogs' => $dogCount > 0 ? round($dogDays / $dogCount) : 0,
+                'cats' => $catCount > 0 ? round($catDays / $catCount) : 0,
+            ];
+        } catch (\Exception $e) {
+            return ['overall' => 0, 'dogs' => 0, 'cats' => 0];
+        }
+    }
+
     public function export(Request $request)
     {
+        // Set user location for filtering
+        $user = auth()->user();
+        if ($user && method_exists($user, 'hasShelterLocation') && $user->hasShelterLocation()) {
+            $this->userLocation = $user->shelter_location;
+        } elseif ($user && isset($user->shelter_location)) {
+            $this->userLocation = $user->shelter_location;
+        }
+        
         $type = $request->get('type', 'applications');
         
         switch ($type) {

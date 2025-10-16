@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Pet extends Model
 {
@@ -99,7 +100,7 @@ class Pet extends Model
     }
     
     /**
-     * Check if the image file actually exists
+     * Verify image file exists in public directory
      */
     public function imageFileExists()
     {
@@ -107,23 +108,7 @@ class Pet extends Model
             return false;
         }
         
-        $path = storage_path('app/public/' . $this->image);
-        return file_exists($path);
-    }
-    
-    /**
-     * Get the default image based on pet type
-     */
-    public function getDefaultImageUrl()
-    {
-        $type = strtolower($this->type ?? 'unknown');
-        if ($type === 'dog') {
-            return asset('images/default-dog.jpg');
-        } elseif ($type === 'cat') {
-            return asset('images/default-cat.jpg');
-        } else {
-            return asset('images/default-pet.jpg');
-        }
+        return file_exists(public_path($this->image));
     }
     
     /**
@@ -131,40 +116,16 @@ class Pet extends Model
      */
     public function getImageUrlAttribute()
     {
-        // If no image, return default
         if (!$this->image) {
-            return $this->getDefaultImageUrl();
+            return null;
         }
+
+        // Generate clean URL without double slashes
+        // Remove 'pets/' prefix if it exists since we'll add it
+        $imagePath = str_replace('pets/', '', $this->image);
         
-        // If file doesn't exist physically, return default
-        if (!$this->imageFileExists()) {
-            return $this->getDefaultImageUrl();
-        }
-        
-        // Try to encode the image as base64 if we're having URL issues
-        try {
-            $imagePath = storage_path('app/public/' . $this->image);
-            if (file_exists($imagePath) && filesize($imagePath) < 1048576) { // Less than 1MB for performance
-                $imageData = base64_encode(file_get_contents($imagePath));
-                return 'data:image/png;base64,' . $imageData;
-            }
-        } catch (\Exception $e) {
-            // If base64 encoding fails, continue to URL approach
-            \Illuminate\Support\Facades\Log::warning('Failed to base64 encode image: ' . $e->getMessage());
-        }
-        
-        // Check if image already contains full URL or path
-        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
-            return $this->image;
-        }
-        
-        // Check if image starts with 'storage/' or not
-        if (strpos($this->image, 'storage/') === 0) {
-            return asset($this->image);
-        }
-        
-        // Otherwise, use asset helper to get URL
-        return asset('storage/' . $this->image);
+        // Build URL with proper formatting
+        return url('storage/pets/' . $imagePath);
     }
 
     /**

@@ -103,49 +103,27 @@ class PetController extends Controller
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             try {
-                // Create pets directory if it doesn't exist
-                if (!is_dir(storage_path('app/public/pets'))) {
-                    mkdir(storage_path('app/public/pets'), 0755, true);
-                }
-                
-                // Store the image with a more reliable approach
                 $file = $request->file('image');
                 $filename = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $path = 'pets/' . $filename;
-                $fullPath = storage_path('app/public/' . $path);
                 
-                // Move the file to the storage location
-                if ($file->move(storage_path('app/public/pets'), $filename)) {
-                    // Double check file was saved
-                    if (file_exists($fullPath)) {
-                        // Set the image path in the data array
-                        $data['image'] = $path;
-                        
-                        // Also copy to public directory as a fallback
-                        if (!is_dir(public_path('images/pets'))) {
-                            mkdir(public_path('images/pets'), 0755, true);
-                        }
-                        copy($fullPath, public_path('images/pets/' . $filename));
-                        
-                        // Log for debugging
-                        \Illuminate\Support\Facades\Log::info('Pet image uploaded successfully', [
-                            'original_name' => $file->getClientOriginalName(),
-                            'stored_path' => $path,
-                            'full_path' => $fullPath,
-                            'file_exists' => file_exists($fullPath),
-                            'file_size' => filesize($fullPath)
-                        ]);
-                    } else {
-                        \Illuminate\Support\Facades\Log::error('File moved but not found afterward', [
-                            'path' => $fullPath
-                        ]);
-                    }
-                } else {
-                    \Illuminate\Support\Facades\Log::error('Failed to move uploaded file', [
-                        'from' => $file->getPathname(),
-                        'to' => $fullPath
-                    ]);
+                // Store in storage/app/public/pets first
+                $path = $file->storePublicly('pets', 'public');
+                $data['image'] = $path; // This will be like 'pets/filename.jpg'
+                
+                // Ensure public directory exists
+                if (!is_dir(public_path('storage/pets'))) {
+                    mkdir(public_path('storage/pets'), 0755, true);
                 }
+                
+                // Copy to public/storage/pets for immediate access
+                copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+                
+                \Illuminate\Support\Facades\Log::info('Pet image uploaded successfully', [
+                    'original_name' => $file->getClientOriginalName(),
+                    'stored_path' => $path,
+                    'storage_exists' => file_exists(storage_path('app/public/' . $path)),
+                    'public_exists' => file_exists(public_path('storage/' . $path))
+                ]);
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error('Error uploading pet image', [
                     'error' => $e->getMessage(),

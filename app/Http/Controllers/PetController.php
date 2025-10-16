@@ -89,29 +89,8 @@ class PetController extends Controller
 
     private function getImageUrl($pet)
     {
-        // If pet has an image stored, use it
-        if ($pet->image) {
-            // Check if it's a full URL or a storage path
-            if (str_starts_with($pet->image, 'http')) {
-                return $pet->image;
-            } else {
-                return asset('storage/' . $pet->image);
-            }
-        }
-        
-        // Otherwise use default images based on type
-        return $this->getDefaultImage($pet->type);
-    }
-
-    private function getDefaultImage($type)
-    {
-        $defaultImages = [
-            'dog' => 'images/golden-retriever-puppy-happy-face.png',
-            'cat' => 'images/orange-tabby-kitten-cute-expression.png',
-            'other' => 'images/placeholder-pet.jpg',
-        ];
-
-        return asset($defaultImages[strtolower($type)] ?? $defaultImages['other']);
+        // Use the Pet model's image_url accessor for consistent URL generation
+        return $pet->image_url;
     }
 
     private function getLocation($pet)

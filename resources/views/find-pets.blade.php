@@ -362,7 +362,35 @@
       </div>
 
       <!-- Pets Grid -->
-      <div id="pets-grid" class="pets-grid"></div>
+      <div id="pets-grid" class="pets-grid">
+        @forelse($pets as $pet)
+          <div class="pet-card" data-name="{{ $pet->name }}" data-type="{{ strtolower($pet->type) }}" data-age="{{ $pet->age_category ?? 'adult' }}" data-location="{{ $pet->location }}">
+            <div class="pet-image">
+              <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-t-lg" />
+              @if($pet->is_urgent)
+                <div class="urgent-badge">🚨 Urgent: {{ $pet->days_in_shelter }} days</div>
+              @endif
+            </div>
+            <div class="pet-info">
+              <div class="pet-header">
+                <h4 class="pet-name">{{ $pet->name }}</h4>
+                <span class="pet-type">{{ ucfirst($pet->type) }}</span>
+              </div>
+              <p class="pet-details">
+                {{ ucfirst($pet->age_display ?? $pet->age) }} • {{ ucfirst($pet->size ?? 'Unknown size') }} • {{ $pet->location }}
+              </p>
+              <p class="pet-description">{{ $pet->description }}</p>
+              <div class="pet-extra-info" style="font-size: 0.85rem; color: #6b7280; margin: 0.5rem 0;">
+                {{ $pet->days_in_shelter > 0 ? $pet->days_in_shelter . ' days in shelter' : 'New arrival' }}
+                {{ $pet->breed ? ' • ' . $pet->breed : '' }}
+              </div>
+              <button class="meet-btn" onclick="window.location.href='{{ url('/adopt?pet=' . urlencode($pet->name)) }}'">Meet {{ $pet->name }}</button>
+            </div>
+          </div>
+        @empty
+          <div class="no-pets-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #6b7280; font-size: 1.1rem;">No pets available for adoption at this time.</div>
+        @endforelse
+      </div>
     </section>
   </main>
 
@@ -414,153 +442,63 @@
     </div>
   </footer>
 
+  @php
+    use App\Models\Pet;
+    $pets = Pet::where('is_available', true)->orderBy('created_at', 'desc')->get();
+  @endphp
+
   <script>
-    const pets = [
-      {
-        id: 1,
-        name: "Max",
-        type: "dog",
-        age: "adult",
-        size: "large",
-        location: "Quezon City",
-        description: "Max is a friendly, energetic Golden Retriever looking for an active family. He's been with us for 15 days and loves playing fetch!",
-        image: "images/golden-retriever-puppy-happy-face.png",
-        urgent: false,
-      },
-      {
-        id: 2,
-        name: "Bella",
-        type: "dog",
-        age: "senior",
-        size: "medium",
-        location: "Makati",
-        description: "Bella, from Makati, has been with us for 28 days. This gentle senior dog has so much love to give and would thrive in a calm home.",
-        image: "images/white-and-brown-senior-dog-gentle-expression.png",
-        urgent: true,
-      },
-      {
-        id: 3,
-        name: "Charlie",
-        type: "dog",
-        age: "adult",
-        size: "medium",
-        location: "Manila",
-        description: "Charlie is an energetic and friendly dog from Manila. He's been waiting 12 days for his forever home!",
-        image: "images/brown-dog-with-blue-collar-smiling.png",
-        urgent: false,
-      },
-      {
-        id: 4,
-        name: "Rocky",
-        type: "dog",
-        age: "senior",
-        size: "large",
-        location: "Pasig",
-        description: "Rocky is a wise, gentle senior dog from Pasig who's been with us for 31 days. He enjoys quiet walks and cozy naps.",
-        image: "images/senior-dog-with-gray-muzzle-loyal-expression.jpg",
-        urgent: true,
-      },
-      {
-        id: 5,
-        name: "Luna",
-        type: "cat",
-        age: "adult",
-        size: "small",
-        location: "Taguig",
-        description: "Luna is a beautiful, independent cat from Taguig. She's been here 18 days and is looking for a quiet home where she can be the queen.",
-        image: "images/tabby-cat-with-green-eyes-alert.png",
-        urgent: false,
-      },
-      {
-        id: 6,
-        name: "Milo",
-        type: "cat",
-        age: "puppy",
-        size: "small",
-        location: "Muntinlupa",
-        description: "Milo is a playful kitten from Muntinlupa who's been with us 8 days. He's full of energy and ready to bring joy to his new family!",
-        image: "images/orange-and-white-kitten-playful-expression.png",
-        urgent: false,
-      },
-      {
-        id: 7,
-        name: "Shadow",
-        type: "cat",
-        age: "adult",
-        size: "medium",
-        location: "Parañaque",
-        description: "Shadow is a calm, affectionate cat from Parañaque. After 22 days with us, he's ready to find a loving family.",
-        image: "images/black-and-white-cat-sitting-on-wooden-surface.png",
-        urgent: false,
-      },
-      {
-        id: 8,
-        name: "Oliver",
-        type: "cat",
-        age: "senior",
-        size: "medium",
-        location: "San Juan",
-        description: "Oliver, from San Juan, has been at the shelter 43 days. Calm and graceful, he's perfect for a quiet, loving home.",
-        image: "images/orange-and-white-senior-cat-calm-expression.png",
-        urgent: false,
-      },
-    ];
-
-    function renderPets(petsToRender = pets) {
-      const grid = document.getElementById('pets-grid');
-      grid.innerHTML = '';
-      
-      petsToRender.forEach(pet => {
-        const petCard = document.createElement('div');
-        petCard.className = 'pet-card';
-        petCard.innerHTML = `
-          <div class="pet-image">
-            <img src="${pet.image}" alt="${pet.name}" onerror="this.src='images/placeholder-pet.jpg'">
-            ${pet.urgent ? '<div class="urgent-badge">🚨 Urgent: Adopt this week</div>' : ''}
-          </div>`
-          <div class="pet-info">
-            <div class="pet-header">
-              <h4 class="pet-name">${pet.name}</h4>
-              <span class="pet-type">${pet.type.charAt(0).toUpperCase() + pet.type.slice(1)}</span>
-            </div>
-            <p class="pet-details">
-              ${pet.age.charAt(0).toUpperCase() + pet.age.slice(1)} • ${pet.location}
-            </p>
-            <p class="pet-description">${pet.description}</p>
-            <button class="meet-btn" onclick="meetPet(${pet.id}, '${pet.name}')">Meet ${pet.name}</button>
-          </div>
-        `;
-        grid.appendChild(petCard);
-      });
-    }
-
     function filterPets() {
       const searchTerm = document.getElementById('search-input').value.toLowerCase();
       const typeFilter = document.getElementById('type-filter').value;
       const ageFilter = document.getElementById('age-filter').value;
       const locationFilter = document.getElementById('location-filter').value;
 
-      const filteredPets = pets.filter(pet => {
-        const matchesSearch = pet.name.toLowerCase().includes(searchTerm) || 
-                            pet.description.toLowerCase().includes(searchTerm);
-        const matchesType = !typeFilter || pet.type === typeFilter;
-        const matchesAge = !ageFilter || pet.age === ageFilter;
-        const matchesLocation = !locationFilter || pet.location === locationFilter;
-
-        return matchesSearch && matchesType && matchesAge && matchesLocation;
+      document.querySelectorAll('.pet-card').forEach(card => {
+        const name = card.getAttribute('data-name').toLowerCase();
+        const type = card.getAttribute('data-type');
+        const age = card.getAttribute('data-age');
+        const location = card.getAttribute('data-location');
+        const matchesSearch = name.includes(searchTerm);
+        const matchesType = !typeFilter || type === typeFilter;
+        const matchesAge = !ageFilter || age === ageFilter;
+        const matchesLocation = !locationFilter || location === locationFilter;
+        card.style.display = (matchesSearch && matchesType && matchesAge && matchesLocation) ? '' : 'none';
       });
-
-      renderPets(filteredPets);
     }
-
-    function meetPet(petId, petName) {
-      alert(`Great choice! You'd like to meet ${petName}. In a real application, this would redirect to the adoption application page for pet ID ${petId}.`);
-    }
-
-    // Initialize pets display
-    document.addEventListener('DOMContentLoaded', function() {
-      renderPets();
-    });
+    document.addEventListener('DOMContentLoaded', filterPets);
   </script>
+
+  <div id="pets-grid" class="pets-grid">
+    @forelse($pets as $pet)
+      <div class="pet-card" data-name="{{ $pet->name }}" data-type="{{ strtolower($pet->type) }}" data-age="{{ $pet->age_category ?? 'adult' }}" data-location="{{ $pet->location }}">
+        <div class="pet-image">
+          @if($pet->image)
+            <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-t-lg">
+          @endif
+          @if($pet->is_urgent)
+            <div class="urgent-badge">🚨 Urgent: {{ $pet->days_in_shelter }} days</div>
+          @endif
+        </div>
+        <div class="pet-info">
+          <div class="pet-header">
+            <h4 class="pet-name">{{ $pet->name }}</h4>
+            <span class="pet-type">{{ ucfirst($pet->type) }}</span>
+          </div>
+          <p class="pet-details">
+            {{ ucfirst($pet->age_display ?? $pet->age) }} • {{ ucfirst($pet->size ?? 'Unknown size') }} • {{ $pet->location }}
+          </p>
+          <p class="pet-description">{{ $pet->description }}</p>
+          <div class="pet-extra-info" style="font-size: 0.85rem; color: #6b7280; margin: 0.5rem 0;">
+            {{ $pet->days_in_shelter > 0 ? $pet->days_in_shelter . ' days in shelter' : 'New arrival' }}
+            {{ $pet->breed ? ' • ' . $pet->breed : '' }}
+          </div>
+          <button class="meet-btn" onclick="window.location.href='{{ url('/adopt?pet=' . urlencode($pet->name)) }}'">Meet {{ $pet->name }}</button>
+        </div>
+      </div>
+    @empty
+      <div class="no-pets-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #6b7280; font-size: 1.1rem;">No pets available for adoption at this time.</div>
+    @endforelse
+  </div>
 </body>
 </html>

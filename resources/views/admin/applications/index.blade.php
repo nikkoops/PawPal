@@ -10,11 +10,11 @@
             <p class="text-muted-foreground mt-1">Review and manage adoption applications</p>
         </div>
         <div class="flex space-x-2">
-            <button onclick="exportApplications()" class="btn-secondary" style="display: flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important; transition: all 0.3s ease !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
-                <i data-lucide="download" style="width: 16px !important; height: 16px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
-                <span style="transition: color 0.3s ease !important;">Export</span>
+            <button onclick="exportApplications()" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+                <i data-lucide="download" class="h-4 w-4"></i>
+                <span>Export</span>
             </button>
-            <select onchange="bulkAction()" class="input">
+            <select id="bulkActionSelect" class="px-4 py-2 bg-white border border-gray-300 rounded-lg">
                 <option value="">Bulk Actions</option>
                 <option value="approve">Approve Selected</option>
                 <option value="reject">Reject Selected</option>
@@ -24,11 +24,11 @@
     </div>
 
     <!-- Filters -->
-    <div class="bg-card rounded-lg border border-border p-6">
+    <div class="bg-white rounded-lg border border-gray-200 p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
-                <label class="block text-sm font-medium text-foreground mb-2">Status</label>
-                <select id="statusFilter" class="input w-full" onchange="filterApplications()">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                <select id="statusFilter" class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg" onchange="filterApplications()">
                     <option value="">All Status</option>
                     <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
@@ -36,16 +36,16 @@
                 </select>
             </div>
             <div>
-                <label class="block text-sm font-medium text-foreground mb-2">Pet Type</label>
-                <select id="petTypeFilter" class="input w-full" onchange="filterApplications()">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Pet Type</label>
+                <select id="petTypeFilter" class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg" onchange="filterApplications()">
                     <option value="">All Pets</option>
                     <option value="cat" {{ request('pet_type') == 'cat' ? 'selected' : '' }}>Cats</option>
                     <option value="dog" {{ request('pet_type') == 'dog' ? 'selected' : '' }}>Dogs</option>
                 </select>
             </div>
             <div>
-                <label class="block text-sm font-medium text-foreground mb-2">Date Range</label>
-                <select id="dateRangeFilter" class="input w-full" onchange="filterApplications()">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
+                <select id="dateRangeFilter" class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg" onchange="filterApplications()">
                     <option value="">All Time</option>
                     <option value="today" {{ request('date_range') == 'today' ? 'selected' : '' }}>Today</option>
                     <option value="week" {{ request('date_range') == 'week' ? 'selected' : '' }}>This Week</option>
@@ -56,45 +56,45 @@
     </div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="bg-card rounded-lg border border-border p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-muted-foreground">Total Applications</p>
-                    <p class="text-2xl font-bold text-foreground" id="totalCount">{{ $stats['total'] }}</p>
+                    <p class="text-sm font-medium text-gray-600">Total Applications</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2" id="totalCount">{{ $stats['total'] }}</p>
                 </div>
-                <div class="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <i data-lucide="file-text" class="h-6 w-6 text-primary"></i>
+                <div class="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <i data-lucide="file-text" class="h-6 w-6 text-purple-600"></i>
                 </div>
             </div>
         </div>
-        <div class="bg-card rounded-lg border border-border p-6">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-muted-foreground">Pending Review</p>
-                    <p class="text-2xl font-bold text-foreground" id="pendingCount">{{ $stats['pending'] }}</p>
+                    <p class="text-sm font-medium text-gray-600">Pending Review</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2" id="pendingCount">{{ $stats['pending'] }}</p>
                 </div>
                 <div class="h-12 w-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                     <i data-lucide="clock" class="h-6 w-6 text-yellow-600"></i>
                 </div>
             </div>
         </div>
-        <div class="bg-card rounded-lg border border-border p-6">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-muted-foreground">Approved</p>
-                    <p class="text-2xl font-bold text-foreground" id="approvedCount">{{ $stats['approved'] }}</p>
+                    <p class="text-sm font-medium text-gray-600">Approved</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2" id="approvedCount">{{ $stats['approved'] }}</p>
                 </div>
                 <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
                     <i data-lucide="check-circle" class="h-6 w-6 text-green-600"></i>
                 </div>
             </div>
         </div>
-        <div class="bg-card rounded-lg border border-border p-6">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-muted-foreground">This Month</p>
-                    <p class="text-2xl font-bold text-foreground" id="thisMonthCount">{{ $stats['this_month'] }}</p>
+                    <p class="text-sm font-medium text-gray-600">This Month</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2" id="thisMonthCount">{{ $stats['this_month'] }}</p>
                 </div>
                 <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
                     <i data-lucide="calendar" class="h-6 w-6 text-blue-600"></i>
@@ -104,22 +104,22 @@
     </div>
 
     <!-- Applications Table -->
-    <div class="bg-card rounded-lg border border-border overflow-hidden">
+    <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full">
-                <thead class="bg-muted border-b border-border">
+                <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
-                        <th class="text-left py-3 px-6">
-                            <input type="checkbox" class="rounded border-border text-primary focus:ring-primary" onchange="toggleSelectAll()">
+                        <th class="text-left py-3 px-6 w-12">
+                            <input type="checkbox" id="selectAllCheckbox" class="rounded border-gray-300 text-purple-600 focus:ring-purple-500" onchange="toggleSelectAll()">
                         </th>
-                        <th class="text-left py-3 px-6 text-muted-foreground font-medium">Applicant</th>
-                        <th class="text-left py-3 px-6 text-muted-foreground font-medium">Pet</th>
-                        <th class="text-left py-3 px-6 text-muted-foreground font-medium">Date Applied</th>
-                        <th class="text-left py-3 px-6 text-muted-foreground font-medium">Status</th>
-                        <th class="text-left py-3 px-6 text-muted-foreground font-medium">Actions</th>
+                        <th class="text-left py-3 px-6 text-sm font-medium text-gray-600">Applicant</th>
+                        <th class="text-left py-3 px-6 text-sm font-medium text-gray-600">Pet</th>
+                        <th class="text-left py-3 px-6 text-sm font-medium text-gray-600">Date Applied</th>
+                        <th class="text-left py-3 px-6 text-sm font-medium text-gray-600">Status</th>
+                        <th class="text-left py-3 px-6 text-sm font-medium text-gray-600">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-border" id="applicationsTableBody">
+                <tbody class="divide-y divide-gray-200" id="applicationsTableBody">
                     @include('admin.applications.partials.table-rows', compact('applications'))
                 </tbody>
             </table>
@@ -174,7 +174,7 @@ function viewApplication(id) {
     rejectBtn.onclick = () => updateStatus(id, 'rejected');
     
     // Fetch application details via AJAX
-    fetch(`/admin/applications/${id}/details`)
+    fetch(`/admin/shelter/applications/${id}/details`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -377,7 +377,7 @@ function getStatusBadge(status) {
 function saveAdminNotes(applicationId) {
     const notes = document.getElementById('admin-notes').value;
     
-    fetch(`/admin/applications/${applicationId}/update-status`, {
+    fetch(`/admin/shelter/applications/${applicationId}/update-status`, {
         method: 'POST',
         headers: {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -412,7 +412,7 @@ function closeApplicationModal() {
 
 function updateStatus(id, status) {
     if (confirm(`Are you sure you want to ${status} this application?`)) {
-        fetch(`/admin/applications/${id}/update-status`, {
+        fetch(`/admin/shelter/applications/${id}/update-status`, {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -440,7 +440,7 @@ function bulkAction() {
     }
     
     if (confirm(`Are you sure you want to ${action} ${selected.length} applications?`)) {
-        fetch('/admin/applications/bulk-action', {
+        fetch('/admin/shelter/applications/bulk-action', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -454,7 +454,7 @@ function bulkAction() {
 }
 
 function exportApplications() {
-    window.open('/admin/applications/export', '_blank');
+    window.open('/admin/shelter/applications/export', '_blank');
 }
 
 // Filter applications via AJAX
@@ -481,7 +481,7 @@ function filterApplications() {
     `;
     
     // Fetch filtered applications
-    fetch(`{{ route('admin.applications.filter') }}?${params.toString()}`)
+    fetch(`{{ route('admin.shelter.applications.filter') }}?${params.toString()}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);

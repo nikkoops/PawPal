@@ -205,24 +205,6 @@
                                     $currentCharacteristics = old('characteristics', $pet->characteristics ?? []);
                                 @endphp
                                 <label class="flex items-center">
-                                    <input type="checkbox" name="characteristics[]" value="friendly" 
-                                           {{ in_array('friendly', $currentCharacteristics) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded mr-2">
-                                    <span class="text-sm">Friendly</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" name="characteristics[]" value="playful"
-                                           {{ in_array('playful', $currentCharacteristics) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded mr-2">
-                                    <span class="text-sm">Playful</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" name="characteristics[]" value="calm"
-                                           {{ in_array('calm', $currentCharacteristics) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded mr-2">
-                                    <span class="text-sm">Calm</span>
-                                </label>
-                                <label class="flex items-center">
                                     <input type="checkbox" name="characteristics[]" value="energetic"
                                            {{ in_array('energetic', $currentCharacteristics) ? 'checked' : '' }}
                                            class="h-4 w-4 text-primary focus:ring-primary border-border rounded mr-2">

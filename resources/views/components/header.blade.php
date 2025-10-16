@@ -25,6 +25,9 @@
         <a href="{{ route('home') }}#pets-section" class="nav-link text-gray-600 hover:text-purple-600 transition-colors">Find Pets</a>
         <a href="{{ url('/learn-more') }}" class="nav-link {{ Request::is('learn-more') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600' }} transition-colors" style="{{ Request::is('learn-more') ? 'color: #9333ea; font-weight: 600;' : '' }}">Learn More</a>
         <a href="{{ url('/contact') }}" class="nav-link {{ Request::is('contact') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600' }} transition-colors" style="{{ Request::is('contact') ? 'color: #9333ea; font-weight: 600;' : '' }}">Contact Us</a>
+        <button onclick="openRoleModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md font-medium transition-colors">
+          Sign In
+        </button>
       </div>
       
       <!-- Mobile Menu Button -->
@@ -44,6 +47,9 @@
         <a href="{{ route('home') }}#pets-section" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-purple-600 hover:bg-purple-50">Find Pets</a>
         <a href="{{ url('/learn-more') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ Request::is('learn-more') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50' }}" style="{{ Request::is('learn-more') ? 'color: #9333ea; font-weight: 600;' : '' }}">Learn More</a>
         <a href="{{ url('/contact') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ Request::is('contact') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50' }}" style="{{ Request::is('contact') ? 'color: #9333ea; font-weight: 600;' : '' }}">Contact Us</a>
+        <button onclick="openRoleModal()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium bg-purple-600 text-white hover:bg-purple-700">
+          Sign In
+        </button>
       </div>
     </div>
   </div>

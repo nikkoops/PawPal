@@ -7,10 +7,15 @@
     <div class="max-w-md w-full space-y-8">
         <div class="text-center">
             <div class="flex justify-center">
-                <i data-lucide="heart" class="h-16 w-16 text-primary"></i>
+                @php
+                    $role = request()->query('role', 'shelter_admin');
+                    $roleIcon = $role === 'system_admin' ? '🔧' : '🏠';
+                    $roleTitle = $role === 'system_admin' ? 'System Admin' : 'Shelter Admin';
+                @endphp
+                <span style="font-size: 4rem;">{{ $roleIcon }}</span>
             </div>
-            <h2 class="mt-6 text-3xl font-serif font-bold text-foreground">PawPal Admin</h2>
-            <p class="mt-2 text-sm text-muted-foreground">Sign in to access the admin dashboard</p>
+            <h2 class="mt-6 text-3xl font-serif font-bold text-foreground">{{ $roleTitle }} Login</h2>
+            <p class="mt-2 text-sm text-muted-foreground">Sign in to access your dashboard</p>
         </div>
 
         <div class="bg-white/95 backdrop-blur-sm rounded-lg shadow-xl p-8 border border-border">
@@ -42,6 +47,7 @@
 
             <form method="POST" action="{{ route('admin.login') }}" class="space-y-6">
                 @csrf
+                <input type="hidden" name="role" value="{{ request()->query('role', 'shelter_admin') }}">
                 <div>
                     <label for="email" class="block text-sm font-medium text-foreground">Email address</label>
                     <input id="email" name="email" type="email" autocomplete="email" required 
@@ -76,7 +82,11 @@
         </div>
 
         <div class="text-center">
-            <p class="text-sm text-muted-foreground">
+            <a href="/" class="text-sm text-primary hover:text-primary/80">
+                ← Back to Home
+            </a>
+            <span class="mx-2 text-muted-foreground">•</span>
+            <p class="text-sm text-muted-foreground inline">
                 Need help? Contact your system administrator
             </p>
         </div>

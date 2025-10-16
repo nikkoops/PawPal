@@ -1449,5 +1449,119 @@
       </div>
   </footer>
 
+  <!-- Role Selection Modal -->
+  <div id="roleModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] hidden items-center justify-center">
+    <div class="bg-white rounded-2xl max-w-2xl w-[90%] max-h-[90vh] overflow-y-auto shadow-2xl">
+      <!-- Modal Header -->
+      <div class="p-8 pb-6 border-b relative">
+        <h2 class="text-3xl font-bold text-gray-900">Welcome to PawPal</h2>
+        <p class="text-gray-600 mt-2">Please select your role to continue</p>
+        <button onclick="closeRoleModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg w-8 h-8 flex items-center justify-center transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Modal Body -->
+      <div class="p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- System Admin Card -->
+          <div onclick="selectRole('system_admin')" class="role-card cursor-pointer border-2 border-gray-200 rounded-xl p-8 text-center transition-all hover:border-blue-500 hover:shadow-lg hover:-translate-y-1">
+            <div class="text-6xl mb-4">🔧</div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">System Admin</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Full system access with permissions to manage all shelters, users, and system settings
+            </p>
+          </div>
+          
+          <!-- Shelter Admin Card -->
+          <div onclick="selectRole('shelter_admin')" class="role-card cursor-pointer border-2 border-gray-200 rounded-xl p-8 text-center transition-all hover:border-blue-500 hover:shadow-lg hover:-translate-y-1">
+            <div class="text-6xl mb-4">🏠</div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Shelter Admin</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Manage your shelter's pets, applications, and adoption processes
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Modal Footer -->
+      <div class="px-8 pb-8 pt-6 border-t flex justify-end gap-4">
+        <button onclick="closeRoleModal()" class="px-6 py-2.5 rounded-lg font-semibold text-gray-700 border border-gray-300 hover:bg-gray-50 transition-colors">
+          Cancel
+        </button>
+        <button id="continueBtn" onclick="continueToLogin()" disabled class="px-6 py-2.5 rounded-lg font-semibold text-white bg-purple-600 hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors">
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .role-card.selected {
+      border-color: #3b82f6 !important;
+      background-color: #eff6ff;
+    }
+  </style>
+
+  <script>
+    let selectedRole = null;
+
+    function openRoleModal() {
+      const modal = document.getElementById('roleModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeRoleModal() {
+      const modal = document.getElementById('roleModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = 'auto';
+      selectedRole = null;
+      
+      // Reset selected state
+      document.querySelectorAll('.role-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      document.getElementById('continueBtn').disabled = true;
+    }
+
+    function selectRole(role) {
+      selectedRole = role;
+      
+      // Remove selected class from all cards
+      document.querySelectorAll('.role-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      
+      // Add selected class to clicked card
+      event.currentTarget.classList.add('selected');
+      
+      // Enable continue button
+      document.getElementById('continueBtn').disabled = false;
+    }
+
+    function continueToLogin() {
+      if (selectedRole) {
+        window.location.href = `/admin/login?role=${selectedRole}`;
+      }
+    }
+
+    // Close modal when clicking outside
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('roleModal');
+      if (modal) {
+        modal.addEventListener('click', function(e) {
+          if (e.target === this) {
+            closeRoleModal();
+          }
+        });
+      }
+    });
+  </script>
+
 </body>
 </html>

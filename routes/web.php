@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Log;
 use App\Models\AdoptionApplication;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\SystemAdminController;
+use App\Http\Controllers\Admin\ShelterAdminController;
 use App\Http\Controllers\PetController;
 
 Route::get('/', [PetController::class, 'index'])->name('home');
@@ -383,35 +385,62 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('logout', [AuthController::class, 'logout'])->name('logout');
         
-        // Redirect admin root to Pet Management
+        // Redirect admin root based on role
         Route::get('/', function () {
-            return redirect()->route('admin.pets.index');
+            $user = auth()->user();
+            if ($user->role === 'system_admin') {
+                return redirect()->route('admin.system.dashboard');
+            } else {
+                return redirect()->route('admin.shelter.dashboard');
+            }
         });
         
-        // Pet Management
-        Route::resource('pets', AdminPetController::class);
-        Route::get('pets-filter', [AdminPetController::class, 'filter'])->name('pets.filter');
-        Route::post('pets/{pet}/toggle-availability', [AdminPetController::class, 'toggleAvailability'])->name('pets.toggle-availability');
+        // SYSTEM ADMIN ROUTES (System Admin Only)
+        Route::middleware(['role:system_admin'])->prefix('system')->name('system.')->group(function () {
+            // System Admin Dashboard
+            Route::get('dashboard', [SystemAdminController::class, 'index'])->name('dashboard');
+            
+            // User Management (CRUD for admins)
+            Route::get('users', [SystemAdminController::class, 'users'])->name('users');
+            Route::get('users/create', [SystemAdminController::class, 'createUser'])->name('users.create');
+            Route::post('users', [SystemAdminController::class, 'storeUser'])->name('users.store');
+            Route::get('users/{user}/edit', [SystemAdminController::class, 'editUser'])->name('users.edit');
+            Route::put('users/{user}', [SystemAdminController::class, 'updateUser'])->name('users.update');
+            Route::delete('users/{user}', [SystemAdminController::class, 'deleteUser'])->name('users.delete');
+            
+            // System Analytics
+            Route::get('analytics', [SystemAdminController::class, 'analytics'])->name('analytics');
+        });
         
-        // Form Questions Management
+        // SHELTER ADMIN ROUTES (Shelter Admin Only)
+        Route::middleware(['role:shelter_admin'])->prefix('shelter')->name('shelter.')->group(function () {
+            // Shelter Admin Dashboard
+            Route::get('dashboard', [ShelterAdminController::class, 'index'])->name('dashboard');
+            
+            // Pet Management (accessible from shelter dashboard)
+            Route::resource('pets', AdminPetController::class);
+            Route::get('pets-filter', [AdminPetController::class, 'filter'])->name('pets.filter');
+            Route::post('pets/{pet}/toggle-availability', [AdminPetController::class, 'toggleAvailability'])->name('pets.toggle-availability');
+            
+            // Adoption Applications Management
+            Route::prefix('applications')->name('applications.')->group(function () {
+                Route::get('/', [AdoptionApplicationController::class, 'index'])->name('index');
+                Route::get('filter', [AdoptionApplicationController::class, 'filter'])->name('filter');
+                Route::get('{application}', [AdoptionApplicationController::class, 'show'])->name('show');
+                Route::get('{application}/details', [AdoptionApplicationController::class, 'getApplicationDetails'])->name('details');
+                Route::post('{application}/update-status', [AdoptionApplicationController::class, 'updateStatus'])->name('update-status');
+                Route::post('bulk-action', [AdoptionApplicationController::class, 'bulkAction'])->name('bulk-action');
+            });
+            
+            // Shelter Analytics
+            Route::get('analytics', [AnalyticsController::class, 'index'])->name('analytics');
+            Route::get('analytics/export', [AnalyticsController::class, 'export'])->name('analytics.export');
+        });
+        
+        // SHARED ROUTES (Accessible by both roles - kept for backward compatibility)
+        // Form Questions Management (both can access)
         Route::resource('form-questions', FormQuestionController::class);
         Route::post('form-questions/{formQuestion}/toggle-active', [FormQuestionController::class, 'toggleActive'])->name('form-questions.toggle-active');
         Route::post('form-questions/reorder', [FormQuestionController::class, 'reorder'])->name('form-questions.reorder');
-        
-        // Adoption Applications Management
-        Route::prefix('applications')->name('applications.')->group(function () {
-            Route::get('/', [AdoptionApplicationController::class, 'index'])->name('index');
-            Route::get('filter', [AdoptionApplicationController::class, 'filter'])->name('filter');
-            Route::get('{application}', [AdoptionApplicationController::class, 'show'])->name('show');
-            Route::get('{application}/details', [AdoptionApplicationController::class, 'getApplicationDetails'])->name('details');
-            Route::post('{application}/update-status', [AdoptionApplicationController::class, 'updateStatus'])->name('update-status');
-            Route::post('bulk-action', [AdoptionApplicationController::class, 'bulkAction'])->name('bulk-action');
-        });
-        
-        // Analytics
-        Route::prefix('analytics')->name('analytics.')->group(function () {
-            Route::get('/', [AnalyticsController::class, 'index'])->name('index');
-            Route::get('export', [AnalyticsController::class, 'export'])->name('export');
-        });
     });
 });

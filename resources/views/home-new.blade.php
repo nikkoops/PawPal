@@ -77,10 +77,222 @@
       color: #1f2937;
     }
 
+    .sign-in-btn {
+      background: #000;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 0.375rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.3s;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+
+    .sign-in-btn:hover {
+      background: #374151;
+      color: white;
+      text-decoration: none;
+    }
+
     @media (max-width: 768px) {
       .nav-links {
         display: none;
       }
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 1rem;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: slideUp 0.3s ease;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .modal-header {
+      padding: 2rem 2rem 1rem;
+      border-bottom: 1px solid #e5e7eb;
+      position: relative;
+    }
+
+    .modal-header h2 {
+      font-size: 1.875rem;
+      font-weight: bold;
+      color: #1f2937;
+      margin: 0;
+    }
+
+    .modal-header p {
+      font-size: 1rem;
+      color: #6b7280;
+      margin-top: 0.5rem;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #9ca3af;
+      cursor: pointer;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.375rem;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #f3f4f6;
+      color: #1f2937;
+    }
+
+    .modal-body {
+      padding: 2rem;
+    }
+
+    .role-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .role-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .role-card {
+      border: 2px solid #e5e7eb;
+      border-radius: 0.75rem;
+      padding: 2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      background: white;
+    }
+
+    .role-card:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .role-card.selected {
+      border-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    .role-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .role-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .role-description {
+      font-size: 0.875rem;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .modal-footer {
+      padding: 1.5rem 2rem;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+
+    .btn-modal {
+      padding: 0.625rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-cancel {
+      background: white;
+      color: #374151;
+      border: 1px solid #d1d5db;
+    }
+
+    .btn-cancel:hover {
+      background: #f9fafb;
+    }
+
+    .btn-continue {
+      background: #000;
+      color: white;
+    }
+
+    .btn-continue:hover {
+      background: #374151;
+    }
+
+    .btn-continue:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
     }
 
     /* Hero Section */
@@ -397,13 +609,14 @@
           <img src="images/PAWPAL LOGO.png" alt="PawPal">
           <span>PawPal</span>
         </div>
-        <nav>
+        <nav style="display: flex; align-items: center; gap: 2rem;">
           <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="#pets-section">Find Pets</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/contact">Contact</a></li>
           </ul>
+          <button class="sign-in-btn" onclick="openRoleModal()">Sign In</button>
         </nav>
       </div>
     </div>
@@ -689,6 +902,85 @@
     document.addEventListener('DOMContentLoaded', function() {
       renderPets();
     });
+
+    // Role Selection Modal Logic
+    let selectedRole = null;
+
+    function openRoleModal() {
+      document.getElementById('roleModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeRoleModal() {
+      document.getElementById('roleModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+      selectedRole = null;
+      // Reset selected state
+      document.querySelectorAll('.role-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+    }
+
+    function selectRole(role) {
+      selectedRole = role;
+      // Remove selected class from all cards
+      document.querySelectorAll('.role-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      // Add selected class to clicked card
+      event.currentTarget.classList.add('selected');
+      // Enable continue button
+      document.getElementById('continueBtn').disabled = false;
+    }
+
+    function continueToLogin() {
+      if (selectedRole) {
+        // Redirect to login page with role parameter
+        window.location.href = `/admin/login?role=${selectedRole}`;
+      }
+    }
+
+    // Close modal when clicking outside
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('roleModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeRoleModal();
+        }
+      });
+    });
   </script>
+
+  <!-- Role Selection Modal -->
+  <div id="roleModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Welcome to PawPal</h2>
+        <p>Please select your role to continue</p>
+        <button class="modal-close" onclick="closeRoleModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="role-cards">
+          <div class="role-card" onclick="selectRole('system_admin')">
+            <span class="role-icon">🔧</span>
+            <div class="role-title">System Admin</div>
+            <div class="role-description">
+              Full system access with permissions to manage all shelters, users, and system settings
+            </div>
+          </div>
+          <div class="role-card" onclick="selectRole('shelter_admin')">
+            <span class="role-icon">🏠</span>
+            <div class="role-title">Shelter Admin</div>
+            <div class="role-description">
+              Manage your shelter's pets, applications, and adoption processes
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-modal btn-cancel" onclick="closeRoleModal()">Cancel</button>
+        <button id="continueBtn" class="btn-modal btn-continue" onclick="continueToLogin()" disabled>Continue</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

@@ -507,7 +507,7 @@
         <div class="flex h-full flex-col">
             <!-- Logo -->
             <div class="flex h-20 items-center justify-between px-6 border-b border-border">
-                <a href="{{ route('admin.pets.index') }}" class="flex items-center space-x-2 min-w-0">
+                <a href="{{ auth()->user()->role === 'system_admin' ? route('admin.system.dashboard') : route('admin.shelter.dashboard') }}" class="flex items-center space-x-2 min-w-0">
                     <img src="{{ asset('images/favicon.png') }}" alt="PawPal Logo" class="h-8 w-8 flex-shrink-0 object-contain">
                     <span class="text-xl lg:text-2xl font-serif font-bold text-foreground truncate">PawPal Admin</span>
                 </a>
@@ -518,17 +518,44 @@
 
             <!-- Navigation -->
             <nav class="flex-1 px-4 py-6 space-y-3 overflow-y-auto">
-                <a href="{{ route('admin.pets.index') }}" class="nav-link {{ request()->routeIs('admin.pets.*') ? 'active' : '' }}" title="Pet Management" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
-                    <i data-lucide="heart" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
-                    <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Pet Management</span>
-                </a>
-                <a href="{{ route('admin.applications.index') }}" class="nav-link {{ request()->routeIs('admin.applications.*') ? 'active' : '' }}" title="Applications" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
-                    <i data-lucide="users" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
-                    <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Applications</span>
-                </a>
-                <a href="{{ route('admin.analytics.index') }}" class="nav-link {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}" title="Analytics" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
-                    <i data-lucide="bar-chart-3" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
-                    <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Analytics</span>
+                @if(auth()->user()->role === 'system_admin')
+                    {{-- System Admin Navigation --}}
+                    <a href="{{ route('admin.system.dashboard') }}" class="nav-link {{ request()->routeIs('admin.system.dashboard') ? 'active' : '' }}" title="Dashboard" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                        <i data-lucide="layout-dashboard" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                        <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Dashboard</span>
+                    </a>
+                    <a href="{{ route('admin.system.users') }}" class="nav-link {{ request()->routeIs('admin.system.users*') ? 'active' : '' }}" title="User Management" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                        <i data-lucide="users" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                        <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">User Management</span>
+                    </a>
+                    <a href="{{ route('admin.system.analytics') }}" class="nav-link {{ request()->routeIs('admin.system.analytics') ? 'active' : '' }}" title="Analytics" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                        <i data-lucide="bar-chart-3" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                        <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Analytics</span>
+                    </a>
+                @else
+                    {{-- Shelter Admin Navigation --}}
+                    <a href="{{ route('admin.shelter.dashboard') }}" class="nav-link {{ request()->routeIs('admin.shelter.dashboard') ? 'active' : '' }}" title="Dashboard" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                        <i data-lucide="layout-dashboard" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                        <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Dashboard</span>
+                    </a>
+                    <a href="{{ route('admin.shelter.pets.index') }}" class="nav-link {{ request()->routeIs('admin.shelter.pets.*') ? 'active' : '' }}" title="Pet Management" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                        <i data-lucide="heart" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                        <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Pet Management</span>
+                    </a>
+                    <a href="{{ route('admin.shelter.applications.index') }}" class="nav-link {{ request()->routeIs('admin.shelter.applications.*') ? 'active' : '' }}" title="Applications" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                        <i data-lucide="file-text" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                        <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Applications</span>
+                    </a>
+                    <a href="{{ route('admin.shelter.analytics') }}" class="nav-link {{ request()->routeIs('admin.shelter.analytics') ? 'active' : '' }}" title="Analytics" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                        <i data-lucide="bar-chart-3" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                        <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Analytics</span>
+                    </a>
+                @endif
+                
+                {{-- Shared Navigation (Both Roles) --}}
+                <a href="{{ route('admin.form-questions.index') }}" class="nav-link {{ request()->routeIs('admin.form-questions.*') ? 'active' : '' }}" title="Form Questions" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                    <i data-lucide="help-circle" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
+                    <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Form Questions</span>
                 </a>
             </nav>
 

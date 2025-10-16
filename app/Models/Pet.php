@@ -86,7 +86,7 @@ class Pet extends Model
      */
     public function getAgeDisplayAttribute()
     {
-        if (!$this->age) {
+        if (is_null($this->age) || $this->age == 0) {
             return 'Unknown age';
         }
         

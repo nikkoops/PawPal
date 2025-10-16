@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Pet;
 use App\Models\AdoptionApplication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ShelterAdminController extends Controller
 {
@@ -55,5 +56,40 @@ class ShelterAdminController extends Controller
             'recentPets',
             'recentApplications'
         ));
+    }
+
+    /**
+     * Display the settings page
+     */
+    public function settings()
+    {
+        return view('admin.shelter.settings');
+    }
+
+    /**
+     * Update the admin's password
+     */
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = auth()->user();
+
+        // Verify current password
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors([
+                'current_password' => 'The current password is incorrect.'
+            ]);
+        }
+
+        // Update password
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        return back()->with('success', 'Password updated successfully!');
     }
 }

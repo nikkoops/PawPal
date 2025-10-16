@@ -90,6 +90,16 @@ class PetController extends Controller
 
         $data = $request->all();
         
+        // Handle empty age field - convert empty string to null (but keep valid decimal values)
+        if ($data['age'] === '' || $data['age'] === null) {
+            $data['age'] = null;
+        }
+        
+        // Handle empty size field - convert empty string to null  
+        if ($data['size'] === '' || $data['size'] === null) {
+            $data['size'] = null;
+        }
+        
         // Auto-assign location if user has shelter location
         $user = auth()->user();
         if ($user->hasShelterLocation()) {
@@ -137,7 +147,7 @@ class PetController extends Controller
             ]);
         }
 
-        Pet::create($data);
+        $pet = Pet::create($data);
 
         return redirect()->route('admin.shelter.pets.index')->with('success', 'Pet created successfully!');
     }
@@ -158,7 +168,7 @@ class PetController extends Controller
             'name' => 'required|string|max:255',
             'type' => 'required|in:dog,cat',
             'breed' => 'nullable|string|max:255',
-            'age' => 'nullable|integer|min:0',
+            'age' => 'nullable|numeric|min:0|max:25',
             'gender' => 'required|in:male,female',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -174,6 +184,16 @@ class PetController extends Controller
         ]);
 
         $data = $request->all();
+        
+        // Handle empty age field - convert empty string to null (but keep valid decimal values)
+        if ($data['age'] === '' || $data['age'] === null) {
+            $data['age'] = null;
+        }
+        
+        // Handle empty size field - convert empty string to null  
+        if ($data['size'] === '' || $data['size'] === null) {
+            $data['size'] = null;
+        }
         
         // Ensure boolean fields are properly set
         $data['is_available'] = $request->has('is_available') ? true : false;

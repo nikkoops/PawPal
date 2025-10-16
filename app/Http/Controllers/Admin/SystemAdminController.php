@@ -22,18 +22,12 @@ class SystemAdminController extends Controller
         $systemAdmins = User::where('role', 'system_admin')->count();
         $shelterAdmins = User::where('role', 'shelter_admin')->count();
         $totalPets = Pet::count();
-        $availablePets = Pet::where('is_available', true)->count();
-        $totalApplications = AdoptionApplication::count();
-        $pendingApplications = AdoptionApplication::where('status', 'pending')->count();
 
         return view('admin.system.dashboard', compact(
             'totalAdmins',
             'systemAdmins',
             'shelterAdmins',
-            'totalPets',
-            'availablePets',
-            'totalApplications',
-            'pendingApplications'
+            'totalPets'
         ));
     }
 

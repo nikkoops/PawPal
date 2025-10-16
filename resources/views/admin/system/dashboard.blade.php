@@ -113,28 +113,13 @@
                 </div>
             </div>
             <div class="space-y-3">
+                <!-- Spacer to align with Create New Admin button -->
+                <div class="block w-full bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium py-3 px-4 rounded-lg transition duration-200 text-center invisible">
+                    Spacer
+                </div>
                 <a href="{{ route('admin.system.analytics') }}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200 text-center">
                     View Analytics Dashboard
                 </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Activity -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">System Overview</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="border border-gray-200 rounded-lg p-4">
-                <p class="text-gray-600 text-sm mb-1">Total Applications</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $totalApplications }}</p>
-            </div>
-            <div class="border border-gray-200 rounded-lg p-4">
-                <p class="text-gray-600 text-sm mb-1">Available Pets</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $availablePets }}</p>
-            </div>
-            <div class="border border-gray-200 rounded-lg p-4">
-                <p class="text-gray-600 text-sm mb-1">Pending Applications</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $pendingApplications }}</p>
             </div>
         </div>
     </div>

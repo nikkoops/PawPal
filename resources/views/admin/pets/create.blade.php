@@ -38,7 +38,13 @@
             <!-- Left Column - Basic Information -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="card">
-                    <h2 class="text-xl font-semibold text-foreground mb-6">Basic Information</h2>
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-semibold text-foreground">Basic Information</h2>
+                        <!-- Urgency Badge -->
+                        <div id="urgency-badge" class="hidden px-4 py-1.5 text-sm font-semibold bg-red-500 text-white rounded-full">
+                            🚨 URGENT (0 days)
+                        </div>
+                    </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <!-- Pet Name -->
@@ -338,9 +344,43 @@
     // Update breeds when type changes
     typeSelect.addEventListener('change', updateBreedOptions);
     
+    // Urgency calculation based on date added
+    const dateAddedInput = document.getElementById('date_added');
+    const urgencyBadge = document.getElementById('urgency-badge');
+
+    function checkUrgency() {
+        if (!dateAddedInput.value) {
+            urgencyBadge.classList.add('hidden');
+            return;
+        }
+
+        // Parse the input date (format: YYYY-MM-DD)
+        const dateAdded = new Date(dateAddedInput.value + 'T00:00:00');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set to midnight for accurate day comparison
+        
+        // Calculate the difference in milliseconds
+        const diffTime = today.getTime() - dateAdded.getTime();
+        
+        // Convert to days (only count positive differences)
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays >= 7) {
+            urgencyBadge.classList.remove('hidden');
+            urgencyBadge.innerHTML = `🚨 URGENT (${diffDays} days)`;
+        } else {
+            urgencyBadge.classList.add('hidden');
+        }
+    }
+
+    // Check urgency when date changes
+    dateAddedInput.addEventListener('change', checkUrgency);
+    dateAddedInput.addEventListener('input', checkUrgency);
+    
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
         updateBreedOptions();
+        checkUrgency(); // Check urgency on load
         lucide.createIcons();
     });
 

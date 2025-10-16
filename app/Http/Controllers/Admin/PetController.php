@@ -161,7 +161,7 @@ class PetController extends Controller
 
         Pet::create($data);
 
-        return redirect()->route('admin.pets.index')->with('success', 'Pet created successfully!');
+        return redirect()->route('admin.shelter.pets.index')->with('success', 'Pet created successfully!');
     }
 
     public function show(Pet $pet)
@@ -212,7 +212,7 @@ class PetController extends Controller
 
         $pet->update($data);
 
-        return redirect()->route('admin.pets.index')->with('success', 'Pet updated successfully!');
+        return redirect()->route('admin.shelter.pets.index')->with('success', 'Pet updated successfully!');
     }
 
     public function destroy(Pet $pet)
@@ -224,7 +224,7 @@ class PetController extends Controller
 
         $pet->delete();
 
-        return redirect()->route('admin.pets.index')->with('success', 'Pet deleted successfully!');
+        return redirect()->route('admin.shelter.pets.index')->with('success', 'Pet deleted successfully!');
     }
 
     public function toggleAvailability(Pet $pet)

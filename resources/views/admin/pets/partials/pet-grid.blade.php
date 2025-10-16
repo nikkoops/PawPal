@@ -34,17 +34,21 @@
                         <div>
                             <h3 class="text-lg font-serif font-bold text-foreground">{{ $pet->name }}</h3>
                             <p class="text-sm text-muted-foreground">
-                                {{ ucfirst($pet->type) }} • {{ $pet->age ?? 'Unknown age' }} • {{ ucfirst($pet->size ?? 'Unknown size') }}
+                                {{ ucfirst($pet->type) }} • {{ $pet->age_display }} • {{ ucfirst($pet->size ?? 'Unknown size') }}
                             </p>
                         </div>
+                        @if($pet->description)
                         <p class="text-sm text-muted-foreground line-clamp-2">{{ $pet->description }}</p>
+                        @endif
                         <div class="text-xs text-muted-foreground space-y-1">
-                            <div>Added: {{ $pet->created_at->format('M d, Y') }}</div>
                             @if($pet->date_added)
+                            <div>Added: {{ $pet->date_added->format('M d, Y') }}</div>
                             <div>In shelter: {{ $pet->days_in_shelter }} days</div>
+                            @else
+                            <div>Added: {{ $pet->created_at->format('M d, Y') }}</div>
                             @endif
-                            @if($pet->is_urgent)
-                            <div class="text-orange-600 font-medium">⚠️ {{ $pet->urgent_reason }}</div>
+                            @if($pet->is_urgent && $pet->is_available)
+                            <div class="text-orange-600 font-medium">⚠️ In shelter for {{ $pet->days_in_shelter }} days</div>
                             @endif
                         </div>
                         <div class="flex space-x-2">

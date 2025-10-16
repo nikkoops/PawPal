@@ -391,7 +391,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             if ($user->role === 'system_admin') {
                 return redirect()->route('admin.system.dashboard');
             } else {
-                return redirect()->route('admin.shelter.dashboard');
+                return redirect()->route('admin.shelter.pets.index');
             }
         });
         
@@ -414,8 +414,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         // SHELTER ADMIN ROUTES (Shelter Admin Only)
         Route::middleware(['role:shelter_admin'])->prefix('shelter')->name('shelter.')->group(function () {
-            // Shelter Admin Dashboard
-            Route::get('dashboard', [ShelterAdminController::class, 'index'])->name('dashboard');
+            // Shelter Admin Dashboard - REMOVED: Shelter admins go directly to Pet Management
+            // Route::get('dashboard', [ShelterAdminController::class, 'index'])->name('dashboard');
             
             // Pet Management (accessible from shelter dashboard)
             Route::resource('pets', AdminPetController::class);

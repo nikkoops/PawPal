@@ -48,21 +48,21 @@
                             @endif
                         </div>
                         <div class="flex space-x-2">
-                            <a href="{{ route('admin.pets.show', $pet) }}" class="flex-1 text-center py-2 px-3 text-xs bg-transparent border border-border rounded-lg hover:bg-muted transition-colors duration-200 flex items-center justify-center">
+                            <a href="{{ route('admin.shelter.pets.show', $pet) }}" class="flex-1 text-center py-2 px-3 text-xs bg-transparent border border-border rounded-lg hover:bg-muted transition-colors duration-200 flex items-center justify-center">
                                 <i data-lucide="eye" class="h-4 w-4 mr-1"></i>
                                 View
                             </a>
-                            <a href="{{ route('admin.pets.edit', $pet) }}" class="flex-1 text-center py-2 px-3 text-xs bg-transparent border border-border rounded-lg hover:bg-muted transition-colors duration-200 flex items-center justify-center">
+                            <a href="{{ route('admin.shelter.pets.edit', $pet) }}" class="flex-1 text-center py-2 px-3 text-xs bg-transparent border border-border rounded-lg hover:bg-muted transition-colors duration-200 flex items-center justify-center">
                                 <i data-lucide="edit" class="h-4 w-4 mr-1"></i>
                                 Edit
                             </a>
-                            <form method="POST" action="{{ route('admin.pets.toggle-availability', $pet) }}" class="inline-block">
+                            <form method="POST" action="{{ route('admin.shelter.pets.toggle-availability', $pet) }}" class="inline-block">
                                 @csrf
                                 <button type="submit" class="py-2 px-3 text-xs {{ $pet->is_available ? 'text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200' : 'text-green-600 hover:text-green-700 hover:bg-green-50 border-green-200' }} border rounded-lg transition-colors duration-200" title="{{ $pet->is_available ? 'Mark as Adopted' : 'Mark as Available' }}">
                                     <i data-lucide="{{ $pet->is_available ? 'x-circle' : 'check-circle' }}" class="h-4 w-4"></i>
                                 </button>
                             </form>
-                            <form method="POST" action="{{ route('admin.pets.destroy', $pet) }}" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this pet?')">
+                            <form method="POST" action="{{ route('admin.shelter.pets.destroy', $pet) }}" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this pet?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="py-2 px-3 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 border border-red-200 rounded-lg transition-colors duration-200">
@@ -90,7 +90,7 @@
             <p class="text-muted-foreground">
                 Try adjusting your filter criteria or add a new pet to get started.
             </p>
-            <a href="{{ route('admin.pets.create') }}" class="inline-flex items-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-lg font-medium transition-colors duration-200">
+            <a href="{{ route('admin.shelter.pets.create') }}" class="inline-flex items-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-lg font-medium transition-colors duration-200">
                 <i data-lucide="plus" class="h-4 w-4"></i>
                 <span>Add New Pet</span>
             </a>

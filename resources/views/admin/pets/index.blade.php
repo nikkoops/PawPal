@@ -12,7 +12,7 @@
                 Manage all pets in the system - add, edit, and track their status.
             </p>
         </div>
-        <a href="{{ route('admin.pets.create') }}" class="btn-primary">
+        <a href="{{ route('admin.shelter.pets.create') }}" class="btn-primary">
             <i data-lucide="plus" class="h-5 w-5"></i>
             <span>Add New Pet</span>
         </a>
@@ -115,7 +115,7 @@ function filterPets() {
     `;
     
     // Fetch filtered pets - using correct route name within admin group
-    fetch(`{{ route('admin.pets.filter') }}?${params.toString()}`)
+    fetch(`{{ route('admin.shelter.pets.filter') }}?${params.toString()}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);

@@ -53,7 +53,8 @@ class AuthController extends Controller
             if ($user->role === 'system_admin') {
                 return redirect()->intended(route('admin.system.dashboard'));
             } else {
-                return redirect()->intended(route('admin.shelter.dashboard'));
+                // Shelter admins go directly to Pet Management
+                return redirect()->intended(route('admin.shelter.pets.index'));
             }
         }
 

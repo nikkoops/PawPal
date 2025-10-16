@@ -507,7 +507,7 @@
         <div class="flex h-full flex-col">
             <!-- Logo -->
             <div class="flex h-20 items-center justify-between px-6 border-b border-border">
-                <a href="{{ auth()->user()->role === 'system_admin' ? route('admin.system.dashboard') : route('admin.shelter.dashboard') }}" class="flex items-center space-x-2 min-w-0">
+                <a href="{{ auth()->user()->role === 'system_admin' ? route('admin.system.dashboard') : route('admin.shelter.pets.index') }}" class="flex items-center space-x-2 min-w-0">
                     <img src="{{ asset('images/favicon.png') }}" alt="PawPal Logo" class="h-8 w-8 flex-shrink-0 object-contain">
                     <span class="text-xl lg:text-2xl font-serif font-bold text-foreground truncate">PawPal Admin</span>
                 </a>
@@ -534,10 +534,6 @@
                     </a>
                 @else
                     {{-- Shelter Admin Navigation --}}
-                    <a href="{{ route('admin.shelter.dashboard') }}" class="nav-link {{ request()->routeIs('admin.shelter.dashboard') ? 'active' : '' }}" title="Dashboard" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
-                        <i data-lucide="layout-dashboard" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
-                        <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Dashboard</span>
-                    </a>
                     <a href="{{ route('admin.shelter.pets.index') }}" class="nav-link {{ request()->routeIs('admin.shelter.pets.*') ? 'active' : '' }}" title="Pet Management" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
                         <i data-lucide="heart" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
                         <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Pet Management</span>

@@ -14,19 +14,35 @@ class ShelterAdminController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
+        
+        // Base query for filtering by shelter location
+        $petQuery = Pet::query();
+        $applicationQuery = AdoptionApplication::query();
+
+        // Filter by shelter location if user has one assigned
+        if ($user->hasShelterLocation()) {
+            $petQuery->where('location', $user->shelter_location);
+            $applicationQuery->whereHas('pet', function($query) use ($user) {
+                $query->where('location', $user->shelter_location);
+            });
+        }
+
         // Get shelter-specific statistics
-        $totalPets = Pet::count();
-        $availablePets = Pet::where('is_available', true)->count();
-        $totalApplications = AdoptionApplication::count();
-        $pendingApplications = AdoptionApplication::where('status', 'pending')->count();
+        $totalPets = $petQuery->count();
+        $availablePets = (clone $petQuery)->where('is_available', true)->count();
+        $totalApplications = $applicationQuery->count();
+        $pendingApplications = (clone $applicationQuery)->where('status', 'pending')->count();
 
         // Get recent pets
-        $recentPets = Pet::orderBy('created_at', 'desc')
+        $recentPets = (clone $petQuery)
+            ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
 
         // Get recent applications
-        $recentApplications = AdoptionApplication::with('pet')
+        $recentApplications = (clone $applicationQuery)
+            ->with('pet')
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();

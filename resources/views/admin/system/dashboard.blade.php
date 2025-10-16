@@ -17,7 +17,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-purple-100 text-sm font-medium">Total Admins</p>
-                    <p class="text-3xl font-bold mt-2">{{ $totalAdmins }}</p>
+                    <p class="text-3xl font-bold mt-2 text-white">{{ $totalAdmins }}</p>
                 </div>
                 <div class="bg-white bg-opacity-20 rounded-full p-3">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,7 +32,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-blue-100 text-sm font-medium">System Admins</p>
-                    <p class="text-3xl font-bold mt-2">{{ $systemAdmins }}</p>
+                    <p class="text-3xl font-bold mt-2 text-white">{{ $systemAdmins }}</p>
                 </div>
                 <div class="bg-white bg-opacity-20 rounded-full p-3">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,7 +48,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-green-100 text-sm font-medium">Shelter Admins</p>
-                    <p class="text-3xl font-bold mt-2">{{ $shelterAdmins }}</p>
+                    <p class="text-3xl font-bold mt-2 text-white">{{ $shelterAdmins }}</p>
                 </div>
                 <div class="bg-white bg-opacity-20 rounded-full p-3">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,7 +63,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-orange-100 text-sm font-medium">Total Pets</p>
-                    <p class="text-3xl font-bold mt-2">{{ $totalPets }}</p>
+                    <p class="text-3xl font-bold mt-2 text-white">{{ $totalPets }}</p>
                 </div>
                 <div class="bg-white bg-opacity-20 rounded-full p-3">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

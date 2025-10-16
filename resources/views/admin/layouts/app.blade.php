@@ -551,12 +551,6 @@
                         <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Analytics</span>
                     </a>
                 @endif
-                
-                {{-- Shared Navigation (Both Roles) --}}
-                <a href="{{ route('admin.form-questions.index') }}" class="nav-link {{ request()->routeIs('admin.form-questions.*') ? 'active' : '' }}" title="Form Questions" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
-                    <i data-lucide="help-circle" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
-                    <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Form Questions</span>
-                </a>
             </nav>
 
             <!-- Admin info -->

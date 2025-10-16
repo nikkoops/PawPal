@@ -27,6 +27,7 @@ class User extends Authenticatable
         'password',
         'is_admin',
         'role',
+        'shelter_location',
         'email_verified_at',
     ];
 
@@ -80,5 +81,39 @@ class User extends Authenticatable
             self::ROLE_SHELTER_ADMIN => 'admin.pets.index',
             default => 'home',
         };
+    }
+
+    /**
+     * Get list of NCR shelter locations
+     */
+    public static function getShelterLocations(): array
+    {
+        return [
+            'Manila Shelter',
+            'Quezon City Shelter',
+            'Makati Shelter',
+            'Pasig Shelter',
+            'Taguig Shelter',
+            'Mandaluyong Shelter',
+            'San Juan Shelter',
+            'Pasay Shelter',
+            'Parañaque Shelter',
+            'Las Piñas Shelter',
+            'Muntinlupa Shelter',
+            'Caloocan Shelter',
+            'Malabon Shelter',
+            'Navotas Shelter',
+            'Valenzuela Shelter',
+            'Marikina Shelter',
+            'Pateros Shelter',
+        ];
+    }
+
+    /**
+     * Check if user has a specific shelter location assigned
+     */
+    public function hasShelterLocation(): bool
+    {
+        return !empty($this->shelter_location);
     }
 }

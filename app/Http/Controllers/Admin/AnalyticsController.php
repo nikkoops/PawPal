@@ -11,6 +11,20 @@ use Illuminate\Support\Facades\DB;
 
 class AnalyticsController extends Controller
 {
+    // Store the current user's shelter location for filtering
+    protected $userLocation = null;
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $user = auth()->user();
+            if ($user && $user->hasShelterLocation()) {
+                $this->userLocation = $user->shelter_location;
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         try {
@@ -64,15 +78,18 @@ class AnalyticsController extends Controller
     private function getOverviewStats()
     {
         try {
+            $petQuery = $this->applyLocationFilter(Pet::query());
+            $applicationQuery = $this->applyLocationFilterToApplications(AdoptionApplication::query());
+
             return [
-                'total_pets' => Pet::count() ?: 0,
-                'available_pets' => Pet::where('is_available', true)->count() ?: 0,
-                'adopted_pets' => Pet::where('is_available', false)->count() ?: 0,
-                'pending_pets' => Pet::where('is_available', true)->count() ?: 0, // Available pets that could be adopted
-                'total_applications' => AdoptionApplication::count() ?: 0,
-                'pending_applications' => AdoptionApplication::where('status', 'pending')->count() ?: 0,
-                'approved_applications' => AdoptionApplication::where('status', 'approved')->count() ?: 0,
-                'rejected_applications' => AdoptionApplication::where('status', 'rejected')->count() ?: 0,
+                'total_pets' => (clone $petQuery)->count() ?: 0,
+                'available_pets' => (clone $petQuery)->where('is_available', true)->count() ?: 0,
+                'adopted_pets' => (clone $petQuery)->where('is_available', false)->count() ?: 0,
+                'pending_pets' => (clone $petQuery)->where('is_available', true)->count() ?: 0, // Available pets that could be adopted
+                'total_applications' => (clone $applicationQuery)->count() ?: 0,
+                'pending_applications' => (clone $applicationQuery)->where('status', 'pending')->count() ?: 0,
+                'approved_applications' => (clone $applicationQuery)->where('status', 'approved')->count() ?: 0,
+                'rejected_applications' => (clone $applicationQuery)->where('status', 'rejected')->count() ?: 0,
                 'total_users' => User::where('is_admin', false)->count() ?: 0,
                 'adoption_rate' => $this->calculateAdoptionRate(),
             ];
@@ -92,10 +109,35 @@ class AnalyticsController extends Controller
         }
     }
 
+    /**
+     * Apply location filter to Pet queries
+     */
+    private function applyLocationFilter($query)
+    {
+        if ($this->userLocation) {
+            return $query->where('location', $this->userLocation);
+        }
+        return $query;
+    }
+
+    /**
+     * Apply location filter to AdoptionApplication queries
+     */
+    private function applyLocationFilterToApplications($query)
+    {
+        if ($this->userLocation) {
+            return $query->whereHas('pet', function($q) {
+                $q->where('location', $this->userLocation);
+            });
+        }
+        return $query;
+    }
+
     private function calculateAdoptionRate()
     {
-        $totalPets = Pet::count();
-        $adoptedPets = Pet::where('is_available', false)->count();
+        $petQuery = $this->applyLocationFilter(Pet::query());
+        $totalPets = $petQuery->count();
+        $adoptedPets = (clone $petQuery)->where('is_available', false)->count();
         
         return $totalPets > 0 ? round(($adoptedPets / $totalPets) * 100, 2) : 0;
     }
@@ -103,7 +145,8 @@ class AnalyticsController extends Controller
     private function getAdoptionTrends()
     {
         try {
-            return AdoptionApplication::select(
+            $query = $this->applyLocationFilterToApplications(AdoptionApplication::query());
+            return $query->select(
                     DB::raw('DATE(created_at) as date'),
                     DB::raw('COUNT(*) as count')
                 )
@@ -119,7 +162,8 @@ class AnalyticsController extends Controller
     private function getPetTypeStats()
     {
         try {
-            return Pet::select('type', DB::raw('COUNT(*) as count'))
+            $query = $this->applyLocationFilter(Pet::query());
+            return $query->select('type', DB::raw('COUNT(*) as count'))
                 ->groupBy('type')
                 ->get();
         } catch (\Exception $e) {
@@ -130,7 +174,8 @@ class AnalyticsController extends Controller
     private function getApplicationStatusStats()
     {
         try {
-            return AdoptionApplication::select('status', DB::raw('COUNT(*) as count'))
+            $query = $this->applyLocationFilterToApplications(AdoptionApplication::query());
+            return $query->select('status', DB::raw('COUNT(*) as count'))
                 ->groupBy('status')
                 ->get();
         } catch (\Exception $e) {
@@ -155,7 +200,8 @@ class AnalyticsController extends Controller
 
     private function getPopularBreeds()
     {
-        return Pet::select('breed', DB::raw('COUNT(*) as count'))
+        $query = $this->applyLocationFilter(Pet::query());
+        return $query->select('breed', DB::raw('COUNT(*) as count'))
             ->whereNotNull('breed')
             ->groupBy('breed')
             ->orderBy('count', 'desc')
@@ -166,9 +212,10 @@ class AnalyticsController extends Controller
     private function getCapacityData()
     {
         try {
-            $totalPets = Pet::where('is_available', true)->count();
-            $dogs = Pet::where('is_available', true)->where('type', 'Dog')->count();
-            $cats = Pet::where('is_available', true)->where('type', 'Cat')->count();
+            $petQuery = $this->applyLocationFilter(Pet::query());
+            $totalPets = (clone $petQuery)->where('is_available', true)->count();
+            $dogs = (clone $petQuery)->where('is_available', true)->where('type', 'Dog')->count();
+            $cats = (clone $petQuery)->where('is_available', true)->where('type', 'Cat')->count();
             
             // Derive maximum capacity from location capacities when possible
             $locationCaps = $this->getLocationCapacityData();
@@ -331,7 +378,8 @@ class AnalyticsController extends Controller
     private function getAtRiskPets()
     {
         try {
-            return Pet::select('id', 'name', 'type', 'date_added', 'created_at')
+            $query = $this->applyLocationFilter(Pet::query());
+            return $query->select('id', 'name', 'type', 'date_added', 'created_at')
                 ->where('is_available', true)
                 ->where(function ($query) {
                     // Include pets urgent based on date_added (7+ days)
@@ -380,7 +428,8 @@ class AnalyticsController extends Controller
     private function getLengthOfStayData()
     {
         try {
-            $pets = Pet::where('is_available', true)->get();
+            $query = $this->applyLocationFilter(Pet::query());
+            $pets = $query->where('is_available', true)->get();
             
             $ranges = [
                 '0-7 days' => 0,
@@ -432,7 +481,8 @@ class AnalyticsController extends Controller
 
     private function exportApplications()
     {
-        $applications = AdoptionApplication::with(['user', 'pet'])->get();
+        $query = $this->applyLocationFilterToApplications(AdoptionApplication::query());
+        $applications = $query->with(['user', 'pet'])->get();
         
         $headers = [
             'Content-Type' => 'text/csv',
@@ -464,7 +514,8 @@ class AnalyticsController extends Controller
 
     private function exportPets()
     {
-        $pets = Pet::all();
+        $query = $this->applyLocationFilter(Pet::query());
+        $pets = $query->get();
         
         $headers = [
             'Content-Type' => 'text/csv',

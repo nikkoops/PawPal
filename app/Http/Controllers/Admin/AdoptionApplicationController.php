@@ -11,6 +11,14 @@ class AdoptionApplicationController extends Controller
     public function index(Request $request)
     {
         $query = AdoptionApplication::with(['pet']);
+        
+        // Filter by shelter location if user has one assigned
+        $user = auth()->user();
+        if ($user->hasShelterLocation()) {
+            $query->whereHas('pet', function($petQuery) use ($user) {
+                $petQuery->where('location', $user->shelter_location);
+            });
+        }
 
         // Filter by status if provided
         if ($request->has('status') && $request->get('status') !== '') {
@@ -60,12 +68,19 @@ class AdoptionApplicationController extends Controller
         ]);
         
         // Calculate statistics
+        $statsQuery = AdoptionApplication::query();
+        if ($user->hasShelterLocation()) {
+            $statsQuery->whereHas('pet', function($petQuery) use ($user) {
+                $petQuery->where('location', $user->shelter_location);
+            });
+        }
+        
         $stats = [
-            'total' => AdoptionApplication::count(),
-            'pending' => AdoptionApplication::where('status', 'pending')->count(),
-            'approved' => AdoptionApplication::where('status', 'approved')->count(),
-            'rejected' => AdoptionApplication::where('status', 'rejected')->count(),
-            'this_month' => AdoptionApplication::whereMonth('created_at', now()->month)
+            'total' => (clone $statsQuery)->count(),
+            'pending' => (clone $statsQuery)->where('status', 'pending')->count(),
+            'approved' => (clone $statsQuery)->where('status', 'approved')->count(),
+            'rejected' => (clone $statsQuery)->where('status', 'rejected')->count(),
+            'this_month' => (clone $statsQuery)->whereMonth('created_at', now()->month)
                 ->whereYear('created_at', now()->year)
                 ->count()
         ];

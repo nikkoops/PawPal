@@ -21,6 +21,12 @@ class PetController extends Controller
     public function index(Request $request)
     {
         $query = Pet::query();
+        
+        // Filter by shelter location if user has one assigned
+        $user = auth()->user();
+        if ($user->hasShelterLocation()) {
+            $query->where('location', $user->shelter_location);
+        }
 
         // Removed search functionality as requested
 
@@ -32,17 +38,23 @@ class PetController extends Controller
             $query->where('is_available', $request->get('availability') === 'available');
         }
 
-        // Add location filter
-        if ($request->has('location') && $request->get('location') !== '') {
+        // Add location filter (only if user is system admin without assigned location)
+        if ($request->has('location') && $request->get('location') !== '' && !$user->hasShelterLocation()) {
             $query->where('location', $request->get('location'));
         }
 
         $pets = $query->orderBy('created_at', 'desc')->paginate(12);
         
         // Get unique locations for the filter dropdown
-        $locations = Pet::whereNotNull('location')
-            ->where('location', '!=', '')
-            ->distinct()
+        $locationsQuery = Pet::whereNotNull('location')
+            ->where('location', '!=', '');
+            
+        // If user has assigned location, only show their location
+        if ($user->hasShelterLocation()) {
+            $locationsQuery->where('location', $user->shelter_location);
+        }
+        
+        $locations = $locationsQuery->distinct()
             ->pluck('location')
             ->sort()
             ->values();

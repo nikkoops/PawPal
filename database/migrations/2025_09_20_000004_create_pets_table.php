@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->enum('size', ['small', 'medium', 'large'])->nullable();
-            $table->json('characteristics')->nullable(); // For storing traits like friendly, playful, etc.
+            $table->json('characteristics')->nullable(); // For storing traits like energetic, good_with_kids, etc.
             $table->boolean('is_available')->default(true);
             $table->decimal('adoption_fee', 8, 2)->nullable();
             $table->text('medical_history')->nullable();

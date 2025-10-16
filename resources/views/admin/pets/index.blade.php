@@ -20,7 +20,7 @@
 
     <!-- Filters -->
     <div class="card">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
                 <label class="block text-sm font-medium text-foreground mb-2">Pet Type</label>
                 <select id="typeFilter" class="input" onchange="filterPets()">
@@ -36,6 +36,19 @@
                     <option value="">All Status</option>
                     <option value="available" {{ request('availability') === 'available' ? 'selected' : '' }}>Available</option>
                     <option value="unavailable" {{ request('availability') === 'unavailable' ? 'selected' : '' }}>Adopted</option>
+                </select>
+            </div>
+
+            <!-- Location Filter - New addition matching adoption site functionality -->
+            <div>
+                <label class="block text-sm font-medium text-foreground mb-2">Location</label>
+                <select id="locationFilter" class="input" onchange="filterPets()">
+                    <option value="">All Locations</option>
+                    @foreach($locations as $location)
+                        <option value="{{ $location }}" {{ request('location') === $location ? 'selected' : '' }}>
+                            {{ $location }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -64,15 +77,33 @@
 </div>
 
 <script>
-// Filter pets via AJAX
+/**
+ * Admin Pet Management Filtering System
+ * 
+ * This script handles real-time filtering of pets in the admin dashboard.
+ * It includes the following filter categories:
+ * - Pet Type (Dogs/Cats) 
+ * - Availability Status (Available/Adopted)
+ * - Location (Dynamic dropdown populated from actual pet locations)
+ * 
+ * The location filter mirrors the functionality found on the adoption site
+ * to provide a consistent user experience between public and admin interfaces.
+ * 
+ * State management: All filter selections are preserved in URL parameters
+ * and restored on page load for better user experience.
+ */
+
+// Filter pets via AJAX - Updated to include location filtering
 function filterPets() {
     const type = document.getElementById('typeFilter').value;
     const availability = document.getElementById('availabilityFilter').value;
+    const location = document.getElementById('locationFilter').value; // New location filter
     
-    // Build query parameters
+    // Build query parameters - includes location for comprehensive filtering
     const params = new URLSearchParams();
     if (type) params.append('type', type);
     if (availability) params.append('availability', availability);
+    if (location) params.append('location', location); // Add location to query parameters
     
     // Show loading state
     const container = document.getElementById('petGridContainer');
@@ -83,7 +114,7 @@ function filterPets() {
         </div>
     `;
     
-    // Fetch filtered pets
+    // Fetch filtered pets - using correct route name within admin group
     fetch(`{{ route('admin.pets.filter') }}?${params.toString()}`)
         .then(response => {
             if (!response.ok) {

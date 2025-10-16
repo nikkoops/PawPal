@@ -73,7 +73,7 @@ class PetController extends Controller
             'name' => 'required|string|max:255',
             'type' => 'required|in:dog,cat',
             'breed' => 'nullable|string|max:255',
-            'age' => 'nullable|integer|min:0',
+            'age' => 'nullable|numeric|min:0|max:25',
             'gender' => 'required|in:male,female',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -89,6 +89,12 @@ class PetController extends Controller
         ]);
 
         $data = $request->all();
+        
+        // Auto-assign location if user has shelter location
+        $user = auth()->user();
+        if ($user->hasShelterLocation()) {
+            $data['location'] = $user->shelter_location;
+        }
         
         // Ensure boolean fields are properly set
         $data['is_available'] = $request->has('is_available') ? true : false;

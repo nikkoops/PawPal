@@ -34,6 +34,7 @@ class Pet extends Model
         'is_vaccinated' => 'boolean',
         'is_neutered' => 'boolean',
         'adoption_fee' => 'decimal:2',
+        'age' => 'decimal:2',
         'date_added' => 'date',
     ];
 
@@ -77,6 +78,24 @@ class Pet extends Model
         }
         
         return "In shelter for {$this->days_in_shelter} days";
+    }
+
+    /**
+     * Get age in human-readable format
+     */
+    public function getAgeDisplayAttribute()
+    {
+        if (!$this->age) {
+            return 'Unknown age';
+        }
+        
+        if ($this->age < 1) {
+            $months = round($this->age * 12);
+            return $months . ($months == 1 ? ' month' : ' months');
+        }
+        
+        $years = floor($this->age);
+        return $years . ($years == 1 ? ' year' : ' years');
     }
     
     /**

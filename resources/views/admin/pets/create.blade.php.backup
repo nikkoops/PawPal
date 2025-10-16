@@ -48,7 +48,7 @@
                             </label>
                             <input type="text" id="name" name="name" value="{{ old('name') }}" required 
                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                                   placeholder="Add pet name">
+                                   placeholder="Hasheem Ditano">
                         </div>
 
                         <!-- Pet Type -->
@@ -73,30 +73,34 @@
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
                                 <option value="">Select breed</option>
                                 <!-- Dog Breeds -->
-                                <option value="Aspin" data-type="dog" {{ old('breed') === 'Aspin' ? 'selected' : '' }}>Aspin (Asong Pinoy)</option>
-                                <option value="Labrador Retriever" data-type="dog" {{ old('breed') === 'Labrador Retriever' ? 'selected' : '' }}>Labrador Retriever</option>
-                                <option value="Golden Retriever" data-type="dog" {{ old('breed') === 'Golden Retriever' ? 'selected' : '' }}>Golden Retriever</option>
-                                <option value="German Shepherd" data-type="dog" {{ old('breed') === 'German Shepherd' ? 'selected' : '' }}>German Shepherd</option>
-                                <option value="Beagle" data-type="dog" {{ old('breed') === 'Beagle' ? 'selected' : '' }}>Beagle</option>
-                                <option value="Bulldog" data-type="dog" {{ old('breed') === 'Bulldog' ? 'selected' : '' }}>Bulldog</option>
-                                <option value="Poodle" data-type="dog" {{ old('breed') === 'Poodle' ? 'selected' : '' }}>Poodle</option>
-                                <option value="Shih Tzu" data-type="dog" {{ old('breed') === 'Shih Tzu' ? 'selected' : '' }}>Shih Tzu</option>
-                                <option value="Chihuahua" data-type="dog" {{ old('breed') === 'Chihuahua' ? 'selected' : '' }}>Chihuahua</option>
-                                <option value="Dachshund" data-type="dog" {{ old('breed') === 'Dachshund' ? 'selected' : '' }}>Dachshund</option>
-                                <option value="Siberian Husky" data-type="dog" {{ old('breed') === 'Siberian Husky' ? 'selected' : '' }}>Siberian Husky</option>
-                                <option value="Pomeranian" data-type="dog" {{ old('breed') === 'Pomeranian' ? 'selected' : '' }}>Pomeranian</option>
-                                <option value="Mixed Breed (Dog)" data-type="dog" {{ old('breed') === 'Mixed Breed (Dog)' ? 'selected' : '' }}>Mixed Breed</option>
+                                <optgroup label="Dog Breeds" id="dog-breeds" style="display:none;">
+                                    <option value="Aspin" {{ old('breed') === 'Aspin' ? 'selected' : '' }}>Aspin (Asong Pinoy)</option>
+                                    <option value="Labrador Retriever" {{ old('breed') === 'Labrador Retriever' ? 'selected' : '' }}>Labrador Retriever</option>
+                                    <option value="Golden Retriever" {{ old('breed') === 'Golden Retriever' ? 'selected' : '' }}>Golden Retriever</option>
+                                    <option value="German Shepherd" {{ old('breed') === 'German Shepherd' ? 'selected' : '' }}>German Shepherd</option>
+                                    <option value="Beagle" {{ old('breed') === 'Beagle' ? 'selected' : '' }}>Beagle</option>
+                                    <option value="Bulldog" {{ old('breed') === 'Bulldog' ? 'selected' : '' }}>Bulldog</option>
+                                    <option value="Poodle" {{ old('breed') === 'Poodle' ? 'selected' : '' }}>Poodle</option>
+                                    <option value="Shih Tzu" {{ old('breed') === 'Shih Tzu' ? 'selected' : '' }}>Shih Tzu</option>
+                                    <option value="Chihuahua" {{ old('breed') === 'Chihuahua' ? 'selected' : '' }}>Chihuahua</option>
+                                    <option value="Dachshund" {{ old('breed') === 'Dachshund' ? 'selected' : '' }}>Dachshund</option>
+                                    <option value="Siberian Husky" {{ old('breed') === 'Siberian Husky' ? 'selected' : '' }}>Siberian Husky</option>
+                                    <option value="Pomeranian" {{ old('breed') === 'Pomeranian' ? 'selected' : '' }}>Pomeranian</option>
+                                    <option value="Mixed Breed" {{ old('breed') === 'Mixed Breed' ? 'selected' : '' }}>Mixed Breed</option>
+                                </optgroup>
                                 <!-- Cat Breeds -->
-                                <option value="Puspin" data-type="cat" {{ old('breed') === 'Puspin' ? 'selected' : '' }}>Puspin (Pusang Pinoy)</option>
-                                <option value="Persian" data-type="cat" {{ old('breed') === 'Persian' ? 'selected' : '' }}>Persian</option>
-                                <option value="Siamese" data-type="cat" {{ old('breed') === 'Siamese' ? 'selected' : '' }}>Siamese</option>
-                                <option value="Maine Coon" data-type="cat" {{ old('breed') === 'Maine Coon' ? 'selected' : '' }}>Maine Coon</option>
-                                <option value="British Shorthair" data-type="cat" {{ old('breed') === 'British Shorthair' ? 'selected' : '' }}>British Shorthair</option>
-                                <option value="Ragdoll" data-type="cat" {{ old('breed') === 'Ragdoll' ? 'selected' : '' }}>Ragdoll</option>
-                                <option value="Bengal" data-type="cat" {{ old('breed') === 'Bengal' ? 'selected' : '' }}>Bengal</option>
-                                <option value="Scottish Fold" data-type="cat" {{ old('breed') === 'Scottish Fold' ? 'selected' : '' }}>Scottish Fold</option>
-                                <option value="Sphynx" data-type="cat" {{ old('breed') === 'Sphynx' ? 'selected' : '' }}>Sphynx</option>
-                                <option value="Mixed Breed (Cat)" data-type="cat" {{ old('breed') === 'Mixed Breed (Cat)' ? 'selected' : '' }}>Mixed Breed</option>
+                                <optgroup label="Cat Breeds" id="cat-breeds" style="display:none;">
+                                    <option value="Puspin" {{ old('breed') === 'Puspin' ? 'selected' : '' }}>Puspin (Pusang Pinoy)</option>
+                                    <option value="Persian" {{ old('breed') === 'Persian' ? 'selected' : '' }}>Persian</option>
+                                    <option value="Siamese" {{ old('breed') === 'Siamese' ? 'selected' : '' }}>Siamese</option>
+                                    <option value="Maine Coon" {{ old('breed') === 'Maine Coon' ? 'selected' : '' }}>Maine Coon</option>
+                                    <option value="British Shorthair" {{ old('breed') === 'British Shorthair' ? 'selected' : '' }}>British Shorthair</option>
+                                    <option value="Ragdoll" {{ old('breed') === 'Ragdoll' ? 'selected' : '' }}>Ragdoll</option>
+                                    <option value="Bengal" {{ old('breed') === 'Bengal' ? 'selected' : '' }}>Bengal</option>
+                                    <option value="Scottish Fold" {{ old('breed') === 'Scottish Fold' ? 'selected' : '' }}>Scottish Fold</option>
+                                    <option value="Sphynx" {{ old('breed') === 'Sphynx' ? 'selected' : '' }}>Sphynx</option>
+                                    <option value="Mixed Breed" {{ old('breed') === 'Mixed Breed' ? 'selected' : '' }}>Mixed Breed</option>
+                                </optgroup>
                             </select>
                         </div>
 
@@ -302,37 +306,197 @@
 <script>
     // Initialize Lucide icons
     lucide.createIcons();
+                    </div>
+                    <div class="form-group">
+                        <label for="type" class="form-label">Pet Type *</label>
+                        <select id="type" name="type" required class="input">
+                            <option value="">Select type</option>
+                            <option value="dog" {{ old('type') === 'dog' ? 'selected' : '' }}>Dog</option>
+                            <option value="cat" {{ old('type') === 'cat' ? 'selected' : '' }}>Cat</option>
+                            <option value="other" {{ old('type') === 'other' ? 'selected' : '' }}>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="breed" class="form-label">Breed</label>
+                        <input type="text" id="breed" name="breed" value="{{ old('breed') }}" class="input" placeholder="Enter breed">
+                    </div>
+                    <div class="form-group">
+                        <label for="age" class="form-label">Age (years)</label>
+                        <input type="number" id="age" name="age" value="{{ old('age') }}" min="0" class="input" placeholder="Enter age">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="gender" class="form-label">Gender *</label>
+                        <select id="gender" name="gender" required class="input">
+                            <option value="">Select gender</option>
+                            <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Male</option>
+                            <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="size" class="form-label">Size</label>
+                        <select id="size" name="size" class="input">
+                            <option value="">Select size</option>
+                            <option value="small" {{ old('size') === 'small' ? 'selected' : '' }}>Small</option>
+                            <option value="medium" {{ old('size') === 'medium' ? 'selected' : '' }}>Medium</option>
+                            <option value="large" {{ old('size') === 'large' ? 'selected' : '' }}>Large</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="location" class="form-label">Location</label>
+                    <select id="location" name="location" class="input">
+                        <option value="">Select location</option>
+                        <option value="Caloocan" {{ old('location') === 'Caloocan' ? 'selected' : '' }}>Caloocan</option>
+                        <option value="Las Piñas" {{ old('location') === 'Las Piñas' ? 'selected' : '' }}>Las Piñas</option>
+                        <option value="Makati" {{ old('location') === 'Makati' ? 'selected' : '' }}>Makati</option>
+                        <option value="Malabon" {{ old('location') === 'Malabon' ? 'selected' : '' }}>Malabon</option>
+                        <option value="Mandaluyong" {{ old('location') === 'Mandaluyong' ? 'selected' : '' }}>Mandaluyong</option>
+                        <option value="Manila" {{ old('location') === 'Manila' ? 'selected' : '' }}>Manila</option>
+                        <option value="Marikina" {{ old('location') === 'Marikina' ? 'selected' : '' }}>Marikina</option>
+                        <option value="Muntinlupa" {{ old('location') === 'Muntinlupa' ? 'selected' : '' }}>Muntinlupa</option>
+                        <option value="Navotas" {{ old('location') === 'Navotas' ? 'selected' : '' }}>Navotas</option>
+                        <option value="Parañaque" {{ old('location') === 'Parañaque' ? 'selected' : '' }}>Parañaque</option>
+                        <option value="Pasay" {{ old('location') === 'Pasay' ? 'selected' : '' }}>Pasay</option>
+                        <option value="Pasig" {{ old('location') === 'Pasig' ? 'selected' : '' }}>Pasig</option>
+                        <option value="Quezon City" {{ old('location') === 'Quezon City' ? 'selected' : '' }}>Quezon City</option>
+                        <option value="San Juan" {{ old('location') === 'San Juan' ? 'selected' : '' }}>San Juan</option>
+                        <option value="Taguig" {{ old('location') === 'Taguig' ? 'selected' : '' }}>Taguig</option>
+                        <option value="Valenzuela" {{ old('location') === 'Valenzuela' ? 'selected' : '' }}>Valenzuela</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date_added" class="form-label">Date Added to Shelter *</label>
+                    <input type="date" id="date_added" name="date_added" value="{{ old('date_added', date('Y-m-d')) }}" required class="input">
+                    <p class="text-xs text-muted-foreground mt-1">Pets will be marked as urgent if in shelter for 7+ days</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="description" class="form-label">Short Description</label>
+                    <textarea id="description" name="description" rows="3" class="input" placeholder="Brief description for pet listing">{{ old('description') }}</textarea>
+                </div>
+            </div>
+
+            <!-- Right Side - Additional Details -->
+            <div class="space-y-8">
+                <!-- Image Upload -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-foreground mb-4">Pet Photo</h3>
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="image" class="form-label">Upload Photo</label>
+                            <input type="file" id="image" name="image" accept="image/*" class="input">
+                            <p class="text-xs text-muted-foreground mt-1">Accepted formats: JPG, PNG, GIF. Max size: 2MB</p>
+                        </div>
+                        <div id="image-preview" class="hidden">
+                            <img id="preview-img" src="" alt="Preview" class="w-full h-48 object-cover rounded-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Health & Characteristics -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-foreground mb-4">Health & Characteristics</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <label for="is_vaccinated" class="form-label">Vaccinated</label>
+                            <input type="hidden" name="is_vaccinated" value="0">
+                            <input type="checkbox" id="is_vaccinated" name="is_vaccinated" value="1" {{ old('is_vaccinated') ? 'checked' : '' }}
+                                   class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <label for="is_neutered" class="form-label">Spayed/Neutered</label>
+                            <input type="hidden" name="is_neutered" value="0">
+                            <input type="checkbox" id="is_neutered" name="is_neutered" value="1" {{ old('is_neutered') ? 'checked' : '' }}
+                                   class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                        </div>
+
+                        <div>
+                            <label class="form-label">Characteristics</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="characteristics[]" value="energetic"
+                                           {{ in_array('energetic', old('characteristics', [])) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded mr-2">
+                                    <span class="text-sm">Energetic</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="characteristics[]" value="good_with_kids"
+                                           {{ in_array('good_with_kids', old('characteristics', [])) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded mr-2">
+                                    <span class="text-sm">Good with Kids</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="characteristics[]" value="good_with_pets"
+                                           {{ in_array('good_with_pets', old('characteristics', [])) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded mr-2">
+                                    <span class="text-sm">Good with Other Pets</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Availability -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-foreground mb-4">Availability</h3>
+                    <div class="flex items-center justify-between">
+                        <label for="is_available" class="form-label">Available for Adoption</label>
+                        <input type="hidden" name="is_available" value="0">
+                        <input type="checkbox" id="is_available" name="is_available" value="1" {{ old('is_available', 1) ? 'checked' : '' }}
+                               class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex justify-end space-x-4 pt-6 border-t border-border">
+            <a href="{{ route('admin.shelter.pets.index') }}" class="btn-secondary">
+                Cancel
+            </a>
+            <button type="submit" class="btn-primary">
+                <i data-lucide="save" class="h-4 w-4"></i>
+                <span>Add Pet</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Initialize Lucide icons
+    lucide.createIcons();
 
     // Breed filter based on pet type
     const typeSelect = document.getElementById('type');
     const breedSelect = document.getElementById('breed');
+    const dogBreeds = document.getElementById('dog-breeds');
+    const catBreeds = document.getElementById('cat-breeds');
 
     function updateBreedOptions() {
         const selectedType = typeSelect.value;
         
-        // Get all breed options
-        const breedOptions = breedSelect.querySelectorAll('option');
+        // Reset breed selection
+        breedSelect.value = '';
         
-        // Reset breed selection if it doesn't match the new type
-        const currentBreed = breedSelect.value;
-        const currentBreedOption = breedSelect.querySelector(`option[value="${currentBreed}"]`);
-        if (currentBreedOption && currentBreedOption.dataset.type !== selectedType) {
-            breedSelect.value = '';
+        // Hide all optgroups
+        dogBreeds.style.display = 'none';
+        catBreeds.style.display = 'none';
+        
+        // Show relevant optgroup
+        if (selectedType === 'dog') {
+            dogBreeds.style.display = 'block';
+        } else if (selectedType === 'cat') {
+            catBreeds.style.display = 'block';
         }
-        
-        // Show/hide breed options based on selected type
-        breedOptions.forEach(option => {
-            if (option.value === '') {
-                // Always show the "Select breed" option
-                option.style.display = 'block';
-            } else if (option.dataset.type === selectedType) {
-                // Show breeds matching the selected type
-                option.style.display = 'block';
-            } else {
-                // Hide breeds that don't match
-                option.style.display = 'none';
-            }
-        });
     }
 
     // Update breeds when type changes

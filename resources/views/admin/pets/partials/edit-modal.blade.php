@@ -411,6 +411,12 @@ function editPetModal(petId, petData) {
             is_available: true,
             is_vaccinated: false,
             is_neutered: false,
+            is_dewormed: false,
+            is_tick_flea_treated: false,
+            on_preventive_medication: false,
+            has_special_medical_needs: false,
+            is_mobility_impaired: false,
+            is_undergoing_treatment: false,
             date_added: '',
             image_url: '',
             is_urgent: false,
@@ -525,6 +531,12 @@ function editPetModal(petId, petData) {
                     is_available: !!data.is_available,
                     is_vaccinated: !!data.is_vaccinated,
                     is_neutered: !!data.is_neutered,
+                    is_dewormed: !!data.is_dewormed,
+                    is_tick_flea_treated: !!data.is_tick_flea_treated,
+                    on_preventive_medication: !!data.on_preventive_medication,
+                    has_special_medical_needs: !!data.has_special_medical_needs,
+                    is_mobility_impaired: !!data.is_mobility_impaired,
+                    is_undergoing_treatment: !!data.is_undergoing_treatment,
                     date_added: dateValue,
                     image_url: data.image_url || '/images/default-pet.jpg',
                     is_urgent: !!data.is_urgent,
@@ -609,6 +621,24 @@ function editPetModal(petId, petData) {
                 if (!formData.has('is_neutered')) {
                     formData.set('is_neutered', '0');
                 }
+                if (!formData.has('is_dewormed')) {
+                    formData.set('is_dewormed', '0');
+                }
+                if (!formData.has('is_tick_flea_treated')) {
+                    formData.set('is_tick_flea_treated', '0');
+                }
+                if (!formData.has('on_preventive_medication')) {
+                    formData.set('on_preventive_medication', '0');
+                }
+                if (!formData.has('has_special_medical_needs')) {
+                    formData.set('has_special_medical_needs', '0');
+                }
+                if (!formData.has('is_mobility_impaired')) {
+                    formData.set('is_mobility_impaired', '0');
+                }
+                if (!formData.has('is_undergoing_treatment')) {
+                    formData.set('is_undergoing_treatment', '0');
+                }
                 if (!formData.has('is_available')) {
                     formData.set('is_available', '0');
                 }
@@ -629,6 +659,12 @@ function editPetModal(petId, petData) {
                     location: formData.get('location'),
                     is_vaccinated: formData.get('is_vaccinated'),
                     is_neutered: formData.get('is_neutered'),
+                    is_dewormed: formData.get('is_dewormed'),
+                    is_tick_flea_treated: formData.get('is_tick_flea_treated'),
+                    on_preventive_medication: formData.get('on_preventive_medication'),
+                    has_special_medical_needs: formData.get('has_special_medical_needs'),
+                    is_mobility_impaired: formData.get('is_mobility_impaired'),
+                    is_undergoing_treatment: formData.get('is_undergoing_treatment'),
                     is_available: formData.get('is_available')
                 });
                 

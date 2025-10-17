@@ -112,16 +112,16 @@ class PetController extends Controller
             $data['location'] = $user->shelter_location;
         }
         
-        // Ensure boolean fields are properly set
-        $data['is_available'] = $request->has('is_available') ? true : false;
-        $data['is_vaccinated'] = $request->has('is_vaccinated') ? true : false;
-        $data['is_neutered'] = $request->has('is_neutered') ? true : false;
-        $data['is_dewormed'] = $request->has('is_dewormed') ? true : false;
-        $data['is_tick_flea_treated'] = $request->has('is_tick_flea_treated') ? true : false;
-        $data['on_preventive_medication'] = $request->has('on_preventive_medication') ? true : false;
-        $data['has_special_medical_needs'] = $request->has('has_special_medical_needs') ? true : false;
-        $data['is_mobility_impaired'] = $request->has('is_mobility_impaired') ? true : false;
-        $data['is_undergoing_treatment'] = $request->has('is_undergoing_treatment') ? true : false;
+        // Ensure boolean fields are properly set - use input value, not presence
+        $data['is_available'] = $request->input('is_available') == '1';
+        $data['is_vaccinated'] = $request->input('is_vaccinated') == '1';
+        $data['is_neutered'] = $request->input('is_neutered') == '1';
+        $data['is_dewormed'] = $request->input('is_dewormed') == '1';
+        $data['is_tick_flea_treated'] = $request->input('is_tick_flea_treated') == '1';
+        $data['on_preventive_medication'] = $request->input('on_preventive_medication') == '1';
+        $data['has_special_medical_needs'] = $request->input('has_special_medical_needs') == '1';
+        $data['is_mobility_impaired'] = $request->input('is_mobility_impaired') == '1';
+        $data['is_undergoing_treatment'] = $request->input('is_undergoing_treatment') == '1';
 
         // Handle characteristics array - filter out empty values
         if (isset($data['characteristics'])) {
@@ -295,10 +295,6 @@ class PetController extends Controller
 
             // Update the pet
             $pet->update($data);
-            
-            // Debug: Log what was saved
-            \Log::info('Pet updated with data:', $data);
-            \Log::info('Pet after update:', $pet->toArray());
             
             // Refresh the pet model to get updated values
             $pet = $pet->fresh();

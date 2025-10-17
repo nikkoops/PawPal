@@ -18,14 +18,28 @@
                 
                 <div class="p-4">
                     <div class="space-y-3">
-                        <div>
+                        <div class="flex justify-between items-start">
                             <h3 class="text-lg font-serif font-bold text-foreground">{{ $pet->name }}</h3>
+                            <span class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded">{{ ucfirst($pet->type) }}</span>
+                        </div>
+                        <div>
                             <p class="text-sm text-muted-foreground">
-                                {{ ucfirst($pet->type) }} • {{ $pet->age_display }} • {{ $pet->size ? ucfirst($pet->size) : 'Unknown size' }}
+                                {{-- NEW FORMAT: Breed • Age Range • Size (using age categories: Puppy/Kitten, Adult, Senior) --}}
+                                @php
+                                    $details = array_filter([
+                                        $pet->breed,
+                                        $pet->age_category,
+                                        $pet->size ? ucfirst($pet->size) : null
+                                    ]);
+                                @endphp
+                                {{ implode(' • ', $details) }}
                             </p>
                         </div>
                         @if($pet->description)
                         <p class="text-sm text-muted-foreground line-clamp-2">{{ $pet->description }}</p>
+                        @endif
+                        @if($pet->location)
+                        <div class="text-xs text-muted-foreground">📍 {{ $pet->location }}</div>
                         @endif
                         <div class="text-xs text-muted-foreground space-y-1">
                             @if($pet->date_added)

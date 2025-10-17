@@ -120,9 +120,11 @@
                                 {{ $user->created_at->format('M d, Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('admin.system.users.edit', $user) }}" class="text-purple-600 hover:text-purple-900 mr-3">
-                                    Edit
-                                </a>
+                                @if($user->email !== 'admin@pawpal.com')
+                                    <a href="{{ route('admin.system.users.edit', $user) }}" class="text-purple-600 hover:text-purple-900 mr-3">
+                                        Edit
+                                    </a>
+                                @endif
                                 @if($user->id !== auth()->id())
                                     <form action="{{ route('admin.system.users.delete', $user) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this admin?');">
                                         @csrf

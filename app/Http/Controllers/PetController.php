@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PetController extends Controller
 {
+    /**
+     * Display pets for public adoption page (home)
+     * Returns processed data for home page display
+     * CRITICAL: Must match admin panel display exactly
+     */
     public function index()
     {
         // Get all available pets with their information
@@ -18,25 +23,84 @@ class PetController extends Controller
                     'id' => $pet->id,
                     'name' => $pet->name,
                     'type' => strtolower($pet->type),
-                    'age' => $this->determineAgeCategory($pet->age),
-                    'size' => strtolower($pet->size ?? 'medium'),
+                    'age' => $pet->age_category, // Use age range (Puppy/Kitten, Adult, Senior)
+                    'age_filter_category' => $pet->age_filter_category, // Keep for filtering
+                    'size' => $pet->size ? ucfirst($pet->size) : null, // CRITICAL: No hardcoded fallbacks
                     'location' => $this->getLocation($pet),
-                    'description' => $pet->description ?? "Meet {$pet->name}, a wonderful {$pet->type} looking for a loving home.",
+                    'description' => $pet->description, // CRITICAL: No generated descriptions
                     'image' => $this->getImageUrl($pet),
-                    'vaccinated' => $pet->is_vaccinated ?? false,
-                    'spayed_neutered' => $pet->is_neutered ?? false,
+                    'vaccinated' => $pet->is_vaccinated,
+                    'spayed_neutered' => $pet->is_neutered,
                     'good_with_kids' => $this->getCharacteristic($pet, 'good_with_kids'),
                     'good_with_pets' => $this->getCharacteristic($pet, 'good_with_pets'),
-                    'breed' => $pet->breed ?? 'Mixed',
-                    'gender' => ucfirst($pet->gender ?? 'Unknown'),
-                    'adoption_fee' => $pet->adoption_fee ?? 0,
-                    'days_in_shelter' => $pet->days_in_shelter ?? 0,
-                    'urgent' => $pet->is_urgent ?? false,
-                    'urgent_reason' => $pet->urgent_reason ?? null,
+                    'breed' => $pet->breed, // CRITICAL: No "Mixed" fallback
+                    'gender' => $pet->gender ? ucfirst($pet->gender) : null, // CRITICAL: No "Unknown" fallback
+                    'adoption_fee' => $pet->adoption_fee,
+                    'days_in_shelter' => $pet->days_in_shelter,
+                    'urgent' => $pet->is_urgent,
+                    'urgent_reason' => $pet->urgent_reason,
                 ];
             });
 
-        return view('home', compact('pets'));
+        // Get unique city names from shelter locations (extract city from "City Shelter" format)
+        $shelterLocations = Pet::where('is_available', true)
+            ->whereNotNull('location')
+            ->where('location', '!=', '')
+            ->distinct()
+            ->pluck('location');
+
+        $extractedCities = $shelterLocations->map(function ($location) {
+            // Extract city name from "City Shelter" format
+            // Examples: "Taguig Shelter" → "Taguig", "Makati Animal Haven" → "Makati"
+            $words = explode(' ', $location);
+            return $words[0]; // Take the first word as the city name
+        })->unique()->sort()->values();
+
+        return view('home', compact('pets', 'extractedCities'));
+    }
+
+    /**
+     * Display pets for find-pets page
+     * Returns raw pet models with all database fields for accurate display
+     */
+    public function findPets()
+    {
+        // CRITICAL: Fetch pets directly from database with NO transformations
+        // This ensures 1:1 mapping between admin data and public display
+        $pets = Pet::where('is_available', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Get unique city names from shelter locations (extract city from "City Shelter" format)
+        $shelterLocations = Pet::where('is_available', true)
+            ->whereNotNull('location')
+            ->where('location', '!=', '')
+            ->distinct()
+            ->pluck('location');
+
+        $extractedCities = $shelterLocations->map(function ($location) {
+            // Extract city name from "City Shelter" format
+            // Examples: "Taguig Shelter" → "Taguig", "Makati Animal Haven" → "Makati"
+            $words = explode(' ', $location);
+            return $words[0]; // Take the first word as the city name
+        })->unique()->sort()->values();
+
+        // Add detailed logging to track data consistency
+        \Log::info('Find Pets Data Source', [
+            'total_pets' => $pets->count(),
+            'cities_count' => $extractedCities->count(),
+            'available_cities' => $extractedCities->toArray(),
+            'sample_pet' => $pets->first() ? [
+                'name' => $pets->first()->name,
+                'age_raw' => $pets->first()->age,
+                'age_display' => $pets->first()->age_display,
+                'size' => $pets->first()->size,
+                'breed' => $pets->first()->breed,
+                'location' => $pets->first()->location,
+            ] : 'No pets found'
+        ]);
+
+        return view('find-pets', compact('pets', 'extractedCities'));
     }
 
     public function show($id)
@@ -95,14 +159,16 @@ class PetController extends Controller
 
     private function getLocation($pet)
     {
-        // Return the actual location from the database, fallback to 'Manila' if not set
-        return $pet->location ?? 'Manila';
+        // CRITICAL: Return ONLY database values, no hardcoded fallbacks
+        // If location is not set, return null to show "Unknown location" or empty
+        return $pet->location;
     }
 
     private function getCharacteristic($pet, $characteristicName)
     {
         if (!$pet->characteristics || !is_array($pet->characteristics)) {
-            return true; // Default to true for compatibility
+            // CRITICAL: Return actual database state, not assumed defaults
+            return false; // No characteristics means false, not assumed true
         }
         
         return in_array($characteristicName, $pet->characteristics);

@@ -567,13 +567,8 @@
                                 <i data-lucide="settings" style="width: 16px !important; height: 16px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
                                 <span style="transition: color 0.3s ease !important;">Settings</span>
                             </a>
-                        @else
-                            <button class="btn-secondary btn-sm flex-1" style="display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; transition: all 0.3s ease !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
-                                <i data-lucide="settings" style="width: 16px !important; height: 16px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
-                                <span style="transition: color 0.3s ease !important;">Settings</span>
-                            </button>
                         @endif
-                        <a href="{{ route('admin.logout') }}" class="btn-secondary btn-sm flex-1" style="display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; transition: all 0.3s ease !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                        <a href="{{ route('admin.logout') }}" class="btn-secondary btn-sm {{ auth()->user()->role === 'shelter_admin' ? 'flex-1' : 'w-full' }}" style="display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; transition: all 0.3s ease !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
                             <i data-lucide="log-out" style="width: 16px !important; height: 16px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
                             <span style="transition: color 0.3s ease !important;">Logout</span>
                         </a>

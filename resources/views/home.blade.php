@@ -994,22 +994,21 @@
           <div class="filter-grid">
             <select id="location-filter" class="filter-select" onchange="filterPets()">
               <option value="">All Locations</option>
-              <option value="Caloocan">Caloocan</option>
-              <option value="Las Piñas">Las Piñas</option>
-              <option value="Makati">Makati</option>
-              <option value="Malabon">Malabon</option>
-              <option value="Mandaluyong">Mandaluyong</option>
-              <option value="Manila">Manila</option>
-              <option value="Marikina">Marikina</option>
-              <option value="Muntinlupa">Muntinlupa</option>
-              <option value="Navotas">Navotas</option>
-              <option value="Parañaque">Parañaque</option>
-              <option value="Pasay">Pasay</option>
-              <option value="Pasig">Pasig</option>
-              <option value="Quezon City">Quezon City</option>
-              <option value="San Juan">San Juan</option>
-              <option value="Taguig">Taguig</option>
-              <option value="Valenzuela">Valenzuela</option>
+              @php
+                // Combine static NCR cities with dynamic extracted cities from shelters
+                $ncrCities = collect([
+                  'Caloocan', 'Las Piñas', 'Makati', 'Malabon', 'Mandaluyong', 'Manila',
+                  'Marikina', 'Muntinlupa', 'Navotas', 'Parañaque', 'Pasay', 'Pasig',
+                  'Quezon City', 'San Juan', 'Taguig', 'Valenzuela'
+                ]);
+                
+                $dynamicCities = isset($extractedCities) ? $extractedCities : collect();
+                $allLocations = $ncrCities->merge($dynamicCities)->unique()->sort()->values();
+              @endphp
+              
+              @foreach($allLocations as $location)
+                <option value="{{ $location }}">{{ $location }}</option>
+              @endforeach
             </select>
             <select id="type-filter" class="filter-select" onchange="filterPets()">
               <option value="">All Types</option>
@@ -1058,7 +1057,7 @@
         petCard.className = 'pet-card';
         petCard.innerHTML = `
           <div class="pet-image">
-            <img src="${pet.image}" alt="${pet.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="${pet.image || ''}" alt="${pet.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="emoji-fallback" style="width: 100%; height: 200px; background: linear-gradient(135deg, #f3e8ff, #e0e7ff); display: none; align-items: center; justify-content: center; font-size: 4rem; border-radius: 0;">${petEmoji}</div>
             ${pet.urgent ? `<div class="urgent-badge">🚨 URGENT (${Math.floor(pet.days_in_shelter)} days)</div>` : ''}
           </div>
@@ -1068,13 +1067,10 @@
               <span class="pet-type">${pet.type.charAt(0).toUpperCase() + pet.type.slice(1)}</span>
             </div>
             <p class="pet-details">
-              ${pet.age.charAt(0).toUpperCase() + pet.age.slice(1)} • ${pet.size.charAt(0).toUpperCase() + pet.size.slice(1)} • ${pet.location}
+              ${[pet.breed, pet.age, pet.size].filter(Boolean).join(' • ')}
             </p>
-            <p class="pet-description">${pet.description}</p>
-            <div class="pet-extra-info" style="font-size: 0.85rem; color: #6b7280; margin: 0.5rem 0;">
-              ${pet.days_in_shelter > 0 ? `${Math.floor(pet.days_in_shelter)} days in shelter` : 'New arrival'}
-              ${pet.breed ? ` • ${pet.breed}` : ''}
-            </div>
+            ${pet.location ? `<div class="pet-location" style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">📍 ${pet.location}</div>` : ''}
+            ${pet.description ? `<p class="pet-description">${pet.description}</p>` : ''}
             <button class="meet-btn" onclick="meetPet(${pet.id}, '${pet.name}')">Meet ${pet.name}</button>
           </div>
         `;
@@ -1089,10 +1085,11 @@
       const sizeFilter = document.getElementById('size-filter').value;
 
       const filteredPets = pets.filter(pet => {
-        const matchesLocation = !locationFilter || pet.location === locationFilter;
+        // Match if pet's location starts with selected city (e.g., "Taguig" matches "Taguig Shelter")
+        const matchesLocation = !locationFilter || (pet.location && pet.location.toLowerCase().startsWith(locationFilter.toLowerCase()));
         const matchesType = !typeFilter || pet.type.toLowerCase() === typeFilter;
-        const matchesAge = !ageFilter || pet.age.toLowerCase() === ageFilter;
-        const matchesSize = !sizeFilter || pet.size.toLowerCase() === sizeFilter;
+        const matchesAge = !ageFilter || pet.age_filter_category === ageFilter; // Use age_filter_category for filtering
+        const matchesSize = !sizeFilter || (pet.size && pet.size.toLowerCase() === sizeFilter);
 
         return matchesLocation && matchesType && matchesAge && matchesSize;
       });

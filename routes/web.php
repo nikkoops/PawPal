@@ -17,6 +17,8 @@ use App\Http\Controllers\PetController;
 
 Route::get('/', [PetController::class, 'index'])->name('home');
 
+Route::get('/find-pets', [PetController::class, 'findPets'])->name('find-pets');
+
 Route::get('/pets/{id}', [PetController::class, 'show'])->name('pets.show');
 
 // API endpoint to get pet details by name

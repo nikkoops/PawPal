@@ -83,6 +83,7 @@ class Pet extends Model
 
     /**
      * Get age in human-readable format
+     * CRITICAL: This method must return consistent values between admin and public views
      */
     public function getAgeDisplayAttribute()
     {
@@ -97,6 +98,54 @@ class Pet extends Model
         
         $years = floor($this->age);
         return $years . ($years == 1 ? ' year' : ' years');
+    }
+
+    /**
+     * Get age category for display purposes
+     * Uses specific age ranges: 0-11 months = Puppy/Kitten, 1-6 years = Adult, 7+ years = Senior
+     * For cats: 11-12+ years = Senior
+     */
+    public function getAgeCategoryAttribute()
+    {
+        if (is_null($this->age) || $this->age == 0) {
+            return 'Adult'; // Default category for unknown ages
+        }
+        
+        // 0-11 months = Puppy or Kitten
+        if ($this->age < 1) {
+            return $this->type === 'cat' ? 'Kitten' : 'Puppy';
+        }
+        
+        // For cats: 11+ years = Senior, for dogs: 7+ years = Senior
+        $seniorAge = $this->type === 'cat' ? 11 : 7;
+        
+        if ($this->age >= $seniorAge) {
+            return 'Senior';
+        }
+        
+        // 1-6 years (or 1-10 for cats) = Adult
+        return 'Adult';
+    }
+
+    /**
+     * Get age category for filtering purposes (lowercase for filters)
+     * Maps database age to category labels used in public filters
+     */
+    public function getAgeFilterCategoryAttribute()
+    {
+        if (is_null($this->age) || $this->age == 0) {
+            return 'adult'; // Default category for unknown ages
+        }
+        
+        if ($this->age < 1) {
+            return 'puppy'; // Covers both kittens and puppies for filtering
+        }
+        
+        if ($this->age < 7) {
+            return 'adult';
+        }
+        
+        return 'senior';
     }
     
     /**
@@ -124,8 +173,13 @@ class Pet extends Model
         // Remove 'pets/' prefix if it exists since we'll add it
         $imagePath = str_replace('pets/', '', $this->image);
         
-        // Build URL with proper formatting
-        return url('storage/pets/' . $imagePath);
+        // Build URL with proper formatting - ensure port 8000 for Docker
+        $baseUrl = request()->getSchemeAndHttpHost();
+        if (strpos($baseUrl, ':8000') === false && strpos($baseUrl, 'localhost') !== false) {
+            $baseUrl = str_replace('localhost', 'localhost:8000', $baseUrl);
+        }
+        
+        return $baseUrl . '/storage/pets/' . $imagePath;
     }
 
     /**

@@ -198,10 +198,11 @@
     }
 
     .pet-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.5rem;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: flex-start !important;
+      margin-bottom: 0.5rem !important;
+      width: 100% !important;
     }
 
     .pet-name {
@@ -212,12 +213,15 @@
     }
 
     .pet-type {
-      background: #e5e7eb;
-      color: #374151;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.75rem;
-      font-weight: 500;
+      background: #e5e7eb !important;
+      color: #374151 !important;
+      padding: 0.25rem 0.5rem !important;
+      border-radius: 0.25rem !important;
+      font-size: 0.75rem !important;
+      font-weight: 500 !important;
+      display: inline-block !important;
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
     }
 
     .pet-details {
@@ -341,22 +345,19 @@
           </select>
           <select id="location-filter" class="filter-select" onchange="filterPets()">
             <option value="">All Locations</option>
-            <option value="Caloocan">Caloocan</option>
-            <option value="Las Piñas">Las Piñas</option>
-            <option value="Makati">Makati</option>
-            <option value="Malabon">Malabon</option>
-            <option value="Mandaluyong">Mandaluyong</option>
-            <option value="Manila">Manila</option>
-            <option value="Marikina">Marikina</option>
-            <option value="Muntinlupa">Muntinlupa</option>
-            <option value="Navotas">Navotas</option>
-            <option value="Parañaque">Parañaque</option>
-            <option value="Pasay">Pasay</option>
-            <option value="Pasig">Pasig</option>
-            <option value="Quezon City">Quezon City</option>
-            <option value="San Juan">San Juan</option>
-            <option value="Taguig">Taguig</option>
-            <option value="Valenzuela">Valenzuela</option>
+              @php
+                // Combine static NCR cities with dynamic extracted cities from shelters
+                $ncrCities = collect([
+                  'Caloocan', 'Las Piñas', 'Makati', 'Malabon', 'Mandaluyong', 'Manila',
+                  'Marikina', 'Muntinlupa', 'Navotas', 'Parañaque', 'Pasay', 'Pasig',
+                  'Quezon City', 'San Juan', 'Taguig', 'Valenzuela'
+                ]);
+                
+                $dynamicCities = isset($extractedCities) ? $extractedCities : collect();
+                $allLocations = $ncrCities->merge($dynamicCities)->unique()->sort()->values();
+              @endphp            @foreach($allLocations as $location)
+              <option value="{{ $location }}">{{ $location }}</option>
+            @endforeach
           </select>
         </div>
       </div>
@@ -364,9 +365,16 @@
       <!-- Pets Grid -->
       <div id="pets-grid" class="pets-grid">
         @forelse($pets as $pet)
-          <div class="pet-card" data-name="{{ $pet->name }}" data-type="{{ strtolower($pet->type) }}" data-age="{{ $pet->age_category ?? 'adult' }}" data-location="{{ $pet->location }}">
+          {{-- CRITICAL: Using direct database model data for 1:1 accuracy with admin panel --}}
+          <div class="pet-card" data-name="{{ $pet->name }}" data-type="{{ strtolower($pet->type) }}" data-age="{{ $pet->age_filter_category }}" data-location="{{ $pet->location }}">
             <div class="pet-image">
-              <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-t-lg" />
+              @if($pet->image_url)
+                <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-t-lg" />
+              @else
+                <div class="w-full h-48 bg-gray-200 rounded-t-lg flex items-center justify-center">
+                  <span class="text-gray-500">No Image</span>
+                </div>
+              @endif
               @if($pet->is_urgent)
                 <div class="urgent-badge">🚨 Urgent: {{ $pet->days_in_shelter }} days</div>
               @endif
@@ -374,16 +382,27 @@
             <div class="pet-info">
               <div class="pet-header">
                 <h4 class="pet-name">{{ $pet->name }}</h4>
-                <span class="pet-type">{{ ucfirst($pet->type) }}</span>
+                <span class="pet-type">{{ ucfirst($pet->type ?? 'Pet') }}</span>
               </div>
               <p class="pet-details">
-                {{ ucfirst($pet->age_display ?? $pet->age) }} • {{ ucfirst($pet->size ?? 'Unknown size') }} • {{ $pet->location }}
+                {{-- NEW FORMAT: Breed • Age Range • Size (using age categories: Puppy/Kitten, Adult, Senior) --}}
+                @php
+                    $details = array_filter([
+                        $pet->breed,
+                        $pet->age_category,
+                        $pet->size ? ucfirst($pet->size) : null
+                    ]);
+                @endphp
+                {{ implode(' • ', $details) }}
               </p>
-              <p class="pet-description">{{ $pet->description }}</p>
-              <div class="pet-extra-info" style="font-size: 0.85rem; color: #6b7280; margin: 0.5rem 0;">
-                {{ $pet->days_in_shelter > 0 ? $pet->days_in_shelter . ' days in shelter' : 'New arrival' }}
-                {{ $pet->breed ? ' • ' . $pet->breed : '' }}
-              </div>
+              @if($pet->location)
+                <div class="pet-location" style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">
+                  📍 {{ $pet->location }}
+                </div>
+              @endif
+              @if($pet->description)
+                <p class="pet-description">{{ $pet->description }}</p>
+              @endif
               <button class="meet-btn" onclick="window.location.href='{{ url('/adopt?pet=' . urlencode($pet->name)) }}'">Meet {{ $pet->name }}</button>
             </div>
           </div>
@@ -442,12 +461,11 @@
     </div>
   </footer>
 
-  @php
-    use App\Models\Pet;
-    $pets = Pet::where('is_available', true)->orderBy('created_at', 'desc')->get();
-  @endphp
-
   <script>
+    /**
+     * CRITICAL: Pet filtering script
+     * Must work with data attributes set from actual database values
+     */
     function filterPets() {
       const searchTerm = document.getElementById('search-input').value.toLowerCase();
       const typeFilter = document.getElementById('type-filter').value;
@@ -459,46 +477,20 @@
         const type = card.getAttribute('data-type');
         const age = card.getAttribute('data-age');
         const location = card.getAttribute('data-location');
+        
         const matchesSearch = name.includes(searchTerm);
         const matchesType = !typeFilter || type === typeFilter;
         const matchesAge = !ageFilter || age === ageFilter;
-        const matchesLocation = !locationFilter || location === locationFilter;
+        // Match if pet's location starts with selected city (e.g., "Taguig" matches "Taguig Shelter")
+        const matchesLocation = !locationFilter || (location && location.toLowerCase().startsWith(locationFilter.toLowerCase()));
+        
         card.style.display = (matchesSearch && matchesType && matchesAge && matchesLocation) ? '' : 'none';
       });
     }
+    
+    // Initialize filters on page load
     document.addEventListener('DOMContentLoaded', filterPets);
   </script>
 
-  <div id="pets-grid" class="pets-grid">
-    @forelse($pets as $pet)
-      <div class="pet-card" data-name="{{ $pet->name }}" data-type="{{ strtolower($pet->type) }}" data-age="{{ $pet->age_category ?? 'adult' }}" data-location="{{ $pet->location }}">
-        <div class="pet-image">
-          @if($pet->image)
-            <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-t-lg">
-          @endif
-          @if($pet->is_urgent)
-            <div class="urgent-badge">🚨 Urgent: {{ $pet->days_in_shelter }} days</div>
-          @endif
-        </div>
-        <div class="pet-info">
-          <div class="pet-header">
-            <h4 class="pet-name">{{ $pet->name }}</h4>
-            <span class="pet-type">{{ ucfirst($pet->type) }}</span>
-          </div>
-          <p class="pet-details">
-            {{ ucfirst($pet->age_display ?? $pet->age) }} • {{ ucfirst($pet->size ?? 'Unknown size') }} • {{ $pet->location }}
-          </p>
-          <p class="pet-description">{{ $pet->description }}</p>
-          <div class="pet-extra-info" style="font-size: 0.85rem; color: #6b7280; margin: 0.5rem 0;">
-            {{ $pet->days_in_shelter > 0 ? $pet->days_in_shelter . ' days in shelter' : 'New arrival' }}
-            {{ $pet->breed ? ' • ' . $pet->breed : '' }}
-          </div>
-          <button class="meet-btn" onclick="window.location.href='{{ url('/adopt?pet=' . urlencode($pet->name)) }}'">Meet {{ $pet->name }}</button>
-        </div>
-      </div>
-    @empty
-      <div class="no-pets-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #6b7280; font-size: 1.1rem;">No pets available for adoption at this time.</div>
-    @endforelse
-  </div>
 </body>
 </html>

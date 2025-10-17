@@ -36,6 +36,8 @@ class AnalyticsController extends Controller
                 'pet_types' => $this->getPetTypeStats(),
                 'application_status' => $this->getApplicationStatusStats(),
                 'monthly_registrations' => $this->getMonthlyRegistrations(),
+                'monthly_adoptions' => $this->getMonthlyAdoptions(),
+                'monthly_intakes' => $this->getMonthlyIntakes(),
                 'popular_breeds' => $this->getPopularBreeds(),
             ];
         } catch (\Exception $e) {
@@ -66,6 +68,8 @@ class AnalyticsController extends Controller
                 'pet_types' => collect([]),
                 'application_status' => collect([]),
                 'monthly_registrations' => collect([]),
+                'monthly_adoptions' => collect([]),
+                'monthly_intakes' => collect([]),
                 'popular_breeds' => collect([]),
             ];
         }
@@ -207,6 +211,53 @@ class AnalyticsController extends Controller
             ->orderBy('count', 'desc')
             ->take(10)
             ->get();
+    }
+
+    private function getMonthlyAdoptions()
+    {
+        try {
+            // Get adoptions by checking approved applications by month
+            $applicationQuery = $this->applyLocationFilterToApplications(AdoptionApplication::query());
+            return $applicationQuery->select(
+                    DB::raw('YEAR(updated_at) as year'),
+                    DB::raw('MONTH(updated_at) as month'),
+                    DB::raw('COUNT(*) as count')
+                )
+                ->where('status', 'approved')
+                ->where('updated_at', '>=', now()->subYear())
+                ->groupBy('year', 'month')
+                ->orderBy('year')
+                ->orderBy('month')
+                ->get();
+        } catch (\Exception $e) {
+            return collect([]);
+        }
+    }
+
+    private function getMonthlyIntakes()
+    {
+        try {
+            // Get intakes by checking when pets were added to the shelter
+            $petQuery = $this->applyLocationFilter(Pet::query());
+            return $petQuery->select(
+                    DB::raw('YEAR(COALESCE(date_added, created_at)) as year'),
+                    DB::raw('MONTH(COALESCE(date_added, created_at)) as month'),
+                    DB::raw('COUNT(*) as count')
+                )
+                ->where(function($query) {
+                    $query->where('date_added', '>=', now()->subYear())
+                          ->orWhere(function($subQuery) {
+                              $subQuery->whereNull('date_added')
+                                       ->where('created_at', '>=', now()->subYear());
+                          });
+                })
+                ->groupBy('year', 'month')
+                ->orderBy('year')
+                ->orderBy('month')
+                ->get();
+        } catch (\Exception $e) {
+            return collect([]);
+        }
     }
 
     private function getCapacityData()

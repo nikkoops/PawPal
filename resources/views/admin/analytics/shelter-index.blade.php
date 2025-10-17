@@ -190,8 +190,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Adoption vs Intake Correlation -->
         <div class="bg-white rounded-lg border border-gray-200 p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">Adoption vs Intake Correlation</h3>
-            <p class="text-sm text-gray-600 mb-4">Scatter plot showing relationship between monthly intakes and adoptions</p>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Adoption vs Intake Trends</h3>
+            <p class="text-sm text-gray-600 mb-4">Monthly adoption and intake counts over time</p>
             
             <div class="relative" style="height: 300px;">
                 <canvas id="correlationChart"></canvas>
@@ -199,12 +199,12 @@
             
             <div class="mt-4 flex items-center justify-center gap-4 text-sm">
                 <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 rounded-full bg-purple-600"></div>
-                    <span class="text-gray-700">Monthly Data Points</span>
+                    <div class="w-3 h-3 bg-green-600 rounded"></div>
+                    <span class="text-gray-700">Adoptions</span>
                 </div>
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-0.5 bg-purple-400" style="border-top: 2px dashed;"></div>
-                    <span class="text-gray-700">Trend Line</span>
+                    <div class="w-3 h-3 bg-blue-600 rounded"></div>
+                    <span class="text-gray-700">Intakes</span>
                 </div>
             </div>
         </div>
@@ -223,34 +223,66 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
-    // Correlation Chart
+    // Prepare monthly data for trends chart
+    const monthlyAdoptions = @json($analytics['monthly_adoptions']);
+    const monthlyIntakes = @json($analytics['monthly_intakes']);
+    
+    // Create month names array
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    // Prepare data for the last 12 months
+    const now = new Date();
+    const labels = [];
+    const adoptionCounts = [];
+    const intakeCounts = [];
+    
+    for (let i = 11; i >= 0; i--) {
+        const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const monthLabel = monthNames[date.getMonth()] + ' ' + year;
+        
+        const adoptions = monthlyAdoptions.find(a => a.year == year && a.month == month);
+        const intakes = monthlyIntakes.find(i => i.year == year && i.month == month);
+        
+        labels.push(monthLabel);
+        adoptionCounts.push(adoptions ? adoptions.count : 0);
+        intakeCounts.push(intakes ? intakes.count : 0);
+    }
+
+    // Trends Chart (Line Chart)
     const correlationCtx = document.getElementById('correlationChart').getContext('2d');
     new Chart(correlationCtx, {
-        type: 'scatter',
+        type: 'line',
         data: {
+            labels: labels,
             datasets: [{
-                label: 'Monthly Data Points',
-                data: [
-                    {x: 30, y: 35},
-                    {x: 50, y: 38},
-                    {x: 52, y: 40},
-                    {x: 60, y: 44},
-                    {x: 65, y: 48},
-                    {x: 45, y: 36}
-                ],
-                backgroundColor: '#9333ea',
-                borderColor: '#9333ea',
-                pointRadius: 6,
-                pointHoverRadius: 8
+                label: 'Adoptions',
+                data: adoptionCounts,
+                borderColor: '#16a34a',
+                backgroundColor: 'rgba(22, 163, 74, 0.1)',
+                borderWidth: 3,
+                fill: false,
+                tension: 0.4,
+                pointBackgroundColor: '#16a34a',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
             }, {
-                label: 'Trend Line',
-                data: [{x: 30, y: 35}, {x: 65, y: 50}],
-                type: 'line',
-                borderColor: '#c084fc',
-                borderWidth: 2,
-                borderDash: [5, 5],
-                pointRadius: 0,
-                fill: false
+                label: 'Intakes',
+                data: intakeCounts,
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                borderWidth: 3,
+                fill: false,
+                tension: 0.4,
+                pointBackgroundColor: '#2563eb',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
             }]
         },
         options: {
@@ -259,27 +291,57 @@
             plugins: {
                 legend: {
                     display: false
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: 'white',
+                    bodyColor: 'white',
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderWidth: 1
                 }
+            },
+            interaction: {
+                mode: 'nearest',
+                axis: 'x',
+                intersect: false
             },
             scales: {
                 x: {
                     title: {
                         display: true,
-                        text: 'Monthly Intakes'
+                        text: 'Month',
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        }
                     },
                     grid: {
                         display: true,
                         color: '#f3f4f6'
+                    },
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 0
                     }
                 },
                 y: {
                     title: {
                         display: true,
-                        text: 'Monthly Adoptions'
+                        text: 'Count',
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        }
                     },
                     grid: {
                         display: true,
                         color: '#f3f4f6'
+                    },
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
                     }
                 }
             }

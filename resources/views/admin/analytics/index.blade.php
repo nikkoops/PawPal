@@ -394,107 +394,28 @@
         <div class="analytics-card">
             <div class="p-6">
                 <div class="mb-6">
-                    <h3 class="text-lg font-semibold text-gray-800">Adoption vs Intake Correlation</h3>
-                    <p class="text-sm text-gray-600 mt-1">Scatter plot showing relationship between monthly intakes and adoptions</p>
+                    <h3 class="text-lg font-semibold text-gray-800">Adoption vs Intake Trends</h3>
+                    <p class="text-sm text-gray-600 mt-1">Monthly adoption and intake counts over time</p>
                 </div>
                 
                 <!-- Chart Container -->
-                <div class="h-[300px] w-full relative">
-                    <!-- Chart Area -->
-                    <div class="absolute inset-0 border border-gray-300 rounded-lg bg-gray-50">
-                        <!-- Grid Lines -->
-                        <div class="absolute inset-0">
-                            <!-- Horizontal grid lines -->
-                            @for($i = 1; $i <= 4; $i++)
-                                <div class="absolute w-full border-t border-gray-200" style="top: {{ $i * 20 }}%"></div>
-                            @endfor
-                            <!-- Vertical grid lines -->
-                            @for($i = 1; $i <= 4; $i++)
-                                <div class="absolute h-full border-l border-gray-200" style="left: {{ $i * 20 }}%"></div>
-                            @endfor
-                        </div>
-                        
-                        <!-- Data Points -->
-                        @foreach($trendData as $index => $data)
-                            @php
-                                // Calculate positions (normalize to 0-80% of chart area with 10% padding)
-                                $xPos = 10 + (($data['intakes'] - 30) / 35) * 80; // Assuming intake range 30-65
-                                $yPos = 90 - (($data['adoptions'] - 30) / 25) * 80; // Assuming adoption range 30-55, inverted Y
-                            @endphp
-                            <div class="absolute group cursor-pointer" 
-                                 style="left: {{ $xPos }}%; top: {{ $yPos }}%;">
-                                <!-- Data point circle -->
-                                <div class="w-3 h-3 bg-purple-600 rounded-full border-2 border-white shadow-lg hover:scale-150 transition-transform duration-200 relative">
-                                    <!-- Tooltip on hover -->
-                                    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-3 py-2 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10 pointer-events-none">
-                                        <div class="font-medium">{{ $data['month'] }}</div>
-                                        <div>Intakes: {{ $data['intakes'] }}</div>
-                                        <div>Adoptions: {{ $data['adoptions'] }}</div>
-                                        <!-- Tooltip arrow -->
-                                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Month label -->
-                                <div class="absolute top-4 left-1/2 transform -translate-x-1/2 text-xs text-gray-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                    {{ $data['month'] }}
-                                </div>
-                            </div>
-                        @endforeach
-                        
-                        <!-- Trend line (optional - shows general correlation) -->
-                        <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-                            <line x1="15" y1="75" x2="85" y2="25" 
-                                  stroke="currentColor" 
-                                  stroke-width="0.5" 
-                                  stroke-dasharray="2,2" 
-                                  class="text-purple-500" />
-                        </svg>
-                    </div>
-                    
-                    <!-- Y-axis labels -->
-                    <div class="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-muted-foreground py-2">
-                        <span>55</span>
-                        <span>50</span>
-                        <span>45</span>
-                        <span>40</span>
-                        <span>35</span>
-                        <span>30</span>
-                    </div>
-                    
-                    <!-- X-axis labels -->
-                    <div class="absolute bottom-0 left-0 w-full flex justify-between text-xs text-muted-foreground px-8">
-                        <span>30</span>
-                        <span>40</span>
-                        <span>50</span>
-                        <span>60</span>
-                        <span>65</span>
-                    </div>
-                    
-                    <!-- Axis titles -->
-                    <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-600 font-medium">
-                        Monthly Intakes
-                    </div>
-                    <div class="absolute left-0 top-1/2 transform -translate-y-1/2 -rotate-90 text-xs text-gray-600 font-medium" style="transform-origin: center; margin-left: -2rem;">
-                        Monthly Adoptions
-                    </div>
+                <div class="relative" style="height: 300px;">
+                    <canvas id="correlationChart"></canvas>
                 </div>
                 
                 <!-- Legend -->
-                <div class="flex justify-center items-center space-x-6 mt-8 text-xs">
+                <div class="flex justify-center items-center space-x-6 mt-4 text-sm">
                     <div class="flex items-center space-x-2">
-                        <div class="w-3 h-3 bg-purple-600 rounded-full border-2 border-white"></div>
-                        <span class="text-gray-600">Monthly Data Points</span>
+                        <div class="w-3 h-3 bg-green-600 rounded"></div>
+                        <span class="text-gray-600">Adoptions</span>
                     </div>
                     <div class="flex items-center space-x-2">
-                        <div class="w-4 h-0 border-t border-dashed border-purple-500"></div>
-                        <span class="text-gray-600">Trend Line</span>
+                        <div class="w-3 h-3 bg-blue-600 rounded"></div>
+                        <span class="text-gray-600">Intakes</span>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Length of Stay Distribution -->
+        </div>        <!-- Length of Stay Distribution -->
         <div class="analytics-card">
             <div class="p-6">
                 <div class="mb-6">
@@ -661,6 +582,267 @@ document.addEventListener('DOMContentLoaded', function() {
         
         card.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0)';
+        });
+    });
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+    // Prepare monthly data for trends chart
+    const monthlyAdoptions = @json($analytics['monthly_adoptions']);
+    const monthlyIntakes = @json($analytics['monthly_intakes']);
+    
+    // Create month names array
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    // Prepare data for the last 12 months
+    const now = new Date();
+    const labels = [];
+    const adoptionCounts = [];
+    const intakeCounts = [];
+    
+    for (let i = 11; i >= 0; i--) {
+        const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const monthLabel = monthNames[date.getMonth()] + ' ' + year;
+        
+        const adoptions = monthlyAdoptions.find(a => a.year == year && a.month == month);
+        const intakes = monthlyIntakes.find(i => i.year == year && i.month == month);
+        
+        labels.push(monthLabel);
+        adoptionCounts.push(adoptions ? adoptions.count : 0);
+        intakeCounts.push(intakes ? intakes.count : 0);
+    }
+
+    // Trends Chart (Line Chart)
+    const correlationCtx = document.getElementById('correlationChart').getContext('2d');
+    new Chart(correlationCtx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Adoptions',
+                data: adoptionCounts,
+                borderColor: '#16a34a',
+                backgroundColor: 'rgba(22, 163, 74, 0.1)',
+                borderWidth: 3,
+                fill: false,
+                tension: 0.4,
+                pointBackgroundColor: '#16a34a',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }, {
+                label: 'Intakes',
+                data: intakeCounts,
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                borderWidth: 3,
+                fill: false,
+                tension: 0.4,
+                pointBackgroundColor: '#2563eb',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: 'white',
+                    bodyColor: 'white',
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderWidth: 1
+                }
+            },
+            interaction: {
+                mode: 'nearest',
+                axis: 'x',
+                intersect: false
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month',
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        }
+                    },
+                    grid: {
+                        display: true,
+                        color: '#f3f4f6'
+                    },
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 0
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Count',
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        }
+                    },
+                    grid: {
+                        display: true,
+                        color: '#f3f4f6'
+                    },
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+    // Prepare monthly data for correlation chart
+    const monthlyAdoptions = @json($analytics['monthly_adoptions']);
+    const monthlyIntakes = @json($analytics['monthly_intakes']);
+    
+    // Create month names array
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    // Combine and prepare data for the last 12 months
+    const now = new Date();
+    const correlationData = [];
+    const monthlyDataPoints = [];
+    
+    for (let i = 11; i >= 0; i--) {
+        const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const monthLabel = monthNames[date.getMonth()];
+        
+        const adoptions = monthlyAdoptions.find(a => a.year == year && a.month == month);
+        const intakes = monthlyIntakes.find(i => i.year == year && i.month == month);
+        
+        const adoptionCount = adoptions ? adoptions.count : 0;
+        const intakeCount = intakes ? intakes.count : 0;
+        
+        if (intakeCount > 0 || adoptionCount > 0) {
+            correlationData.push({
+                x: intakeCount,
+                y: adoptionCount,
+                label: monthLabel + ' ' + year
+            });
+        }
+        
+        monthlyDataPoints.push({
+            month: monthLabel,
+            adoptions: adoptionCount,
+            intakes: intakeCount
+        });
+    }
+    
+    // Calculate trend line if we have data
+    let trendLineData = [];
+    if (correlationData.length > 1) {
+        const sumX = correlationData.reduce((sum, point) => sum + point.x, 0);
+        const sumY = correlationData.reduce((sum, point) => sum + point.y, 0);
+        const sumXY = correlationData.reduce((sum, point) => sum + (point.x * point.y), 0);
+        const sumXX = correlationData.reduce((sum, point) => sum + (point.x * point.x), 0);
+        const n = correlationData.length;
+        
+        const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+        const intercept = (sumY - slope * sumX) / n;
+        
+        const minX = Math.min(...correlationData.map(p => p.x));
+        const maxX = Math.max(...correlationData.map(p => p.x));
+        
+        trendLineData = [
+            {x: minX, y: slope * minX + intercept},
+            {x: maxX, y: slope * maxX + intercept}
+        ];
+    }
+
+    // Correlation Chart
+    const correlationCtx = document.getElementById('correlationChart').getContext('2d');
+    new Chart(correlationCtx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Monthly Data Points',
+                data: correlationData,
+                backgroundColor: '#9333ea',
+                borderColor: '#9333ea',
+                pointRadius: 6,
+                pointHoverRadius: 8
+            }, {
+                label: 'Trend Line',
+                data: trendLineData,
+                type: 'line',
+                borderColor: '#c084fc',
+                borderWidth: 2,
+                borderDash: [5, 5],
+                pointRadius: 0,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(context) {
+                            const point = context[0];
+                            return point.raw.label || '';
+                        },
+                        label: function(context) {
+                            const point = context.raw;
+                            return `Intakes: ${point.x}, Adoptions: ${point.y}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Monthly Intakes'
+                    },
+                    grid: {
+                        display: true,
+                        color: '#f3f4f6'
+                    },
+                    beginAtZero: true
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Monthly Adoptions'
+                    },
+                    grid: {
+                        display: true,
+                        color: '#f3f4f6'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    });
         });
     });
 });

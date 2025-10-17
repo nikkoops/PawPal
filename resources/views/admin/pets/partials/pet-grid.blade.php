@@ -44,12 +44,8 @@
                         <div class="text-xs text-muted-foreground space-y-1">
                             @if($pet->date_added)
                             <div>Added: {{ $pet->date_added->format('M d, Y') }}</div>
-                            <div>In shelter: {{ $pet->days_in_shelter }} days</div>
                             @else
                             <div>Added: {{ $pet->created_at->format('M d, Y') }}</div>
-                            @endif
-                            @if($pet->is_urgent && $pet->is_available)
-                            <div class="text-orange-600 font-medium">⚠️ In shelter for {{ $pet->days_in_shelter }} days</div>
                             @endif
                         </div>
                         <div class="flex space-x-2">
@@ -80,7 +76,32 @@
                     </div>
                 </div>
                 {{-- Include Edit Modal --}}
-                @include('admin.pets.partials.edit-modal', ['pet' => $pet])
+                @php
+                    $actualDateToPass = $pet->date_added ? $pet->date_added->format('Y-m-d') : ($pet->created_at ? $pet->created_at->format('Y-m-d') : '');
+                @endphp
+                @include('admin.pets.partials.edit-modal', [
+                    'pet' => $pet,
+                    'petData' => [
+                        'id' => $pet->id,
+                        'name' => $pet->name,
+                        'type' => $pet->type,
+                        'breed' => $pet->breed,
+                        'age' => $pet->age,
+                        'gender' => $pet->gender,
+                        'size' => $pet->size,
+                        'description' => $pet->description,
+                        'location' => $pet->location,
+                        'characteristics' => $pet->characteristics,
+                        'is_available' => $pet->is_available,
+                        'is_vaccinated' => $pet->is_vaccinated,
+                        'is_neutered' => $pet->is_neutered,
+                        'date_added' => $actualDateToPass,
+                        'image_url' => $pet->image_url,
+                        'is_urgent' => $pet->is_urgent,
+                        'days_in_shelter' => $pet->days_in_shelter,
+                        '_debug_card_date' => $pet->date_added ? $pet->date_added->format('M d, Y') : $pet->created_at->format('M d, Y')
+                    ]
+                ])
             </div>
         @endforeach
     </div>

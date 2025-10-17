@@ -33,6 +33,7 @@ class PetController extends Controller
                     'spayed_neutered' => $pet->is_neutered,
                     'good_with_kids' => $this->getCharacteristic($pet, 'good_with_kids'),
                     'good_with_pets' => $this->getCharacteristic($pet, 'good_with_pets'),
+                    'energetic' => $this->getCharacteristic($pet, 'energetic'),
                     'breed' => $pet->breed, // CRITICAL: No "Mixed" fallback
                     'gender' => $pet->gender ? ucfirst($pet->gender) : null, // CRITICAL: No "Unknown" fallback
                     'adoption_fee' => $pet->adoption_fee,

@@ -104,6 +104,35 @@
                 </div>
               </div>
 
+              <!-- Characteristics -->
+              @if($pet->characteristics && count($pet->characteristics) > 0)
+              <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">Characteristics</h3>
+                <div class="space-y-2">
+                  @if(in_array('good_with_kids', $pet->characteristics))
+                    <div class="flex items-center">
+                      <span class="text-green-600 font-medium mr-2">✓</span>
+                      <span class="text-gray-700">Good with Kids</span>
+                    </div>
+                  @endif
+                  
+                  @if(in_array('good_with_pets', $pet->characteristics))
+                    <div class="flex items-center">
+                      <span class="text-green-600 font-medium mr-2">✓</span>
+                      <span class="text-gray-700">Good with Other Pets</span>
+                    </div>
+                  @endif
+                  
+                  @if(in_array('energetic', $pet->characteristics))
+                    <div class="flex items-center">
+                      <span class="text-green-600 font-medium mr-2">✓</span>
+                      <span class="text-gray-700">Energetic</span>
+                    </div>
+                  @endif
+                </div>
+              </div>
+              @endif
+
               <!-- Adoption Fee -->
               @if($pet->adoption_fee)
               <div>

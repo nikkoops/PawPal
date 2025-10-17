@@ -1,6 +1,6 @@
 {{-- Edit Pet Modal --}}
 <div id="editPetModal-{{ $pet->id }}" 
-     x-data="editPetModal({{ $pet->id }})" 
+     x-data="editPetModal({{ $pet->id }}, @js($petData))" 
      x-show="open" 
      x-cloak
      @keydown.escape.window="open = false" 
@@ -52,7 +52,7 @@
                             <div class="flex justify-between items-center mb-6">
                                 <h2 class="text-xl font-semibold text-foreground">Basic Information</h2>
                                 {{-- Urgency Badge --}}
-                                <div x-show="pet.is_urgent && pet.is_available" class="px-4 py-1.5 text-sm font-semibold bg-red-500 text-white rounded-full">
+                                <div x-show="pet.is_urgent && pet.is_available" class="px-3 py-1 text-sm rounded-full font-bold bg-orange-100 text-orange-800 border border-orange-200">
                                     🚨 URGENT (<span x-text="pet.days_in_shelter || 0"></span> days)
                                 </div>
                             </div>
@@ -349,7 +349,7 @@
 </div>
 
 <script>
-function editPetModal(petId) {
+function editPetModal(petId, petData) {
     return {
         open: false,
         loading: false,
@@ -375,6 +375,10 @@ function editPetModal(petId) {
         errors: {},
         
         async init() {
+            // Populate pet data immediately from the passed data
+            console.log('Raw pet data received:', petData);
+            this.populatePetData(petData);
+            
             // Listen for custom open event
             this.$el.addEventListener('open-modal', () => {
                 this.open = true;
@@ -382,11 +386,13 @@ function editPetModal(petId) {
             
             this.$watch('open', async (value) => {
                 if (value) {
-                    console.log('Modal opened, loading pet details for pet ID:', petId);
-                    await this.loadPetDetails();
+                    console.log('Modal opened for pet ID:', petId);
                     this.updateBreedOptions();
-                    // Initialize icons after modal opens
+                    this.updateUrgencyStatus();
+                    
+                    // Force update form fields after modal opens
                     this.$nextTick(() => {
+                        this.forceUpdateFormFields();
                         if (window.lucide) {
                             lucide.createIcons();
                         }
@@ -397,48 +403,93 @@ function editPetModal(petId) {
                     this.$el.style.display = 'none';
                 }
             });
+            
+            // Watch for date changes to update urgency
+            this.$watch('pet.date_added', () => {
+                this.updateUrgencyStatus();
+            });
         },
         
-        async loadPetDetails() {
-            try {
-                const response = await fetch(`/admin/shelter/pets/${petId}`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    }
-                });
+        forceUpdateFormFields() {
+            console.log('Force updating form fields...');
+            const modal = this.$el;
+            
+            // Update date field
+            const dateField = modal.querySelector('input[name="date_added"]');
+            if (dateField && this.pet.date_added) {
+                dateField.value = this.pet.date_added;
+                console.log('Set date field to:', this.pet.date_added);
+            }
+            
+            // Update description field
+            const descField = modal.querySelector('textarea[name="description"]');
+            if (descField) {
+                descField.value = this.pet.description || '';
+                console.log('Set description field to:', this.pet.description);
+            }
+            
+            // Update other fields
+            const nameField = modal.querySelector('input[name="name"]');
+            if (nameField) nameField.value = this.pet.name || '';
+            
+            const typeField = modal.querySelector('select[name="type"]');
+            if (typeField) typeField.value = this.pet.type || '';
+            
+            const genderField = modal.querySelector('select[name="gender"]');
+            if (genderField) genderField.value = this.pet.gender || '';
+        },
+        
+        updateUrgencyStatus() {
+            if (this.pet.date_added && this.pet.is_available) {
+                const dateAdded = new Date(this.pet.date_added);
+                const today = new Date();
+                const diffTime = Math.abs(today - dateAdded);
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
                 
-                const data = await response.json();
+                this.pet.days_in_shelter = diffDays;
+                this.pet.is_urgent = diffDays >= 7;
+            } else {
+                this.pet.is_urgent = false;
+                this.pet.days_in_shelter = 0;
+            }
+        },
+        
+        populatePetData(data) {
+            console.log('populatePetData called with:', data);
+            console.log('Card shows date as:', data._debug_card_date);
+            console.log('Date being passed to modal:', data.date_added);
+            
+            if (data) {
+                // Get user's shelter location from the DOM
+                const userShelterLocation = '{{ auth()->user()->shelter_location }}';
                 
-                if (data.success && data.pet) {
-                    // Get user's shelter location from the DOM
-                    const userShelterLocation = '{{ auth()->user()->shelter_location }}';
-                    
-                    this.pet = {
-                        id: data.pet.id,
-                        name: data.pet.name || '',
-                        type: data.pet.type || '',
-                        breed: data.pet.breed || '',
-                        age: data.pet.age ? String(data.pet.age) : '',
-                        gender: data.pet.gender || '',
-                        size: data.pet.size || '',
-                        description: data.pet.description || '',
-                        location: userShelterLocation || data.pet.location || '',
-                        characteristics: Array.isArray(data.pet.characteristics) ? data.pet.characteristics : [],
-                        is_available: !!data.pet.is_available,
-                        is_vaccinated: !!data.pet.is_vaccinated,
-                        is_neutered: !!data.pet.is_neutered,
-                        date_added: data.pet.date_added ? data.pet.date_added.split(' ')[0] : '',
-                        image_url: data.pet.image_url || '/images/default-pet.jpg',
-                        is_urgent: !!data.pet.is_urgent,
-                        days_in_shelter: data.pet.days_in_shelter || 0
-                    };
-                    
-                    console.log('Loaded pet details:', this.pet);
-                }
-            } catch (error) {
-                console.error('Error loading pet details:', error);
-                this.errors = { general: ['Failed to load pet details'] };
+                // Use the date exactly as passed from the grid
+                let dateValue = data.date_added || '';
+                console.log('Date value to use:', dateValue);
+                
+                this.pet = {
+                    id: data.id,
+                    name: data.name || '',
+                    type: data.type || '',
+                    breed: data.breed || '',
+                    age: data.age ? String(data.age) : '',
+                    gender: data.gender || '',
+                    size: data.size || '',
+                    description: data.description || '',
+                    location: userShelterLocation || data.location || '',
+                    characteristics: Array.isArray(data.characteristics) ? data.characteristics : [],
+                    is_available: !!data.is_available,
+                    is_vaccinated: !!data.is_vaccinated,
+                    is_neutered: !!data.is_neutered,
+                    date_added: dateValue,
+                    image_url: data.image_url || '/images/default-pet.jpg',
+                    is_urgent: !!data.is_urgent,
+                    days_in_shelter: data.days_in_shelter || 0
+                };
+                
+                console.log('Final pet object:', this.pet);
+                console.log('Date field value:', this.pet.date_added);
+                console.log('Description field value:', this.pet.description);
             }
         },
         
@@ -521,12 +572,20 @@ function editPetModal(petId) {
                 // Add method override for PUT request
                 formData.append('_method', 'PUT');
                 
+                console.log('Pet data before form submission:', this.pet);
+                
                 console.log('Submitting form data:', {
                     name: formData.get('name'),
                     type: formData.get('type'),
                     gender: formData.get('gender'),
                     size: formData.get('size'),
-                    age: formData.get('age')
+                    age: formData.get('age'),
+                    description: formData.get('description'),
+                    date_added: formData.get('date_added'),
+                    location: formData.get('location'),
+                    is_vaccinated: formData.get('is_vaccinated'),
+                    is_neutered: formData.get('is_neutered'),
+                    is_available: formData.get('is_available')
                 });
                 
                 const response = await fetch(`/admin/shelter/pets/${petId}`, {
@@ -540,6 +599,8 @@ function editPetModal(petId) {
                 
                 const result = await response.json();
                 
+                console.log('Server response:', result);
+                
                 if (!response.ok) {
                     console.error('Server validation errors:', result.errors);
                     this.errors = result.errors || { general: ['Failed to update pet'] };
@@ -550,9 +611,8 @@ function editPetModal(petId) {
                 
                 console.log('Update successful:', result);
                 
-                // Success - update the pet card in the UI without page refresh
-                this.updatePetCardInUI(result.pet);
-                this.open = false;
+                // Success - refresh the page to show updated data
+                window.location.reload();
                 
             } catch (error) {
                 console.error('Error updating pet:', error);

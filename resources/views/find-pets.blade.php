@@ -403,7 +403,7 @@
               @if($pet->description)
                 <p class="pet-description">{{ $pet->description }}</p>
               @endif
-              <button class="meet-btn" onclick="window.location.href='{{ url('/adopt?pet=' . urlencode($pet->name)) }}'">Meet {{ $pet->name }}</button>
+              <button class="meet-btn" onclick="window.location.href='{{ route('pets.show', $pet->id) }}'">Meet {{ $pet->name }}</button>
             </div>
           </div>
         @empty

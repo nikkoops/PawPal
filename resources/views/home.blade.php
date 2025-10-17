@@ -1041,6 +1041,10 @@
   <script>
     // Dynamic pet data from database
     const pets = @json($pets ?? []);
+    
+    // Debug: Log pets data on page load
+    console.log('Pets data loaded:', pets);
+    console.log('Number of pets:', pets.length);
 
     function renderPets(petsToRender = pets) {
       const grid = document.getElementById('pets-grid');
@@ -1071,7 +1075,7 @@
             </p>
             ${pet.location ? `<div class="pet-location" style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">📍 ${pet.location}</div>` : ''}
             ${pet.description ? `<p class="pet-description">${pet.description}</p>` : ''}
-            <button class="meet-btn" onclick="meetPet(${pet.id}, '${pet.name}')">Meet ${pet.name}</button>
+            <button class="meet-btn" onclick="meetPet(${pet.id})">Meet ${pet.name}</button>
           </div>
         `;
         grid.appendChild(petCard);
@@ -1097,61 +1101,102 @@
       renderPets(filteredPets);
     }
 
-    function meetPet(id, name) {
-      // Find the pet data
-      const pet = pets.find(p => p.id === id);
-      if (!pet) return;
+    function meetPet(id) {
+      console.log('meetPet called with id:', id);
+      console.log('Available pets array:', pets);
       
-      // Populate modal with pet data
-      document.getElementById('modalHeaderName').textContent = `Meet ${pet.name}`;
-      document.getElementById('modalHeaderBadge').textContent = pet.type;
-      document.getElementById('modalImage').src = pet.image;
-      document.getElementById('modalImage').alt = pet.name;
-      document.getElementById('aboutPetName').textContent = pet.name;
-      document.getElementById('modalLocation').textContent = pet.location || 'Unknown';
-      document.getElementById('modalDescription').textContent = pet.description;
-      document.getElementById('modalAdoptName').textContent = pet.name;
+      // Find the pet data - make sure we're comparing the right types
+      const pet = pets.find(p => p.id == id); // Use == instead of === to handle type differences
+      console.log('Found pet:', pet);
       
-      // Update adopt link with pet name
-      const adoptLink = document.getElementById('adoptLink');
-      adoptLink.href = `/adopt?pet=${encodeURIComponent(pet.name)}`;
-      
-      // Update characteristic badges
-      const vaccinated = document.getElementById('modalVaccinated');
-      vaccinated.textContent = pet.vaccinated ? 'Yes' : 'No';
-      vaccinated.className = `characteristic-badge ${pet.vaccinated ? 'badge-yes' : 'badge-no'}`;
-      
-      const spayedNeutered = document.getElementById('modalSpayedNeutered');
-      spayedNeutered.textContent = pet.spayed_neutered ? 'Yes' : 'No';
-      spayedNeutered.className = `characteristic-badge ${pet.spayed_neutered ? 'badge-yes' : 'badge-no'}`;
-      
-      const goodWithKids = document.getElementById('modalGoodWithKids');
-      goodWithKids.textContent = pet.good_with_kids ? 'Yes' : 'No';
-      goodWithKids.className = `characteristic-badge ${pet.good_with_kids ? 'badge-yes' : 'badge-no'}`;
-      
-      const goodWithPets = document.getElementById('modalGoodWithPets');
-      goodWithPets.textContent = pet.good_with_pets ? 'Yes' : 'No';
-      goodWithPets.className = `characteristic-badge ${pet.good_with_pets ? 'badge-yes' : 'badge-no'}`;
-      
-      // Show/hide urgent badge based on pet's urgent property
-      const urgentBadge = document.getElementById('modalUrgentBadge');
-      if (pet.urgent) {
-        urgentBadge.style.display = 'block';
-        urgentBadge.textContent = `🚨 URGENT (${Math.floor(pet.days_in_shelter)} days)`;
-      } else {
-        urgentBadge.style.display = 'none';
+      if (!pet) {
+        console.error('Pet not found with id:', id);
+        alert('Pet not found! ID: ' + id);
+        return;
       }
       
-      // Show modal
-      document.getElementById('petModal').style.display = 'block';
-      document.body.style.overflow = 'hidden'; // Prevent background scrolling
-      // Attach close event every time modal is opened (robust for dynamic content)
-      const closeBtn = document.querySelector('.modal-close');
-      if (closeBtn) {
-        closeBtn.onclick = function() {
-          document.getElementById('petModal').style.display = 'none';
-          document.body.style.overflow = 'auto';
-        };
+      try {
+        // Populate modal with pet data
+        document.getElementById('modalHeaderName').textContent = `Meet ${pet.name}`;
+        document.getElementById('modalHeaderBadge').textContent = pet.type;
+        
+        // Handle image safely
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = pet.image || '';
+        modalImage.alt = pet.name;
+        
+        document.getElementById('aboutPetName').textContent = pet.name;
+        document.getElementById('modalLocation').textContent = pet.location || 'Unknown';
+        document.getElementById('modalDescription').textContent = pet.description || 'No description available';
+        document.getElementById('modalAdoptName').textContent = pet.name;
+
+        // Update adopt link with pet name
+        const adoptLink = document.getElementById('adoptLink');
+        if (adoptLink) {
+          adoptLink.href = `/adopt?pet=${encodeURIComponent(pet.name)}`;
+        }
+        
+        // Update characteristic badges safely
+        const vaccinated = document.getElementById('modalVaccinated');
+        if (vaccinated) {
+          vaccinated.textContent = pet.vaccinated ? 'Yes' : 'No';
+          vaccinated.className = `characteristic-badge ${pet.vaccinated ? 'badge-yes' : 'badge-no'}`;
+        }
+        
+        const spayedNeutered = document.getElementById('modalSpayedNeutered');
+        if (spayedNeutered) {
+          spayedNeutered.textContent = pet.spayed_neutered ? 'Yes' : 'No';
+          spayedNeutered.className = `characteristic-badge ${pet.spayed_neutered ? 'badge-yes' : 'badge-no'}`;
+        }
+        
+        const goodWithKids = document.getElementById('modalGoodWithKids');
+        if (goodWithKids) {
+          goodWithKids.textContent = pet.good_with_kids ? 'Yes' : 'No';
+          goodWithKids.className = `characteristic-badge ${pet.good_with_kids ? 'badge-yes' : 'badge-no'}`;
+        }
+        
+        const goodWithPets = document.getElementById('modalGoodWithPets');
+        if (goodWithPets) {
+          goodWithPets.textContent = pet.good_with_pets ? 'Yes' : 'No';
+          goodWithPets.className = `characteristic-badge ${pet.good_with_pets ? 'badge-yes' : 'badge-no'}`;
+        }
+        
+        const energetic = document.getElementById('modalEnergetic');
+        if (energetic) {
+          energetic.textContent = pet.energetic ? 'Yes' : 'No';
+          energetic.className = `characteristic-badge ${pet.energetic ? 'badge-yes' : 'badge-no'}`;
+        }
+        
+        // Show/hide urgent badge based on pet's urgent property
+        const urgentBadge = document.getElementById('modalUrgentBadge');
+        if (urgentBadge) {
+          if (pet.urgent) {
+            urgentBadge.style.display = 'block';
+            urgentBadge.textContent = `🚨 URGENT (${Math.floor(pet.days_in_shelter || 0)} days)`;
+          } else {
+            urgentBadge.style.display = 'none';
+          }
+        }
+        
+        // Show modal
+        console.log('Opening modal...');
+        document.getElementById('petModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        
+        // Attach close event every time modal is opened
+        const closeBtn = document.querySelector('.modal-close');
+        if (closeBtn) {
+          closeBtn.onclick = function() {
+            document.getElementById('petModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+          };
+        }
+        
+        console.log('Modal should be visible now');
+        
+      } catch (error) {
+        console.error('Error in meetPet function:', error);
+        alert('Error opening pet details: ' + error.message);
       }
     }
 

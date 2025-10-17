@@ -111,6 +111,11 @@ class PetController extends Controller
         $data['is_vaccinated'] = $request->has('is_vaccinated') ? true : false;
         $data['is_neutered'] = $request->has('is_neutered') ? true : false;
 
+        // Handle characteristics array - filter out empty values
+        if (isset($data['characteristics'])) {
+            $data['characteristics'] = array_filter($data['characteristics']);
+        }
+
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             try {
                 $file = $request->file('image');
@@ -232,9 +237,9 @@ class PetController extends Controller
             }
             
             // Ensure boolean fields are properly set
-            $data['is_available'] = $request->has('is_available') ? 1 : 0;
-            $data['is_vaccinated'] = $request->has('is_vaccinated') ? 1 : 0;
-            $data['is_neutered'] = $request->has('is_neutered') ? 1 : 0;
+            $data['is_available'] = $request->input('is_available', 0) == 1;
+            $data['is_vaccinated'] = $request->input('is_vaccinated', 0) == 1;
+            $data['is_neutered'] = $request->input('is_neutered', 0) == 1;
             
             // Handle image upload
             if ($request->hasFile('image')) {
@@ -266,6 +271,10 @@ class PetController extends Controller
 
             // Update the pet
             $pet->update($data);
+            
+            // Debug: Log what was saved
+            \Log::info('Pet updated with data:', $data);
+            \Log::info('Pet after update:', $pet->toArray());
             
             // Refresh the pet model to get updated values
             $pet = $pet->fresh();

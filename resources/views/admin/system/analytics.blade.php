@@ -51,7 +51,7 @@
     </div>
 
     <!-- 2-5. Stats Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         <!-- 2. Current Capacity Card -->
         <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-sm font-medium text-gray-600 mb-2">Current Capacity</h3>
@@ -94,25 +94,7 @@
             @endif
         </div>
 
-        <!-- 4. Avg Length of Stay Card -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-sm font-medium text-gray-600 mb-2">Avg Length of Stay</h3>
-            <div class="flex items-center mb-2">
-                <svg class="w-6 h-6 text-purple-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span class="text-4xl font-bold text-gray-900">N/A</span>
-            </div>
-            <p class="text-xs text-green-600 flex items-center">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-                </svg>
-                Monitoring trends
-            </p>
-            <p class="text-xs text-gray-500 mt-2">Dogs: N/A • Cats: N/A</p>
-        </div>
-
-        <!-- 5. Lives Saved Card -->
+        <!-- 4. Lives Saved Card -->
         <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-sm font-medium text-gray-600 mb-2">Lives Saved</h3>
             <div class="flex items-center mb-2">

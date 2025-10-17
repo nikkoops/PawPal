@@ -17,7 +17,7 @@
     </div>
 
     <!-- Top Row: Key Metrics -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Current Capacity -->
         <div class="bg-white rounded-lg border border-gray-200 p-6">
             <div class="flex items-start justify-between mb-4">
@@ -73,35 +73,6 @@
                     <p class="text-gray-500">{{ $analytics['at_risk_pets']->first()['daysInShelter'] }}d</p>
                 </div>
             @endif
-        </div>
-
-        <!-- Avg Length of Stay -->
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
-            <div class="flex items-start justify-between mb-4">
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Avg Length of Stay</p>
-                    <div class="mt-2 flex items-baseline gap-2">
-                        <i data-lucide="clock" class="h-6 w-6 text-purple-600"></i>
-                        <span class="text-3xl font-bold text-gray-900">
-                            @if($analytics['avg_length_of_stay']['overall'] > 0)
-                                {{ $analytics['avg_length_of_stay']['overall'] }}d
-                            @else
-                                N/A
-                            @endif
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-            <p class="text-sm text-green-600 flex items-center gap-1 mb-3">
-                <i data-lucide="trending-down" class="h-4 w-4"></i>
-                Monitoring trends
-            </p>
-            
-            <div class="text-sm text-gray-600">
-                Dogs: {{ $analytics['avg_length_of_stay']['dogs'] > 0 ? $analytics['avg_length_of_stay']['dogs'] . 'd' : 'N/A' }} • 
-                Cats: {{ $analytics['avg_length_of_stay']['cats'] > 0 ? $analytics['avg_length_of_stay']['cats'] . 'd' : 'N/A' }}
-            </div>
         </div>
 
         <!-- Lives Saved -->

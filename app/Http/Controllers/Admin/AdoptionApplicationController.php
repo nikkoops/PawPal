@@ -85,6 +85,11 @@ class AdoptionApplicationController extends Controller
                 ->count()
         ];
 
+        // Return JSON for AJAX stats requests
+        if ($request->get('ajax') === 'stats') {
+            return response()->json(['stats' => $stats]);
+        }
+
         return view('admin.applications.index', compact('applications', 'stats'));
     }
 
@@ -181,7 +186,9 @@ class AdoptionApplicationController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Application status updated successfully!',
-                'status' => $request->status
+                'status' => $request->status,
+                'application_id' => $application->id,
+                'previous_status' => $application->getOriginal('status')
             ]);
             
         } catch (\Exception $e) {

@@ -57,10 +57,28 @@
             <button onclick="viewApplication({{ $application->id }})" class="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors" title="View Details">
                 <i data-lucide="eye" class="h-5 w-5"></i>
             </button>
-            <button onclick="updateStatus({{ $application->id }}, 'approved')" class="p-2 text-white bg-green-500 hover:bg-green-600 rounded-lg transition-colors" title="Approve">
+            @php
+                $isApproved = $application->status === 'approved';
+                $isRejected = $application->status === 'rejected';
+            @endphp
+            
+            {{-- Approve Button --}}
+            <button 
+                id="approve-btn-{{ $application->id }}"
+                onclick="updateApplicationStatus({{ $application->id }}, 'approved')" 
+                class="p-2 rounded-lg transition-all duration-200 {{ $isApproved ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 text-white' }}" 
+                title="Approve"
+                {{ $isApproved ? 'disabled' : '' }}>
                 <i data-lucide="check" class="h-5 w-5"></i>
             </button>
-            <button onclick="updateStatus({{ $application->id }}, 'rejected')" class="p-2 text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors" title="Reject">
+            
+            {{-- Reject Button --}}
+            <button 
+                id="reject-btn-{{ $application->id }}"
+                onclick="updateApplicationStatus({{ $application->id }}, 'rejected')" 
+                class="p-2 rounded-lg transition-all duration-200 {{ $isRejected ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600 text-white' }}" 
+                title="Reject"
+                {{ $isRejected ? 'disabled' : '' }}>
                 <i data-lucide="x" class="h-5 w-5"></i>
             </button>
         </div>

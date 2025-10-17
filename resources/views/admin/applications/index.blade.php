@@ -410,9 +410,24 @@ function closeApplicationModal() {
     document.getElementById('applicationModal').classList.add('hidden');
 }
 
-function updateStatus(id, status) {
+function updateApplicationStatus(id, status) {
     const actionText = status === 'approved' ? 'approve' : status === 'rejected' ? 'reject' : status;
     const modalType = status === 'rejected' ? 'danger' : status === 'approved' ? 'success' : 'primary';
+    
+    // Get button elements
+    const approveBtn = document.getElementById(`approve-btn-${id}`);
+    const rejectBtn = document.getElementById(`reject-btn-${id}`);
+    
+    // Check if buttons exist (in case of dynamic content)
+    if (!approveBtn || !rejectBtn) {
+        console.error('Buttons not found for application', id);
+        return;
+    }
+    
+    // Check if the button is already disabled
+    if ((status === 'approved' && approveBtn.disabled) || (status === 'rejected' && rejectBtn.disabled)) {
+        return; // Don't process if button is already disabled
+    }
     
     customConfirm(
         `Are you sure you want to ${actionText} this application? This action cannot be undone.`,
@@ -424,6 +439,9 @@ function updateStatus(id, status) {
         }
     ).then(confirmed => {
         if (confirmed) {
+            // Immediately update button states for better UX
+            updateButtonStates(id, status);
+            
             fetch(`/admin/shelter/applications/${id}/update-status`, {
                 method: 'POST',
                 headers: {
@@ -439,17 +457,92 @@ function updateStatus(id, status) {
                 }
             }).then(data => {
                 if (data.success) {
+                    // Update status badge in the table
+                    updateStatusBadge(id, status);
                     customAlert(data.message, 'success', 'Success');
-                    setTimeout(() => location.reload(), 1500);
+                    
+                    // Update statistics if available
+                    updateStatistics();
                 } else {
+                    // Revert button states on failure
+                    revertButtonStates(id, data.previous_status || 'pending');
                     customAlert('Failed to update application status. Please try again.', 'danger', 'Error');
                 }
             }).catch(error => {
                 console.error('Status update error:', error);
+                // Revert button states on error
+                revertButtonStates(id, 'pending');
                 customAlert('An error occurred while updating the application. Please try again.', 'danger', 'Error');
             });
         }
     });
+}
+
+function updateButtonStates(applicationId, newStatus) {
+    const approveBtn = document.getElementById(`approve-btn-${applicationId}`);
+    const rejectBtn = document.getElementById(`reject-btn-${applicationId}`);
+    
+    if (!approveBtn || !rejectBtn) return;
+    
+    // Reset both buttons to active state first
+    approveBtn.disabled = false;
+    approveBtn.className = 'p-2 rounded-lg transition-all duration-200 bg-green-500 hover:bg-green-600 text-white';
+    
+    rejectBtn.disabled = false;
+    rejectBtn.className = 'p-2 rounded-lg transition-all duration-200 bg-red-500 hover:bg-red-600 text-white';
+    
+    // Apply the new state
+    if (newStatus === 'approved') {
+        approveBtn.disabled = true;
+        approveBtn.className = 'p-2 rounded-lg transition-all duration-200 bg-gray-300 text-gray-500 cursor-not-allowed';
+    } else if (newStatus === 'rejected') {
+        rejectBtn.disabled = true;
+        rejectBtn.className = 'p-2 rounded-lg transition-all duration-200 bg-gray-300 text-gray-500 cursor-not-allowed';
+    }
+}
+
+function revertButtonStates(applicationId, originalStatus) {
+    // Revert to the original state
+    updateButtonStates(applicationId, originalStatus);
+}
+
+function updateStatusBadge(applicationId, status) {
+    const statusConfigs = {
+        'pending': { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Pending' },
+        'approved': { bg: 'bg-green-100', text: 'text-green-800', label: 'Approved' },
+        'rejected': { bg: 'bg-red-100', text: 'text-red-800', label: 'Rejected' }
+    };
+    
+    const config = statusConfigs[status] || { bg: 'bg-gray-100', text: 'text-gray-800', label: 'Unknown' };
+    
+    // Find the status badge in the table row
+    const tableRow = document.querySelector(`#approve-btn-${applicationId}`).closest('tr');
+    const statusBadge = tableRow.querySelector('span[class*="bg-yellow-100"], span[class*="bg-green-100"], span[class*="bg-red-100"]');
+    
+    if (statusBadge) {
+        statusBadge.className = `inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${config.bg} ${config.text}`;
+        statusBadge.textContent = config.label;
+    }
+}
+
+function updateStatistics() {
+    // Fetch updated statistics and update the cards
+    fetch('/admin/shelter/applications?ajax=stats')
+        .then(response => response.json())
+        .then(data => {
+            if (data.stats) {
+                document.getElementById('totalCount').textContent = data.stats.total;
+                document.getElementById('pendingCount').textContent = data.stats.pending;
+                document.getElementById('approvedCount').textContent = data.stats.approved;
+                document.getElementById('thisMonthCount').textContent = data.stats.this_month;
+            }
+        })
+        .catch(error => console.error('Failed to update statistics:', error));
+}
+
+// Legacy function for compatibility (keep for modal buttons)
+function updateStatus(id, status) {
+    updateApplicationStatus(id, status);
 }
 
 function toggleSelectAll() {

@@ -15,7 +15,7 @@
     <div class="flex items-center h-16 justify-between">
       <!-- Logo -->
       <div class="flex items-center space-x-2">
-        <img src="{{ asset('images/PAWPAL LOGO.png') }}?v={{ time() }}" alt="PawPal Logo" class="h-8 w-8">
+        <img src="{{ asset('images/pawpal-logo.png') }}?v={{ time() }}" alt="PawPal Logo" class="h-8 w-8 object-contain">
         <span class="text-xl font-bold text-gray-900">PawPal</span>
       </div>
       

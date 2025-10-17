@@ -109,14 +109,14 @@
     }
 
     .btn-primary {
-      background: #030213;
+      background: #9333ea;
       color: white;
       padding: 0.75rem 1.5rem;
       gap: 0.5rem;
     }
 
     .btn-primary:hover {
-      opacity: 0.9;
+      background: #7c3aed;
     }
 
     .btn-outline {
@@ -153,7 +153,7 @@
 
     .progress-fill {
       height: 100%;
-      background-color: #030213;
+      background-color: #9333ea;
       transition: width 0.3s ease;
       border-radius: 9999px;
     }
@@ -272,7 +272,7 @@
     .radio-input {
       width: 1rem;
       height: 1rem;
-      accent-color: #030213;
+      accent-color: #9333ea;
     }
 
     .upload-area {
@@ -308,7 +308,7 @@
     .icon {
       width: 1.25rem;
       height: 1.25rem;
-      color: #030213;
+      color: #9333ea;
     }
 
     .hidden {
@@ -936,7 +936,7 @@
     .success-icon-circle {
       width: 5rem;
       height: 5rem;
-      background: #10b981;
+      background: #9333ea;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -955,7 +955,7 @@
       position: absolute;
       font-size: 1.5rem;
       animation: bounce 1s infinite;
-      color: #10b981;
+      color: #9333ea;
     }
 
     .paw-1 {
@@ -1039,7 +1039,7 @@
     .step-icon {
       width: 0.75rem;
       height: 0.75rem;
-      color: #10b981;
+      color: #9333ea;
       margin-top: 0.125rem;
       flex-shrink: 0;
     }
@@ -1052,7 +1052,7 @@
 
     .success-btn-primary {
       flex: 1;
-      background: #059669;
+      background: #9333ea;
       color: white;
       border: none;
       padding: 0.5rem 1rem;
@@ -1065,14 +1065,14 @@
     }
 
     .success-btn-primary:hover {
-      background: #047857;
+      background: #7c3aed;
     }
 
     .success-btn-secondary {
       flex: 1;
       background: transparent;
-      color: #059669;
-      border: 2px solid #059669;
+      color: #9333ea;
+      border: 2px solid #9333ea;
       padding: 0.5rem 1rem;
       border-radius: 0.375rem;
       font-weight: 500;
@@ -1083,7 +1083,7 @@
     }
 
     .success-btn-secondary:hover {
-      background: rgba(5, 150, 105, 0.1);
+      background: rgba(147, 51, 234, 0.1);
     }
 
     .success-thank-you {

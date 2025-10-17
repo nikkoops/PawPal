@@ -254,7 +254,7 @@
 
                     <div class="card">
                         <div style="margin-bottom: 1rem;">
-                            <i data-lucide="users" style="height: 3rem; width: 3rem; color: #10b981; margin: 0 auto; display: block;"></i>
+                            <i data-lucide="users" style="height: 3rem; width: 3rem; color: #9333ea; margin: 0 auto; display: block;"></i>
                         </div>
                         <h3>Support Your Community</h3>
                         <p>
@@ -331,7 +331,7 @@
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
                     <div class="card">
                         <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                            <i data-lucide="check-circle" style="height: 1.25rem; width: 1.25rem; color: #10b981; margin-right: 0.5rem;"></i>
+                            <i data-lucide="check-circle" style="height: 1.25rem; width: 1.25rem; color: #9333ea; margin-right: 0.5rem;"></i>
                             <h3 style="margin: 0;">Essential Supplies</h3>
                         </div>
                         <ul style="list-style: none; padding: 0; color: #6b7280; line-height: 1.8;">
@@ -439,7 +439,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
                         <div class="flex items-center mb-4">
-                            <img src="images/PAWPAL LOGO.png" alt="PawPal Logo" class="h-8 w-auto mr-2">
+                            <img src="{{ asset('images/pawpal-logo.png') }}" alt="PawPal Logo" class="h-8 w-auto mr-2">
                             <span class="text-xl font-bold">PawPal</span>
                         </div>
                         <p class="text-gray-400 text-sm">

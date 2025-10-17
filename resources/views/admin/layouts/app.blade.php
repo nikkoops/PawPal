@@ -481,9 +481,9 @@
         }
 
         .alert-success {
-            background: #ecfdf5;
-            border-color: #10b981;
-            color: #065f46;
+            background: #f3f4f6;
+            border-color: #9333ea;
+            color: #6b21a8;
         }
 
         .alert-error {
@@ -509,7 +509,7 @@
             <!-- Logo -->
             <div class="flex h-20 items-center justify-between px-6 border-b border-border">
                 <a href="{{ auth()->user()->role === 'system_admin' ? route('admin.system.dashboard') : route('admin.shelter.pets.index') }}" class="flex items-center space-x-2 min-w-0">
-                    <img src="{{ asset('images/favicon.png') }}" alt="PawPal Logo" class="h-8 w-8 flex-shrink-0 object-contain">
+                    <img src="{{ asset('images/pawpal-logo.png') }}?v={{ time() }}" alt="PawPal Logo" class="h-8 w-8 flex-shrink-0 object-contain">
                     <span class="text-xl lg:text-2xl font-serif font-bold text-foreground truncate">PawPal Admin</span>
                 </a>
                 <button class="lg:hidden p-2 rounded-md hover:bg-muted flex-shrink-0" onclick="toggleSidebar()">

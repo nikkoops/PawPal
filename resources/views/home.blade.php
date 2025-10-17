@@ -719,7 +719,7 @@
     }
 
     .badge-yes {
-      background: #10b981;
+      background: #9333ea;
       color: white;
     }
 
@@ -751,12 +751,12 @@
     }
 
     .btn-adopt {
-      background: #000;
+      background: #9333ea;
       color: white;
     }
 
     .btn-adopt:hover {
-      background: #374151;
+      background: #7c3aed;
       color: white;
       transform: translateY(-1px);
     }
@@ -1451,7 +1451,7 @@
           <div class="grid md:grid-cols-4 gap-8">
               <div>
                         <div class="flex items-center mb-4">
-                            <img src="images/PAWPAL LOGO.png" alt="PawPal Logo" class="h-8 w-auto mr-2">
+                            <img src="{{ asset('images/pawpal-logo.png') }}?v={{ time() }}" alt="PawPal Logo" class="h-8 w-auto mr-2 object-contain">
                             <span class="text-xl font-bold">PawPal</span>
                         </div>
                   <p class="text-gray-400">Connecting loving families with pets in need of homes.</p>

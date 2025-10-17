@@ -143,11 +143,11 @@
 
               <!-- Contact Buttons -->
               <div class="space-y-3">
-                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=adopt" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center">
+                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=adopt" class="w-full text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center" style="background-color: #9333ea;" onmouseover="this.style.backgroundColor='#7c3aed'" onmouseout="this.style.backgroundColor='#9333ea'">
                   <i data-lucide="heart" class="h-5 w-5 mr-2"></i>
                   Adopt {{ $pet->name }}
                 </a>
-                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=info" class="w-full bg-white hover:bg-gray-50 text-purple-600 border border-purple-600 px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center">
+                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=info" class="w-full bg-white hover:bg-gray-50 px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center" style="color: #9333ea; border-color: #9333ea;" onmouseover="this.style.borderColor='#7c3aed'; this.style.color='#7c3aed'" onmouseout="this.style.borderColor='#9333ea'; this.style.color='#9333ea'">
                   <i data-lucide="info" class="h-5 w-5 mr-2"></i>
                   Get More Information
                 </a>

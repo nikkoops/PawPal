@@ -17,6 +17,10 @@ use App\Http\Controllers\PetController;
 
 Route::get('/', [PetController::class, 'index'])->name('home');
 
+Route::get('/logo-test', function () {
+    return view('logo-test');
+});
+
 Route::get('/find-pets', [PetController::class, 'findPets'])->name('find-pets');
 
 Route::get('/pets/{id}', [PetController::class, 'show'])->name('pets.show');

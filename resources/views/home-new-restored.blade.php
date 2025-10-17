@@ -359,7 +359,7 @@
     .gap-8 { gap: 2rem; }
     .w-8 { width: 2rem; }
     .h-8 { height: 2rem; }
-    .bg-blue-600 { background-color: #2563eb; }
+    .bg-blue-600 { background-color: #9333ea; }
     .rounded-lg { border-radius: 0.5rem; }
     .flex { display: flex; }
     .items-center { align-items: center; }
@@ -394,7 +394,7 @@
     <div class="header-container">
       <div class="header-content">
         <div class="logo">
-          <img src="images/PAWPAL LOGO.png" alt="PawPal">
+          <img src="{{ asset('images/PAWPAL LOGO.png') }}" alt="PawPal">
           <span>PawPal</span>
         </div>
         <nav>
@@ -502,7 +502,7 @@
         <div>
           <div class="flex items-center mb-4">
             <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-2">
-              <img src="images/PAWPAL LOGO.png" alt="PawPal" class="w-6 h-6">
+              <img src="{{ asset('images/PAWPAL LOGO.png') }}" alt="PawPal" class="w-6 h-6">
             </div>
             <h3 class="text-xl font-bold">PawPal</h3>
           </div>

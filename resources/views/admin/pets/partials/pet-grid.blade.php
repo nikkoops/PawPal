@@ -1,16 +1,16 @@
 @if($pets->count() > 0)
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @foreach($pets as $pet)
-            <div class="bg-white rounded-lg shadow-sm border border-border hover:shadow-lg transition-shadow duration-200">
+            <div class="bg-white rounded-lg shadow-sm border border-border hover:shadow-lg transition-shadow duration-200" data-pet-id="{{ $pet->id }}">
                 <div class="relative">
-                    <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-t-lg">
+                    <img src="{{ $pet->image_url }}" alt="{{ $pet->name }}" class="w-full h-48 object-cover rounded-t-lg pet-image">
                     
-                    <span class="absolute top-2 right-2 px-3 py-1 text-sm rounded-full font-semibold {{ $pet->is_available ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' }}">
+                    <span class="absolute top-2 right-2 px-3 py-1 text-sm rounded-full font-semibold {{ $pet->is_available ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' }} pet-status">
                         {{ $pet->is_available ? '✓ Available' : '🏠 Adopted' }}
                     </span>
                     
                     @if($pet->is_urgent && $pet->is_available)
-                    <span class="absolute top-2 left-2 px-2 py-1 text-xs font-medium bg-red-500 text-white" style="border-radius: 30px;">
+                    <span class="absolute top-2 left-2 px-2 py-1 text-xs font-medium bg-red-500 text-white urgent-badge" style="border-radius: 30px;">
                         🚨 URGENT
                     </span>
                     @endif
@@ -19,11 +19,11 @@
                 <div class="p-4">
                     <div class="space-y-3">
                         <div class="flex justify-between items-start">
-                            <h3 class="text-lg font-serif font-bold text-foreground">{{ $pet->name }}</h3>
-                            <span class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded">{{ ucfirst($pet->type) }}</span>
+                            <h3 class="text-lg font-serif font-bold text-foreground pet-name">{{ $pet->name }}</h3>
+                            <span class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded pet-type">{{ ucfirst($pet->type) }}</span>
                         </div>
                         <div>
-                            <p class="text-sm text-muted-foreground">
+                            <p class="text-sm text-muted-foreground pet-details">
                                 {{-- NEW FORMAT: Breed • Age Range • Size (using age categories: Puppy/Kitten, Adult, Senior) --}}
                                 @php
                                     $details = array_filter([
@@ -36,10 +36,10 @@
                             </p>
                         </div>
                         @if($pet->description)
-                        <p class="text-sm text-muted-foreground line-clamp-2">{{ $pet->description }}</p>
+                        <p class="text-sm text-muted-foreground line-clamp-2 pet-description">{{ $pet->description }}</p>
                         @endif
                         @if($pet->location)
-                        <div class="text-xs text-muted-foreground">📍 {{ $pet->location }}</div>
+                        <div class="text-xs text-muted-foreground pet-location">📍 {{ $pet->location }}</div>
                         @endif
                         <div class="text-xs text-muted-foreground space-y-1">
                             @if($pet->date_added)
@@ -57,10 +57,12 @@
                                 <i data-lucide="eye" class="h-4 w-4 mr-1"></i>
                                 View
                             </a>
-                            <a href="{{ route('admin.shelter.pets.edit', $pet) }}" class="flex-1 text-center py-2 px-3 text-xs bg-transparent border border-border rounded-lg hover:bg-muted transition-colors duration-200 flex items-center justify-center">
+                            <button 
+                                onclick="openEditModal({{ $pet->id }})"
+                                class="flex-1 py-2 px-3 text-xs bg-transparent border border-border rounded-lg hover:bg-muted transition-colors duration-200 flex items-center justify-center">
                                 <i data-lucide="edit" class="h-4 w-4 mr-1"></i>
                                 Edit
-                            </a>
+                            </button>
                             <form method="POST" action="{{ route('admin.shelter.pets.toggle-availability', $pet) }}" class="inline-block">
                                 @csrf
                                 <button type="submit" class="py-2 px-3 text-xs {{ $pet->is_available ? 'text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200' : 'text-green-600 hover:text-green-700 hover:bg-green-50 border-green-200' }} border rounded-lg transition-colors duration-200" title="{{ $pet->is_available ? 'Mark as Adopted' : 'Mark as Available' }}">
@@ -77,6 +79,8 @@
                         </div>
                     </div>
                 </div>
+                {{-- Include Edit Modal --}}
+                @include('admin.pets.partials.edit-modal', ['pet' => $pet])
             </div>
         @endforeach
     </div>

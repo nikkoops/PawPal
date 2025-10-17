@@ -154,6 +154,28 @@ class PetController extends Controller
 
     public function show(Pet $pet)
     {
+        if (request()->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'pet' => [
+                    'id' => $pet->id,
+                    'name' => $pet->name,
+                    'type' => $pet->type,
+                    'breed' => $pet->breed,
+                    'age' => $pet->age,
+                    'gender' => $pet->gender,
+                    'size' => $pet->size,
+                    'description' => $pet->description,
+                    'location' => $pet->location,
+                    'characteristics' => $pet->characteristics ?? [],
+                    'is_available' => $pet->is_available,
+                    'is_vaccinated' => $pet->is_vaccinated,
+                    'is_neutered' => $pet->is_neutered,
+                    'date_added' => $pet->date_added ? $pet->date_added->format('Y-m-d') : null,
+                    'image_url' => $pet->image_url,
+                ]
+            ]);
+        }
         return view('admin.pets.show', compact('pet'));
     }
 
@@ -164,53 +186,129 @@ class PetController extends Controller
 
     public function update(Request $request, Pet $pet)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'type' => 'required|in:dog,cat',
-            'breed' => 'nullable|string|max:255',
-            'age' => 'nullable|numeric|min:0|max:25',
-            'gender' => 'required|in:male,female',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'size' => 'nullable|in:small,medium,large',
-            'location' => 'nullable|string|max:255',
-            'characteristics' => 'nullable|array',
-            'adoption_fee' => 'nullable|numeric|min:0',
-            'medical_history' => 'nullable|string',
-            'is_vaccinated' => 'boolean',
-            'is_neutered' => 'boolean',
-            'is_available' => 'boolean',
-            'date_added' => 'required|date',
-        ]);
+        try {
+            $rules = [
+                'name' => 'required|string|max:255',
+                'type' => 'required|in:dog,cat',
+                'breed' => 'nullable|string|max:255',
+                'age' => 'nullable|numeric|min:0|max:25',
+                'gender' => 'required|in:male,female',
+                'description' => 'nullable|string',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'size' => 'nullable|in:small,medium,large',
+                'location' => 'nullable|string|max:255',
+                'characteristics' => 'nullable|array',
+                'is_vaccinated' => 'boolean',
+                'is_neutered' => 'boolean',
+                'is_available' => 'boolean',
+                'date_added' => 'required|date',
+            ];
 
-        $data = $request->all();
-        
-        // Handle empty age field - convert empty string to null (but keep valid decimal values)
-        if ($data['age'] === '' || $data['age'] === null) {
-            $data['age'] = null;
-        }
-        
-        // Handle empty size field - convert empty string to null  
-        if ($data['size'] === '' || $data['size'] === null) {
-            $data['size'] = null;
-        }
-        
-        // Ensure boolean fields are properly set
-        $data['is_available'] = $request->has('is_available') ? true : false;
-        $data['is_vaccinated'] = $request->has('is_vaccinated') ? true : false;
-        $data['is_neutered'] = $request->has('is_neutered') ? true : false;
+            $validator = \Illuminate\Support\Facades\Validator::make($request->all(), $rules);
 
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($pet->image) {
-                Storage::disk('public')->delete($pet->image);
+            if ($validator->fails()) {
+                if ($request->wantsJson()) {
+                    return response()->json(['errors' => $validator->errors()], 422);
+                }
+                return redirect()->back()->withErrors($validator)->withInput();
             }
-            $data['image'] = $request->file('image')->store('pets', 'public');
+
+            $data = $validator->validated();
+            
+            // Auto-assign location if user has shelter location
+            $user = auth()->user();
+            if ($user->hasShelterLocation()) {
+                $data['location'] = $user->shelter_location;
+            }
+            
+            // Handle empty age field - convert empty string to null
+            if (isset($data['age']) && ($data['age'] === '' || $data['age'] === null)) {
+                $data['age'] = null;
+            }
+            
+            // Handle empty size field - convert empty string to null
+            if (isset($data['size']) && ($data['size'] === '' || $data['size'] === null)) {
+                $data['size'] = null;
+            }
+            
+            // Ensure boolean fields are properly set
+            $data['is_available'] = $request->has('is_available') ? 1 : 0;
+            $data['is_vaccinated'] = $request->has('is_vaccinated') ? 1 : 0;
+            $data['is_neutered'] = $request->has('is_neutered') ? 1 : 0;
+            
+            // Handle image upload
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if ($pet->image) {
+                    Storage::disk('public')->delete($pet->image);
+                }
+                
+                $file = $request->file('image');
+                $filename = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                
+                // Store in storage/app/public/pets
+                $path = $file->storePublicly('pets', 'public');
+                $data['image'] = $path;
+                
+                // Ensure public directory exists
+                if (!is_dir(public_path('storage/pets'))) {
+                    mkdir(public_path('storage/pets'), 0755, true);
+                }
+                
+                // Copy to public/storage/pets for immediate access
+                copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            }
+
+            // Handle characteristics array
+            if (isset($data['characteristics'])) {
+                $data['characteristics'] = array_filter($data['characteristics']);
+            }
+
+            // Update the pet
+            $pet->update($data);
+            
+            // Refresh the pet model to get updated values
+            $pet = $pet->fresh();
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Pet updated successfully',
+                    'pet' => [
+                        'id' => $pet->id,
+                        'name' => $pet->name,
+                        'type' => $pet->type,
+                        'breed' => $pet->breed,
+                        'age' => $pet->age,
+                        'gender' => $pet->gender,
+                        'size' => $pet->size,
+                        'description' => $pet->description,
+                        'location' => $pet->location,
+                        'characteristics' => $pet->characteristics ?? [],
+                        'is_available' => $pet->is_available,
+                        'is_vaccinated' => $pet->is_vaccinated,
+                        'is_neutered' => $pet->is_neutered,
+                        'date_added' => $pet->date_added ? $pet->date_added->format('Y-m-d') : null,
+                        'image_url' => $pet->image_url,
+                        'is_urgent' => $pet->is_urgent,
+                        'days_in_shelter' => $pet->days_in_shelter
+                    ]
+                ]);
+            }
+
+            return redirect()->route('admin.shelter.pets.index')->with('success', 'Pet updated successfully!');
+            
+        } catch (\Exception $e) {
+            \Log::error('Error updating pet: ' . $e->getMessage());
+            
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'errors' => ['general' => ['An unexpected error occurred. Please try again.']]
+                ], 500);
+            }
+            
+            return redirect()->back()->with('error', 'An error occurred while updating the pet.');
         }
-
-        $pet->update($data);
-
-        return redirect()->route('admin.shelter.pets.index')->with('success', 'Pet updated successfully!');
     }
 
     public function destroy(Pet $pet)

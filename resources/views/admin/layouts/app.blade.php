@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -620,6 +621,45 @@
                 timeElement.textContent = new Date().toLocaleTimeString();
             }
         }
+
+        // Function to open edit modal
+        function openEditModal(petId) {
+            console.log('Opening edit modal for pet ID:', petId);
+            const modal = document.getElementById(`editPetModal-${petId}`);
+            console.log('Found modal element:', modal);
+            
+            if (modal) {
+                // Remove hidden class and show modal
+                modal.classList.remove('hidden');
+                modal.style.display = 'block';
+                
+                // Try Alpine.js approach first
+                if (modal.__x && modal.__x.$data) {
+                    console.log('Using Alpine.js __x.$data approach');
+                    modal.__x.$data.open = true;
+                } else {
+                    // Fallback: dispatch a custom event
+                    console.log('Using custom event approach');
+                    modal.dispatchEvent(new CustomEvent('open-modal'));
+                    
+                    // Wait a bit and try Alpine.js again
+                    setTimeout(() => {
+                        if (modal.__x && modal.__x.$data) {
+                            modal.__x.$data.open = true;
+                        }
+                    }, 100);
+                }
+            } else {
+                console.error('Modal not found with ID:', `editPetModal-${petId}`);
+                
+                // Debug: List all modal elements
+                const allModals = document.querySelectorAll('[id*="editPetModal"]');
+                console.log('All modal elements found:', allModals);
+            }
+        }
+        
+        // Make function available globally
+        window.openEditModal = openEditModal;
 
         // Initialize Lucide icons
         document.addEventListener('DOMContentLoaded', function() {

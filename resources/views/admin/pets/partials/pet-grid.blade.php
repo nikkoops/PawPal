@@ -65,7 +65,7 @@
                                     <i data-lucide="{{ $pet->is_available ? 'x-circle' : 'check-circle' }}" class="h-4 w-4"></i>
                                 </button>
                             </form>
-                            <form method="POST" action="{{ route('admin.shelter.pets.destroy', $pet) }}" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this pet?')">
+                            <form method="POST" action="{{ route('admin.shelter.pets.destroy', $pet) }}" class="inline-block" onsubmit="return confirmPetDeletion(event, '{{ $pet->name }}')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="py-2 px-3 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 border border-red-200 rounded-lg transition-colors duration-200">

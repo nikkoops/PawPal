@@ -14,7 +14,7 @@
                 <i data-lucide="download" class="h-4 w-4"></i>
                 <span>Export</span>
             </button>
-            <select id="bulkActionSelect" class="px-4 py-2 bg-white border border-gray-300 rounded-lg">
+            <select id="bulkActionSelect" class="px-4 py-2 bg-white border border-gray-300 rounded-lg" onchange="bulkAction()">
                 <option value="">Bulk Actions</option>
                 <option value="approve">Approve Selected</option>
                 <option value="reject">Reject Selected</option>
@@ -402,7 +402,7 @@ function saveAdminNotes(applicationId) {
     })
     .catch(error => {
         console.error('Error saving notes:', error);
-        alert('Error saving notes. Please try again.');
+        customAlert('Failed to save notes. Please try again.', 'Error');
     });
 }
 
@@ -411,16 +411,45 @@ function closeApplicationModal() {
 }
 
 function updateStatus(id, status) {
-    if (confirm(`Are you sure you want to ${status} this application?`)) {
-        fetch(`/admin/shelter/applications/${id}/update-status`, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ status: status })
-        }).then(() => location.reload());
-    }
+    const actionText = status === 'approved' ? 'approve' : status === 'rejected' ? 'reject' : status;
+    const modalType = status === 'rejected' ? 'danger' : status === 'approved' ? 'success' : 'primary';
+    
+    customConfirm(
+        `Are you sure you want to ${actionText} this application? This action cannot be undone.`,
+        `${actionText.charAt(0).toUpperCase() + actionText.slice(1)} Application`,
+        {
+            confirmText: actionText.charAt(0).toUpperCase() + actionText.slice(1),
+            cancelText: 'Cancel',
+            type: modalType
+        }
+    ).then(confirmed => {
+        if (confirmed) {
+            fetch(`/admin/shelter/applications/${id}/update-status`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: status })
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to update status');
+                }
+            }).then(data => {
+                if (data.success) {
+                    customAlert(data.message, 'success', 'Success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    customAlert('Failed to update application status. Please try again.', 'danger', 'Error');
+                }
+            }).catch(error => {
+                console.error('Status update error:', error);
+                customAlert('An error occurred while updating the application. Please try again.', 'danger', 'Error');
+            });
+        }
+    });
 }
 
 function toggleSelectAll() {
@@ -431,26 +460,73 @@ function toggleSelectAll() {
 
 function bulkAction() {
     const action = event.target.value;
+    console.log('Bulk action triggered:', action);
     if (!action) return;
     
     const selected = Array.from(document.querySelectorAll('.application-checkbox:checked')).map(cb => cb.value);
+    console.log('Selected applications:', selected);
+    
     if (selected.length === 0) {
-        alert('Please select at least one application');
+        customAlert('Please select at least one application to perform this action.', 'warning', 'No Selection');
         return;
     }
     
-    if (confirm(`Are you sure you want to ${action} ${selected.length} applications?`)) {
-        fetch('/admin/shelter/applications/bulk-action', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ action: action, applications: selected })
-        }).then(() => location.reload());
-    }
+    const actionText = action === 'approve' ? 'approve' : action === 'reject' ? 'reject' : action === 'pending' ? 'mark as pending' : action;
+    const modalType = action === 'reject' ? 'danger' : action === 'approve' ? 'success' : 'warning';
     
-    event.target.value = '';
+    customConfirm(
+        `Are you sure you want to ${actionText} ${selected.length} application${selected.length > 1 ? 's' : ''}? This action cannot be undone.`,
+        `Bulk ${actionText.charAt(0).toUpperCase() + actionText.slice(1)} Applications`,
+        {
+            confirmText: `${actionText.charAt(0).toUpperCase() + actionText.slice(1)} ${selected.length} Application${selected.length > 1 ? 's' : ''}`,
+            cancelText: 'Cancel',
+            type: modalType
+        }
+    ).then(confirmed => {
+        if (confirmed) {
+            console.log('Bulk action data:', { action: action, application_ids: selected });
+            
+            // Create form data instead of JSON
+            const formData = new FormData();
+            formData.append('action', action);
+            selected.forEach((id, index) => {
+                formData.append(`application_ids[${index}]`, id);
+            });
+            
+            fetch('/admin/shelter/applications/bulk-action', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: formData
+            }).then(response => {
+                console.log('Response status:', response.status);
+                return response.text().then(text => {
+                    console.log('Response text:', text);
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        console.error('Failed to parse JSON:', e);
+                        throw new Error('Invalid JSON response: ' + text);
+                    }
+                });
+            }).then(data => {
+                console.log('Parsed data:', data);
+                if (data.success) {
+                    customAlert(data.message, 'success', 'Success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    customAlert(data.error || 'Failed to perform bulk action. Please try again.', 'danger', 'Error');
+                }
+            }).catch(error => {
+                console.error('Bulk action error:', error);
+                customAlert('An error occurred while performing the bulk action: ' + error.message, 'danger', 'Error');
+            });
+        }
+        
+        // Reset the select dropdown
+        event.target.value = '';
+    });
 }
 
 function exportApplications() {

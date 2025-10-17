@@ -126,7 +126,7 @@
                                     </a>
                                 @endif
                                 @if($user->id !== auth()->id())
-                                    <form action="{{ route('admin.system.users.delete', $user) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this admin?');">
+                                    <form action="{{ route('admin.system.users.delete', $user) }}" method="POST" class="inline" onsubmit="return confirmUserDeletion(event, '{{ $user->name }}', '{{ $user->email }}')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:text-red-900">
@@ -155,4 +155,27 @@
         @endif
     </div>
 </div>
+
+<script>
+// Custom user deletion confirmation
+function confirmUserDeletion(event, userName, userEmail) {
+    event.preventDefault();
+    
+    customConfirm(
+        `Are you sure you want to delete the admin account for "${userName}" (${userEmail})? This action cannot be undone and will remove all access permissions and associated data.`,
+        'Delete Admin Account',
+        {
+            confirmText: 'Delete Account',
+            cancelText: 'Cancel',
+            type: 'danger'
+        }
+    ).then(confirmed => {
+        if (confirmed) {
+            event.target.submit();
+        }
+    });
+    
+    return false;
+}
+</script>
 @endsection

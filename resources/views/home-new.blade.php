@@ -895,7 +895,7 @@
     }
 
     function meetPet(petId, petName) {
-      alert(`Great choice! You'd like to meet ${petName}. In a real application, this would redirect to the adoption application page for pet ID ${petId}.`);
+      customAlert(`Great choice! You'd like to meet ${petName}. In a real application, this would redirect to the adoption application page for pet ID ${petId}.`, 'success');
     }
 
     // Initialize pets display
@@ -982,5 +982,8 @@
       </div>
     </div>
   </div>
+
+  <!-- Custom Modal Component -->
+  @include('components.custom-modal')
 </body>
 </html>

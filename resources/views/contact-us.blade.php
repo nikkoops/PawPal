@@ -358,7 +358,7 @@
       console.log('Form submitted:', formData);
       
       // Show success message
-      alert('Thank you for your message! We\'ll get back to you soon.');
+      customAlert('Thank you for your message! We\'ll get back to you soon.', 'success');
       
       // Reset form
       this.reset();
@@ -367,5 +367,8 @@
     // Initialize Lucide icons
     lucide.createIcons();
   </script>
+
+  <!-- Custom Modal Component -->
+  @include('components.custom-modal')
 </body>
 </html>

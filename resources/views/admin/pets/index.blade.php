@@ -150,6 +150,27 @@ function filterPets() {
         });
 }
 
+// Custom pet deletion confirmation
+function confirmPetDeletion(event, petName) {
+    event.preventDefault();
+    
+    customConfirm(
+        `Are you sure you want to delete "${petName}"? This action cannot be undone and will remove all associated data including photos, medical records, and application history.`,
+        'Delete Pet',
+        {
+            confirmText: 'Delete Pet',
+            cancelText: 'Cancel',
+            type: 'danger'
+        }
+    ).then(confirmed => {
+        if (confirmed) {
+            event.target.submit();
+        }
+    });
+    
+    return false;
+}
+
 // Initialize Lucide icons
 lucide.createIcons();
 </script>

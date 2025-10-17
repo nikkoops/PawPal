@@ -1111,7 +1111,7 @@
       
       if (!pet) {
         console.error('Pet not found with id:', id);
-        alert('Pet not found! ID: ' + id);
+        customAlert('Pet not found! ID: ' + id, 'warning');
         return;
       }
       
@@ -1196,7 +1196,7 @@
         
       } catch (error) {
         console.error('Error in meetPet function:', error);
-        alert('Error opening pet details: ' + error.message);
+        customAlert('Error opening pet details: ' + error.message, 'danger');
       }
     }
 
@@ -1604,6 +1604,9 @@
       }
     });
   </script>
+
+  <!-- Custom Modal Component -->
+  @include('components.custom-modal')
 
 </body>
 </html>

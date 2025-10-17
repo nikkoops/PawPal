@@ -689,7 +689,7 @@
             );
           } else {
             console.warn('Pet details not found or invalid for:', petName);
-            alert('Warning: Could not load pet details. Your form submission may not be associated with the correct pet.');
+            customAlert('Warning: Could not load pet details. Your form submission may not be associated with the correct pet.', 'warning');
           }
         } else {
           console.error('Failed to fetch pet details:', response.status);
@@ -1248,7 +1248,7 @@
 
         if (res.status === 419) {
           // CSRF token mismatch or session expired
-          alert('Session expired or CSRF token mismatch. Please reload the page and try again.');
+          customAlert('Session expired or CSRF token mismatch. Please reload the page and try again.', 'warning');
           return;
         }
 
@@ -1320,5 +1320,8 @@
       }
     }
   </script>
+
+  <!-- Custom Modal Component -->
+  @include('components.custom-modal')
 </body>
 </html>

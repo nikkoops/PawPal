@@ -390,7 +390,7 @@
         if (file) {
             // Check file size (2MB = 2097152 bytes)
             if (file.size > 2097152) {
-                alert('File size must be less than 2MB');
+                customAlert('File size must be less than 2MB', 'warning');
                 this.value = '';
                 document.getElementById('image-preview').classList.add('hidden');
                 return;
@@ -399,7 +399,7 @@
             // Check file type
             const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
             if (!allowedTypes.includes(file.type)) {
-                alert('Only JPG, PNG, and GIF files are allowed');
+                customAlert('Only JPG, PNG, and GIF files are allowed', 'warning');
                 this.value = '';
                 document.getElementById('image-preview').classList.add('hidden');
                 return;

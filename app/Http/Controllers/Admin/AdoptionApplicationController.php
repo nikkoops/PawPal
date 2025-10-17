@@ -160,51 +160,87 @@ class AdoptionApplicationController extends Controller
 
     public function updateStatus(Request $request, AdoptionApplication $application)
     {
-        $request->validate([
-            'status' => 'required|in:pending,approved,rejected',
-            'admin_notes' => 'nullable|string|max:1000',
-        ]);
+        try {
+            $request->validate([
+                'status' => 'required|in:pending,approved,rejected',
+                'admin_notes' => 'nullable|string|max:1000',
+            ]);
 
-        $application->update([
-            'status' => $request->status,
-            'admin_notes' => $request->admin_notes,
-            'reviewed_at' => now(),
-            'reviewed_by' => auth()->id(),
-        ]);
-
-        // If approved, mark pet as unavailable
-        if ($request->status === 'approved') {
-            $application->pet->update(['is_available' => false]);
-        }
-
-        return redirect()->back()->with('success', 'Application status updated successfully!');
-    }
-
-    public function bulkAction(Request $request)
-    {
-        $request->validate([
-            'action' => 'required|in:approve,reject,pending',
-            'application_ids' => 'required|array',
-            'application_ids.*' => 'exists:adoption_applications,id',
-        ]);
-
-        $applications = AdoptionApplication::whereIn('id', $request->application_ids)->get();
-
-        foreach ($applications as $application) {
             $application->update([
-                'status' => $request->action === 'pending' ? 'pending' : $request->action . 'd',
+                'status' => $request->status,
+                'admin_notes' => $request->admin_notes,
                 'reviewed_at' => now(),
                 'reviewed_by' => auth()->id(),
             ]);
 
             // If approved, mark pet as unavailable
-            if ($request->action === 'approve') {
+            if ($request->status === 'approved') {
                 $application->pet->update(['is_available' => false]);
             }
-        }
 
-        $count = count($request->application_ids);
-        return redirect()->back()->with('success', "{$count} application(s) updated successfully!");
+            return response()->json([
+                'success' => true,
+                'message' => 'Application status updated successfully!',
+                'status' => $request->status
+            ]);
+            
+        } catch (\Exception $e) {
+            \Log::error('Status update failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update application status'], 500);
+        }
+    }
+
+    public function bulkAction(Request $request)
+    {
+        try {
+            \Log::info('Bulk action request:', $request->all());
+            
+            $request->validate([
+                'action' => 'required|in:approve,reject,pending',
+                'application_ids' => 'required|array|min:1',
+                'application_ids.*' => 'integer|exists:adoption_applications,id',
+            ]);
+
+            $applications = AdoptionApplication::whereIn('id', $request->application_ids)->get();
+            
+            \Log::info('Found applications:', ['count' => $applications->count(), 'ids' => $applications->pluck('id')]);
+            
+            if ($applications->isEmpty()) {
+                return response()->json(['error' => 'No applications found'], 404);
+            }
+
+            $updated = 0;
+            foreach ($applications as $application) {
+                $status = $request->action === 'approve' ? 'approved' : ($request->action === 'reject' ? 'rejected' : 'pending');
+                
+                $application->update([
+                    'status' => $status,
+                    'reviewed_at' => now(),
+                    'reviewed_by' => auth()->id(),
+                ]);
+
+                // If approved, mark pet as unavailable
+                if ($request->action === 'approve' && $application->pet) {
+                    $application->pet->update(['is_available' => false]);
+                }
+                $updated++;
+            }
+
+            \Log::info('Bulk action completed:', ['updated' => $updated]);
+
+            return response()->json([
+                'success' => true,
+                'message' => "{$updated} application(s) updated successfully!",
+                'updated_count' => $updated
+            ]);
+            
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('Validation failed:', $e->errors());
+            return response()->json(['error' => 'Validation failed', 'details' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            \Log::error('Bulk action failed: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return response()->json(['error' => 'Failed to update applications: ' . $e->getMessage()], 500);
+        }
     }
 
     /**

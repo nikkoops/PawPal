@@ -668,5 +668,8 @@
             setInterval(updateCurrentTime, 1000);
         });
     </script>
+
+    <!-- Custom Modal Component -->
+    @include('components.custom-modal')
 </body>
 </html>

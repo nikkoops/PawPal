@@ -231,45 +231,80 @@
                     <h3 class="text-xl font-semibold text-foreground mb-4">Health & Characteristics</h3>
                     
                     <div class="space-y-4">
-                        <!-- Vaccinated -->
-                        <div class="flex items-center justify-between py-2">
-                            <label for="is_vaccinated" class="text-sm font-medium text-gray-700">Vaccinated</label>
-                            <input type="hidden" name="is_vaccinated" value="0">
-                            <input type="checkbox" id="is_vaccinated" name="is_vaccinated" value="1" 
-                                   {{ old('is_vaccinated') ? 'checked' : '' }}
-                                   class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                        </div>
-
-                        <!-- Spayed/Neutered -->
-                        <div class="flex items-center justify-between py-2">
-                            <label for="is_neutered" class="text-sm font-medium text-gray-700">Spayed/Neutered</label>
-                            <input type="hidden" name="is_neutered" value="0">
-                            <input type="checkbox" id="is_neutered" name="is_neutered" value="1" 
-                                   {{ old('is_neutered') ? 'checked' : '' }}
-                                   class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                        </div>
-
-                        <!-- Characteristics -->
-                        <div class="pt-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-3">Characteristics</label>
-                            <div class="space-y-2">
+                        <!-- Health -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Health:</label>
+                            <div class="space-y-3">
+                                <!-- Vaccinated -->
                                 <label class="flex items-center">
-                                    <input type="checkbox" name="characteristics[]" value="energetic"
-                                           {{ in_array('energetic', old('characteristics', [])) ? 'checked' : '' }}
+                                    <input type="hidden" name="is_vaccinated" value="0">
+                                    <input type="checkbox" id="is_vaccinated" name="is_vaccinated" value="1" 
+                                           {{ old('is_vaccinated') ? 'checked' : '' }}
                                            class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <span class="ml-3 text-sm text-gray-700">Energetic</span>
+                                    <span class="ml-3 text-sm text-gray-700">Vaccinated</span>
                                 </label>
+
+                                <!-- Spayed/Neutered -->
                                 <label class="flex items-center">
-                                    <input type="checkbox" name="characteristics[]" value="good_with_kids"
-                                           {{ in_array('good_with_kids', old('characteristics', [])) ? 'checked' : '' }}
+                                    <input type="hidden" name="is_neutered" value="0">
+                                    <input type="checkbox" id="is_neutered" name="is_neutered" value="1" 
+                                           {{ old('is_neutered') ? 'checked' : '' }}
                                            class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <span class="ml-3 text-sm text-gray-700">Good with Kids</span>
+                                    <span class="ml-3 text-sm text-gray-700">Spayed/Neutered</span>
                                 </label>
+
+                                <!-- Dewormed -->
                                 <label class="flex items-center">
-                                    <input type="checkbox" name="characteristics[]" value="good_with_pets"
-                                           {{ in_array('good_with_pets', old('characteristics', [])) ? 'checked' : '' }}
+                                    <input type="hidden" name="is_dewormed" value="0">
+                                    <input type="checkbox" id="is_dewormed" name="is_dewormed" value="1" 
+                                           {{ old('is_dewormed') ? 'checked' : '' }}
                                            class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <span class="ml-3 text-sm text-gray-700">Good with Other Pets</span>
+                                    <span class="ml-3 text-sm text-gray-700">Dewormed</span>
+                                </label>
+
+                                <!-- Tick/Flea Treated -->
+                                <label class="flex items-center">
+                                    <input type="hidden" name="is_tick_flea_treated" value="0">
+                                    <input type="checkbox" id="is_tick_flea_treated" name="is_tick_flea_treated" value="1" 
+                                           {{ old('is_tick_flea_treated') ? 'checked' : '' }}
+                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                    <span class="ml-3 text-sm text-gray-700">Tick/Flea Treated</span>
+                                </label>
+
+                                <!-- On Preventive Medication -->
+                                <label class="flex items-center">
+                                    <input type="hidden" name="on_preventive_medication" value="0">
+                                    <input type="checkbox" id="on_preventive_medication" name="on_preventive_medication" value="1" 
+                                           {{ old('on_preventive_medication') ? 'checked' : '' }}
+                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                    <span class="ml-3 text-sm text-gray-700">On Preventive Medication</span>
+                                </label>
+
+                                <!-- Has Special Medical Needs -->
+                                <label class="flex items-center">
+                                    <input type="hidden" name="has_special_medical_needs" value="0">
+                                    <input type="checkbox" id="has_special_medical_needs" name="has_special_medical_needs" value="1" 
+                                           {{ old('has_special_medical_needs') ? 'checked' : '' }}
+                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                    <span class="ml-3 text-sm text-gray-700">Has Special Medical Needs</span>
+                                </label>
+
+                                <!-- Disabled / Mobility Impaired -->
+                                <label class="flex items-center">
+                                    <input type="hidden" name="is_mobility_impaired" value="0">
+                                    <input type="checkbox" id="is_mobility_impaired" name="is_mobility_impaired" value="1" 
+                                           {{ old('is_mobility_impaired') ? 'checked' : '' }}
+                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                    <span class="ml-3 text-sm text-gray-700">Disabled / Mobility Impaired</span>
+                                </label>
+
+                                <!-- Undergoing Treatment -->
+                                <label class="flex items-center">
+                                    <input type="hidden" name="is_undergoing_treatment" value="0">
+                                    <input type="checkbox" id="is_undergoing_treatment" name="is_undergoing_treatment" value="1" 
+                                           {{ old('is_undergoing_treatment') ? 'checked' : '' }}
+                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                    <span class="ml-3 text-sm text-gray-700">Undergoing Treatment</span>
                                 </label>
                             </div>
                         </div>

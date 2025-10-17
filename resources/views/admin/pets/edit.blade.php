@@ -183,44 +183,82 @@
                 <!-- Health & Characteristics -->
                 <div class="bg-white rounded-lg shadow-sm border border-border p-6">
                     <h3 class="text-xl font-serif font-bold text-foreground mb-4">Health & Characteristics</h3>
+                    
                     <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <label for="is_vaccinated" class="text-sm font-medium text-foreground">Vaccinated</label>
-                            <input type="hidden" name="is_vaccinated" value="0">
-                            <input type="checkbox" id="is_vaccinated" name="is_vaccinated" value="1" {{ old('is_vaccinated', $pet->is_vaccinated) ? 'checked' : '' }}
-                                   class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
-                        </div>
-
-                        <div class="flex items-center justify-between">
-                            <label for="is_neutered" class="text-sm font-medium text-foreground">Spayed/Neutered</label>
-                            <input type="hidden" name="is_neutered" value="0">
-                            <input type="checkbox" id="is_neutered" name="is_neutered" value="1" {{ old('is_neutered', $pet->is_neutered) ? 'checked' : '' }}
-                                   class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
-                        </div>
-
+                        <!-- Health -->
                         <div>
-                            <label class="block text-sm font-medium text-foreground mb-2">Characteristics</label>
-                            <div class="space-y-2">
-                                @php
-                                    $currentCharacteristics = old('characteristics', $pet->characteristics ?? []);
-                                @endphp
+                            <label class="block text-sm font-medium text-foreground mb-3">Health:</label>
+                            <div class="space-y-3">
+                                <!-- Vaccinated -->
                                 <label class="flex items-center">
-                                    <input type="checkbox" name="characteristics[]" value="energetic"
-                                           {{ in_array('energetic', $currentCharacteristics) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded mr-2">
-                                    <span class="text-sm">Energetic</span>
+                                    <input type="hidden" name="is_vaccinated" value="0">
+                                    <input type="checkbox" id="is_vaccinated" name="is_vaccinated" value="1" 
+                                           {{ old('is_vaccinated', $pet->is_vaccinated) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                                    <span class="ml-3 text-sm text-foreground">Vaccinated</span>
                                 </label>
+
+                                <!-- Spayed/Neutered -->
                                 <label class="flex items-center">
-                                    <input type="checkbox" name="characteristics[]" value="good_with_kids"
-                                           {{ in_array('good_with_kids', $currentCharacteristics) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded mr-2">
-                                    <span class="text-sm">Good with Kids</span>
+                                    <input type="hidden" name="is_neutered" value="0">
+                                    <input type="checkbox" id="is_neutered" name="is_neutered" value="1" 
+                                           {{ old('is_neutered', $pet->is_neutered) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                                    <span class="ml-3 text-sm text-foreground">Spayed/Neutered</span>
                                 </label>
+
+                                <!-- Dewormed -->
                                 <label class="flex items-center">
-                                    <input type="checkbox" name="characteristics[]" value="good_with_pets"
-                                           {{ in_array('good_with_pets', $currentCharacteristics) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded mr-2">
-                                    <span class="text-sm">Good with Other Pets</span>
+                                    <input type="hidden" name="is_dewormed" value="0">
+                                    <input type="checkbox" id="is_dewormed" name="is_dewormed" value="1" 
+                                           {{ old('is_dewormed', $pet->is_dewormed) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                                    <span class="ml-3 text-sm text-foreground">Dewormed</span>
+                                </label>
+
+                                <!-- Tick/Flea Treated -->
+                                <label class="flex items-center">
+                                    <input type="hidden" name="is_tick_flea_treated" value="0">
+                                    <input type="checkbox" id="is_tick_flea_treated" name="is_tick_flea_treated" value="1" 
+                                           {{ old('is_tick_flea_treated', $pet->is_tick_flea_treated) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                                    <span class="ml-3 text-sm text-foreground">Tick/Flea Treated</span>
+                                </label>
+
+                                <!-- On Preventive Medication -->
+                                <label class="flex items-center">
+                                    <input type="hidden" name="on_preventive_medication" value="0">
+                                    <input type="checkbox" id="on_preventive_medication" name="on_preventive_medication" value="1" 
+                                           {{ old('on_preventive_medication', $pet->on_preventive_medication) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                                    <span class="ml-3 text-sm text-foreground">On Preventive Medication</span>
+                                </label>
+
+                                <!-- Has Special Medical Needs -->
+                                <label class="flex items-center">
+                                    <input type="hidden" name="has_special_medical_needs" value="0">
+                                    <input type="checkbox" id="has_special_medical_needs" name="has_special_medical_needs" value="1" 
+                                           {{ old('has_special_medical_needs', $pet->has_special_medical_needs) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                                    <span class="ml-3 text-sm text-foreground">Has Special Medical Needs</span>
+                                </label>
+
+                                <!-- Disabled / Mobility Impaired -->
+                                <label class="flex items-center">
+                                    <input type="hidden" name="is_mobility_impaired" value="0">
+                                    <input type="checkbox" id="is_mobility_impaired" name="is_mobility_impaired" value="1" 
+                                           {{ old('is_mobility_impaired', $pet->is_mobility_impaired) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                                    <span class="ml-3 text-sm text-foreground">Disabled / Mobility Impaired</span>
+                                </label>
+
+                                <!-- Undergoing Treatment -->
+                                <label class="flex items-center">
+                                    <input type="hidden" name="is_undergoing_treatment" value="0">
+                                    <input type="checkbox" id="is_undergoing_treatment" name="is_undergoing_treatment" value="1" 
+                                           {{ old('is_undergoing_treatment', $pet->is_undergoing_treatment) ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
+                                    <span class="ml-3 text-sm text-foreground">Undergoing Treatment</span>
                                 </label>
                             </div>
                         </div>

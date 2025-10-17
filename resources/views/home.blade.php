@@ -57,10 +57,8 @@
 
             <!-- Characteristics -->
             <div class="characteristics-section" style="margin-bottom: 6rem;">
-              <h3>Characteristics</h3>
+              <h3>Health</h3>
               <div class="characteristics-grid">
-                <!-- Location characteristic removed as requested -->
-
                 <div class="characteristic-item">
                   <div class="characteristic-left">
                     <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,21 +82,61 @@
                 <div class="characteristic-item">
                   <div class="characteristic-left">
                     <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                     </svg>
-                    <span class="characteristic-label">Good with kids</span>
+                    <span class="characteristic-label">Dewormed</span>
                   </div>
-                  <span id="modalGoodWithKids" class="characteristic-badge badge-no">No</span>
+                  <span id="modalDewormed" class="characteristic-badge badge-no">No</span>
                 </div>
 
                 <div class="characteristic-item">
                   <div class="characteristic-left">
                     <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
-                    <span class="characteristic-label">Good with other pets</span>
+                    <span class="characteristic-label">Tick/Flea Treated</span>
                   </div>
-                  <span id="modalGoodWithPets" class="characteristic-badge badge-no">No</span>
+                  <span id="modalTickFleaTreated" class="characteristic-badge badge-no">No</span>
+                </div>
+
+                <div class="characteristic-item">
+                  <div class="characteristic-left">
+                    <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                    </svg>
+                    <span class="characteristic-label">On Preventive Medication</span>
+                  </div>
+                  <span id="modalPreventiveMedication" class="characteristic-badge badge-no">No</span>
+                </div>
+
+                <div class="characteristic-item">
+                  <div class="characteristic-left">
+                    <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="characteristic-label">Has Special Medical Needs</span>
+                  </div>
+                  <span id="modalSpecialMedicalNeeds" class="characteristic-badge badge-no">No</span>
+                </div>
+
+                <div class="characteristic-item">
+                  <div class="characteristic-left">
+                    <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                    </svg>
+                    <span class="characteristic-label">Disabled / Mobility Impaired</span>
+                  </div>
+                  <span id="modalMobilityImpaired" class="characteristic-badge badge-no">No</span>
+                </div>
+
+                <div class="characteristic-item">
+                  <div class="characteristic-left">
+                    <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <span class="characteristic-label">Undergoing Treatment</span>
+                  </div>
+                  <span id="modalUndergoingTreatment" class="characteristic-badge badge-no">No</span>
                 </div>
               </div>
             </div>
@@ -1136,35 +1174,53 @@
           adoptLink.href = `/adopt?pet=${encodeURIComponent(pet.name)}`;
         }
         
-        // Update characteristic badges safely
+        // Update health badges safely
         const vaccinated = document.getElementById('modalVaccinated');
         if (vaccinated) {
-          vaccinated.textContent = pet.vaccinated ? 'Yes' : 'No';
-          vaccinated.className = `characteristic-badge ${pet.vaccinated ? 'badge-yes' : 'badge-no'}`;
+          vaccinated.textContent = pet.is_vaccinated ? 'Yes' : 'No';
+          vaccinated.className = `characteristic-badge ${pet.is_vaccinated ? 'badge-yes' : 'badge-no'}`;
         }
         
         const spayedNeutered = document.getElementById('modalSpayedNeutered');
         if (spayedNeutered) {
-          spayedNeutered.textContent = pet.spayed_neutered ? 'Yes' : 'No';
-          spayedNeutered.className = `characteristic-badge ${pet.spayed_neutered ? 'badge-yes' : 'badge-no'}`;
+          spayedNeutered.textContent = pet.is_neutered ? 'Yes' : 'No';
+          spayedNeutered.className = `characteristic-badge ${pet.is_neutered ? 'badge-yes' : 'badge-no'}`;
         }
         
-        const goodWithKids = document.getElementById('modalGoodWithKids');
-        if (goodWithKids) {
-          goodWithKids.textContent = pet.good_with_kids ? 'Yes' : 'No';
-          goodWithKids.className = `characteristic-badge ${pet.good_with_kids ? 'badge-yes' : 'badge-no'}`;
+        const dewormed = document.getElementById('modalDewormed');
+        if (dewormed) {
+          dewormed.textContent = pet.is_dewormed ? 'Yes' : 'No';
+          dewormed.className = `characteristic-badge ${pet.is_dewormed ? 'badge-yes' : 'badge-no'}`;
         }
         
-        const goodWithPets = document.getElementById('modalGoodWithPets');
-        if (goodWithPets) {
-          goodWithPets.textContent = pet.good_with_pets ? 'Yes' : 'No';
-          goodWithPets.className = `characteristic-badge ${pet.good_with_pets ? 'badge-yes' : 'badge-no'}`;
+        const tickFleaTreated = document.getElementById('modalTickFleaTreated');
+        if (tickFleaTreated) {
+          tickFleaTreated.textContent = pet.is_tick_flea_treated ? 'Yes' : 'No';
+          tickFleaTreated.className = `characteristic-badge ${pet.is_tick_flea_treated ? 'badge-yes' : 'badge-no'}`;
         }
         
-        const energetic = document.getElementById('modalEnergetic');
-        if (energetic) {
-          energetic.textContent = pet.energetic ? 'Yes' : 'No';
-          energetic.className = `characteristic-badge ${pet.energetic ? 'badge-yes' : 'badge-no'}`;
+        const preventiveMedication = document.getElementById('modalPreventiveMedication');
+        if (preventiveMedication) {
+          preventiveMedication.textContent = pet.on_preventive_medication ? 'Yes' : 'No';
+          preventiveMedication.className = `characteristic-badge ${pet.on_preventive_medication ? 'badge-yes' : 'badge-no'}`;
+        }
+        
+        const specialMedicalNeeds = document.getElementById('modalSpecialMedicalNeeds');
+        if (specialMedicalNeeds) {
+          specialMedicalNeeds.textContent = pet.has_special_medical_needs ? 'Yes' : 'No';
+          specialMedicalNeeds.className = `characteristic-badge ${pet.has_special_medical_needs ? 'badge-yes' : 'badge-no'}`;
+        }
+        
+        const mobilityImpaired = document.getElementById('modalMobilityImpaired');
+        if (mobilityImpaired) {
+          mobilityImpaired.textContent = pet.is_mobility_impaired ? 'Yes' : 'No';
+          mobilityImpaired.className = `characteristic-badge ${pet.is_mobility_impaired ? 'badge-yes' : 'badge-no'}`;
+        }
+        
+        const undergoingTreatment = document.getElementById('modalUndergoingTreatment');
+        if (undergoingTreatment) {
+          undergoingTreatment.textContent = pet.is_undergoing_treatment ? 'Yes' : 'No';
+          undergoingTreatment.className = `characteristic-badge ${pet.is_undergoing_treatment ? 'badge-yes' : 'badge-no'}`;
         }
         
         // Show/hide urgent badge based on pet's urgent property
@@ -1377,9 +1433,9 @@
               </p>
             </div>
 
-            <!-- Characteristics -->
+            <!-- Health -->
             <div class="characteristics-section" style="margin-bottom: 2.5rem;">
-              <h3>Characteristics</h3>
+              <h3>Health</h3>
               <div class="characteristics-grid">
                 <div class="characteristic-item">
                   <div class="characteristic-left">
@@ -1415,22 +1471,63 @@
                 <div class="characteristic-item">
                   <div class="characteristic-left">
                     <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                     </svg>
-                    <span class="characteristic-label">Good with kids</span>
+                    <span class="characteristic-label">Dewormed</span>
                   </div>
-                  <span id="modalGoodWithKids" class="characteristic-badge badge-no">No</span>
+                  <span id="modalDewormed" class="characteristic-badge badge-no">No</span>
                 </div>
 
                 <div class="characteristic-item">
                   <div class="characteristic-left">
                     <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
-                    <span class="characteristic-label">Good with other pets</span>
+                    <span class="characteristic-label">Tick/Flea Treated</span>
                   </div>
-                  <span id="modalGoodWithPets" class="characteristic-badge badge-no">No</span>
+                  <span id="modalTickFleaTreated" class="characteristic-badge badge-no">No</span>
                 </div>
+
+                <div class="characteristic-item">
+                  <div class="characteristic-left">
+                    <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                    </svg>
+                    <span class="characteristic-label">On Preventive Medication</span>
+                  </div>
+                  <span id="modalPreventiveMedication" class="characteristic-badge badge-no">No</span>
+                </div>
+
+                <div class="characteristic-item">
+                  <div class="characteristic-left">
+                    <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="characteristic-label">Has Special Medical Needs</span>
+                  </div>
+                  <span id="modalSpecialMedicalNeeds" class="characteristic-badge badge-no">No</span>
+                </div>
+
+                <div class="characteristic-item">
+                  <div class="characteristic-left">
+                    <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                    </svg>
+                    <span class="characteristic-label">Disabled / Mobility Impaired</span>
+                  </div>
+                  <span id="modalMobilityImpaired" class="characteristic-badge badge-no">No</span>
+                </div>
+
+                <div class="characteristic-item">
+                  <div class="characteristic-left">
+                    <svg class="characteristic-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <span class="characteristic-label">Undergoing Treatment</span>
+                  </div>
+                  <span id="modalUndergoingTreatment" class="characteristic-badge badge-no">No</span>
+                </div>
+
               </div>
             </div>
 

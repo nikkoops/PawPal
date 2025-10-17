@@ -84,6 +84,12 @@ class PetController extends Controller
             'medical_history' => 'nullable|string',
             'is_vaccinated' => 'boolean',
             'is_neutered' => 'boolean',
+            'is_dewormed' => 'boolean',
+            'is_tick_flea_treated' => 'boolean',
+            'on_preventive_medication' => 'boolean',
+            'has_special_medical_needs' => 'boolean',
+            'is_mobility_impaired' => 'boolean',
+            'is_undergoing_treatment' => 'boolean',
             'is_available' => 'boolean',
             'date_added' => 'required|date',
         ]);
@@ -110,6 +116,12 @@ class PetController extends Controller
         $data['is_available'] = $request->has('is_available') ? true : false;
         $data['is_vaccinated'] = $request->has('is_vaccinated') ? true : false;
         $data['is_neutered'] = $request->has('is_neutered') ? true : false;
+        $data['is_dewormed'] = $request->has('is_dewormed') ? true : false;
+        $data['is_tick_flea_treated'] = $request->has('is_tick_flea_treated') ? true : false;
+        $data['on_preventive_medication'] = $request->has('on_preventive_medication') ? true : false;
+        $data['has_special_medical_needs'] = $request->has('has_special_medical_needs') ? true : false;
+        $data['is_mobility_impaired'] = $request->has('is_mobility_impaired') ? true : false;
+        $data['is_undergoing_treatment'] = $request->has('is_undergoing_treatment') ? true : false;
 
         // Handle characteristics array - filter out empty values
         if (isset($data['characteristics'])) {
@@ -205,6 +217,12 @@ class PetController extends Controller
                 'characteristics' => 'nullable|array',
                 'is_vaccinated' => 'boolean',
                 'is_neutered' => 'boolean',
+                'is_dewormed' => 'boolean',
+                'is_tick_flea_treated' => 'boolean',
+                'on_preventive_medication' => 'boolean',
+                'has_special_medical_needs' => 'boolean',
+                'is_mobility_impaired' => 'boolean',
+                'is_undergoing_treatment' => 'boolean',
                 'is_available' => 'boolean',
                 'date_added' => 'required|date',
             ];
@@ -240,6 +258,12 @@ class PetController extends Controller
             $data['is_available'] = $request->input('is_available', 0) == 1;
             $data['is_vaccinated'] = $request->input('is_vaccinated', 0) == 1;
             $data['is_neutered'] = $request->input('is_neutered', 0) == 1;
+            $data['is_dewormed'] = $request->input('is_dewormed', 0) == 1;
+            $data['is_tick_flea_treated'] = $request->input('is_tick_flea_treated', 0) == 1;
+            $data['on_preventive_medication'] = $request->input('on_preventive_medication', 0) == 1;
+            $data['has_special_medical_needs'] = $request->input('has_special_medical_needs', 0) == 1;
+            $data['is_mobility_impaired'] = $request->input('is_mobility_impaired', 0) == 1;
+            $data['is_undergoing_treatment'] = $request->input('is_undergoing_treatment', 0) == 1;
             
             // Handle image upload
             if ($request->hasFile('image')) {

@@ -30,7 +30,7 @@
                     <p>123 Pet Street</p>
                     <p>Animal City, AC 12345</p>
                     <p>(555) 123-PETS</p>
-                    <p>info@pawpal.com</p>
+                    <p>adopt@pawpal.com</p>
                 </div>
             </div>
         </div>

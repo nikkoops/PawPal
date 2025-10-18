@@ -250,15 +250,29 @@ class SystemAdminController extends Controller
             ['range' => '6+ months', 'count' => Pet::where('is_available', true)->whereNotNull('date_entered_shelter')->whereRaw('DATEDIFF(NOW(), date_entered_shelter) > 180')->count()]
         ];
 
-        // Adoption vs Intake Correlation (sample data points)
-        $correlationData = [
-            ['intakes' => 35, 'adoptions' => 38],
-            ['intakes' => 48, 'adoptions' => 42],
-            ['intakes' => 52, 'adoptions' => 45],
-            ['intakes' => 58, 'adoptions' => 50],
-            ['intakes' => 65, 'adoptions' => 52],
-            ['intakes' => 72, 'adoptions' => 53]
-        ];
+        // Adoption vs Intake Trends (real monthly data from database)
+        $adoptionIntakeTrends = [];
+        
+        // Get data for the last 12 months
+        for ($i = 11; $i >= 0; $i--) {
+            $month = now()->subMonths($i);
+            $monthStart = $month->copy()->startOfMonth();
+            $monthEnd = $month->copy()->endOfMonth();
+            
+            // Count intakes (pets created in this month)
+            $intakes = Pet::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+            
+            // Count adoptions (approved applications in this month)
+            $adoptions = AdoptionApplication::where('status', 'approved')
+                ->whereBetween('updated_at', [$monthStart, $monthEnd])
+                ->count();
+            
+            $adoptionIntakeTrends[] = [
+                'month' => $month->format('M Y'),
+                'adoptions' => $adoptions,
+                'intakes' => $intakes
+            ];
+        }
 
         return view('admin.system.analytics', compact(
             'shelterCapacities',
@@ -276,7 +290,7 @@ class SystemAdminController extends Controller
             'adoptedCount',
             'totalApps',
             'lengthOfStayDistribution',
-            'correlationData'
+            'adoptionIntakeTrends'
         ));
     }
 }

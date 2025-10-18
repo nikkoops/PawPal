@@ -145,34 +145,47 @@
         <!-- 8. Adoption Rate -->
         <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Adoption Rate</h3>
-            <div class="text-center">
-                <div class="text-6xl font-bold text-gray-900 mb-2">{{ $adoptionRate }}%</div>
-                <p class="text-sm text-gray-600 mb-4">Success Rate</p>
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="bg-purple-600 h-2 rounded-full" style="width: {{ $adoptionRate }}%"></div>
+            
+            <div class="flex items-center justify-center py-4">
+                <div class="relative">
+                    <svg class="transform -rotate-90" width="140" height="140">
+                        <circle cx="70" cy="70" r="60" stroke="#e5e7eb" stroke-width="12" fill="none"></circle>
+                        <circle cx="70" cy="70" r="60" 
+                                stroke="#9333ea" 
+                                stroke-width="12" 
+                                fill="none"
+                                stroke-dasharray="{{ 2 * 3.14159 * 60 }}"
+                                stroke-dashoffset="{{ 2 * 3.14159 * 60 * (1 - $adoptionRate / 100) }}"
+                                stroke-linecap="round"></circle>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-4xl font-bold text-gray-900">{{ $adoptionRate }}%</span>
+                    </div>
                 </div>
-                <p class="text-xs text-gray-500 mt-2">{{ $adoptedCount }} of {{ $totalApps }} pets adopted</p>
             </div>
+            
+            <p class="text-sm text-center text-gray-600 mt-2">Success Rate</p>
+            <p class="text-sm text-center text-purple-600 font-medium">{{ $adoptedCount }} of {{ $totalApps }} pets adopted</p>
         </div>
     </div>
 
     <!-- 9-10. Charts Grid Row 2 -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <!-- 9. Adoption vs Intake Correlation -->
+        <!-- 9. Adoption vs Intake Trends -->
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">Adoption vs Intake Correlation</h3>
-            <p class="text-xs text-gray-600 mb-4">Scatter plot showing relationship between monthly intakes and adoptions</p>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">Adoption vs Intake Trends</h3>
+            <p class="text-xs text-gray-600 mb-4">Monthly adoption and intake counts over time</p>
             <div class="relative" style="height: 300px;">
-                <canvas id="correlationChart"></canvas>
+                <canvas id="adoptionIntakeTrendsChart"></canvas>
             </div>
             <div class="flex items-center justify-center mt-4 text-xs text-gray-600">
                 <div class="flex items-center mr-4">
-                    <div class="w-3 h-3 bg-purple-600 rounded-full mr-2"></div>
-                    <span>Monthly Data Points</span>
+                    <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                    <span>Adoptions</span>
                 </div>
                 <div class="flex items-center">
-                    <div class="w-8 h-0.5 border-t-2 border-dashed border-purple-400 mr-2"></div>
-                    <span>Trend Line</span>
+                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                    <span>Intakes</span>
                 </div>
             </div>
         </div>
@@ -235,30 +248,35 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Correlation Chart
-    const correlationCtx = document.getElementById('correlationChart');
-    if (correlationCtx) {
-        const correlationData = @json($correlationData);
+    // Adoption vs Intake Trends Chart
+    const adoptionIntakeTrendsCtx = document.getElementById('adoptionIntakeTrendsChart');
+    if (adoptionIntakeTrendsCtx) {
+        const trendData = @json($adoptionIntakeTrends);
         
-        new Chart(correlationCtx, {
-            type: 'scatter',
+        new Chart(adoptionIntakeTrendsCtx, {
+            type: 'line',
             data: {
+                labels: trendData.map(d => d.month),
                 datasets: [{
-                    label: 'Monthly Data Points',
-                    data: correlationData.map(d => ({x: d.intakes, y: d.adoptions})),
-                    backgroundColor: '#9333ea',
-                    borderColor: '#9333ea',
-                    pointRadius: 6,
-                    pointHoverRadius: 8
+                    label: 'Adoptions',
+                    data: trendData.map(d => d.adoptions),
+                    borderColor: '#10b981',
+                    backgroundColor: '#10b981',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    fill: false
                 }, {
-                    label: 'Trend Line',
-                    data: [{x: 30, y: 35}, {x: 85, y: 53}],
-                    type: 'line',
-                    borderColor: '#c084fc',
-                    borderWidth: 2,
-                    borderDash: [5, 5],
-                    fill: false,
-                    pointRadius: 0
+                    label: 'Intakes',
+                    data: trendData.map(d => d.intakes),
+                    borderColor: '#3b82f6',
+                    backgroundColor: '#3b82f6',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    fill: false
                 }]
             },
             options: {
@@ -267,25 +285,38 @@ document.addEventListener('DOMContentLoaded', function() {
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
                     }
                 },
                 scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Count'
+                        },
+                        ticks: {
+                            stepSize: 1
+                        }
+                    },
                     x: {
                         title: {
                             display: true,
-                            text: 'Monthly Intakes'
+                            text: 'Month'
                         },
-                        min: 25,
-                        max: 90
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Monthly Adoptions'
-                        },
-                        min: 30,
-                        max: 60
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
                     }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
                 }
             }
         });

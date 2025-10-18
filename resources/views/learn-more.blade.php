@@ -145,7 +145,7 @@
             background: white;
             border-radius: 1rem;
             padding: 2rem;
-            text-align: center;
+            text-align: left;
             border: 1px solid #e5e7eb;
             transition: transform 0.2s, box-shadow 0.2s;
         }
@@ -381,7 +381,7 @@
                     <div class="card" style="text-align: left;">
                         <h3 style="margin-bottom: 0.5rem;">How much does adoption cost?</h3>
                         <p>
-                            Our adoptions are completely free! All pets come spayed/neutered, vaccinated, and microchipped at no
+                            Our adoptions are completely free! All pets come spayed/neutered and vaccinated at no
                             cost to you. We believe that financial barriers shouldn't prevent loving families from finding their
                             perfect companion.
                         </p>
@@ -414,27 +414,7 @@
             </div>
         </section>
 
-        <!-- CTA Section -->
-        <section style="background: #9333ea; padding: 4rem 1rem;">
-            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-                <h2 style="font-size: 2.5rem; font-weight: bold; color: white; margin-bottom: 1rem; font-family: serif;">Ready to Find Your Perfect Companion?</h2>
-                <p style="font-size: 1.125rem; color: #e9d5ff; margin-bottom: 2rem;">
-                    Browse our available pets or get matched with your ideal companion today.
-                </p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <a href="{{ route('home') }}#pets-section" style="padding: 0.625rem 1.5rem; background: white; color: #9333ea; font-weight: 600; border-radius: 0.5rem; text-decoration: none; border: none; transition: all 0.2s;">
-                        Browse Available Pets
-                    </a>
-                    <a href="{{ route('home') }}#pets-section" style="padding: 0.625rem 1.5rem; border: 1px solid white; color: white; font-weight: 600; border-radius: 0.5rem; text-decoration: none; background: transparent; transition: all 0.2s;">
-                        Try Pet Matching
-                    </a>
-                </div>
-            </div>
-        </section>
-
         <!-- Footer -->
-        
-                <!-- Footer -->
         @include('components.footer')
     </div>
 

@@ -19,7 +19,7 @@
     <!-- Top Row: Key Metrics -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Current Capacity -->
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex items-start justify-between mb-4">
                 <div>
                     <p class="text-sm font-medium text-gray-600">Current Capacity</p>
@@ -54,7 +54,7 @@
         </div>
 
         <!-- At-Risk Pets -->
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex items-start justify-between mb-4">
                 <div>
                     <p class="text-sm font-medium text-gray-600">At-Risk Pets</p>
@@ -76,7 +76,7 @@
         </div>
 
         <!-- Lives Saved -->
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex items-start justify-between mb-4">
                 <div>
                     <p class="text-sm font-medium text-gray-600">Lives Saved</p>
@@ -98,7 +98,7 @@
     <!-- Second Row: Status Distribution, Application Status, Adoption Rate -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Pet Status Distribution -->
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">Pet Status Distribution</h3>
             
             <div class="space-y-3">
@@ -129,7 +129,7 @@
         </div>
 
         <!-- Application Status -->
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">Application Status</h3>
             
             <div class="space-y-3">
@@ -160,7 +160,7 @@
         </div>
 
         <!-- Adoption Rate -->
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">Adoption Rate</h3>
             
             <div class="flex items-center justify-center py-4">
@@ -189,7 +189,7 @@
     <!-- Third Row: Charts -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Adoption vs Intake Correlation -->
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-lg font-semibold text-gray-900 mb-2">Adoption vs Intake Trends</h3>
             <p class="text-sm text-gray-600 mb-4">Monthly adoption and intake counts over time</p>
             
@@ -210,7 +210,7 @@
         </div>
 
         <!-- Length of Stay Distribution -->
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-lg font-semibold text-gray-900 mb-2">Length of Stay Distribution</h3>
             <p class="text-sm text-gray-600 mb-4">Current animals by time in shelter</p>
             

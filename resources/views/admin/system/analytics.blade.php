@@ -154,18 +154,18 @@
             
             <div class="flex items-center justify-center py-4">
                 <div class="relative">
-                    <svg class="transform -rotate-90" width="140" height="140">
-                        <circle cx="70" cy="70" r="60" stroke="#e5e7eb" stroke-width="12" fill="none"></circle>
-                        <circle cx="70" cy="70" r="60" 
+                    <svg class="transform -rotate-90" width="120" height="120">
+                        <circle cx="60" cy="60" r="50" stroke="#e5e7eb" stroke-width="10" fill="none"></circle>
+                        <circle cx="60" cy="60" r="50" 
                                 stroke="#9333ea" 
-                                stroke-width="12" 
+                                stroke-width="10" 
                                 fill="none"
-                                stroke-dasharray="{{ 2 * 3.14159 * 60 }}"
-                                stroke-dashoffset="{{ 2 * 3.14159 * 60 * (1 - $adoptionRate / 100) }}"
+                                stroke-dasharray="{{ 2 * 3.14159 * 50 }}"
+                                stroke-dashoffset="{{ 2 * 3.14159 * 50 * (1 - $adoptionRate / 100) }}"
                                 stroke-linecap="round"></circle>
                     </svg>
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <span class="text-4xl font-bold text-gray-900">{{ $adoptionRate }}%</span>
+                        <span class="text-3xl font-bold text-gray-900">{{ $adoptionRate }}%</span>
                     </div>
                 </div>
             </div>

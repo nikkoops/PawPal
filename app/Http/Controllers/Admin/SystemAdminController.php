@@ -293,4 +293,139 @@ class SystemAdminController extends Controller
             'adoptionIntakeTrends'
         ));
     }
+
+    /**
+     * Export system analytics data as CSV
+     */
+    public function exportAnalytics()
+    {
+        // Gather all analytics data
+        $shelterCapacities = [];
+        $shelters = User::where('role', 'shelter_admin')
+            ->whereNotNull('shelter_location')
+            ->distinct()
+            ->pluck('shelter_location');
+
+        foreach ($shelters as $shelter) {
+            $current = Pet::where('location', $shelter)
+                ->where('is_available', true)
+                ->count();
+            
+            $maximum = 100;
+            $percentFull = $maximum > 0 ? round(($current / $maximum) * 100) : 0;
+            
+            $shelterCapacities[] = [
+                'shelter' => $shelter,
+                'current' => $current,
+                'maximum' => $maximum,
+                'percent_full' => $percentFull
+            ];
+        }
+
+        // Get at-risk pets
+        $atRiskPets = Pet::where('is_available', true)
+            ->whereNotNull('date_entered_shelter')
+            ->whereRaw('DATEDIFF(NOW(), date_entered_shelter) >= 7')
+            ->get()
+            ->map(function($pet) {
+                $daysInShelter = $pet->date_entered_shelter 
+                    ? \Carbon\Carbon::parse($pet->date_entered_shelter)->diffInDays(now())
+                    : 0;
+                return [
+                    'name' => $pet->name,
+                    'type' => ucfirst($pet->type),
+                    'location' => $pet->location,
+                    'days_in_shelter' => $daysInShelter,
+                    'status' => $daysInShelter >= 30 ? 'Long stay' : 'Needs attention'
+                ];
+            });
+
+        // Get monthly trends for the last 12 months
+        $monthlyData = [];
+        for ($i = 11; $i >= 0; $i--) {
+            $month = now()->subMonths($i);
+            $monthStart = $month->copy()->startOfMonth();
+            $monthEnd = $month->copy()->endOfMonth();
+            
+            $intakes = Pet::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+            $adoptions = AdoptionApplication::where('status', 'approved')
+                ->whereBetween('updated_at', [$monthStart, $monthEnd])
+                ->count();
+            
+            $monthlyData[] = [
+                'month' => $month->format('M Y'),
+                'intakes' => $intakes,
+                'adoptions' => $adoptions
+            ];
+        }
+
+        // Create CSV content
+        $csvData = [];
+        
+        // Section 1: Shelter Capacities
+        $csvData[] = ['SHELTER CAPACITIES'];
+        $csvData[] = ['Shelter', 'Current', 'Maximum', 'Percent Full'];
+        foreach ($shelterCapacities as $shelter) {
+            $csvData[] = [
+                $shelter['shelter'],
+                $shelter['current'],
+                $shelter['maximum'],
+                $shelter['percent_full'] . '%'
+            ];
+        }
+        $csvData[] = []; // Empty row
+
+        // Section 2: Overall Statistics
+        $csvData[] = ['OVERALL STATISTICS'];
+        $csvData[] = ['Metric', 'Value'];
+        $csvData[] = ['Total Pets', Pet::count()];
+        $csvData[] = ['Available Pets', Pet::where('is_available', true)->count()];
+        $csvData[] = ['Dogs', Pet::where('type', 'dog')->count()];
+        $csvData[] = ['Cats', Pet::where('type', 'cat')->count()];
+        $csvData[] = ['Total Adoptions', AdoptionApplication::where('status', 'approved')->count()];
+        $csvData[] = ['Pending Applications', AdoptionApplication::where('status', 'pending')->count()];
+        $csvData[] = ['Rejected Applications', AdoptionApplication::where('status', 'rejected')->count()];
+        $csvData[] = []; // Empty row
+
+        // Section 3: At-Risk Pets
+        $csvData[] = ['AT-RISK PETS (7+ days in shelter)'];
+        $csvData[] = ['Pet Name', 'Type', 'Location', 'Days in Shelter', 'Status'];
+        foreach ($atRiskPets as $pet) {
+            $csvData[] = [
+                $pet['name'],
+                $pet['type'],
+                $pet['location'],
+                $pet['days_in_shelter'],
+                $pet['status']
+            ];
+        }
+        $csvData[] = []; // Empty row
+
+        // Section 4: Monthly Adoption vs Intake Trends
+        $csvData[] = ['MONTHLY ADOPTION VS INTAKE TRENDS'];
+        $csvData[] = ['Month', 'Intakes', 'Adoptions'];
+        foreach ($monthlyData as $data) {
+            $csvData[] = [
+                $data['month'],
+                $data['intakes'],
+                $data['adoptions']
+            ];
+        }
+
+        // Generate CSV
+        $filename = 'system_analytics_' . date('Y-m-d_His') . '.csv';
+        
+        $callback = function() use ($csvData) {
+            $file = fopen('php://output', 'w');
+            foreach ($csvData as $row) {
+                fputcsv($file, $row);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
+    }
 }

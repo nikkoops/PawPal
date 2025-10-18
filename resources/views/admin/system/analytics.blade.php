@@ -5,9 +5,15 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <!-- Header -->
-    <div class="mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">Analytics</h1>
-        <p class="text-gray-600 mt-1">Real-time insights and performance metrics for your shelter.</p>
+    <div class="mb-6 flex justify-between items-center">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">Analytics</h1>
+            <p class="text-gray-600 mt-1">Real-time insights and performance metrics for your shelter.</p>
+        </div>
+        <button onclick="exportData()" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+            <i data-lucide="download" class="h-4 w-4"></i>
+            <span>Export Data</span>
+        </button>
     </div>
 
     <!-- 1. Shelter Capacities Table -->
@@ -368,5 +374,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+function exportData() {
+    window.open('{{ route('admin.system.analytics.export') }}', '_blank');
+}
 </script>
 @endsection

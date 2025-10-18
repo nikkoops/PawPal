@@ -296,6 +296,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             
             // System Analytics
             Route::get('analytics', [SystemAdminController::class, 'analytics'])->name('analytics');
+            Route::get('analytics/export', [SystemAdminController::class, 'exportAnalytics'])->name('analytics.export');
         });
         
         // SHELTER ADMIN ROUTES (Shelter Admin Only)

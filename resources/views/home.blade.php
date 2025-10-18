@@ -34,6 +34,12 @@
       --primary-foreground: oklch(1 0 0);
       --secondary: oklch(0.65 0.25 330);
       --secondary-foreground: oklch(1 0 0);
+    }
+
+    body {
+      font-size: 15px;
+    }
+
         <div class="pet-modal-grid">
           <!-- Pet Image Section -->
           <div class="pet-image-container">

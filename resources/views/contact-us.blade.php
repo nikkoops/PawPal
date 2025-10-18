@@ -26,6 +26,7 @@
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif;
       background-color: #f3f4f6;
+      font-size: 15px;
     }
 
     /* Main Content Styles */
@@ -36,9 +37,9 @@
 
     /* Contact Page Styles */
     .container {
-      max-width: 1200px;
+      max-width: min(100% - 2rem, 1200px);
       margin: 0 auto;
-      padding: 4rem 1rem;
+      padding: 3rem 1rem;
     }
 
     .text-center {
@@ -46,19 +47,19 @@
     }
 
     .page-title {
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: 700;
       color: #1f2937;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
       line-height: 1.2;
       font-family: 'Montserrat', sans-serif;
     }
 
     .page-description {
-      font-size: 1rem;
+      font-size: 0.9375rem;
       color: #6b7280;
       max-width: 600px;
-      margin: 0 auto 3rem;
+      margin: 0 auto 2.5rem;
       line-height: 1.6;
       font-family: 'Montserrat', sans-serif;
     }
@@ -66,8 +67,8 @@
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 2rem;
-      margin-bottom: 4rem;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
     }
 
     @media (min-width: 1024px) {
@@ -80,18 +81,18 @@
       background: white;
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem;
+      padding: 1.25rem;
     }
 
     .contact-info {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .contact-info-title {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       font-weight: 700;
       color: #1f2937;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
       line-height: 1.2;
       font-family: 'Montserrat', sans-serif;
     }
@@ -99,8 +100,8 @@
     .contact-info-item {
       display: flex;
       align-items: start;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
     }
 
     .contact-info-icon {
@@ -127,13 +128,13 @@
     }
 
     .contact-form {
-      padding: 2rem;
+      padding: 1.5rem;
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
     @media (min-width: 640px) {
@@ -143,7 +144,7 @@
     }
 
     .form-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
     .form-label {
@@ -157,10 +158,10 @@
     .form-input,
     .form-textarea {
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.625rem;
       border: 1px solid #d1d5db;
       border-radius: 0.375rem;
-      font-size: 1rem;
+      font-size: 0.9375rem;
       transition: border-color 0.3s;
     }
 
@@ -171,17 +172,18 @@
     }
 
     .form-textarea {
-      min-height: 150px;
+      min-height: 130px;
       resize: vertical;
     }
 
     .submit-btn {
       background: #9333ea;
       color: white;
-      padding: 0.75rem 2rem;
+      padding: 0.625rem 1.5rem;
       border: none;
       border-radius: 0.375rem;
       font-weight: 600;
+      font-size: 0.9375rem;
       cursor: pointer;
       transition: background-color 0.3s;
     }
@@ -194,22 +196,23 @@
       background: white;
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      padding: 2rem;
-      max-width: 800px;
+      padding: 1.5rem;
+      max-width: 700px;
       margin: 0 auto;
       text-align: center;
     }
 
     .emergency-title {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: bold;
       color: #1f2937;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
 
     .emergency-text {
       color: #6b7280;
       line-height: 1.6;
+      font-size: 0.9375rem;
     }
   </style>
 </head>

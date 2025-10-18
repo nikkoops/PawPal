@@ -30,7 +30,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.6;
         }
 
@@ -42,7 +42,7 @@
 
         /* Hero Section - matching Home page scale */
         .hero-section {
-            padding: 6rem 1rem;
+            padding: 4rem 1rem;
             background: #f5f6ff;
         }
 
@@ -53,20 +53,20 @@
         }
 
         .hero-content h1 {
-            font-size: 4rem;
+            font-size: 3rem;
             font-weight: bold;
             color: #111827;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             line-height: 1.1;
             font-family: serif;
         }
 
         .hero-content p {
-            font-size: 1.125rem;
+            font-size: 1rem;
             color: #374151;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             line-height: 1.6;
-            max-width: 800px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -115,19 +115,19 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
         }
 
         .section-header h2 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: bold;
             color: #111827;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             font-family: serif;
         }
 
         .section-header p {
-            font-size: 1.125rem;
+            font-size: 1rem;
             color: #6b7280;
             max-width: 600px;
             margin: 0 auto;
@@ -136,15 +136,15 @@
         /* Grid layouts */
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
             margin-top: 3rem;
         }
 
         .card {
             background: white;
-            border-radius: 1rem;
-            padding: 2rem;
+            border-radius: 0.875rem;
+            padding: 1.5rem;
             text-align: left;
             border: 1px solid #e5e7eb;
             transition: transform 0.2s, box-shadow 0.2s;
@@ -156,27 +156,37 @@
         }
 
         .card h3 {
-            font-size: 1.25rem;
+            font-size: 1.125rem;
             font-weight: 600;
             color: #111827;
-            margin: 1rem 0;
+            margin: 0.75rem 0;
         }
 
         .card p {
             color: #6b7280;
             line-height: 1.6;
+            font-size: 0.9375rem;
         }
 
         /* Responsive design */
         @media (max-width: 768px) {
             .hero-content h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
             
             .hero-section {
-                padding: 4rem 1rem;
+                padding: 3rem 1rem;
             }
             
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
             .section-header h2 {
                 font-size: 2rem;
             }
@@ -210,9 +220,6 @@
                     <a href="{{ route('home') }}#pets-section" class="btn-primary">
                         Start Your Adoption Journey
                         <i data-lucide="arrow-right" style="margin-left: 0.5rem; height: 1rem; width: 1rem;"></i>
-                    </a>
-                    <a href="{{ route('home') }}#pets-section" class="btn-outline">
-                        Browse Available Pets
                     </a>
                 </div>
             </div>

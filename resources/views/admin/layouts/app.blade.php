@@ -143,7 +143,11 @@
             gap: 12px !important;
         }
         .nav-link.active {
-            @apply bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground;
+            color: #9333ea !important;
+            font-weight: 700 !important;
+        }
+        .nav-link.active:hover {
+            color: #9333ea !important;
         }
         .nav-link i {
             width: 20px !important;

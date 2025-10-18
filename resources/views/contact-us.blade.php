@@ -341,6 +341,9 @@
     </div>
   </div>
 
+  <!-- Footer -->
+  @include('components.footer')
+
   <script>
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();

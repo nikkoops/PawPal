@@ -1543,50 +1543,7 @@
     </div>
   </div>
 
-  <footer class="text-white py-12 px-4 sm:px-6 lg:px-8" style="background-color: #2c0b47;">
-      <div class="max-w-6xl mx-auto">
-          <div class="grid md:grid-cols-4 gap-8">
-              <div>
-                        <div class="flex items-center mb-4">
-                            <img src="{{ asset('images/pawpal-logo.png') }}?v={{ time() }}" alt="PawPal Logo" class="h-8 w-auto mr-2 object-contain">
-                            <span class="text-xl font-bold">PawPal</span>
-                        </div>
-                  <p class="text-gray-400">Connecting loving families with pets in need of homes.</p>
-              </div>
-              <div>
-                  <h3 class="font-semibold mb-4">Quick Links</h3>
-                  <ul class="space-y-2 text-gray-400">
-                      <li><a href="/" class="hover:text-white">Home</a></li>
-                      <li><a href="/find-pets" class="hover:text-white">Find Pets</a></li>
-                      <li><a href="/pet-matching" class="hover:text-white">Pet Matching</a></li>
-                      <li><a href="/learn-more" class="hover:text-white">Learn More</a></li>
-                  </ul>
-              </div>
-              <div>
-                  <h3 class="font-semibold mb-4">Support</h3>
-                  <ul class="space-y-2 text-gray-400">
-                      <li><a href="/contact" class="hover:text-white">Contact Us</a></li>
-                      <li><a href="/faq" class="hover:text-white">FAQ</a></li>
-                      <li><a href="/volunteer" class="hover:text-white">Volunteer</a></li>
-                      <li><a href="/donate" class="hover:text-white">Donate</a></li>
-                  </ul>
-              </div>
-              <div>
-                  <h3 class="font-semibold mb-4">Contact Info</h3>
-                  <div class="space-y-2 text-gray-400">
-                      <p>123 Pet Street</p>
-                      <p>Animal City, AC 12345</p>
-                      <p>(555) 123-PETS</p>
-                      <p>info@pawpal.com</p>
-                  </div>
-              </div>
-          </div>
-          <hr class="my-8 border-gray-700">
-          <div class="text-center text-gray-400">
-              <p>&copy; 2024 PawPal. All rights reserved. Made with ❤️ for pets in need.</p>
-          </div>
-      </div>
-  </footer>
+  @include('components.footer')
 
   <!-- Role Selection Modal -->
   <div id="roleModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] hidden items-center justify-center">

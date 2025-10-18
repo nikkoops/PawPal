@@ -434,50 +434,11 @@
 
         <!-- Footer -->
         
-        <footer class="text-white py-12" style="background-color: #2c0b47;">
-            <div class="max-w-6xl mx-auto px-4">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <div>
-                        <div class="flex items-center mb-4">
-                            <img src="{{ asset('images/pawpal-logo.png') }}" alt="PawPal Logo" class="h-8 w-auto mr-2">
-                            <span class="text-xl font-bold">PawPal</span>
-                        </div>
-                        <p class="text-gray-400 text-sm">
-                            Connecting loving families with pets in need of homes.
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-                        <ul class="space-y-2">
-                            <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
-                            <li><a href="/find-pets" class="text-gray-400 hover:text-white">Find Pets</a></li>
-                            <li><a href="/pet-matching" class="text-gray-400 hover:text-white">Pet Matching</a></li>
-                            <li><a href="/learn-more" class="text-gray-400 hover:text-white">Learn More</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold mb-4">Resources</h3>
-                        <ul class="space-y-2">
-                            <li><a href="/adoption-process" class="text-gray-400 hover:text-white">Adoption Process</a></li>
-                            <li><a href="/pet-care-guides" class="text-gray-400 hover:text-white">Pet Care Guides</a></li>
-                            <li><a href="/success-stories" class="text-gray-400 hover:text-white">Success Stories</a></li>
-                            <li><a href="/faqs" class="text-gray-400 hover:text-white">FAQs</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
-                        <ul class="space-y-2">
-                            <li class="text-gray-400">Metro Manila, Philippines</li>
-                            <li class="text-gray-400">Phone: (02) 8123-4567</li>
-                            <li class="text-gray-400">Email: info@pawpal.com</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
-                    <p>&copy; © 2024 PawPal. All rights reserved. Made with ❤️ for pets in need.</p>
-                </div>
-            </div>
-        </footer>
+                <!-- Footer -->
+        @include('components.footer')
+    </div>
+
+    <!-- Initialize Lucide Icons -->
     </div>
 
     <!-- Initialize Lucide Icons -->

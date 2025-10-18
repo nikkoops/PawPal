@@ -200,15 +200,15 @@ class SystemAdminController extends Controller
 
         // At-Risk Pets (7+ days in shelter)
         $atRiskPets = Pet::where('is_available', true)
-            ->whereNotNull('date_entered_shelter')
-            ->whereRaw('DATEDIFF(NOW(), date_entered_shelter) >= 7')
+            ->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) >= 7')
             ->with(['adoptionApplications' => function($query) {
                 $query->latest()->limit(1);
             }])
             ->get()
             ->map(function($pet) {
-                $daysInShelter = $pet->date_entered_shelter 
-                    ? \Carbon\Carbon::parse($pet->date_entered_shelter)->diffInDays(now())
+                $enteredDate = $pet->date_entered_shelter ?? $pet->created_at;
+                $daysInShelter = $enteredDate 
+                    ? \Carbon\Carbon::parse($enteredDate)->diffInDays(now())
                     : 0;
                 return [
                     'name' => $pet->name,
@@ -243,11 +243,31 @@ class SystemAdminController extends Controller
 
         // Length of Stay Distribution
         $lengthOfStayDistribution = [
-            ['range' => '0-7 days', 'count' => Pet::where('is_available', true)->whereNotNull('date_entered_shelter')->whereRaw('DATEDIFF(NOW(), date_entered_shelter) BETWEEN 0 AND 7')->count()],
-            ['range' => '1-4 weeks', 'count' => Pet::where('is_available', true)->whereNotNull('date_entered_shelter')->whereRaw('DATEDIFF(NOW(), date_entered_shelter) BETWEEN 8 AND 28')->count()],
-            ['range' => '1-3 months', 'count' => Pet::where('is_available', true)->whereNotNull('date_entered_shelter')->whereRaw('DATEDIFF(NOW(), date_entered_shelter) BETWEEN 29 AND 90')->count()],
-            ['range' => '3-6 months', 'count' => Pet::where('is_available', true)->whereNotNull('date_entered_shelter')->whereRaw('DATEDIFF(NOW(), date_entered_shelter) BETWEEN 91 AND 180')->count()],
-            ['range' => '6+ months', 'count' => Pet::where('is_available', true)->whereNotNull('date_entered_shelter')->whereRaw('DATEDIFF(NOW(), date_entered_shelter) > 180')->count()]
+            ['range' => '0-7 days', 'count' => Pet::where('is_available', true)
+                ->where(function($query) {
+                    $query->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) BETWEEN 0 AND 7');
+                })
+                ->count()],
+            ['range' => '1-4 weeks', 'count' => Pet::where('is_available', true)
+                ->where(function($query) {
+                    $query->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) BETWEEN 8 AND 28');
+                })
+                ->count()],
+            ['range' => '1-3 months', 'count' => Pet::where('is_available', true)
+                ->where(function($query) {
+                    $query->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) BETWEEN 29 AND 90');
+                })
+                ->count()],
+            ['range' => '3-6 months', 'count' => Pet::where('is_available', true)
+                ->where(function($query) {
+                    $query->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) BETWEEN 91 AND 180');
+                })
+                ->count()],
+            ['range' => '6+ months', 'count' => Pet::where('is_available', true)
+                ->where(function($query) {
+                    $query->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) > 180');
+                })
+                ->count()]
         ];
 
         // Adoption vs Intake Trends (real monthly data from database)
@@ -324,12 +344,12 @@ class SystemAdminController extends Controller
 
         // Get at-risk pets
         $atRiskPets = Pet::where('is_available', true)
-            ->whereNotNull('date_entered_shelter')
-            ->whereRaw('DATEDIFF(NOW(), date_entered_shelter) >= 7')
+            ->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) >= 7')
             ->get()
             ->map(function($pet) {
-                $daysInShelter = $pet->date_entered_shelter 
-                    ? \Carbon\Carbon::parse($pet->date_entered_shelter)->diffInDays(now())
+                $enteredDate = $pet->date_entered_shelter ?? $pet->created_at;
+                $daysInShelter = $enteredDate 
+                    ? \Carbon\Carbon::parse($enteredDate)->diffInDays(now())
                     : 0;
                 return [
                     'name' => $pet->name,

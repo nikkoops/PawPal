@@ -312,4 +312,95 @@ class AdoptionApplicationController extends Controller
             'html' => view('admin.applications.partials.table-rows', compact('applications'))->render()
         ]);
     }
+
+    public function export(Request $request)
+    {
+        $query = AdoptionApplication::with(['pet']);
+        
+        // Filter by shelter location if user has one assigned
+        $user = auth()->user();
+        if ($user->hasShelterLocation()) {
+            $query->whereHas('pet', function($petQuery) use ($user) {
+                $petQuery->where('location', $user->shelter_location);
+            });
+        }
+
+        // Apply the same filters as the main index
+        if ($request->has('status') && $request->get('status') !== '') {
+            $query->where('status', $request->get('status'));
+        }
+        
+        if ($request->has('pet_type') && $request->get('pet_type') !== '') {
+            $petType = $request->get('pet_type');
+            $query->whereHas('pet', function($petQuery) use ($petType) {
+                $petQuery->where('type', $petType);
+            });
+        }
+        
+        if ($request->has('date_range') && $request->get('date_range') !== '') {
+            $range = $request->get('date_range');
+            if ($range === 'today') {
+                $query->whereDate('created_at', today());
+            } elseif ($range === 'week') {
+                $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+            } elseif ($range === 'month') {
+                $query->whereMonth('created_at', now()->month)
+                      ->whereYear('created_at', now()->year);
+            }
+        }
+
+        // Get all applications (no pagination for export)
+        $applications = $query->orderBy('created_at', 'desc')->get();
+
+        // Create CSV content
+        $csvData = [];
+        
+        // Add headers
+        $csvData[] = [
+            'Application ID',
+            'Applicant Name',
+            'Email',
+            'Phone',
+            'Pet Name',
+            'Pet Type',
+            'Status',
+            'Date Applied',
+            'Address',
+            'Birth Date',
+            'Occupation'
+        ];
+
+        // Add data rows
+        foreach ($applications as $application) {
+            $csvData[] = [
+                $application->id,
+                $application->first_name . ' ' . $application->last_name,
+                $application->email,
+                $application->phone,
+                $application->pet ? $application->pet->name : 'N/A',
+                $application->pet ? ucfirst($application->pet->type) : 'N/A',
+                ucfirst($application->status),
+                $application->created_at->format('M d, Y'),
+                $application->address,
+                $application->birth_date,
+                $application->occupation
+            ];
+        }
+
+        // Generate CSV
+        $filename = 'adoption_applications_' . date('Y-m-d_His') . '.csv';
+        
+        $callback = function() use ($csvData) {
+            $file = fopen('php://output', 'w');
+            foreach ($csvData as $row) {
+                fputcsv($file, $row);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
+    }
 }

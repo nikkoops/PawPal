@@ -623,7 +623,20 @@ function bulkAction() {
 }
 
 function exportApplications() {
-    window.open('/admin/shelter/applications/export', '_blank');
+    // Get current filter values
+    const status = document.getElementById('statusFilter').value;
+    const petType = document.getElementById('petTypeFilter').value;
+    const dateRange = document.getElementById('dateRangeFilter').value;
+    
+    // Build query parameters
+    const params = new URLSearchParams();
+    if (status) params.append('status', status);
+    if (petType) params.append('pet_type', petType);
+    if (dateRange) params.append('date_range', dateRange);
+    
+    // Open export URL with filters
+    const url = '/admin/shelter/applications/export' + (params.toString() ? '?' + params.toString() : '');
+    window.open(url, '_blank');
 }
 
 // Filter applications via AJAX

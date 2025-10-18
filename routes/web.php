@@ -312,6 +312,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::prefix('applications')->name('applications.')->group(function () {
                 Route::get('/', [AdoptionApplicationController::class, 'index'])->name('index');
                 Route::get('filter', [AdoptionApplicationController::class, 'filter'])->name('filter');
+                Route::get('export', [AdoptionApplicationController::class, 'export'])->name('export');
                 Route::get('{application}', [AdoptionApplicationController::class, 'show'])->name('show');
                 Route::get('{application}/details', [AdoptionApplicationController::class, 'getApplicationDetails'])->name('details');
                 Route::post('{application}/update-status', [AdoptionApplicationController::class, 'updateStatus'])->name('update-status');

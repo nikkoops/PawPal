@@ -35,7 +35,11 @@ class PetController extends Controller
         }
 
         if ($request->has('availability') && $request->get('availability') !== '') {
-            $query->where('is_available', $request->get('availability') === 'available');
+            if ($request->get('availability') === 'urgent') {
+                $query->where('is_urgent', true);
+            } else {
+                $query->where('is_available', $request->get('availability') === 'available');
+            }
         }
 
         // Add location filter (only if user is system admin without assigned location)

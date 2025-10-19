@@ -19,12 +19,11 @@
                 <div class="p-4">
                     <div class="space-y-3">
                         <div class="flex justify-between items-start">
-                            <h3 class="text-lg font-serif font-bold text-foreground pet-name">{{ $pet->name }}</h3>
-                            <span class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded pet-type">{{ ucfirst($pet->type) }}</span>
+                            <h3 class="text-base font-bold text-gray-900 pet-name">{{ $pet->name }}</h3>
+                            <span class="px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-700 rounded pet-type">{{ ucfirst($pet->type) }}</span>
                         </div>
                         <div>
-                            <p class="text-sm text-muted-foreground pet-details">
-                                {{-- NEW FORMAT: Breed • Age Range • Size (using age categories: Puppy/Kitten, Adult, Senior) --}}
+                            <p class="text-xs text-gray-500 pet-details">
                                 @php
                                     $details = array_filter([
                                         $pet->breed,
@@ -35,13 +34,13 @@
                                 {{ implode(' • ', $details) }}
                             </p>
                         </div>
-                        @if($pet->description)
-                        <p class="text-sm text-muted-foreground line-clamp-2 pet-description">{{ $pet->description }}</p>
-                        @endif
                         @if($pet->location)
-                        <div class="text-xs text-muted-foreground pet-location">📍 {{ $pet->location }}</div>
+                        <div class="text-xs font-medium text-purple-700 mb-1 pet-location">📍 {{ $pet->location }}</div>
                         @endif
-                        <div class="text-xs text-muted-foreground space-y-1">
+                        @if($pet->description)
+                        <p class="text-xs text-gray-700 mt-1 pet-description">{{ $pet->description }}</p>
+                        @endif
+                        <div class="text-xs text-gray-400 mt-2">
                             @if($pet->date_added)
                             <div>Added: {{ $pet->date_added->format('M d, Y') }}</div>
                             @else

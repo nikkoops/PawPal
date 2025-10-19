@@ -1,70 +1,267 @@
-<!-- Navigation Header Component - UPDATED -->
+<!-- Navigation Header Component - UPDATED FOR CONSISTENCY -->
 <style>
-  .nav-link {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif;
+  /* Header Component Styles - Ensuring consistency across all pages */
+  nav.nav-header {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(229, 231, 235, 1) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
-  .nav-link.active,
-  .nav-link:active,
-  .nav-link:focus {
-    color: #9333ea;
-    font-weight: 600;
+  
+  nav.nav-header .nav-container {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+  }
+  
+  nav.nav-header .nav-flex {
+    display: flex !important;
+    align-items: center !important;
+    height: 4rem !important;
+    justify-content: space-between !important;
+  }
+  
+  nav.nav-header .nav-logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+  }
+  
+  nav.nav-header .nav-logo img {
+    height: 2rem !important;
+    width: 2rem !important;
+    object-fit: contain !important;
+  }
+  
+  nav.nav-header .nav-logo span {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif !important;
+  }
+  
+  nav.nav-header .nav-desktop {
+    display: none !important;
+    align-items: center !important;
+    gap: 2rem !important;
+    margin-left: auto !important;
+  }
+  
+  nav.nav-header .nav-link {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif !important;
+    color: #6b7280 !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease !important;
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+  }
+  
+  nav.nav-header .nav-link:hover {
+    color: #9333ea !important;
+  }
+  
+  nav.nav-header .nav-link.active {
+    color: #9333ea !important;
+    font-weight: 600 !important;
+  }
+  
+  nav.nav-header .nav-signin-btn {
+    background: #9333ea !important;
+    color: white !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.375rem !important;
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif !important;
+  }
+  
+  nav.nav-header .nav-signin-btn:hover {
+    background: #7c3aed !important;
+  }
+  
+  nav.nav-header .nav-mobile-btn {
+    display: block !important;
+    padding: 0.5rem !important;
+    border-radius: 0.375rem !important;
+    color: #6b7280 !important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  nav.nav-header .nav-mobile-btn:hover {
+    color: #111827 !important;
+    background: #f3f4f6 !important;
+  }
+  
+  nav.nav-header .nav-mobile-btn:focus {
+    outline: 2px solid #9333ea !important;
+    outline-offset: 2px !important;
+  }
+  
+  nav.nav-header .nav-mobile-menu {
+    display: none !important;
+    background: white !important;
+    border-top: 1px solid rgba(229, 231, 235, 1) !important;
+  }
+  
+  nav.nav-header .nav-mobile-menu.active {
+    display: block !important;
+  }
+  
+  nav.nav-header .nav-mobile-links {
+    padding: 0.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.25rem !important;
+  }
+  
+  nav.nav-header .nav-mobile-link {
+    display: block !important;
+    padding: 0.75rem !important;
+    border-radius: 0.375rem !important;
+    color: #6b7280 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+    transition: all 0.2s ease !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif !important;
+  }
+  
+  nav.nav-header .nav-mobile-link:hover {
+    color: #9333ea !important;
+    background: #f3e8ff !important;
+  }
+  
+  nav.nav-header .nav-mobile-link.active {
+    color: #9333ea !important;
+    font-weight: 600 !important;
+  }
+  
+  nav.nav-header .nav-mobile-signin {
+    width: 100% !important;
+    text-align: left !important;
+    padding: 0.75rem !important;
+    border-radius: 0.375rem !important;
+    background: #9333ea !important;
+    color: white !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+    transition: background-color 0.2s ease !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif !important;
+  }
+  
+  nav.nav-header .nav-mobile-signin:hover {
+    background: #7c3aed !important;
+  }
+  
+  /* Responsive breakpoints */
+  @media (min-width: 768px) {
+    nav.nav-header .nav-desktop {
+      display: flex !important;
+    }
+    
+    nav.nav-header .nav-mobile-btn {
+      display: none !important;
+    }
+    
+    nav.nav-header .nav-container {
+      padding-right: 1.5rem !important;
+      padding-left: 1.5rem !important;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    nav.nav-header .nav-container {
+      padding-right: 2rem !important;
+      padding-left: 2rem !important;
+    }
   }
 </style>
-<nav class="bg-white/80 backdrop-blur-sm border-b sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto pr-4 sm:pr-6 lg:pr-8">
-    <div class="flex items-center h-16 justify-between">
+
+<nav class="nav-header">
+  <div class="nav-container">
+    <div class="nav-flex">
       <!-- Logo -->
-      <div class="flex items-center space-x-2">
-        <img src="{{ asset('images/pawpal-logo.png') }}?v={{ time() }}" alt="PawPal Logo" class="h-8 w-8 object-contain">
-        <span class="text-xl font-bold text-gray-900">PawPal</span>
+      <div class="nav-logo">
+        <img src="{{ asset('images/pawpal-logo.png') }}?v={{ time() }}" alt="PawPal Logo">
+        <span>PawPal</span>
       </div>
       
       <!-- Desktop Navigation -->
-      <div class="hidden md:flex items-center space-x-8 ml-auto">
-        <a href="{{ route('home') }}" class="nav-link {{ Request::is('/') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600' }} transition-colors" style="{{ Request::is('/') ? 'color: #9333ea; font-weight: 600;' : '' }}">Home</a>
-        <a href="{{ route('home') }}#pets-section" class="nav-link text-gray-600 hover:text-purple-600 transition-colors">Find Pets</a>
-        <a href="{{ url('/learn-more') }}" class="nav-link {{ Request::is('learn-more') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600' }} transition-colors" style="{{ Request::is('learn-more') ? 'color: #9333ea; font-weight: 600;' : '' }}">Learn More</a>
-        <a href="{{ url('/contact') }}" class="nav-link {{ Request::is('contact') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600' }} transition-colors" style="{{ Request::is('contact') ? 'color: #9333ea; font-weight: 600;' : '' }}">Contact Us</a>
-        <button onclick="openRoleModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md font-medium transition-colors">
+      <div class="nav-desktop">
+        <a href="{{ route('home') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}">Home</a>
+        <a href="{{ route('home') }}#pets-section" class="nav-link">Find Pets</a>
+        <a href="{{ url('/learn-more') }}" class="nav-link {{ Request::is('learn-more') ? 'active' : '' }}">Learn More</a>
+        <a href="{{ url('/contact') }}" class="nav-link {{ Request::is('contact') ? 'active' : '' }}">Contact Us</a>
+        <button onclick="openRoleModal()" class="nav-signin-btn">
           Sign In
         </button>
       </div>
       
       <!-- Mobile Menu Button -->
-      <div class="md:hidden">
-        <button type="button" class="mobile-menu-button p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
+      <button type="button" class="nav-mobile-btn" onclick="toggleMobileMenu()">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
     </div>
     
     <!-- Mobile Navigation Menu -->
-    <div class="mobile-menu hidden md:hidden">
-      <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
-        <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ Request::is('/') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50' }}" style="{{ Request::is('/') ? 'color: #9333ea; font-weight: 600;' : '' }}">Home</a>
-        <a href="{{ route('home') }}#pets-section" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-purple-600 hover:bg-purple-50">Find Pets</a>
-        <a href="{{ url('/learn-more') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ Request::is('learn-more') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50' }}" style="{{ Request::is('learn-more') ? 'color: #9333ea; font-weight: 600;' : '' }}">Learn More</a>
-        <a href="{{ url('/contact') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ Request::is('contact') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50' }}" style="{{ Request::is('contact') ? 'color: #9333ea; font-weight: 600;' : '' }}">Contact Us</a>
-        <button onclick="openRoleModal()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium bg-purple-600 text-white hover:bg-purple-700">
+    <div class="nav-mobile-menu" id="mobileMenu">
+      <div class="nav-mobile-links">
+        <a href="{{ route('home') }}" class="nav-mobile-link {{ Request::is('/') ? 'active' : '' }}">Home</a>
+        <a href="{{ route('home') }}#pets-section" class="nav-mobile-link">Find Pets</a>
+        <a href="{{ url('/learn-more') }}" class="nav-mobile-link {{ Request::is('learn-more') ? 'active' : '' }}">Learn More</a>
+        <a href="{{ url('/contact') }}" class="nav-mobile-link {{ Request::is('contact') ? 'active' : '' }}">Contact Us</a>
+        <button onclick="openRoleModal()" class="nav-mobile-signin">
           Sign In
         </button>
       </div>
     </div>
   </div>
 </nav>
-
 <!-- Mobile Menu JavaScript -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const mobileMenuButton = document.querySelector('.mobile-menu-button');
-  const mobileMenu = document.querySelector('.mobile-menu');
+function toggleMobileMenu() {
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenu) {
+    mobileMenu.classList.toggle('active');
+  }
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(event) {
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileButton = document.querySelector('.nav-mobile-btn');
   
-  if (mobileMenuButton && mobileMenu) {
-    mobileMenuButton.addEventListener('click', function() {
-      mobileMenu.classList.toggle('hidden');
-    });
+  if (mobileMenu && mobileButton && 
+      !mobileMenu.contains(event.target) && 
+      !mobileButton.contains(event.target)) {
+    mobileMenu.classList.remove('active');
+  }
+});
+
+// Close mobile menu on window resize
+window.addEventListener('resize', function() {
+  if (window.innerWidth >= 768) {
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenu) {
+      mobileMenu.classList.remove('active');
+    }
   }
 });
 </script>

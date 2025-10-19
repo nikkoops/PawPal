@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto" rel="stylesheet">
   <meta http-equiv="x-ua-compatible" content="IE=edge, chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,72 +24,6 @@
       background-color: #f9fafb;
     }
 
-    /* Header Styles */
-    .header {
-      background: white;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .header-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 0.75rem;
-    }
-
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 3rem;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    .logo img {
-      height: 1.5rem;
-    }
-
-    .logo span {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: #1f2937;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #4b5563;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    .nav-links a:hover {
-      color: #1f2937;
-    }
-
-    .nav-links a.active {
-      color: #1f2937;
-      font-weight: 600;
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-    }
-
     /* Main Content */
     .pets-section {
       padding: 2rem 0.75rem;
@@ -102,7 +37,7 @@
     }
 
     .section-header h2 {
-      font-size: 2.5rem;
+      font-size: 3.5rem;
       font-weight: bold;
       color: #1f2937;
       margin-bottom: 1rem;
@@ -294,26 +229,9 @@
   </style>
 </head>
 
-<body>
+  <body>
   <!-- Header -->
-  <header class="header">
-    <div class="header-container">
-      <div class="header-content">
-        <div class="logo">
-          <img src="{{ asset('images/pawpal-logo.png') }}" alt="PawPal">
-          <span>PawPal</span>
-        </div>
-        <nav>
-          <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/find-pets" class="active">Find Pets</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </header>
+  @include('components.header')
 
   <!-- Main Content -->
   <main>

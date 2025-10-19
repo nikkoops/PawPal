@@ -6,6 +6,8 @@
     <title>Learn More - PawPal</title>
     <!-- Include Inter font for consistency -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Include Montserrat font for headings -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Include Lucide Icons -->
@@ -34,6 +36,12 @@
             line-height: 1.6;
         }
 
+        /* Force header consistency overrides */
+        nav.nav-header * {
+            font-size: 0.875rem !important;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif !important;
+        }
+
         /* Main Content Styles */
         .gradient-bg {
             background: linear-gradient(to bottom, #f3e8ff, #faf5ff);
@@ -58,11 +66,11 @@
             color: #111827;
             margin-bottom: 1.5rem;
             line-height: 1.1;
-            font-family: serif;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .hero-content p {
-            font-size: 1rem;
+            font-size: 0.875rem;
             color: #374151;
             margin-bottom: 2rem;
             line-height: 1.6;
@@ -119,15 +127,15 @@
         }
 
         .section-header h2 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: bold;
             color: #111827;
             margin-bottom: 0.75rem;
-            font-family: serif;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .section-header p {
-            font-size: 1rem;
+            font-size: 0.875rem;
             color: #6b7280;
             max-width: 600px;
             margin: 0 auto;
@@ -156,7 +164,7 @@
         }
 
         .card h3 {
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #111827;
             margin: 0.75rem 0;
@@ -165,7 +173,7 @@
         .card p {
             color: #6b7280;
             line-height: 1.6;
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
         }
 
         /* Responsive design */
@@ -179,7 +187,7 @@
             }
             
             .section-header h2 {
-                font-size: 1.5rem;
+                font-size: 2rem;
             }
             
             .card-grid {
@@ -210,7 +218,8 @@
         <section class="hero-section">
             <div class="hero-content">
                 <h1 class="text-balance">
-                    Everything You Need to Know About Pet Adoption
+                    Everything You Need to Know<br>
+                    About Pet Adoption
                 </h1>
                 <p class="text-pretty">
                     Discover the joy of giving a rescued pet a loving home. Learn about our adoption process, pet care
@@ -279,7 +288,7 @@
                 <div class="section-header">
                     <h2>Our Adoption Process</h2>
                     <p>
-                        We've designed a simple, thorough process to ensure the perfect match between pets and families.
+                        We've made adopting your perfect pet simple, convenient, and heartwarming through PawPal.
                     </p>
                 </div>
 
@@ -289,10 +298,9 @@
                             1
                         </div>
                         <div>
-                            <h3 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Browse & Connect</h3>
+                            <h3 style="margin-bottom: 0.5rem; font-weight: 600; font-size: 1rem;">Discover & Apply for Adoption</h3>
                             <p style="color: #6b7280; line-height: 1.6;">
-                                Explore our available pets online or visit our shelter. Use our Pet Matching tool to find companions
-                                that fit your lifestyle.
+                                Browse through our list of adorable pets available for adoption. Once you find your match, submit an adoption application directly.
                             </p>
                         </div>
                     </div>
@@ -302,10 +310,9 @@
                             2
                         </div>
                         <div>
-                            <h3 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Meet & Greet</h3>
+                            <h3 style="margin-bottom: 0.5rem; font-weight: 600; font-size: 1rem;">Connect</h3>
                             <p style="color: #6b7280; line-height: 1.6;">
-                                Schedule a meet-and-greet with your potential new family member. Bring family members and current pets
-                                if applicable.
+                                After your application is reviewed, a Zoom meeting will be scheduled with the shelter staff to get to know your potential new companion and discuss any questions.
                             </p>
                         </div>
                     </div>
@@ -315,9 +322,9 @@
                             3
                         </div>
                         <div>
-                            <h3 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Welcome Home</h3>
+                            <h3 style="margin-bottom: 0.5rem; font-weight: 600; font-size: 1rem;">Adopt & Welcome Home</h3>
                             <p style="color: #6b7280; line-height: 1.6;">
-                                Once approved, finalize the adoption paperwork and take your new companion home!
+                                Once approved, complete the adoption paperwork online and get ready to welcome your new furry friend into your home!
                             </p>
                         </div>
                     </div>

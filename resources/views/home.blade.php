@@ -838,9 +838,6 @@
       html {
         font-size: 14px;
       }
-      .header {
-        padding: var(--spacing-xs);
-      }
       .nav {
         flex-direction: column;
         gap: var(--spacing-xs);
@@ -874,12 +871,6 @@
         width: 95%;
         margin: var(--spacing-xs);
       }
-      .header-content {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 var(--spacing-sm);
-      }
     }
 
     @media (min-width: 481px) and (max-width: 768px) {
@@ -890,18 +881,12 @@
       .modal-content {
         width: 90%;
       }
-      .header-content {
-        padding: 0 var(--spacing-sm);
-      }
     }
 
     @media (min-width: 769px) and (max-width: 1024px) {
       .pet-grid {
         grid-template-columns: repeat(4, 1fr);
         gap: var(--spacing-sm);
-      }
-      .header-content {
-        padding: 0 var(--spacing-md);
       }
     }
 
@@ -912,9 +897,6 @@
       .pet-grid {
         grid-template-columns: repeat(5, 1fr);
         gap: var(--spacing-sm);
-      }
-      .header-content {
-        padding: 0 var(--spacing-lg);
       }
     }
 
@@ -1273,50 +1255,6 @@
     document.addEventListener('DOMContentLoaded', function() {
       renderPets();
       
-      // Mobile navigation
-      const nav = document.querySelector('.nav');
-      const toggleMenu = document.createElement('button');
-      toggleMenu.classList.add('menu-toggle');
-      toggleMenu.setAttribute('aria-label', 'Toggle navigation menu');
-      toggleMenu.innerHTML = `
-        <svg viewBox="0 0 24 24" width="24" height="24">
-          <path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-        </svg>
-      `;
-      document.querySelector('.header-content').insertBefore(toggleMenu, nav);
-
-      function checkScreenSize() {
-        if (window.innerWidth <= 480) {
-          toggleMenu.style.display = 'block';
-          nav.style.display = nav.classList.contains('active') ? 'flex' : 'none';
-        } else {
-          toggleMenu.style.display = 'none';
-          nav.style.display = 'flex';
-          nav.classList.remove('active');
-        }
-      }
-
-      toggleMenu.addEventListener('click', () => {
-        nav.classList.toggle('active');
-        nav.style.display = nav.classList.contains('active') ? 'flex' : 'none';
-      });
-
-      window.addEventListener('resize', checkScreenSize);
-      checkScreenSize();
-      
-      // Handle navigation active states
-      const navLinks = document.querySelectorAll('.nav-link');
-      
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          // Remove active class from all nav links
-          navLinks.forEach(l => l.classList.remove('active'));
-          
-          // Add active class to clicked link
-          this.classList.add('active');
-        });
-      });
-      
       // Modal functionality
       document.addEventListener('DOMContentLoaded', function() {
         const modal = document.getElementById('petModal');
@@ -1344,41 +1282,18 @@
         }
       });
       
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          // Remove active class from all nav links
-          navLinks.forEach(l => l.classList.remove('active'));
-          
-          // Add active class to clicked link
-          this.classList.add('active');
-        });
-      });
-      
-      // Handle scroll spy for sections
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            navLinks.forEach(l => l.classList.remove('active'));
-            const sectionId = entry.target.id;
-            if (sectionId === 'home-section') {
-              document.querySelector('a[href="#home-section"]').classList.add('active');
-            } else if (sectionId === 'pets-section') {
-              document.querySelector('a[href="#pets-section"]').classList.add('active');
-            }
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth'
+            });
           }
         });
-      }, { threshold: 0.1, rootMargin: '-10% 0px -10% 0px' });
-      
-      // Observe both sections
-      const homeSection = document.querySelector('#home-section');
-      const petsSection = document.querySelector('#pets-section');
-      
-      if (homeSection) {
-        observer.observe(homeSection);
-      }
-      if (petsSection) {
-        observer.observe(petsSection);
-      }
+      });
       
       // Handle scroll down detection
       let lastScrollTop = 0;

@@ -1,494 +1,516 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <!-- Include Inter font for consistency -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <meta http-equiv="x-ua-compatible" content="IE=edge, chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
-  <title>PawPal - Contact Us</title>
-  <!-- Include Tailwind CSS for header component -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Include Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link href="styles/bootstrap.min.css" rel="stylesheet">
-  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif;
-      background-color: #f3f4f6;
-      font-size: 15px;
-    }
-
-    /* Main Content Styles */
-    .gradient-bg {
-      background: linear-gradient(to bottom, #f3e8ff, #faf5ff);
-      min-height: 100vh;
-    }
-
-    /* Contact Page Styles */
-    .container {
-      max-width: min(100% - 2rem, 1200px);
-      margin: 0 auto;
-      padding: 3rem 1rem;
-    }
-
-    .text-center {
-      text-align: center;
-    }
-
-    .page-title {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #1f2937;
-      margin-bottom: 0.75rem;
-      line-height: 1.2;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .page-description {
-      font-size: 0.9375rem;
-      color: #6b7280;
-      max-width: 600px;
-      margin: 0 auto 2.5rem;
-      line-height: 1.6;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-
-    @media (min-width: 1024px) {
-      .contact-grid {
-        grid-template-columns: 1fr 2fr;
-      }
-    }
-
-    .contact-card {
-      background: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      padding: 1.25rem;
-    }
-
-    .contact-info {
-      margin-bottom: 1.5rem;
-    }
-
-    .contact-info-title {
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: #1f2937;
-      margin-bottom: 0.75rem;
-      line-height: 1.2;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .contact-info-item {
-      display: flex;
-      align-items: start;
-      gap: 0.75rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .contact-info-icon {
-      width: 1.5rem;
-      height: 1.5rem;
-      color: #9333ea;
-    }
-
-    .contact-info-text {
-      flex: 1;
-    }
-
-    .contact-info-label {
-      font-weight: 600;
-      color: #1f2937;
-      margin-bottom: 0.25rem;
-      font-size: 0.9375rem;
-    }
-
-    .contact-info-value {
-      color: #6b7280;
-      line-height: 1.6;
-      font-size: 0.875rem;
-    }
-
-    .contact-form {
-      padding: 1.5rem;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
-    }
-
-    @media (min-width: 640px) {
-      .form-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-
-    .form-label {
-      display: block;
-      font-weight: 500;
-      color: #374151;
-      margin-bottom: 0.5rem;
-      font-size: 0.9375rem;
-    }
-
-    .form-input,
-    .form-textarea {
-      width: 100%;
-      padding: 0.625rem;
-      border: 1px solid #d1d5db;
-      border-radius: 0.375rem;
-      font-size: 0.9375rem;
-      transition: border-color 0.3s;
-    }
-
-    .form-input:focus,
-    .form-textarea:focus {
-      border-color: #9333ea;
-      outline: none;
-    }
-
-    .form-textarea {
-      min-height: 130px;
-      resize: vertical;
-    }
-
-    .submit-btn {
-      background: #9333ea;
-      color: white;
-      padding: 0.625rem 1.5rem;
-      border: none;
-      border-radius: 0.375rem;
-      font-weight: 600;
-      font-size: 0.9375rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .submit-btn:hover {
-      background: #7928ca;
-    }
-
-    .emergency-section {
-      background: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem;
-      max-width: 700px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .emergency-title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: #1f2937;
-      margin-bottom: 0.75rem;
-    }
-
-    .emergency-text {
-      color: #6b7280;
-      line-height: 1.6;
-      font-size: 0.9375rem;
-    }
-  </style>
-</head>
-
-<body>
-  <!-- Header -->
-  @include('components.header')
-
-  <div class="gradient-bg">
-
-  <!-- Main Content -->
-  <div class="container">
-    <div class="text-center">
-      <h1 class="page-title">Get in Touch</h1>
-      <p class="page-description">
-        Have questions about adoption, volunteering, or our services? We'd love to hear from you!
-      </p>
-    </div>
-
-    <div class="contact-grid">
-      <!-- Contact Information -->
-      <div class="contact-card">
-        <div class="contact-info">
-          <h2 class="contact-info-title">Contact Information</h2>
-          
-          <div class="contact-info-item">
-            <svg class="contact-info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-            <div class="contact-info-text">
-              <p class="contact-info-label">Email</p>
-              <p class="contact-info-value">hello@pawpal.com</p>
-              <p class="contact-info-value">adoptions@pawpal.com</p>
-            </div>
-          </div>
-
-          <div class="contact-info-item">
-            <svg class="contact-info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
-            <div class="contact-info-text">
-              <p class="contact-info-label">Phone</p>
-              <p class="contact-info-value">(555) 123-PAWS</p>
-              <p class="contact-info-value">(555) 123-7297</p>
-            </div>
-          </div>
-
-          <div class="contact-info-item">
-            <svg class="contact-info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-            <div class="contact-info-text">
-              <p class="contact-info-label">Address</p>
-              <p class="contact-info-value">123 Pet Rescue Lane</p>
-              <p class="contact-info-value">Animal City, AC 12345</p>
-            </div>
-          </div>
-
-          <div class="contact-info-item">
-            <svg class="contact-info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
-            </svg>
-            <div class="contact-info-text">
-              <p class="contact-info-label">Hours</p>
-              <p class="contact-info-value">Mon-Fri: 9AM - 6PM</p>
-              <p class="contact-info-value">Sat-Sun: 10AM - 4PM</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Contact Form -->
-      <div class="contact-card">
-        <form class="contact-form" id="contactForm" action="{{ url('/contact/submit') }}" method="POST">
-          @csrf
-          <h2 class="contact-info-title">Send us a Message</h2>
-          @if(session('success'))
-          <div style="background-color: #dcfce7; color: #166534; padding: 1rem; border-radius: 0.375rem; margin-bottom: 1rem;">
-              {{ session('success') }}
-          </div>
-          @endif
-          
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label" for="name">Full Name *</label>
-              <input type="text" id="name" name="name" class="form-input" required placeholder="Your full name">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="email">Email Address *</label>
-              <input type="email" id="email" name="email" class="form-input" required placeholder="your.email@example.com">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" class="form-input" placeholder="(555) 123-4567">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="subject">Subject *</label>
-              <input type="text" id="subject" name="subject" class="form-input" required placeholder="What's this about?">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="message">Message *</label>
-            <textarea id="message" name="message" class="form-textarea" required placeholder="Tell us how we can help you..."></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn">Send Message</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Emergency Section -->
-    <div class="emergency-section">
-      <h3 class="emergency-title">Emergency Pet Situations</h3>
-      <p class="emergency-text">
-        If you've found a lost pet or have an emergency situation involving an animal in need, please call our
-        emergency hotline immediately at <strong>(555) 911-PETS</strong>.
-      </p>
-      <p class="emergency-text">
-        For non-emergency inquiries about adoptions, volunteering, donations, or general questions, please use
-        the contact form above or our regular phone number during business hours.
-      </p>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  @include('components.footer')
-
-  <script>
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Get form data
-      const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        subject: document.getElementById('subject').value,
-        message: document.getElementById('message').value
-      };
-
-      // Log form data (replace with your actual form submission logic)
-      console.log('Form submitted:', formData);
-      
-      // Show success message
-      customAlert('Thank you for your message! We\'ll get back to you soon.', 'success');
-      
-      // Reset form
-      this.reset();
-    });
-
-    // Initialize Lucide icons
-    lucide.createIcons();
-  </script>
-
-  <!-- Role Selection Modal -->
-  <div id="roleModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] hidden items-center justify-center">
-    <div class="bg-white rounded-2xl max-w-2xl w-[90%] max-h-[90vh] overflow-y-auto shadow-2xl">
-      <!-- Modal Header -->
-      <div class="p-8 pb-6 border-b relative">
-        <h2 class="text-3xl font-bold text-gray-900">Welcome to PawPal</h2>
-        <p class="text-gray-600 mt-2">Please select your role to continue</p>
-        <button onclick="closeRoleModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg w-8 h-8 flex items-center justify-center transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
-      
-      <!-- Modal Body -->
-      <div class="p-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- System Admin Card -->
-          <div onclick="selectRole('system_admin')" class="role-card cursor-pointer border-2 border-gray-200 rounded-xl p-8 text-center transition-all hover:border-blue-500 hover:shadow-lg hover:-translate-y-1">
-            <div class="text-6xl mb-4">🔧</div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-2">System Admin</h3>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              Full system access with permissions to manage all shelters, users, and system settings
-            </p>
-          </div>
-          
-          <!-- Shelter Admin Card -->
-          <div onclick="selectRole('shelter_admin')" class="role-card cursor-pointer border-2 border-gray-200 rounded-xl p-8 text-center transition-all hover:border-blue-500 hover:shadow-lg hover:-translate-y-1">
-            <div class="text-6xl mb-4">🏠</div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-2">Shelter Admin</h3>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              Manage your shelter's pets, applications, and adoption processes
-            </p>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Modal Footer -->
-      <div class="px-8 pb-8 pt-6 border-t flex justify-end gap-4">
-        <button onclick="closeRoleModal()" class="px-6 py-2.5 rounded-lg font-semibold text-gray-700 border border-gray-300 hover:bg-gray-50 transition-colors">
-          Cancel
-        </button>
-        <button id="continueBtn" onclick="continueToLogin()" disabled class="px-6 py-2.5 rounded-lg font-semibold text-white bg-purple-600 hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors">
-          Continue
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <style>
-    .role-card.selected {
-      border-color: #3b82f6 !important;
-      background-color: #eff6ff;
-    }
-  </style>
-
-  <script>
-    let selectedRole = null;
-
-    function openRoleModal() {
-      const modal = document.getElementById('roleModal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeRoleModal() {
-      const modal = document.getElementById('roleModal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      document.body.style.overflow = 'auto';
-      selectedRole = null;
-      
-      // Reset selected state
-      document.querySelectorAll('.role-card').forEach(card => {
-        card.classList.remove('selected');
-      });
-      document.getElementById('continueBtn').disabled = true;
-    }
-
-    function selectRole(role) {
-      selectedRole = role;
-      
-      // Remove selected class from all cards
-      document.querySelectorAll('.role-card').forEach(card => {
-        card.classList.remove('selected');
-      });
-      
-      // Add selected class to clicked card
-      event.currentTarget.classList.add('selected');
-      
-      // Enable continue button
-      document.getElementById('continueBtn').disabled = false;
-    }
-
-    function continueToLogin() {
-      if (selectedRole) {
-        window.location.href = `/admin/login?role=${selectedRole}`;
-      }
-    }
-
-    // Close modal when clicking outside
-    document.addEventListener('DOMContentLoaded', function() {
-      const modal = document.getElementById('roleModal');
-      if (modal) {
-        modal.addEventListener('click', function(e) {
-          if (e.target === this) {
-            closeRoleModal();
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Contact Us - PawPal</title>
+      <!-- Include Inter font for consistency -->
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+      <!-- Include Montserrat font for headings -->
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+      <!-- Include Tailwind CSS -->
+      <script src="https://cdn.tailwindcss.com"></script>
+      <!-- Include Lucide Icons -->
+      <script src="https://unpkg.com/lucide@latest"></script>
+      <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
+      <!-- Add custom styles -->
+      <style>
+          /* CSS Variables for warm pet adoption design - matching Learn More page */
+          :root {
+              --background: oklch(1 0 0);
+              --foreground: oklch(0.35 0 0);
+              --card: oklch(0.99 0.02 85);
+              --card-foreground: oklch(0.35 0 0);
+              --container-width: min(100% - 2rem, 1200px);
+              --header-height: 3rem;
+              --spacing-xs: 0.25rem;
+              --spacing-sm: 0.5rem;
+              --spacing-md: 1rem;
+              --spacing-lg: 2rem;
+              --spacing-xl: 4rem;
           }
-        });
-      }
-    });
-  </script>
 
-  <!-- Custom Modal Component -->
-  @include('components.custom-modal')
-</body>
-</html>
+          body {
+              font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif;
+              font-size: 15px;
+              line-height: 1.6;
+          }
+
+          /* Force header consistency overrides */
+          nav.nav-header * {
+              font-size: 1rem !important;
+              font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segmented UI', Roboto, sans-serif !important;
+          }
+
+          /* Main Content Styles */
+          .gradient-bg {
+              background: linear-gradient(to bottom, #f3e8ff, #faf5ff);
+              min-height: 100vh;
+          }
+
+          /* Hero Section - matching Learn More page scale */
+          .hero-section {
+              padding: 4rem 1rem;
+              background: #f5f6ff;
+          }
+
+          .hero-content {
+              max-width: 1200px;
+              margin: 0 auto;
+              text-align: center;
+          }
+
+          .hero-content h1 {
+              font-size: 3rem;
+              font-weight: bold;
+              color: #111827;
+              margin-bottom: 1.5rem;
+              line-height: 1.1;
+              font-family: 'Montserrat', sans-serif;
+          }
+
+          .hero-content p {
+              font-size: 0.875rem;
+              color: #374151;
+              margin-bottom: 2rem;
+              line-height: 1.6;
+              max-width: 700px;
+              margin-left: auto;
+              margin-right: auto;
+          }
+
+          /* Button styles matching Learn More page */
+          .btn-primary {
+              background: #9333ea;
+              color: white;
+              padding: 0.625rem 1.5rem;
+              border: none;
+              border-radius: 0.5rem;
+              font-weight: 600;
+              text-decoration: none;
+              display: inline-flex;
+              align-items: center;
+              transition: background-color 0.2s;
+          }
+
+          .btn-primary:hover {
+              background: #7c3aed;
+          }
+
+          /* Section styles */
+          .section {
+              padding: var(--spacing-xl) var(--spacing-md);
+              max-width: var(--container-width);
+              margin: 0 auto;
+          }
+
+          .section-header {
+              text-align: center;
+              margin-bottom: 2.5rem;
+          }
+
+          .section-header h2 {
+              font-size: 2rem;
+              font-weight: bold;
+              color: #111827;
+              margin-bottom: 0.75rem;
+              font-family: 'Montserrat', sans-serif;
+          }
+
+          .section-header p {
+              font-size: 0.875rem;
+              color: #6b7280;
+              max-width: 600px;
+              margin: 0 auto;
+          }
+
+          /* Grid layouts */
+          .card-grid {
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 1.5rem;
+              margin-top: 3rem;
+          }
+
+          .card {
+              background: white;
+              border-radius: 0.875rem;
+              padding: 1.5rem;
+              text-align: left;
+              border: 1px solid #e5e7eb;
+              transition: transform 0.2s, box-shadow 0.2s;
+          }
+
+          .card:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+          }
+
+          .card h3 {
+              font-size: 1rem;
+              font-weight: 600;
+              color: #111827;
+              margin: 0.75rem 0;
+          }
+
+          .card p {
+              color: #6b7280;
+              line-height: 1.6;
+              font-size: 0.875rem;
+              margin-bottom: 0.5rem;
+          }
+
+          /* Contact specific styles */
+          .contact-item {
+              display: flex;
+              align-items: flex-start;
+              gap: 0.875rem;
+          }
+
+          .contact-icon {
+              width: 3rem;
+              height: 3rem;
+              color: #9333ea;
+              margin: 0 auto;
+              display: block;
+              margin-bottom: 1rem;
+          }
+
+          /* Donation section styles */
+          .donation-methods {
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 1.5rem;
+              margin-top: 3rem;
+          }
+
+          .donation-detail {
+              margin-bottom: 0.75rem;
+          }
+
+          .donation-detail-label {
+              font-weight: 600;
+              color: #374151;
+              font-size: 0.875rem;
+              margin-bottom: 0.25rem;
+              display: block;
+          }
+
+          .donation-detail-value {
+              color: #6b7280;
+              font-size: 0.875rem;
+              font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+              background: #f8fafc;
+              padding: 0.5rem 0.75rem;
+              border-radius: 0.5rem;
+              border: 1px solid #e2e8f0;
+              display: block;
+              word-break: break-all;
+          }
+
+          /* Emergency section */
+          .emergency-card {
+              background: #fef2f2;
+              border: 2px solid #fca5a5;
+              border-radius: 0.875rem;
+              padding: 1.5rem;
+              text-align: center;
+              margin-top: 0;
+          }
+
+          .emergency-card h3 {
+              color: #dc2626;
+              font-size: 1rem;
+              font-weight: 600;
+              margin-bottom: 0.75rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 0.5rem;
+          }
+
+          .emergency-card p {
+              color: #7f1d1d;
+              margin-bottom: 0.5rem;
+              font-weight: 500;
+          }
+
+          /* Tax note */
+          .tax-note {
+              background: #f0f9ff;
+              border: 2px solid #7dd3fc;
+              border-radius: 0.875rem;
+              padding: 1.5rem;
+              margin-top: 2rem;
+              text-align: center;
+          }
+
+          .tax-note h5 {
+              color: #0369a1;
+              font-weight: 600;
+              margin-bottom: 0.5rem;
+              font-size: 1rem;
+          }
+
+          .tax-note p {
+              color: #0284c7;
+              font-size: 0.875rem;
+              margin: 0;
+              font-weight: 500;
+          }
+
+          /* Responsive design */
+          @media (max-width: 1024px) {
+              .card-grid, .donation-methods {
+                  grid-template-columns: repeat(2, 1fr);
+                  gap: 1rem;
+              }
+          }
+
+          @media (max-width: 768px) {
+              .hero-content h1 {
+                  font-size: 2rem;
+              }
+              
+              .hero-section {
+                  padding: 3rem 1rem;
+              }
+              
+              .section-header h2 {
+                  font-size: 2rem;
+              }
+              
+              .card-grid, .donation-methods {
+                  grid-template-columns: 1fr;
+                  gap: 1rem;
+              }
+          }
+
+          .text-balance {
+              text-wrap: balance;
+          }
+          .text-pretty {
+              text-wrap: pretty;
+          }
+      </style>
+  </head>
+
+  <body>
+      <!-- Header -->
+      @include('components.header')
+
+      <div class="gradient-bg">
+          <!-- Hero Section -->
+          <section class="hero-section">
+              <div class="hero-content">
+                  <h1 class="text-balance">Contact Us</h1>
+                  <p class="text-pretty">
+                      Have questions about pet adoption, volunteering, or our services? We're here to help you<br>
+                      connect with your perfect companion and support our mission of<br>
+                      rescuing animals across the Philippines.
+                  </p>
+              </div>
+          </section>
+
+          <!-- Contact Information Section -->
+          <section style="background: white;">
+              <div class="section">
+                  <div class="section-header">
+                      <h2>Get in Touch</h2>
+                      <p>
+                          Connect with us through any channel. We're here to help animals find loving homes across the Philippines.
+                      </p>
+                  </div>
+
+                  <div class="card-grid">
+                      <!-- Email Card -->
+                      <div class="card">
+                          <div style="margin-bottom: 1rem;">
+                              <i data-lucide="mail" class="contact-icon"></i>
+                          </div>
+                          <h3>Email</h3>
+                          <p>hello@pawpal.com.ph</p>
+                          <p>adoptions@pawpal.com.ph</p>
+                          <p>volunteers@pawpal.com.ph</p>
+                      </div>
+
+                      <!-- Phone Card -->
+                      <div class="card">
+                          <div style="margin-bottom: 1rem;">
+                              <i data-lucide="phone" class="contact-icon"></i>
+                          </div>
+                          <h3>Phone</h3>
+                          <p>+63 2 8123-PAWS (7297)</p>
+                          <p>+63 917 555-7297</p>
+                          <p>+63 908 123-PETS (7387)</p>
+                      </div>
+
+                      <!-- Address Card -->
+                      <div class="card">
+                          <div style="margin-bottom: 1rem;">
+                              <i data-lucide="map-pin" class="contact-icon"></i>
+                          </div>
+                          <h3>Office Address</h3>
+                          <p>123 Katipunan Avenue</p>
+                          <p>Quezon City, Metro Manila</p>
+                          <p>1108 Philippines</p>
+                      </div>
+
+                      <!-- Hours Card -->
+                      <div class="card">
+                          <div style="margin-bottom: 1rem;">
+                              <i data-lucide="clock" class="contact-icon"></i>
+                          </div>
+                          <h3>Business Hours</h3>
+                          <p>Monday - Friday: 8AM - 6PM</p>
+                          <p>Saturday - Sunday: 9AM - 5PM</p>
+                          <p>Public Holidays: 10AM - 3PM</p>
+                      </div>
+                  </div>
+              </div>
+          </section>
+
+          <!-- Donation Section -->
+          <section style="background: #f3e8ff;">
+              <div class="section">
+                  <div class="section-header">
+                      <h2>Support Our Mission</h2>
+                      <p>
+                          Every peso helps provide food, medical care, and shelter for rescued animals across the Philippines.
+                      </p>
+                  </div>
+
+                  <div class="donation-methods">
+                      <!-- Bank Transfer -->
+                      <div class="card">
+                          <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                              <i data-lucide="building-2" style="height: 1.25rem; width: 1.25rem; color: #9333ea; margin-right: 0.5rem;"></i>
+                              <h3 style="margin: 0;">Bank Transfer</h3>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Bank:</div>
+                              <div class="donation-detail-value">Bank of the Philippine Islands (BPI)</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Account Name:</div>
+                              <div class="donation-detail-value">PawPal Animal Rescue<br>Foundation Inc.</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Account Number:</div>
+                              <div class="donation-detail-value">0011-1921-65</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Branch:</div>
+                              <div class="donation-detail-value">Katipunan Avenue,<br>Quezon City</div>
+                          </div>
+                      </div>
+
+                      <!-- E-Wallet -->
+                      <div class="card">
+                          <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                              <i data-lucide="smartphone" style="height: 1.25rem; width: 1.25rem; color: #3b82f6; margin-right: 0.5rem;"></i>
+                              <h3 style="margin: 0;">E-Wallet</h3>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">GCash:</div>
+                              <div class="donation-detail-value">+63 917 555-7297</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Maya (PayMaya):</div>
+                              <div class="donation-detail-value">+63 908 123-7387</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Account Name:</div>
+                              <div class="donation-detail-value">PawPal Animal Rescue</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Reference:</div>
+                              <div class="donation-detail-value">Include "DONATION"<br>in message</div>
+                          </div>
+                      </div>
+
+                      <!-- Online Payment -->
+                      <div class="card">
+                          <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                              <i data-lucide="credit-card" style="height: 1.25rem; width: 1.25rem; color: #ef4444; margin-right: 0.5rem;"></i>
+                              <h3 style="margin: 0;">Online Payment</h3>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">PayPal:</div>
+                              <div class="donation-detail-value">donate@pawpal.com.ph</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Dragonpay:</div>
+                              <div class="donation-detail-value">Available for all major<br>PH banks</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Paymongo:</div>
+                              <div class="donation-detail-value">Secure credit/debit card<br>payments</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Instapay/PESONet:</div>
+                              <div class="donation-detail-value">Real-time bank<br>transfers</div>
+                          </div>
+                      </div>
+
+                      <!-- Alternative Donation -->
+                      <div class="card">
+                          <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                              <i data-lucide="heart-handshake" style="height: 1.25rem; width: 1.25rem; color: #f59e0b; margin-right: 0.5rem;"></i>
+                              <h3 style="margin: 0;">Other Ways to Help</h3>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Physical Donations:</div>
+                              <div class="donation-detail-value">Pet food, toys,<br>blankets</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Volunteer Work:</div>
+                              <div class="donation-detail-value">Dog walking, feeding,<br>cleaning</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Foster Care:</div>
+                              <div class="donation-detail-value">Temporary homes for<br>recovery</div>
+                          </div>
+                          <div class="donation-detail">
+                              <div class="donation-detail-label">Adoption Drives:</div>
+                              <div class="donation-detail-value">Help organize<br>events</div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Call to Action -->
+                  <div style="text-align: center; margin-top: 2rem;">
+                      <a href="mailto:donations@pawpal.com.ph?subject=Donation Inquiry" class="btn-primary">
+                          <i data-lucide="heart" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"></i>
+                          Start Your Donation Today
+                      </a>
+                  </div>
+              </div>
+          </section>
+
+          <!-- Emergency Contact Section -->
+          <section style="background: white;">
+              <div class="section">
+                  <div class="emergency-card">
+                      <h3>
+                          <i data-lucide="phone-call" style="width: 1.25rem; height: 1.25rem;"></i>
+                          Emergency Animal Rescue Hotline
+                      </h3>
+                      <p><strong>24/7 Emergency Line:</strong> +63 917 RESCUE (732-2830)</p>
+                      <p>For immediate animal rescue, abuse reports, or life-threatening emergencies</p>
+                      <p><em>This line is monitored around the clock by our emergency response team</em></p>
+                  </div>
+              </div>
+          </section>
+
+      </div>
+
+      <script>
+          // Initialize Lucide icons
+          document.addEventListener('DOMContentLoaded', function() {
+              lucide.createIcons();
+          });
+      </script>
+  </body>
+
+  </html>

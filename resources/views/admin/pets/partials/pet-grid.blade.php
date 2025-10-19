@@ -49,10 +49,6 @@
                             @endif
                         </div>
                         <div class="flex space-x-2">
-                            <a href="{{ route('admin.shelter.pets.show', $pet) }}" class="flex-1 text-center py-2 px-3 text-xs bg-transparent border border-border rounded-lg hover:bg-muted transition-colors duration-200 flex items-center justify-center">
-                                <i data-lucide="eye" class="h-4 w-4 mr-1"></i>
-                                View
-                            </a>
                             <button 
                                 onclick="openEditModal({{ $pet->id }})"
                                 class="flex-1 py-2 px-3 text-xs bg-transparent border border-border rounded-lg hover:bg-muted transition-colors duration-200 flex items-center justify-center">

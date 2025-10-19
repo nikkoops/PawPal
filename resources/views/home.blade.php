@@ -1099,7 +1099,7 @@
             <p class="pet-details">
               ${[pet.breed, pet.age, pet.size].filter(Boolean).join(' • ')}
             </p>
-            ${pet.location ? `<div class="pet-location" style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">📍 ${pet.location}</div>` : ''}
+            ${pet.location ? `<div class="pet-location" style="font-size: 0.85rem; color: #7c3aed; margin-top: 0.5rem;">📍 ${pet.location}</div>` : ''}
             ${pet.description ? `<p class="pet-description">${pet.description}</p>` : ''}
             <button class="meet-btn" onclick="meetPet(${pet.id})">Meet ${pet.name}</button>
           </div>

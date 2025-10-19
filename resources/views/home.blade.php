@@ -1555,5 +1555,8 @@
   <!-- Custom Modal Component -->
   @include('components.custom-modal')
 
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/244156819.js"></script>
+<!-- End of HubSpot Embed Code -->
 </body>
 </html>

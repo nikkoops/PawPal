@@ -297,17 +297,6 @@
                                             <span class="ml-3 text-sm text-gray-700">Dewormed</span>
                                         </label>
 
-                                        {{-- Tick/Flea Treated --}}
-                                        <label class="flex items-center">
-                                            <input type="hidden" name="is_tick_flea_treated" value="0">
-                                            <input type="checkbox" 
-                                                   x-model="pet.is_tick_flea_treated" 
-                                                   name="is_tick_flea_treated" 
-                                                   value="1"
-                                                   class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                            <span class="ml-3 text-sm text-gray-700">Tick/Flea Treated</span>
-                                        </label>
-
                                         {{-- On Preventive Medication --}}
                                         <label class="flex items-center">
                                             <input type="hidden" name="on_preventive_medication" value="0">

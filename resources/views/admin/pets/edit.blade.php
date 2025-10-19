@@ -182,7 +182,7 @@
 
                 <!-- Health & Characteristics -->
                 <div class="bg-white rounded-lg shadow-sm border border-border p-6">
-                    <h3 class="text-xl font-serif font-bold text-foreground mb-4">Health & Characteristics</h3>
+                    <h3 class="text-xl font-serif font-bold text-foreground mb-4">Health</h3>
                     
                     <div class="space-y-4">
                         <!-- Health -->
@@ -214,15 +214,6 @@
                                            {{ old('is_dewormed', $pet->is_dewormed) ? 'checked' : '' }}
                                            class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
                                     <span class="ml-3 text-sm text-foreground">Dewormed</span>
-                                </label>
-
-                                <!-- Tick/Flea Treated -->
-                                <label class="flex items-center">
-                                    <input type="hidden" name="is_tick_flea_treated" value="0">
-                                    <input type="checkbox" id="is_tick_flea_treated" name="is_tick_flea_treated" value="1" 
-                                           {{ old('is_tick_flea_treated', $pet->is_tick_flea_treated) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-primary focus:ring-primary border-border rounded">
-                                    <span class="ml-3 text-sm text-foreground">Tick/Flea Treated</span>
                                 </label>
 
                                 <!-- On Preventive Medication -->

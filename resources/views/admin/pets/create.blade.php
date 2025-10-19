@@ -228,7 +228,7 @@
 
                 <!-- Health & Characteristics -->
                 <div class="card">
-                    <h3 class="text-xl font-semibold text-foreground mb-4">Health & Characteristics</h3>
+                    <h3 class="text-xl font-semibold text-foreground mb-4">Health</h3>
                     
                     <div class="space-y-4">
                         <!-- Health -->
@@ -260,15 +260,6 @@
                                            {{ old('is_dewormed') ? 'checked' : '' }}
                                            class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
                                     <span class="ml-3 text-sm text-gray-700">Dewormed</span>
-                                </label>
-
-                                <!-- Tick/Flea Treated -->
-                                <label class="flex items-center">
-                                    <input type="hidden" name="is_tick_flea_treated" value="0">
-                                    <input type="checkbox" id="is_tick_flea_treated" name="is_tick_flea_treated" value="1" 
-                                           {{ old('is_tick_flea_treated') ? 'checked' : '' }}
-                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-                                    <span class="ml-3 text-sm text-gray-700">Tick/Flea Treated</span>
                                 </label>
 
                                 <!-- On Preventive Medication -->

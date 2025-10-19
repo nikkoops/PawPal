@@ -719,7 +719,7 @@
     .characteristics-grid {
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
+      gap: 0.5rem;
     }
 
     .characteristic-item {
@@ -727,7 +727,7 @@
       align-items: center;
       justify-content: space-between;
       background: none;
-      padding: 0.2rem 0;
+      padding: 0.1rem 0;
       border-radius: 0;
       border: none;
     }
@@ -1355,7 +1355,7 @@
             </div>
 
             <!-- Health -->
-            <div class="characteristics-section" style="margin-bottom: 2.5rem;">
+            <div class="characteristics-section" style="margin-bottom: 1.5rem;">
               <h3>Health</h3>
               <div class="characteristics-grid">
                 <div class="characteristic-item">
@@ -1453,7 +1453,7 @@
             </div>
 
             <!-- Action Buttons -->
-            <div class="modal-actions" style="margin-top:auto; padding-top:1.1rem;">
+            <div class="modal-actions" style="margin-top:auto; padding-top:0.5rem;">
               <a href="{{ url('/adopt') }}" class="btn-adopt" id="adoptLink">
                 ❤️ Adopt <span id="modalAdoptName">Duke</span>
               </a>

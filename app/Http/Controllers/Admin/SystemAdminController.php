@@ -200,16 +200,13 @@ class SystemAdminController extends Controller
 
         // At-Risk Pets (7+ days in shelter)
         $atRiskPets = Pet::where('is_available', true)
-            ->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) >= 7')
+            ->whereRaw('DATEDIFF(NOW(), date_added) >= 7')
             ->with(['adoptionApplications' => function($query) {
                 $query->latest()->limit(1);
             }])
             ->get()
             ->map(function($pet) {
-                $enteredDate = $pet->date_entered_shelter ?? $pet->created_at;
-                $daysInShelter = $enteredDate 
-                    ? \Carbon\Carbon::parse($enteredDate)->diffInDays(now())
-                    : 0;
+                $daysInShelter = $pet->days_in_shelter;
                 return [
                     'name' => $pet->name,
                     'type' => ucfirst($pet->type),
@@ -245,27 +242,27 @@ class SystemAdminController extends Controller
         $lengthOfStayDistribution = [
             ['range' => '0-7 days', 'count' => Pet::where('is_available', true)
                 ->where(function($query) {
-                    $query->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) BETWEEN 0 AND 7');
+                    $query->whereRaw('DATEDIFF(NOW(), date_added) BETWEEN 0 AND 7');
                 })
                 ->count()],
             ['range' => '1-4 weeks', 'count' => Pet::where('is_available', true)
                 ->where(function($query) {
-                    $query->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) BETWEEN 8 AND 28');
+                    $query->whereRaw('DATEDIFF(NOW(), date_added) BETWEEN 8 AND 28');
                 })
                 ->count()],
             ['range' => '1-3 months', 'count' => Pet::where('is_available', true)
                 ->where(function($query) {
-                    $query->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) BETWEEN 29 AND 90');
+                    $query->whereRaw('DATEDIFF(NOW(), date_added) BETWEEN 29 AND 90');
                 })
                 ->count()],
             ['range' => '3-6 months', 'count' => Pet::where('is_available', true)
                 ->where(function($query) {
-                    $query->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) BETWEEN 91 AND 180');
+                    $query->whereRaw('DATEDIFF(NOW(), date_added) BETWEEN 91 AND 180');
                 })
                 ->count()],
             ['range' => '6+ months', 'count' => Pet::where('is_available', true)
                 ->where(function($query) {
-                    $query->whereRaw('DATEDIFF(NOW(), COALESCE(date_entered_shelter, created_at)) > 180');
+                    $query->whereRaw('DATEDIFF(NOW(), date_added) > 180');
                 })
                 ->count()]
         ];

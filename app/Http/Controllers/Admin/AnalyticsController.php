@@ -636,30 +636,100 @@ class AnalyticsController extends Controller
 
     private function exportPets()
     {
-        $query = $this->applyLocationFilter(Pet::query());
-        $pets = $query->get();
-        
+        $overview = $this->getOverviewStats();
+        $capacity = $this->getCapacityData();
+        $atRiskPets = $this->getAtRiskPets();
+        $petTypes = $this->getPetTypeStats();
+        $applicationStatus = $this->getApplicationStatusStats();
+        $adoptionRate = $overview['adoption_rate'] ?? 0;
+        $adoptionTrends = $this->getAdoptionTrends();
+        $lengthOfStay = $this->getLengthOfStayData();
+
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="pets.csv"',
+            'Content-Disposition' => 'attachment; filename="shelter_analytics.csv"',
         ];
 
-        $callback = function() use ($pets) {
+        $callback = function() use ($overview, $capacity, $atRiskPets, $petTypes, $applicationStatus, $adoptionRate, $adoptionTrends, $lengthOfStay) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, ['ID', 'Name', 'Type', 'Breed', 'Age', 'Gender', 'Size', 'Available', 'Adoption Fee', 'Created Date']);
 
-            foreach ($pets as $pet) {
+            // Current Capacity
+            fputcsv($file, ['Current Capacity']);
+            fputcsv($file, ['Current', 'Maximum', 'Dogs', 'Cats']);
+            fputcsv($file, [
+                $capacity['current'],
+                $capacity['maximum'],
+                $capacity['dogs'],
+                $capacity['cats'],
+            ]);
+            fputcsv($file, []);
+
+            // At-Risk Pets
+            fputcsv($file, ['At-Risk Pets (7+ days in shelter)']);
+            fputcsv($file, ['ID', 'Name', 'Type', 'Days in Shelter', 'Reason']);
+            foreach ($atRiskPets as $pet) {
                 fputcsv($file, [
-                    $pet->id,
-                    $pet->name,
-                    $pet->type,
-                    $pet->breed,
-                    $pet->age,
-                    $pet->gender,
-                    $pet->size,
-                    $pet->is_available ? 'Yes' : 'No',
-                    $pet->adoption_fee,
-                    $pet->created_at->format('Y-m-d H:i:s'),
+                    $pet['id'],
+                    $pet['name'],
+                    $pet['type'],
+                    $pet['daysInShelter'],
+                    $pet['reason'],
+                ]);
+            }
+            fputcsv($file, []);
+
+            // Lives Saved
+            fputcsv($file, ['Lives Saved']);
+            fputcsv($file, ['Total Adoptions']);
+            fputcsv($file, [$overview['approved_applications'] ?? 0]);
+            fputcsv($file, []);
+
+            // Pet Status Distribution
+            fputcsv($file, ['Pet Status Distribution']);
+            fputcsv($file, ['Type', 'Count']);
+            foreach ($petTypes as $type) {
+                fputcsv($file, [
+                    $type->type,
+                    $type->count,
+                ]);
+            }
+            fputcsv($file, []);
+
+            // Application Status
+            fputcsv($file, ['Application Status']);
+            fputcsv($file, ['Status', 'Count']);
+            foreach ($applicationStatus as $status) {
+                fputcsv($file, [
+                    $status->status,
+                    $status->count,
+                ]);
+            }
+            fputcsv($file, []);
+
+            // Adoption Rate
+            fputcsv($file, ['Adoption Rate']);
+            fputcsv($file, ['Rate (%)']);
+            fputcsv($file, [$adoptionRate]);
+            fputcsv($file, []);
+
+            // Adoption vs Intake Trends
+            fputcsv($file, ['Adoption vs Intake Trends (last 30 days)']);
+            fputcsv($file, ['Date', 'Adoptions']);
+            foreach ($adoptionTrends as $trend) {
+                fputcsv($file, [
+                    $trend->date,
+                    $trend->count,
+                ]);
+            }
+            fputcsv($file, []);
+
+            // Length of Stay Distribution
+            fputcsv($file, ['Length of Stay Distribution']);
+            fputcsv($file, ['Range', 'Count']);
+            foreach ($lengthOfStay as $row) {
+                fputcsv($file, [
+                    $row['range'],
+                    $row['count'],
                 ]);
             }
 

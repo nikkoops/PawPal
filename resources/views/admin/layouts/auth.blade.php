@@ -16,19 +16,19 @@
                         foreground: '#374151',
                         card: '#ffffff',
                         'card-foreground': '#374151',
-                        primary: '#9334e9',
+                        primary: '#fe7701',
                         'primary-foreground': '#ffffff',
-                        secondary: '#c084fc',
+                        secondary: '#fe7701',
                         'secondary-foreground': '#ffffff',
                         muted: '#f3f4f6',
                         'muted-foreground': '#6b7280',
-                        accent: '#c084fc',
+                        accent: '#fe7701',
                         'accent-foreground': '#ffffff',
                         destructive: '#ef4444',
                         'destructive-foreground': '#ffffff',
                         border: '#e5e7eb',
                         input: '#ffffff',
-                        ring: '#9334e9'
+                        ring: '#fe7701'
                     },
                     fontFamily: {
                         'serif': ['Montserrat', 'serif'],

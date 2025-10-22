@@ -109,14 +109,14 @@
     }
 
     .btn-primary {
-      background: #9333ea;
+      background: #fe7701;
       color: white;
       padding: 0.75rem 1.5rem;
       gap: 0.5rem;
     }
 
     .btn-primary:hover {
-      background: #7c3aed;
+      background: #c1431d;
     }
 
     .btn-outline {
@@ -153,7 +153,7 @@
 
     .progress-fill {
       height: 100%;
-      background-color: #9333ea;
+      background-color: #fe7701;
       transition: width 0.3s ease;
       border-radius: 9999px;
     }
@@ -272,7 +272,7 @@
     .radio-input {
       width: 1rem;
       height: 1rem;
-      accent-color: #9333ea;
+      accent-color: #fe7701;
     }
 
     .upload-area {
@@ -308,7 +308,7 @@
     .icon {
       width: 1.25rem;
       height: 1.25rem;
-      color: #9333ea;
+      color: #fe7701;
     }
 
     .hidden {
@@ -936,7 +936,7 @@
     .success-icon-circle {
       width: 5rem;
       height: 5rem;
-      background: #9333ea;
+      background: #fe7701;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -955,7 +955,7 @@
       position: absolute;
       font-size: 1.5rem;
       animation: bounce 1s infinite;
-      color: #9333ea;
+      color: #fe7701;
     }
 
     .paw-1 {
@@ -1039,7 +1039,7 @@
     .step-icon {
       width: 0.75rem;
       height: 0.75rem;
-      color: #9333ea;
+      color: #fe7701;
       margin-top: 0.125rem;
       flex-shrink: 0;
     }
@@ -1052,7 +1052,7 @@
 
     .success-btn-primary {
       flex: 1;
-      background: #9333ea;
+      background: #fe7701;
       color: white;
       border: none;
       padding: 0.5rem 1rem;
@@ -1065,14 +1065,14 @@
     }
 
     .success-btn-primary:hover {
-      background: #7c3aed;
+      background: #c1431d;
     }
 
     .success-btn-secondary {
       flex: 1;
       background: transparent;
-      color: #9333ea;
-      border: 2px solid #9333ea;
+      color: #fe7701;
+      border: 2px solid #fe7701;
       padding: 0.5rem 1rem;
       border-radius: 0.375rem;
       font-weight: 500;

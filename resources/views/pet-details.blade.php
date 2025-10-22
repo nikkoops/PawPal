@@ -18,7 +18,7 @@
     <div class="max-w-6xl mx-auto px-4">
       <!-- Back Button -->
       <div class="mb-6">
-        <a href="{{ route('home') }}" class="inline-flex items-center text-purple-600 hover:text-purple-700">
+        <a href="{{ route('home') }}" class="inline-flex items-center text-orange-600 hover:text-orange-700">
           <i data-lucide="arrow-left" class="h-4 w-4 mr-2"></i>
           Back to Available Pets
         </a>
@@ -39,7 +39,7 @@
               <div>
                 <h1 class="text-4xl font-bold text-gray-800 mb-2">{{ $pet->name }}</h1>
                 <div class="flex flex-wrap gap-2 mb-4">
-                  <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">{{ ucfirst($pet->type) }}</span>
+                  <span class="px-3 py-1 bg-orange-100 text-orange-800 text-sm font-medium rounded-full">{{ ucfirst($pet->type) }}</span>
                   <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">{{ $pet->breed }}</span>
                   <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">{{ ucfirst($pet->size) }}</span>
                   <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-medium rounded-full">{{ $pet->age_display }}</span>
@@ -137,17 +137,17 @@
               @if($pet->adoption_fee)
               <div>
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">Adoption Fee</h3>
-                <p class="text-2xl font-bold text-purple-600">${{ number_format($pet->adoption_fee, 2) }}</p>
+                <p class="text-2xl font-bold text-orange-600">${{ number_format($pet->adoption_fee, 2) }}</p>
               </div>
               @endif
 
               <!-- Contact Buttons -->
               <div class="space-y-3">
-                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=adopt" class="w-full text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center" style="background-color: #9333ea;" onmouseover="this.style.backgroundColor='#7c3aed'" onmouseout="this.style.backgroundColor='#9333ea'">
+                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=adopt" class="w-full text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center" style="background-color: #fe7701;" onmouseover="this.style.backgroundColor='#c1431d'; this.style.color='white'" onmouseout="this.style.backgroundColor='#fe7701'; this.style.color='white'">
                   <i data-lucide="heart" class="h-5 w-5 mr-2"></i>
                   Adopt {{ $pet->name }}
                 </a>
-                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=info" class="w-full bg-white hover:bg-gray-50 px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center" style="color: #9333ea; border-color: #9333ea;" onmouseover="this.style.borderColor='#7c3aed'; this.style.color='#7c3aed'" onmouseout="this.style.borderColor='#9333ea'; this.style.color='#9333ea'">
+                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=info" class="w-full bg-white hover:bg-gray-50 px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center" style="color: #fe7701; border-color: #fe7701;" onmouseover="this.style.borderColor='#c1431d'; this.style.color='#c1431d'" onmouseout="this.style.borderColor='#fe7701'; this.style.color='#fe7701'">
                   <i data-lucide="info" class="h-5 w-5 mr-2"></i>
                   Get More Information
                 </a>

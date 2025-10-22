@@ -35,7 +35,7 @@
                             </p>
                         </div>
                         @if($pet->location)
-                        <div class="text-xs font-medium text-purple-700 mb-1 pet-location">📍 {{ $pet->location }}</div>
+                        <div class="text-xs font-medium text-orange-700 mb-1 pet-location">📍 {{ $pet->location }}</div>
                         @endif
                         @if($pet->description)
                         <p class="text-xs text-gray-700 mt-1 pet-description">{{ $pet->description }}</p>

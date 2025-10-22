@@ -44,14 +44,14 @@
 
         /* Main Content Styles */
         .gradient-bg {
-            background: linear-gradient(to bottom, #f3e8ff, #faf5ff);
+            background: linear-gradient(to bottom, #ffecdd, #ffe8d6);
             min-height: 100vh;
         }
 
         /* Hero Section - matching Home page scale */
         .hero-section {
             padding: 4rem 1rem;
-            background: #f5f6ff;
+            background: #ffecdd;
         }
 
         .hero-content {
@@ -81,7 +81,7 @@
 
         /* Button styles matching Home page */
         .btn-primary {
-            background: #9333ea;
+            background: #fe7701;
             color: white;
             padding: 0.625rem 1.5rem;
             border: none;
@@ -94,7 +94,7 @@
         }
 
         .btn-primary:hover {
-            background: #7c3aed;
+            background: #c1431d;
         }
 
         .btn-outline {
@@ -270,7 +270,7 @@
 
                     <div class="card">
                         <div style="margin-bottom: 1rem;">
-                            <i data-lucide="users" style="height: 3rem; width: 3rem; color: #9333ea; margin: 0 auto; display: block;"></i>
+                            <i data-lucide="users" style="height: 3rem; width: 3rem; color: #fe7701; margin: 0 auto; display: block;"></i>
                         </div>
                         <h3>Support Your Community</h3>
                         <p>
@@ -294,7 +294,7 @@
 
                 <div style="display: flex; flex-direction: column; gap: 2rem;">
                     <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                        <div style="width: 2rem; height: 2rem; background: #9333ea; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
+                        <div style="width: 2rem; height: 2rem; background: #fe7701; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
                             1
                         </div>
                         <div>
@@ -306,7 +306,7 @@
                     </div>
 
                     <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                        <div style="width: 2rem; height: 2rem; background: #9333ea; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
+                        <div style="width: 2rem; height: 2rem; background: #fe7701; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
                             2
                         </div>
                         <div>
@@ -318,7 +318,7 @@
                     </div>
 
                     <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                        <div style="width: 2rem; height: 2rem; background: #9333ea; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
+                        <div style="width: 2rem; height: 2rem; background: #fe7701; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
                             3
                         </div>
                         <div>
@@ -345,7 +345,7 @@
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
                     <div class="card">
                         <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                            <i data-lucide="check-circle" style="height: 1.25rem; width: 1.25rem; color: #9333ea; margin-right: 0.5rem;"></i>
+                            <i data-lucide="check-circle" style="height: 1.25rem; width: 1.25rem; color: #fe7701; margin-right: 0.5rem;"></i>
                             <h3 style="margin: 0;">Essential Supplies</h3>
                         </div>
                         <ul style="list-style: none; padding: 0; color: #6b7280; line-height: 1.8;">
@@ -474,7 +474,7 @@
                 <button onclick="closeRoleModal()" class="px-6 py-2.5 rounded-lg font-semibold text-gray-700 border border-gray-300 hover:bg-gray-50 transition-colors">
                     Cancel
                 </button>
-                <button id="continueBtn" onclick="continueToLogin()" disabled class="px-6 py-2.5 rounded-lg font-semibold text-white bg-purple-600 hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors">
+                <button id="continueBtn" onclick="continueToLogin()" disabled class="px-6 py-2.5 rounded-lg font-semibold text-white bg-orange-600 hover:bg-[#c1431d] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors">
                     Continue
                 </button>
             </div>

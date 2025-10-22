@@ -168,7 +168,7 @@
                     <svg class="transform -rotate-90" width="120" height="120">
                         <circle cx="60" cy="60" r="50" stroke="#e5e7eb" stroke-width="10" fill="none"></circle>
                         <circle cx="60" cy="60" r="50" 
-                                stroke="#9333ea" 
+                                stroke="#fe7701" 
                                 stroke-width="10" 
                                 fill="none"
                                 stroke-dasharray="{{ 2 * 3.14159 * 50 }}"
@@ -182,7 +182,7 @@
             </div>
             
             <p class="text-sm text-center text-gray-600 mt-2">Success Rate</p>
-            <p class="text-sm text-center text-purple-600 font-medium">{{ $analytics['overview']['adopted_pets'] }} of {{ $analytics['overview']['total_pets'] }} pets adopted</p>
+            <p class="text-sm text-center text-orange-600 font-medium">{{ $analytics['overview']['adopted_pets'] }} of {{ $analytics['overview']['total_pets'] }} pets adopted</p>
         </div>
     </div>
 
@@ -358,7 +358,7 @@
             datasets: [{
                 label: 'Number of Animals',
                 data: lengthOfStayData.map(item => item.count),
-                backgroundColor: '#9333ea',
+                backgroundColor: '#fe7701',
                 borderRadius: 4
             }]
         },

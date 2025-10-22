@@ -66,7 +66,7 @@
                                     <input type="text" 
                                            x-model="pet.name" 
                                            name="name"
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                            placeholder="Add pet name"
                                            required>
                                 </div>
@@ -79,7 +79,7 @@
                                     <select x-model="pet.type" 
                                             name="type"
                                             @change="updateBreedOptions()"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                             required>
                                         <option value="">Select type</option>
                                         <option value="dog">Dog</option>
@@ -94,7 +94,7 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Breed</label>
                                     <select x-model="pet.breed" 
                                             name="breed" 
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                                         <option value="">Select breed</option>
                                         {{-- Dog Breeds --}}
                                         <option value="Aspin" data-type="dog">Aspin (Asong Pinoy)</option>
@@ -129,7 +129,7 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Age (years)</label>
                                     <select x-model="pet.age" 
                                             name="age" 
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                                         <option value="">Select age</option>
                                         {{-- Months --}}
                                         <option value="0.08">1 month</option>
@@ -159,7 +159,7 @@
                                     </label>
                                     <select x-model="pet.gender" 
                                             name="gender"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                             required>
                                         <option value="">Select gender</option>
                                         <option value="male">Male</option>
@@ -172,7 +172,7 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Size</label>
                                     <select x-model="pet.size" 
                                             name="size"
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                                         <option value="">Select size</option>
                                         <option value="small">Small</option>
                                         <option value="medium">Medium</option>
@@ -186,7 +186,7 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
                                 <select x-model="pet.location" 
                                         name="location" 
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-gray-50"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-gray-50"
                                         @if(auth()->user()->hasShelterLocation()) disabled readonly @endif>
                                     <option value="">Select location</option>
                                     @php
@@ -215,7 +215,7 @@
                                 <input type="date" 
                                        x-model="pet.date_added" 
                                        name="date_added"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                        required>
                                 <p class="text-xs text-gray-500 mt-1">Pets will be marked as urgent if in shelter for 7+ days</p>
                             </div>
@@ -226,7 +226,7 @@
                                 <textarea x-model="pet.description" 
                                           name="description"
                                           rows="4"
-                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                           placeholder="Brief description for pet listing"></textarea>
                             </div>
                         </div>
@@ -251,9 +251,9 @@
                                             <img :src="image.image_url" 
                                                  :alt="pet.name" 
                                                  class="w-full h-32 object-cover rounded-lg border-2 shadow-sm"
-                                                 :class="image.is_primary ? 'border-purple-500' : 'border-gray-200'">
+                                                 :class="image.is_primary ? 'border-orange-500' : 'border-gray-200'">
                                             <div x-show="image.is_primary" 
-                                                 class="absolute top-1.5 left-1.5 bg-purple-600 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
+                                                 class="absolute top-1.5 left-1.5 bg-orange-600 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
                                                 ⭐ Primary
                                             </div>
                                             <button type="button" 
@@ -285,13 +285,13 @@
                                 
                                 {{-- Drag and Drop Area --}}
                                 <div id="modal-dropZone-{{ $pet->id }}" 
-                                     class="border-2 border-dashed border-purple-300 rounded-xl p-6 text-center hover:border-purple-500 transition-all duration-200 cursor-pointer bg-purple-50/50">
+                                     class="border-2 border-dashed border-orange-300 rounded-xl p-6 text-center hover:border-[#c1431d] transition-all duration-200 cursor-pointer bg-orange-50/50">
                                     <div class="space-y-2">
-                                        <svg class="mx-auto h-12 w-12 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="mx-auto h-12 w-12 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                         </svg>
                                         <div>
-                                            <p class="text-base font-semibold text-purple-700">Click to select images</p>
+                                            <p class="text-base font-semibold text-orange-700">Click to select images</p>
                                             <p class="text-xs text-gray-600">or drag and drop here</p>
                                         </div>
                                     </div>
@@ -300,7 +300,7 @@
                                 <p class="text-xs text-gray-500 mt-2 text-center">
                                     Accepted formats: JPG, PNG, GIF. Max size: 2MB per image.
                                 </p>
-                                <p class="text-xs text-purple-600 mt-1 text-center font-medium">
+                                <p class="text-xs text-orange-600 mt-1 text-center font-medium">
                                     💡 The first image will be the primary display image.
                                 </p>
                             </div>
@@ -321,9 +321,9 @@
                                             <img :src="preview" 
                                                  :alt="'New image ' + (index + 1)" 
                                                  class="w-full h-32 object-cover rounded-lg border-2 shadow-sm"
-                                                 :class="index === 0 && (!pet.images || pet.images.length === 0) ? 'border-purple-500' : 'border-gray-200'">
+                                                 :class="index === 0 && (!pet.images || pet.images.length === 0) ? 'border-orange-500' : 'border-gray-200'">
                                             <div x-show="index === 0 && (!pet.images || pet.images.length === 0)" 
-                                                 class="absolute top-1.5 left-1.5 bg-purple-600 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
+                                                 class="absolute top-1.5 left-1.5 bg-orange-600 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
                                                 ⭐ Primary
                                             </div>
                                             <button type="button" 
@@ -339,7 +339,7 @@
                                 <button type="button" 
                                         x-show="(pet.images ? pet.images.length : 0) + newImagePreviews.length < 5"
                                         @click="document.getElementById('modal-images-{{ $pet->id }}').click()" 
-                                        class="mt-3 w-full py-2 border-2 border-dashed border-purple-300 rounded-lg text-purple-700 hover:border-purple-500 hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                                        class="mt-3 w-full py-2 border-2 border-dashed border-orange-300 rounded-lg text-orange-700 hover:border-[#c1431d] hover:bg-orange-50 transition-all duration-200 font-medium text-sm">
                                     + Add More Images
                                 </button>
                             </div>
@@ -374,7 +374,7 @@
                                                    x-model="pet.is_vaccinated" 
                                                    name="is_vaccinated" 
                                                    value="1"
-                                                   class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                                   class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                             <span class="ml-3 text-sm text-gray-700">Vaccinated</span>
                                         </label>
 
@@ -385,7 +385,7 @@
                                                    x-model="pet.is_neutered" 
                                                    name="is_neutered" 
                                                    value="1"
-                                                   class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                                   class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                             <span class="ml-3 text-sm text-gray-700">Spayed/Neutered</span>
                                         </label>
 
@@ -396,7 +396,7 @@
                                                    x-model="pet.is_dewormed" 
                                                    name="is_dewormed" 
                                                    value="1"
-                                                   class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                                   class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                             <span class="ml-3 text-sm text-gray-700">Dewormed</span>
                                         </label>
 
@@ -407,7 +407,7 @@
                                                    x-model="pet.on_preventive_medication" 
                                                    name="on_preventive_medication" 
                                                    value="1"
-                                                   class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                                   class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                             <span class="ml-3 text-sm text-gray-700">On Preventive Medication</span>
                                         </label>
 
@@ -418,7 +418,7 @@
                                                    x-model="pet.has_special_medical_needs" 
                                                    name="has_special_medical_needs" 
                                                    value="1"
-                                                   class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                                   class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                             <span class="ml-3 text-sm text-gray-700">Has Special Medical Needs</span>
                                         </label>
 
@@ -429,7 +429,7 @@
                                                    x-model="pet.is_mobility_impaired" 
                                                    name="is_mobility_impaired" 
                                                    value="1"
-                                                   class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                                   class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                             <span class="ml-3 text-sm text-gray-700">Disabled / Mobility Impaired</span>
                                         </label>
 
@@ -440,7 +440,7 @@
                                                    x-model="pet.is_undergoing_treatment" 
                                                    name="is_undergoing_treatment" 
                                                    value="1"
-                                                   class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                                   class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                             <span class="ml-3 text-sm text-gray-700">Undergoing Treatment</span>
                                         </label>
                                     </div>
@@ -458,7 +458,7 @@
                                        x-model="pet.is_available" 
                                        name="is_available" 
                                        value="1"
-                                       class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                       class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                             </div>
                         </div>
                     </div>
@@ -473,7 +473,7 @@
                     </button>
                     <button type="submit" 
                             :disabled="loading"
-                            class="px-6 py-2.5 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors duration-200 flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                            class="px-6 py-2.5 bg-orange-600 text-white rounded-lg font-medium hover:bg-[#c1431d] transition-colors duration-200 flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed">
                         <i data-lucide="check" class="h-4 w-4"></i>
                         <span x-show="!loading">Update Pet</span>
                         <span x-show="loading">Updating...</span>
@@ -576,19 +576,19 @@ function editPetModal(petId, petData) {
             dropZone.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                dropZone.classList.add('border-purple-500', 'bg-purple-100');
+                dropZone.classList.add('border-orange-500', 'bg-orange-100');
             });
             
             dropZone.addEventListener('dragleave', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                dropZone.classList.remove('border-purple-500', 'bg-purple-100');
+                dropZone.classList.remove('border-orange-500', 'bg-orange-100');
             });
             
             dropZone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                dropZone.classList.remove('border-purple-500', 'bg-purple-100');
+                dropZone.classList.remove('border-orange-500', 'bg-orange-100');
                 
                 const files = Array.from(e.dataTransfer.files);
                 this.handleNewImages(files);

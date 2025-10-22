@@ -15,7 +15,7 @@
 
   <main>
     <!-- HERO -->
-    <div class="bg-gradient-to-r from-purple-600 to-purple-800 text-white py-20">
+    <div class="bg-gradient-to-r from-orange-600 to-orange-800 text-white py-20">
       <div class="max-w-4xl mx-auto px-4 text-center">
         <h1 class="text-5xl font-bold mb-6">
           <span class="font-normal">About</span> PawPal

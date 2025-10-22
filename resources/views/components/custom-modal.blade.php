@@ -14,10 +14,10 @@
             
             <!-- Modal Footer -->
             <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end space-x-3">
-                <button type="button" id="modal-cancel" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200">
+                <button type="button" id="modal-cancel" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200">
                     Cancel
                 </button>
-                <button type="button" id="modal-confirm" class="px-4 py-2 text-sm font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200" style="background-color: #9333ea;">
+                <button type="button" id="modal-confirm" class="px-4 py-2 text-sm font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200" style="background-color: #fe7701;">
                     Confirm
                 </button>
             </div>
@@ -164,10 +164,10 @@ class CustomModal {
                 this.confirmBtn.setAttribute('onmouseout', "this.style.backgroundColor='#059669'");
                 break;
             default: // primary
-                this.confirmBtn.style.backgroundColor = '#9333ea';
-                this.confirmBtn.classList.add('focus:ring-purple-500');
-                this.confirmBtn.setAttribute('onmouseover', "this.style.backgroundColor='#7c3aed'");
-                this.confirmBtn.setAttribute('onmouseout', "this.style.backgroundColor='#9333ea'");
+                this.confirmBtn.style.backgroundColor = '#fe7701';
+                this.confirmBtn.classList.add('focus:ring-orange-500');
+                this.confirmBtn.setAttribute('onmouseover', "this.style.backgroundColor='#c1431d'");
+                this.confirmBtn.setAttribute('onmouseout', "this.style.backgroundColor='#fe7701'");
         }
     }
     

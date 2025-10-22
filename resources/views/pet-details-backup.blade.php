@@ -18,7 +18,7 @@
     <div class="max-w-6xl mx-auto px-4">
       <!-- Back Button -->
       <div class="mb-6">
-        <a href="{{ route('home') }}" class="inline-flex items-center text-purple-600 hover:text-purple-700">
+        <a href="{{ route('home') }}" class="inline-flex items-center text-orange-600 hover:text-orange-700">
           <i data-lucide="arrow-left" class="h-4 w-4 mr-2"></i>
           Back to Available Pets
         </a>
@@ -39,7 +39,7 @@
               <div>
                 <h1 class="text-4xl font-bold text-gray-800 mb-2">{{ $pet->name }}</h1>
                 <div class="flex flex-wrap gap-2 mb-4">
-                  <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">{{ ucfirst($pet->type) }}</span>
+                  <span class="px-3 py-1 bg-orange-100 text-orange-800 text-sm font-medium rounded-full">{{ ucfirst($pet->type) }}</span>
                   <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">{{ $pet->breed ?? 'Mixed' }}</span>
                   <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">{{ ucfirst($pet->size ?? 'Medium') }}</span>
                   @if($pet->is_available)
@@ -69,7 +69,7 @@
                     <span class="text-sm">{{ $pet->is_neutered ? 'Spayed/Neutered' : 'Not Spayed/Neutered' }}</span>
                   </div>
                   <div class="flex items-center">
-                    <i data-lucide="map-pin" class="h-5 w-5 text-purple-500 mr-2"></i>
+                    <i data-lucide="map-pin" class="h-5 w-5 text-orange-500 mr-2"></i>
                     <span class="text-sm">{{ $pet->location ?? 'Manila' }}</span>
                   </div>
                   @if($pet->age)
@@ -85,17 +85,17 @@
               @if($pet->adoption_fee)
               <div>
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">Adoption Fee</h3>
-                <p class="text-2xl font-bold text-purple-600">${{ number_format($pet->adoption_fee, 2) }}</p>
+                <p class="text-2xl font-bold text-orange-600">${{ number_format($pet->adoption_fee, 2) }}</p>
               </div>
               @endif
 
               <!-- Contact Buttons -->
               <div class="space-y-3">
-                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=adopt" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center">
+                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=adopt" class="w-full bg-orange-600 hover:bg-[#c1431d] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center">
                   <i data-lucide="heart" class="h-5 w-5 mr-2"></i>
                   Adopt {{ $pet->name }}
                 </a>
-                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=info" class="w-full bg-white hover:bg-gray-50 text-purple-600 border border-purple-600 px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center">
+                <a href="{{ url('/contact') }}?pet={{ $pet->name }}&action=info" class="w-full bg-white hover:bg-gray-50 text-orange-600 border border-orange-600 px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center">
                   <i data-lucide="info" class="h-5 w-5 mr-2"></i>
                   Get More Information
                 </a>

@@ -64,16 +64,16 @@
   }
   
   nav.nav-header .nav-link:hover {
-    color: #9333ea !important;
+    color: #fe7701 !important;
   }
   
   nav.nav-header .nav-link.active {
-    color: #9333ea !important;
+    color: #fe7701 !important;
     font-weight: 600 !important;
   }
   
   nav.nav-header .nav-signin-btn {
-    background: #9333ea !important;
+    background: #fe7701 !important;
     color: white !important;
     padding: 0.5rem 1rem !important;
     border-radius: 0.375rem !important;
@@ -86,7 +86,7 @@
   }
   
   nav.nav-header .nav-signin-btn:hover {
-    background: #7c3aed !important;
+    background: #c1431d !important;
   }
   
   nav.nav-header .nav-mobile-btn {
@@ -106,7 +106,7 @@
   }
   
   nav.nav-header .nav-mobile-btn:focus {
-    outline: 2px solid #9333ea !important;
+    outline: 2px solid #fe7701 !important;
     outline-offset: 2px !important;
   }
   
@@ -140,12 +140,12 @@
   }
   
   nav.nav-header .nav-mobile-link:hover {
-    color: #9333ea !important;
+    color: #fe7701 !important;
     background: #f3e8ff !important;
   }
   
   nav.nav-header .nav-mobile-link.active {
-    color: #9333ea !important;
+    color: #fe7701 !important;
     font-weight: 600 !important;
   }
   
@@ -154,7 +154,7 @@
     text-align: left !important;
     padding: 0.75rem !important;
     border-radius: 0.375rem !important;
-    background: #9333ea !important;
+    background: #fe7701 !important;
     color: white !important;
     border: none !important;
     cursor: pointer !important;
@@ -165,7 +165,7 @@
   }
   
   nav.nav-header .nav-mobile-signin:hover {
-    background: #7c3aed !important;
+    background: #c1431d !important;
   }
   
   /* Responsive breakpoints */

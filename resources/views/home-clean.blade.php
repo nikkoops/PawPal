@@ -195,7 +195,7 @@
     .gap-8 { gap: 2rem; }
     .w-8 { width: 2rem; }
     .h-8 { height: 2rem; }
-    .bg-blue-600 { background-color: #9333ea; }
+    .bg-blue-600 { background-color: #fe7701; }
     .rounded-lg { border-radius: 0.5rem; }
     .flex { display: flex; }
     .items-center { align-items: center; }

@@ -19,19 +19,19 @@
                         foreground: '#111827',
                         card: '#ffffff',
                         'card-foreground': '#111827',
-                        primary: '#9333ea',
+                        primary: '#fe7701',
                         'primary-foreground': '#ffffff',
                         secondary: '#f3e8ff',
-                        'secondary-foreground': '#9333ea',
+                        'secondary-foreground': '#fe7701',
                         muted: '#f3f4f6',
                         'muted-foreground': '#6b7280',
-                        accent: '#9333ea',
+                        accent: '#fe7701',
                         'accent-foreground': '#ffffff',
                         destructive: '#ef4444',
                         'destructive-foreground': '#ffffff',
                         border: '#e5e7eb',
                         input: '#ffffff',
-                        ring: '#9333ea'
+                        ring: '#fe7701'
                     },
                     fontFamily: {
                         'serif': ['serif'],
@@ -55,8 +55,11 @@
             --spacing-md: 1rem;
             --spacing-lg: 2rem;
             --spacing-xl: 4rem;
-            --primary: #9333ea;
+            --primary: #fe7701;
             --primary-foreground: #ffffff;
+            --primary-hover: #c1431d;
+            --secondary: #fe7701;
+            --secondary-foreground: #ffffff;
             --border: #e5e7eb;
             --muted: #f3f4f6;
             --muted-foreground: #6b7280;
@@ -143,11 +146,11 @@
             gap: 12px !important;
         }
         .nav-link.active {
-            color: #9333ea !important;
+            color: #fe7701 !important;
             font-weight: 700 !important;
         }
         .nav-link.active:hover {
-            color: #9333ea !important;
+            color: #fe7701 !important;
         }
         .nav-link i {
             width: 20px !important;
@@ -201,11 +204,11 @@
         }
 
         .btn-primary:hover {
-            background: #7c3aed;
+            background: #c1431d;
             color: var(--primary-foreground);
             text-decoration: none;
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(147, 51, 234, 0.3);
+            box-shadow: 0 4px 8px rgba(193, 67, 29, 0.3);
         }
 
         .btn-secondary {
@@ -225,12 +228,12 @@
         }
 
         .btn-secondary:hover {
-            background: var(--primary);
+            background: #c1431d;
             color: var(--primary-foreground);
-            border-color: var(--primary);
+            border-color: #c1431d;
             text-decoration: none;
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(147, 51, 234, 0.2);
+            box-shadow: 0 4px 8px rgba(193, 67, 29, 0.2);
         }
 
         .btn-outline {
@@ -250,11 +253,11 @@
         }
 
         .btn-outline:hover {
-            background: var(--primary);
+            background: #c1431d;
             color: var(--primary-foreground);
             text-decoration: none;
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(147, 51, 234, 0.2);
+            box-shadow: 0 4px 8px rgba(193, 67, 29, 0.2);
         }
 
         .btn-destructive {
@@ -486,7 +489,7 @@
 
         .alert-success {
             background: #f3f4f6;
-            border-color: #9333ea;
+            border-color: #fe7701;
             color: #6b21a8;
         }
 
@@ -525,29 +528,29 @@
             <nav class="flex-1 px-4 py-6 space-y-3 overflow-y-auto">
                 @if(auth()->user()->role === 'system_admin')
                     {{-- System Admin Navigation --}}
-                    <a href="{{ route('admin.system.dashboard') }}" class="nav-link {{ request()->routeIs('admin.system.dashboard') ? 'active' : '' }}" title="Dashboard" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                    <a href="{{ route('admin.system.dashboard') }}" class="nav-link {{ request()->routeIs('admin.system.dashboard') ? 'active' : '' }}" title="Dashboard" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#fe7701'" onmouseout="this.style.color=''">
                         <i data-lucide="layout-dashboard" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
                         <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Dashboard</span>
                     </a>
-                    <a href="{{ route('admin.system.users') }}" class="nav-link {{ request()->routeIs('admin.system.users*') ? 'active' : '' }}" title="User Management" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                    <a href="{{ route('admin.system.users') }}" class="nav-link {{ request()->routeIs('admin.system.users*') ? 'active' : '' }}" title="User Management" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#fe7701'" onmouseout="this.style.color=''">
                         <i data-lucide="users" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
                         <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">User Management</span>
                     </a>
-                    <a href="{{ route('admin.system.analytics') }}" class="nav-link {{ request()->routeIs('admin.system.analytics') ? 'active' : '' }}" title="Analytics" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                    <a href="{{ route('admin.system.analytics') }}" class="nav-link {{ request()->routeIs('admin.system.analytics') ? 'active' : '' }}" title="Analytics" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#fe7701'" onmouseout="this.style.color=''">
                         <i data-lucide="bar-chart-3" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
                         <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Analytics</span>
                     </a>
                 @else
                     {{-- Shelter Admin Navigation --}}
-                    <a href="{{ route('admin.shelter.pets.index') }}" class="nav-link {{ request()->routeIs('admin.shelter.pets.*') ? 'active' : '' }}" title="Pet Management" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                    <a href="{{ route('admin.shelter.pets.index') }}" class="nav-link {{ request()->routeIs('admin.shelter.pets.*') ? 'active' : '' }}" title="Pet Management" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#fe7701'" onmouseout="this.style.color=''">
                         <i data-lucide="heart" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
                         <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Pet Management</span>
                     </a>
-                    <a href="{{ route('admin.shelter.applications.index') }}" class="nav-link {{ request()->routeIs('admin.shelter.applications.*') ? 'active' : '' }}" title="Applications" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                    <a href="{{ route('admin.shelter.applications.index') }}" class="nav-link {{ request()->routeIs('admin.shelter.applications.*') ? 'active' : '' }}" title="Applications" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#fe7701'" onmouseout="this.style.color=''">
                         <i data-lucide="file-text" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
                         <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Applications</span>
                     </a>
-                    <a href="{{ route('admin.shelter.analytics') }}" class="nav-link {{ request()->routeIs('admin.shelter.analytics') ? 'active' : '' }}" title="Analytics" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                    <a href="{{ route('admin.shelter.analytics') }}" class="nav-link {{ request()->routeIs('admin.shelter.analytics') ? 'active' : '' }}" title="Analytics" style="display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 16px !important; transition: all 0.3s ease !important; border-radius: 8px !important;" onmouseover="this.style.color='#fe7701'" onmouseout="this.style.color=''">
                         <i data-lucide="bar-chart-3" style="width: 20px !important; height: 20px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
                         <span style="flex: 1 !important; line-height: 20px !important; transition: color 0.3s ease !important;">Analytics</span>
                     </a>
@@ -568,12 +571,12 @@
                     </div>
                     <div class="mt-4 flex space-x-2">
                         @if(auth()->user()->role === 'shelter_admin')
-                            <a href="{{ route('admin.shelter.settings') }}" class="btn-secondary btn-sm flex-1" style="display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; transition: all 0.3s ease !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                            <a href="{{ route('admin.shelter.settings') }}" class="btn-secondary btn-sm flex-1" style="display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; transition: all 0.3s ease !important;">
                                 <i data-lucide="settings" style="width: 16px !important; height: 16px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
                                 <span style="transition: color 0.3s ease !important;">Settings</span>
                             </a>
                         @endif
-                        <a href="{{ route('admin.logout') }}" class="btn-secondary btn-sm {{ auth()->user()->role === 'shelter_admin' ? 'flex-1' : 'w-full' }}" style="display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; transition: all 0.3s ease !important;" onmouseover="this.style.color='#9334e9'" onmouseout="this.style.color=''">
+                        <a href="{{ route('admin.logout') }}" class="btn-secondary btn-sm {{ auth()->user()->role === 'shelter_admin' ? 'flex-1' : 'w-full' }}" style="display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; transition: all 0.3s ease !important;">
                             <i data-lucide="log-out" style="width: 16px !important; height: 16px !important; flex-shrink: 0 !important; transition: color 0.3s ease !important;"></i>
                             <span style="transition: color 0.3s ease !important;">Logout</span>
                         </a>

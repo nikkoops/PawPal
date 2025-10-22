@@ -44,14 +44,14 @@
 
           /* Main Content Styles */
           .gradient-bg {
-              background: linear-gradient(to bottom, #f3e8ff, #faf5ff);
+              background: linear-gradient(to bottom, #ffecdd, #ffe8d6);
               min-height: 100vh;
           }
 
           /* Hero Section - matching Learn More page scale */
           .hero-section {
               padding: 4rem 1rem;
-              background: #f5f6ff;
+              background: #ffecdd;
           }
 
           .hero-content {
@@ -81,7 +81,7 @@
 
           /* Button styles matching Learn More page */
           .btn-primary {
-              background: #9333ea;
+              background: #fe7701;
               color: white;
               padding: 0.625rem 1.5rem;
               border: none;
@@ -94,7 +94,7 @@
           }
 
           .btn-primary:hover {
-              background: #7c3aed;
+              background: #c1431d;
           }
 
           /* Section styles */
@@ -170,7 +170,7 @@
           .contact-icon {
               width: 3rem;
               height: 3rem;
-              color: #9333ea;
+              color: #fe7701;
               margin: 0 auto;
               display: block;
               margin-bottom: 1rem;
@@ -371,7 +371,7 @@
           </section>
 
           <!-- Donation Section -->
-          <section style="background: #f3e8ff;">
+          <section style="background: #ffecdd;">
               <div class="section">
                   <div class="section-header">
                       <h2>Support Our Mission</h2>
@@ -384,7 +384,7 @@
                       <!-- Bank Transfer -->
                       <div class="card">
                           <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                              <i data-lucide="building-2" style="height: 1.25rem; width: 1.25rem; color: #9333ea; margin-right: 0.5rem;"></i>
+                              <i data-lucide="building-2" style="height: 1.25rem; width: 1.25rem; color: #fe7701; margin-right: 0.5rem;"></i>
                               <h3 style="margin: 0;">Bank Transfer</h3>
                           </div>
                           <div class="donation-detail">

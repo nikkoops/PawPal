@@ -186,7 +186,7 @@
     .nav-link.active,
     .nav-link:active,
     .nav-link:focus {
-      color: #9333ea;
+      color: #fe7701;
       font-weight: 600;
     }
 
@@ -198,7 +198,7 @@
 
     .hero-section {
       padding: 6rem 1rem;
-      background: #f5f6ff;
+      background: #ffecdd;
     }
 
     .hero-grid {
@@ -259,7 +259,7 @@
     }
 
     .btn-primary {
-      background: #9333ea;
+      background: #fe7701;
       color: white;
       padding: 0.625rem 1.5rem;
       border: none;
@@ -272,16 +272,16 @@
     }
 
     .btn-primary:hover {
-      background: #7c3aed;
+      background: #c1431d;
       color: white;
       text-decoration: none;
     }
 
     .btn-outline {
       background: transparent;
-      color: #9333ea;
+      color: #fe7701;
       padding: 0.625rem 1.5rem;
-      border: 1px solid #9333ea;
+      border: 1px solid #fe7701;
       border-radius: 0.5rem;
       font-weight: 600;
       text-decoration: none;
@@ -291,7 +291,7 @@
     }
 
     .btn-outline:hover {
-      background: #9333ea;
+      background: #c1431d;
       color: white;
       text-decoration: none;
     }
@@ -307,14 +307,14 @@
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       object-fit: cover;
-      background: linear-gradient(135deg, #f3e8ff, #f5f6ff);
+      background: linear-gradient(135deg, #f3e8ff, #ffecdd);
       display: block;
       min-height: 130px;
     }
 
     .hero-images img[src=""], 
     .hero-images img:not([src]) {
-      background: linear-gradient(135deg, #f3e8ff, #f5f6ff);
+      background: linear-gradient(135deg, #f3e8ff, #ffecdd);
       position: relative;
     }
 
@@ -510,7 +510,7 @@
 
     .meet-btn {
       width: 100%;
-      background: #9333ea;
+      background: #fe7701;
       color: white;
       padding: 0.75rem;
       border: none;
@@ -523,7 +523,7 @@
     }
 
     .meet-btn:hover {
-      background: #374151;
+      background: #c1431d;
     }
 
     /* Modal Styles with new color system */
@@ -676,7 +676,7 @@
       top: 50%;
       transform: translateY(-50%);
       background: rgba(255, 255, 255, 0.95);
-      color: #9333ea;
+      color: #fe7701;
       border: none;
       border-radius: 50%;
       width: 48px;
@@ -691,7 +691,7 @@
     }
 
     .carousel-arrow:hover {
-      background: #9333ea;
+      background: #fe7701;
       color: white;
       transform: translateY(-50%) scale(1.1);
       box-shadow: 0 10px 15px -3px rgba(147, 51, 234, 0.3), 0 4px 6px -2px rgba(147, 51, 234, 0.2);
@@ -731,7 +731,7 @@
       overflow-x: auto;
       padding: 8px 4px;
       scrollbar-width: thin;
-      scrollbar-color: #9333ea #f3f4f6;
+      scrollbar-color: #fe7701 #f3f4f6;
     }
 
     .thumbnail-strip::-webkit-scrollbar {
@@ -744,7 +744,7 @@
     }
 
     .thumbnail-strip::-webkit-scrollbar-thumb {
-      background: #9333ea;
+      background: #fe7701;
       border-radius: 10px;
     }
 
@@ -765,14 +765,14 @@
     }
 
     .thumbnail:hover {
-      border-color: #9333ea;
+      border-color: #fe7701;
       transform: translateY(-2px);
       box-shadow: 0 4px 6px -1px rgba(147, 51, 234, 0.2);
     }
 
     .thumbnail.active {
-      border-color: #9333ea;
-      box-shadow: 0 0 0 2px #9333ea, 0 4px 6px -1px rgba(147, 51, 234, 0.3);
+      border-color: #fe7701;
+      box-shadow: 0 0 0 2px #fe7701, 0 4px 6px -1px rgba(147, 51, 234, 0.3);
       transform: scale(1.05);
     }
 
@@ -933,12 +933,12 @@
     }
 
     .btn-adopt {
-      background: #9333ea;
+      background: #fe7701;
       color: white;
     }
 
     .btn-adopt:hover {
-      background: #7c3aed;
+      background: #c1431d;
       color: white;
       transform: translateY(-1px);
     }
@@ -1237,7 +1237,7 @@
             <p class="pet-details">
               ${[pet.breed, pet.age, pet.size].filter(Boolean).join(' • ')}
             </p>
-            ${pet.location ? `<div class="pet-location" style="font-size: 0.85rem; color: #7c3aed; margin-top: 0.5rem;">📍 ${pet.location}</div>` : ''}
+            ${pet.location ? `<div class="pet-location" style="font-size: 0.85rem; color: #c1431d; margin-top: 0.5rem;">📍 ${pet.location}</div>` : ''}
             ${pet.description ? `<p class="pet-description">${pet.description}</p>` : ''}
             <button class="meet-btn" onclick="meetPet(${pet.id})">Meet ${pet.name}</button>
           </div>
@@ -1756,7 +1756,7 @@
         <button onclick="closeRoleModal()" class="px-6 py-2.5 rounded-lg font-semibold text-gray-700 border border-gray-300 hover:bg-gray-50 transition-colors">
           Cancel
         </button>
-        <button id="continueBtn" onclick="continueToLogin()" disabled class="px-6 py-2.5 rounded-lg font-semibold text-white bg-purple-600 hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors">
+        <button id="continueBtn" onclick="continueToLogin()" disabled class="px-6 py-2.5 rounded-lg font-semibold text-white bg-orange-600 hover:bg-[#c1431d] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors">
           Continue
         </button>
       </div>

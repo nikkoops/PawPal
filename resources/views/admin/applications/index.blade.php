@@ -63,8 +63,8 @@
                     <p class="text-sm font-medium text-gray-600">Total Applications</p>
                     <p class="text-3xl font-bold text-gray-900 mt-2" id="totalCount">{{ $stats['total'] }}</p>
                 </div>
-                <div class="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <i data-lucide="file-text" class="h-6 w-6 text-purple-600"></i>
+                <div class="h-12 w-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <i data-lucide="file-text" class="h-6 w-6 text-orange-600"></i>
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
                 <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
                         <th class="text-left py-3 px-6 w-12">
-                            <input type="checkbox" id="selectAllCheckbox" class="rounded border-gray-300 text-purple-600 focus:ring-purple-500" onchange="toggleSelectAll()">
+                            <input type="checkbox" id="selectAllCheckbox" class="rounded border-gray-300 text-orange-600 focus:ring-orange-500" onchange="toggleSelectAll()">
                         </th>
                         <th class="text-left py-3 px-6 text-sm font-medium text-gray-600">Applicant</th>
                         <th class="text-left py-3 px-6 text-sm font-medium text-gray-600">Pet</th>

@@ -53,7 +53,7 @@
                                 Pet Name <span class="text-red-500">*</span>
                             </label>
                             <input type="text" id="name" name="name" value="{{ old('name') }}" required 
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                    placeholder="Add pet name">
                         </div>
 
@@ -63,7 +63,7 @@
                                 Pet Type <span class="text-red-500">*</span>
                             </label>
                             <select id="type" name="type" required 
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                                 <option value="">Select type</option>
                                 <option value="dog" {{ old('type') === 'dog' ? 'selected' : '' }}>Dog</option>
                                 <option value="cat" {{ old('type') === 'cat' ? 'selected' : '' }}>Cat</option>
@@ -76,7 +76,7 @@
                         <div class="form-group">
                             <label for="breed" class="block text-sm font-medium text-gray-700 mb-2">Breed</label>
                             <select id="breed" name="breed" 
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                                 <option value="">Select breed</option>
                                 <!-- Dog Breeds -->
                                 <option value="Aspin" data-type="dog" {{ old('breed') === 'Aspin' ? 'selected' : '' }}>Aspin (Asong Pinoy)</option>
@@ -110,7 +110,7 @@
                         <div class="form-group">
                             <label for="age" class="block text-sm font-medium text-gray-700 mb-2">Age (years)</label>
                             <select id="age" name="age" 
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                                 <option value="">Select age</option>
                                 <!-- Months -->
                                 <option value="0.08" {{ old('age') == '0.08' ? 'selected' : '' }}>1 month</option>
@@ -139,7 +139,7 @@
                                 Gender <span class="text-red-500">*</span>
                             </label>
                             <select id="gender" name="gender" required 
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                                 <option value="">Select gender</option>
                                 <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Male</option>
                                 <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Female</option>
@@ -150,7 +150,7 @@
                         <div class="form-group">
                             <label for="size" class="block text-sm font-medium text-gray-700 mb-2">Size</label>
                             <select id="size" name="size" 
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                                 <option value="">Select size</option>
                                 <option value="small" {{ old('size') === 'small' ? 'selected' : '' }}>Small</option>
                                 <option value="medium" {{ old('size') === 'medium' ? 'selected' : '' }}>Medium</option>
@@ -163,7 +163,7 @@
                     <div class="form-group">
                         <label for="location" class="block text-sm font-medium text-gray-700 mb-2">Location</label>
                         <select id="location" name="location" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                 @if(auth()->user()->hasShelterLocation()) readonly disabled @endif>
                             <option value="">Select location</option>
                             @php
@@ -193,7 +193,7 @@
                             Date Added to Shelter <span class="text-red-500">*</span>
                         </label>
                         <input type="date" id="date_added" name="date_added" value="{{ old('date_added', date('Y-m-d')) }}" required 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                         <p class="text-xs text-gray-500 mt-1">Pets will be marked as urgent if in shelter for 7+ days</p>
                     </div>
 
@@ -201,7 +201,7 @@
                     <div class="form-group">
                         <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Short Description</label>
                         <textarea id="description" name="description" rows="4" 
-                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                   placeholder="Brief description for pet listing">{{ old('description') }}</textarea>
                     </div>
                 </div>
@@ -223,12 +223,12 @@
                         
                         <!-- Custom upload button -->
                         <button type="button" onclick="document.getElementById('images').click()" 
-                                class="w-full px-4 py-8 border-2 border-dashed border-purple-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-all duration-200 flex flex-col items-center justify-center space-y-2 text-center">
-                            <svg class="w-12 h-12 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                class="w-full px-4 py-8 border-2 border-dashed border-orange-300 rounded-lg hover:border-[#c1431d] hover:bg-orange-50 transition-all duration-200 flex flex-col items-center justify-center space-y-2 text-center">
+                            <svg class="w-12 h-12 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                             </svg>
                             <div>
-                                <p class="text-sm font-semibold text-purple-600">Click to select images</p>
+                                <p class="text-sm font-semibold text-orange-600">Click to select images</p>
                                 <p class="text-xs text-gray-500 mt-1">or drag and drop here</p>
                             </div>
                         </button>
@@ -237,7 +237,7 @@
                             Accepted formats: JPG, PNG, GIF. Max size: 2MB per image. 
                             <span class="font-semibold">Minimum 1, Maximum 5 images.</span>
                         </p>
-                        <p class="text-xs text-purple-600 mt-1">
+                        <p class="text-xs text-orange-600 mt-1">
                             💡 The first image will be the primary display image.
                         </p>
                     </div>
@@ -248,7 +248,7 @@
                             <p class="text-sm font-medium text-gray-700">Selected Images: <span id="image-count">0</span>/5</p>
                             <div class="space-x-2">
                                 <button type="button" onclick="document.getElementById('images').click()" 
-                                        class="text-xs text-purple-600 hover:text-purple-800 font-medium">
+                                        class="text-xs text-orange-600 hover:text-orange-800 font-medium">
                                     + Add More
                                 </button>
                                 <button type="button" onclick="clearAllImages()" class="text-xs text-red-600 hover:text-red-800">Clear All</button>
@@ -272,7 +272,7 @@
                                     <input type="hidden" name="is_vaccinated" value="0">
                                     <input type="checkbox" id="is_vaccinated" name="is_vaccinated" value="1" 
                                            {{ old('is_vaccinated') ? 'checked' : '' }}
-                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                           class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                     <span class="ml-3 text-sm text-gray-700">Vaccinated</span>
                                 </label>
 
@@ -281,7 +281,7 @@
                                     <input type="hidden" name="is_neutered" value="0">
                                     <input type="checkbox" id="is_neutered" name="is_neutered" value="1" 
                                            {{ old('is_neutered') ? 'checked' : '' }}
-                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                           class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                     <span class="ml-3 text-sm text-gray-700">Spayed/Neutered</span>
                                 </label>
 
@@ -290,7 +290,7 @@
                                     <input type="hidden" name="is_dewormed" value="0">
                                     <input type="checkbox" id="is_dewormed" name="is_dewormed" value="1" 
                                            {{ old('is_dewormed') ? 'checked' : '' }}
-                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                           class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                     <span class="ml-3 text-sm text-gray-700">Dewormed</span>
                                 </label>
 
@@ -299,7 +299,7 @@
                                     <input type="hidden" name="on_preventive_medication" value="0">
                                     <input type="checkbox" id="on_preventive_medication" name="on_preventive_medication" value="1" 
                                            {{ old('on_preventive_medication') ? 'checked' : '' }}
-                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                           class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                     <span class="ml-3 text-sm text-gray-700">On Preventive Medication</span>
                                 </label>
 
@@ -308,7 +308,7 @@
                                     <input type="hidden" name="has_special_medical_needs" value="0">
                                     <input type="checkbox" id="has_special_medical_needs" name="has_special_medical_needs" value="1" 
                                            {{ old('has_special_medical_needs') ? 'checked' : '' }}
-                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                           class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                     <span class="ml-3 text-sm text-gray-700">Has Special Medical Needs</span>
                                 </label>
 
@@ -317,7 +317,7 @@
                                     <input type="hidden" name="is_mobility_impaired" value="0">
                                     <input type="checkbox" id="is_mobility_impaired" name="is_mobility_impaired" value="1" 
                                            {{ old('is_mobility_impaired') ? 'checked' : '' }}
-                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                           class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                     <span class="ml-3 text-sm text-gray-700">Disabled / Mobility Impaired</span>
                                 </label>
 
@@ -326,7 +326,7 @@
                                     <input type="hidden" name="is_undergoing_treatment" value="0">
                                     <input type="checkbox" id="is_undergoing_treatment" name="is_undergoing_treatment" value="1" 
                                            {{ old('is_undergoing_treatment') ? 'checked' : '' }}
-                                           class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                           class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                                     <span class="ml-3 text-sm text-gray-700">Undergoing Treatment</span>
                                 </label>
                             </div>
@@ -342,7 +342,7 @@
                         <input type="hidden" name="is_available" value="0">
                         <input type="checkbox" id="is_available" name="is_available" value="1" 
                                {{ old('is_available', '1') ? 'checked' : '' }}
-                               class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                               class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
                     </div>
                 </div>
             </div>
@@ -355,7 +355,7 @@
                 Cancel
             </a>
             <button type="submit" 
-                    class="px-6 py-2.5 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors duration-200 flex items-center space-x-2">
+                    class="px-6 py-2.5 bg-orange-600 text-white rounded-lg font-medium hover:bg-[#c1431d] transition-colors duration-200 flex items-center space-x-2">
                 <i data-lucide="plus" class="h-4 w-4"></i>
                 <span>Add Pet</span>
             </button>
@@ -456,19 +456,19 @@
     uploadButton.addEventListener('dragover', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        this.classList.add('border-purple-500', 'bg-purple-50');
+        this.classList.add('border-orange-500', 'bg-orange-50');
     });
     
     uploadButton.addEventListener('dragleave', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        this.classList.remove('border-purple-500', 'bg-purple-50');
+        this.classList.remove('border-orange-500', 'bg-orange-50');
     });
     
     uploadButton.addEventListener('drop', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        this.classList.remove('border-purple-500', 'bg-purple-50');
+        this.classList.remove('border-orange-500', 'bg-orange-50');
         
         const files = Array.from(e.dataTransfer.files);
         handleFiles(files);
@@ -548,8 +548,8 @@
                     div.className = 'relative group';
                     div.innerHTML = `
                         <img src="${e.target.result}" alt="Preview ${index + 1}" 
-                             class="w-full h-32 object-cover rounded-lg border-2 ${index === 0 ? 'border-purple-500' : 'border-gray-200'}">
-                        ${index === 0 ? '<div class="absolute top-1 left-1 bg-purple-600 text-white text-xs px-2 py-1 rounded">Primary</div>' : ''}
+                             class="w-full h-32 object-cover rounded-lg border-2 ${index === 0 ? 'border-orange-500' : 'border-gray-200'}">
+                        ${index === 0 ? '<div class="absolute top-1 left-1 bg-orange-600 text-white text-xs px-2 py-1 rounded">Primary</div>' : ''}
                         <div class="absolute top-1 right-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">${index + 1}</div>
                         <button type="button" onclick="removeImage(${index})" 
                                 class="absolute bottom-1 right-1 bg-red-600 hover:bg-red-700 text-white p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">

@@ -171,9 +171,9 @@
                                     @foreach($pet->images as $image)
                                         <div class="relative group" id="existing-image-{{ $image->id }}">
                                             <img src="{{ $image->image_url }}" alt="{{ $pet->name }}" 
-                                                 class="w-full h-40 object-cover rounded-lg border-2 {{ $image->is_primary ? 'border-purple-500' : 'border-gray-200' }} shadow-sm">
+                                                 class="w-full h-40 object-cover rounded-lg border-2 {{ $image->is_primary ? 'border-orange-500' : 'border-gray-200' }} shadow-sm">
                                             @if($image->is_primary)
-                                                <div class="absolute top-2 left-2 bg-purple-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow-md">
+                                                <div class="absolute top-2 left-2 bg-orange-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow-md">
                                                     ⭐ Primary
                                                 </div>
                                             @endif
@@ -200,13 +200,13 @@
                                 <input type="file" id="images" name="images[]" accept="image/jpeg,image/png,image/gif" multiple class="hidden">
                                 
                                 <!-- Drag and Drop Area -->
-                                <div id="dropZone" class="border-2 border-dashed border-purple-300 rounded-xl p-8 text-center hover:border-purple-500 transition-all duration-200 cursor-pointer bg-purple-50/50">
+                                <div id="dropZone" class="border-2 border-dashed border-orange-300 rounded-xl p-8 text-center hover:border-[#c1431d] transition-all duration-200 cursor-pointer bg-orange-50/50">
                                     <div class="space-y-3">
-                                        <svg class="mx-auto h-16 w-16 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="mx-auto h-16 w-16 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                         </svg>
                                         <div>
-                                            <p class="text-lg font-semibold text-purple-700">Click to select images</p>
+                                            <p class="text-lg font-semibold text-orange-700">Click to select images</p>
                                             <p class="text-sm text-gray-600">or drag and drop here</p>
                                         </div>
                                     </div>
@@ -215,7 +215,7 @@
                                 <p class="text-xs text-muted-foreground mt-2 text-center">
                                     Accepted formats: JPG, PNG, GIF. Max size: 2MB per image. Maximum {{ 5 - $pet->images->count() }} more images.
                                 </p>
-                                <p class="text-xs text-purple-600 mt-1 text-center font-medium">
+                                <p class="text-xs text-orange-600 mt-1 text-center font-medium">
                                     💡 The first image will be the primary display image.
                                 </p>
                             </div>
@@ -228,7 +228,7 @@
                                 </div>
                                 <div id="preview-container" class="grid grid-cols-3 gap-4"></div>
                                 <button type="button" id="addMoreBtn" onclick="document.getElementById('images').click()" 
-                                        class="mt-4 w-full py-3 border-2 border-dashed border-purple-300 rounded-lg text-purple-700 hover:border-purple-500 hover:bg-purple-50 transition-all duration-200 font-medium">
+                                        class="mt-4 w-full py-3 border-2 border-dashed border-orange-300 rounded-lg text-orange-700 hover:border-[#c1431d] hover:bg-orange-50 transition-all duration-200 font-medium">
                                     + Add More Images
                                 </button>
                             </div>
@@ -411,19 +411,19 @@
         dropZone.addEventListener('dragover', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            this.classList.add('border-purple-500', 'bg-purple-100');
+            this.classList.add('border-orange-500', 'bg-orange-100');
         });
         
         dropZone.addEventListener('dragleave', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            this.classList.remove('border-purple-500', 'bg-purple-100');
+            this.classList.remove('border-orange-500', 'bg-orange-100');
         });
         
         dropZone.addEventListener('drop', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            this.classList.remove('border-purple-500', 'bg-purple-100');
+            this.classList.remove('border-orange-500', 'bg-orange-100');
             
             const files = Array.from(e.dataTransfer.files);
             handleFiles(files);
@@ -501,8 +501,8 @@
                     div.className = 'relative group';
                     div.innerHTML = `
                         <img src="${e.target.result}" alt="Preview ${index + 1}" 
-                             class="w-full h-40 object-cover rounded-lg border-2 ${index === 0 ? 'border-purple-500' : 'border-gray-200'} shadow-sm">
-                        ${index === 0 ? '<div class="absolute top-2 left-2 bg-purple-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow-md">⭐ Primary</div>' : ''}
+                             class="w-full h-40 object-cover rounded-lg border-2 ${index === 0 ? 'border-orange-500' : 'border-gray-200'} shadow-sm">
+                        ${index === 0 ? '<div class="absolute top-2 left-2 bg-orange-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow-md">⭐ Primary</div>' : ''}
                         <button type="button" onclick="removeImage(${index})" 
                                 class="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-lg">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

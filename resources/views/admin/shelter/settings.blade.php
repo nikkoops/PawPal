@@ -37,7 +37,7 @@
                     id="current_password" 
                     name="current_password" 
                     required 
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('current_password') border-red-500 @enderror"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent @error('current_password') border-red-500 @enderror"
                     placeholder="Enter your current password"
                 >
                 @error('current_password')
@@ -56,7 +56,7 @@
                     name="password" 
                     required 
                     minlength="8"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('password') border-red-500 @enderror"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent @error('password') border-red-500 @enderror"
                     placeholder="Enter your new password (minimum 8 characters)"
                 >
                 @error('password')
@@ -75,7 +75,7 @@
                     name="password_confirmation" 
                     required 
                     minlength="8"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="Confirm your new password"
                 >
             </div>
@@ -87,7 +87,7 @@
                 </a>
                 <button 
                     type="submit" 
-                    class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                    class="bg-orange-600 hover:bg-[#c1431d] text-white font-medium py-2 px-6 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                 >
                     Update Password
                 </button>

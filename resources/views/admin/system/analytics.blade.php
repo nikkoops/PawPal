@@ -66,7 +66,7 @@
                 <span class="text-gray-500 ml-2">/ {{ $totalCapacity }}</span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
-                <div class="bg-purple-600 h-1 rounded-full" style="width: {{ $percentFilled }}%"></div>
+                <div class="bg-orange-600 h-1 rounded-full" style="width: {{ $percentFilled }}%"></div>
             </div>
             <div class="flex justify-between items-center text-sm mb-2">
                 <span class="text-gray-600">{{ $percentFilled }}% filled</span>
@@ -157,7 +157,7 @@
                     <svg class="transform -rotate-90" width="120" height="120">
                         <circle cx="60" cy="60" r="50" stroke="#e5e7eb" stroke-width="10" fill="none"></circle>
                         <circle cx="60" cy="60" r="50" 
-                                stroke="#9333ea" 
+                                stroke="#fe7701" 
                                 stroke-width="10" 
                                 fill="none"
                                 stroke-dasharray="{{ 2 * 3.14159 * 50 }}"
@@ -171,7 +171,7 @@
             </div>
             
             <p class="text-sm text-center text-gray-600 mt-2">Success Rate</p>
-            <p class="text-sm text-center text-purple-600 font-medium">{{ $adoptedCount }} of {{ $totalApps }} pets adopted</p>
+            <p class="text-sm text-center text-orange-600 font-medium">{{ $adoptedCount }} of {{ $totalApps }} pets adopted</p>
         </div>
     </div>
 
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 datasets: [{
                     label: 'Number of Animals',
                     data: lengthOfStayData.map(d => d.count),
-                    backgroundColor: '#9333ea',
+                    backgroundColor: '#fe7701',
                     borderRadius: 4
                 }]
             },

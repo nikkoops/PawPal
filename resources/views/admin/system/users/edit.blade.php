@@ -35,7 +35,7 @@
                     id="name" 
                     name="name" 
                     value="{{ old('name', $user->name) }}"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('name') border-red-500 @enderror"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent @error('name') border-red-500 @enderror"
                     placeholder="Enter full name"
                     required
                 >
@@ -54,7 +54,7 @@
                     id="email" 
                     name="email" 
                     value="{{ old('email', $user->email) }}"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('email') border-red-500 @enderror"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent @error('email') border-red-500 @enderror"
                     placeholder="admin@example.com"
                     required
                 >
@@ -124,7 +124,7 @@
                         type="password" 
                         id="password" 
                         name="password" 
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent @error('password') border-red-500 @enderror"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent @error('password') border-red-500 @enderror"
                         placeholder="Enter new password (min. 8 characters)"
                     >
                     @error('password')
@@ -142,7 +142,7 @@
                         type="password" 
                         id="password_confirmation" 
                         name="password_confirmation" 
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="Re-enter new password"
                     >
                 </div>
@@ -155,7 +155,7 @@
                 </a>
                 <button 
                     type="submit" 
-                    class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition duration-200 flex items-center"
+                    class="px-6 py-3 bg-orange-600 hover:bg-[#c1431d] text-white rounded-lg transition duration-200 flex items-center"
                 >
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />

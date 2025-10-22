@@ -268,7 +268,7 @@
                         $catAvg = round($atRiskPets->where('type', 'Cat')->avg('daysInShelter') ?: 0);
                     @endphp
                     <div class="flex items-center gap-2">
-                        <i data-lucide="clock" class="h-5 w-5 text-purple-600"></i>
+                        <i data-lucide="clock" class="h-5 w-5 text-orange-600"></i>
                         <span class="text-2xl font-bold text-gray-800">{{ $avgStay > 0 ? $avgStay : 'N/A' }}</span>
                         @if($avgStay > 0)
                             <span class="text-sm text-gray-600">days</span>
@@ -448,7 +448,7 @@
                                 @foreach($lengthOfStayData as $data)
                                     <div class="flex-1 flex flex-col items-center space-y-2 group">
                                         <div class="w-full flex justify-center relative">
-                                            <div class="bg-purple-600 rounded-t-md w-full max-w-16 hover:bg-purple-700 transition-colors duration-200 relative" 
+                                            <div class="bg-orange-600 rounded-t-md w-full max-w-16 hover:bg-[#c1431d] transition-colors duration-200 relative" 
                                                  style="height: {{ ($data['count'] / 52) * 180 }}px;">
                                                 <!-- Tooltip on hover -->
                                                 <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-gray-800 text-white text-xs px-3 py-2 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10 pointer-events-none">
@@ -782,8 +782,8 @@ document.addEventListener('DOMContentLoaded', function() {
             datasets: [{
                 label: 'Monthly Data Points',
                 data: correlationData,
-                backgroundColor: '#9333ea',
-                borderColor: '#9333ea',
+                backgroundColor: '#fe7701',
+                borderColor: '#fe7701',
                 pointRadius: 6,
                 pointHoverRadius: 8
             }, {

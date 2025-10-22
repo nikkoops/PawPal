@@ -834,6 +834,16 @@ function editPetModal(petId, petData) {
                     });
                 }
                 
+                // Manually add new image files to FormData
+                if (this.newImageFiles.length > 0) {
+                    // Remove any existing images[] entries from the form
+                    formData.delete('images[]');
+                    // Add the new image files
+                    this.newImageFiles.forEach((file, index) => {
+                        formData.append('images[]', file);
+                    });
+                }
+                
                 // Ensure boolean fields are included (FormData only includes checked checkboxes)
                 // We need to ensure the hidden input values are used when checkbox is unchecked
                 if (!formData.has('is_vaccinated')) {

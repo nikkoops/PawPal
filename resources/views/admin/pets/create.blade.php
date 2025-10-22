@@ -209,20 +209,52 @@
 
             <!-- Right Column - Photo & Characteristics -->
             <div class="space-y-6">
-                <!-- Pet Photo -->
+                <!-- Pet Photos -->
                 <div class="card">
-                    <h3 class="text-xl font-semibold text-foreground mb-4">Pet Photo</h3>
+                    <h3 class="text-xl font-semibold text-foreground mb-4">Pet Photos</h3>
                     
                     <div class="form-group">
-                        <label for="image" class="block text-sm font-medium text-gray-700 mb-2">Upload Photo</label>
-                        <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/gif" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100">
-                        <p class="text-xs text-gray-500 mt-2">Accepted formats: JPG, PNG, GIF. Max size: 2MB</p>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Upload Photos (1-5 images required) <span class="text-red-500">*</span>
+                        </label>
+                        
+                        <!-- Hidden file input -->
+                        <input type="file" id="images" name="images[]" accept="image/jpeg,image/png,image/gif" multiple class="hidden">
+                        
+                        <!-- Custom upload button -->
+                        <button type="button" onclick="document.getElementById('images').click()" 
+                                class="w-full px-4 py-8 border-2 border-dashed border-purple-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-all duration-200 flex flex-col items-center justify-center space-y-2 text-center">
+                            <svg class="w-12 h-12 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <div>
+                                <p class="text-sm font-semibold text-purple-600">Click to select images</p>
+                                <p class="text-xs text-gray-500 mt-1">or drag and drop here</p>
+                            </div>
+                        </button>
+                        
+                        <p class="text-xs text-gray-500 mt-2">
+                            Accepted formats: JPG, PNG, GIF. Max size: 2MB per image. 
+                            <span class="font-semibold">Minimum 1, Maximum 5 images.</span>
+                        </p>
+                        <p class="text-xs text-purple-600 mt-1">
+                            💡 The first image will be the primary display image.
+                        </p>
                     </div>
 
-                    <!-- Image Preview -->
-                    <div id="image-preview" class="hidden mt-4">
-                        <img id="preview-img" src="" alt="Preview" class="w-full h-48 object-cover rounded-lg border border-gray-200">
+                    <!-- Image Previews -->
+                    <div id="image-previews" class="hidden mt-4 space-y-2">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-sm font-medium text-gray-700">Selected Images: <span id="image-count">0</span>/5</p>
+                            <div class="space-x-2">
+                                <button type="button" onclick="document.getElementById('images').click()" 
+                                        class="text-xs text-purple-600 hover:text-purple-800 font-medium">
+                                    + Add More
+                                </button>
+                                <button type="button" onclick="clearAllImages()" class="text-xs text-red-600 hover:text-red-800">Clear All</button>
+                            </div>
+                        </div>
+                        <div id="preview-container" class="grid grid-cols-2 gap-3"></div>
                     </div>
                 </div>
 
@@ -410,36 +442,147 @@
         lucide.createIcons();
     });
 
-    // Image preview functionality
-    document.getElementById('image').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            // Check file size (2MB = 2097152 bytes)
-            if (file.size > 2097152) {
-                customAlert('File size must be less than 2MB', 'warning');
-                this.value = '';
-                document.getElementById('image-preview').classList.add('hidden');
+    // Multiple image preview functionality
+    let selectedFiles = [];
+    const imageInput = document.getElementById('images');
+    const uploadButton = imageInput.previousElementSibling;
+    
+    // File input change event
+    imageInput.addEventListener('change', function(e) {
+        handleFiles(Array.from(e.target.files));
+    });
+    
+    // Drag and drop functionality
+    uploadButton.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.add('border-purple-500', 'bg-purple-50');
+    });
+    
+    uploadButton.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.remove('border-purple-500', 'bg-purple-50');
+    });
+    
+    uploadButton.addEventListener('drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.classList.remove('border-purple-500', 'bg-purple-50');
+        
+        const files = Array.from(e.dataTransfer.files);
+        handleFiles(files);
+    });
+    
+    function handleFiles(files) {
+        // If no files selected, just return
+        if (files.length === 0) {
+            return;
+        }
+        
+        // Append to existing files or replace
+        const totalFiles = selectedFiles.length + files.length;
+        
+        if (totalFiles > 5) {
+            const remaining = 5 - selectedFiles.length;
+            if (remaining <= 0) {
+                alert('Maximum 5 images already selected. Please clear some images first.');
                 return;
+            }
+            alert(`Maximum 5 images allowed. Adding only ${remaining} more image(s).`);
+            files = files.slice(0, remaining);
+        }
+        
+        // Validate each file
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        let hasErrors = false;
+        let validFiles = [];
+        
+        for (let file of files) {
+            // Check file size (2MB)
+            if (file.size > 2097152) {
+                alert(`File "${file.name}" is too large. Max size is 2MB.`);
+                hasErrors = true;
+                continue;
             }
             
             // Check file type
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
             if (!allowedTypes.includes(file.type)) {
-                customAlert('Only JPG, PNG, and GIF files are allowed', 'warning');
-                this.value = '';
-                document.getElementById('image-preview').classList.add('hidden');
-                return;
+                alert(`File "${file.name}" is not a valid image type. Only JPG, PNG, and GIF allowed.`);
+                hasErrors = true;
+                continue;
             }
             
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('preview-img').src = e.target.result;
-                document.getElementById('image-preview').classList.remove('hidden');
-            };
-            reader.readAsDataURL(file);
-        } else {
-            document.getElementById('image-preview').classList.add('hidden');
+            validFiles.push(file);
         }
-    });
+        
+        if (validFiles.length > 0) {
+            selectedFiles = [...selectedFiles, ...validFiles];
+            updateFileInput();
+            displayImagePreviews(selectedFiles);
+        }
+    }
+    
+    function updateFileInput() {
+        // Create a new DataTransfer object to update the file input
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => dataTransfer.items.add(file));
+        imageInput.files = dataTransfer.files;
+    }
+    
+    function displayImagePreviews(files) {
+        const container = document.getElementById('preview-container');
+        const countSpan = document.getElementById('image-count');
+        const previewsDiv = document.getElementById('image-previews');
+        
+        container.innerHTML = '';
+        countSpan.textContent = files.length;
+        
+        if (files.length > 0) {
+            previewsDiv.classList.remove('hidden');
+            
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const div = document.createElement('div');
+                    div.className = 'relative group';
+                    div.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview ${index + 1}" 
+                             class="w-full h-32 object-cover rounded-lg border-2 ${index === 0 ? 'border-purple-500' : 'border-gray-200'}">
+                        ${index === 0 ? '<div class="absolute top-1 left-1 bg-purple-600 text-white text-xs px-2 py-1 rounded">Primary</div>' : ''}
+                        <div class="absolute top-1 right-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">${index + 1}</div>
+                        <button type="button" onclick="removeImage(${index})" 
+                                class="absolute bottom-1 right-1 bg-red-600 hover:bg-red-700 text-white p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    `;
+                    container.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        } else {
+            previewsDiv.classList.add('hidden');
+        }
+    }
+    
+    function removeImage(index) {
+        selectedFiles.splice(index, 1);
+        updateFileInput();
+        displayImagePreviews(selectedFiles);
+        
+        if (selectedFiles.length === 0) {
+            document.getElementById('image-previews').classList.add('hidden');
+        }
+    }
+    
+    function clearAllImages() {
+        imageInput.value = '';
+        selectedFiles = [];
+        document.getElementById('image-previews').classList.add('hidden');
+        document.getElementById('preview-container').innerHTML = '';
+        document.getElementById('image-count').textContent = '0';
+    }
 </script>
 @endsection

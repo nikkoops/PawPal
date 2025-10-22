@@ -234,24 +234,127 @@
                 
                     {{-- Right Column - Photo & Characteristics --}}
                     <div class="space-y-6">
-                        {{-- Pet Photo --}}
+                        {{-- Pet Photos --}}
                         <div class="card">
-                            <h3 class="text-xl font-semibold text-foreground mb-4">Pet Photo</h3>
+                            <h3 class="text-xl font-semibold text-foreground mb-4">Pet Photos</h3>
                             
-                            <div class="form-group">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Upload Photo</label>
-                                <input type="file" 
-                                       name="image" 
-                                       accept="image/jpeg,image/png,image/gif" 
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100">
-                                <p class="text-xs text-gray-500 mt-2">Accepted formats: JPG, PNG, GIF. Max size: 2MB</p>
+                            {{-- Existing Images --}}
+                            <div x-show="pet.images && pet.images.length > 0" class="mb-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <p class="text-sm font-medium text-gray-700">
+                                        Current Photos: <span x-text="pet.images ? pet.images.length : 0"></span>/5
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <template x-for="(image, index) in pet.images" :key="image.id">
+                                        <div class="relative group">
+                                            <img :src="image.image_url" 
+                                                 :alt="pet.name" 
+                                                 class="w-full h-32 object-cover rounded-lg border-2 shadow-sm"
+                                                 :class="image.is_primary ? 'border-purple-500' : 'border-gray-200'">
+                                            <div x-show="image.is_primary" 
+                                                 class="absolute top-1.5 left-1.5 bg-purple-600 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
+                                                ⭐ Primary
+                                            </div>
+                                            <button type="button" 
+                                                    @click="deleteImage(image.id, index)"
+                                                    class="absolute top-1.5 right-1.5 bg-red-600 hover:bg-red-700 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-lg">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
-
-                            {{-- Image Preview --}}
-                            <div class="mt-4" x-show="pet.image_url">
-                                <img :src="pet.image_url" 
-                                     :alt="pet.name" 
-                                     class="w-full h-48 object-cover rounded-lg border border-gray-200">
+                            
+                            {{-- Upload New Images --}}
+                            <div x-show="!pet.images || pet.images.length < 5">
+                                <label class="block text-sm font-medium text-gray-700 mb-3">
+                                    <span x-text="pet.images && pet.images.length > 0 ? 'Add More Photos (' + (5 - pet.images.length) + ' remaining)' : 'Upload Photos (1-5 images required)'"></span>
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                
+                                {{-- Hidden file input --}}
+                                <input type="file" 
+                                       id="modal-images-{{ $pet->id }}"
+                                       name="images[]" 
+                                       accept="image/jpeg,image/png,image/gif" 
+                                       multiple
+                                       class="hidden">
+                                
+                                {{-- Drag and Drop Area --}}
+                                <div id="modal-dropZone-{{ $pet->id }}" 
+                                     class="border-2 border-dashed border-purple-300 rounded-xl p-6 text-center hover:border-purple-500 transition-all duration-200 cursor-pointer bg-purple-50/50">
+                                    <div class="space-y-2">
+                                        <svg class="mx-auto h-12 w-12 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                        </svg>
+                                        <div>
+                                            <p class="text-base font-semibold text-purple-700">Click to select images</p>
+                                            <p class="text-xs text-gray-600">or drag and drop here</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <p class="text-xs text-gray-500 mt-2 text-center">
+                                    Accepted formats: JPG, PNG, GIF. Max size: 2MB per image.
+                                </p>
+                                <p class="text-xs text-purple-600 mt-1 text-center font-medium">
+                                    💡 The first image will be the primary display image.
+                                </p>
+                            </div>
+                            
+                            {{-- New Image Previews --}}
+                            <div x-show="newImagePreviews.length > 0" class="mt-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <p class="text-sm font-medium text-gray-700">
+                                        New Photos: <span x-text="newImagePreviews.length"></span>
+                                    </p>
+                                    <button type="button" @click="clearNewImages()" class="text-sm text-red-600 hover:text-red-700 font-medium">
+                                        Clear All
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <template x-for="(preview, index) in newImagePreviews" :key="index">
+                                        <div class="relative group">
+                                            <img :src="preview" 
+                                                 :alt="'New image ' + (index + 1)" 
+                                                 class="w-full h-32 object-cover rounded-lg border-2 shadow-sm"
+                                                 :class="index === 0 && (!pet.images || pet.images.length === 0) ? 'border-purple-500' : 'border-gray-200'">
+                                            <div x-show="index === 0 && (!pet.images || pet.images.length === 0)" 
+                                                 class="absolute top-1.5 left-1.5 bg-purple-600 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
+                                                ⭐ Primary
+                                            </div>
+                                            <button type="button" 
+                                                    @click="removeNewImage(index)"
+                                                    class="absolute top-1.5 right-1.5 bg-red-600 hover:bg-red-700 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-lg">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                                <button type="button" 
+                                        x-show="(pet.images ? pet.images.length : 0) + newImagePreviews.length < 5"
+                                        @click="document.getElementById('modal-images-{{ $pet->id }}').click()" 
+                                        class="mt-3 w-full py-2 border-2 border-dashed border-purple-300 rounded-lg text-purple-700 hover:border-purple-500 hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                                    + Add More Images
+                                </button>
+                            </div>
+                            
+                            {{-- Max images warning --}}
+                            <div x-show="pet.images && pet.images.length >= 5" 
+                                 class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+                                <div class="flex items-start space-x-2">
+                                    <svg class="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                    </svg>
+                                    <p class="text-sm text-yellow-800">
+                                        Maximum of 5 images reached. Delete an existing image to add more.
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
@@ -386,6 +489,9 @@ function editPetModal(petId, petData) {
     return {
         open: false,
         loading: false,
+        newImagePreviews: [],
+        newImageFiles: [],
+        deletedImageIds: [],
         pet: {
             id: null,
             name: '',
@@ -408,6 +514,7 @@ function editPetModal(petId, petData) {
             is_undergoing_treatment: false,
             date_added: '',
             image_url: '',
+            images: [],
             is_urgent: false,
             days_in_shelter: 0
         },
@@ -447,6 +554,123 @@ function editPetModal(petId, petData) {
             this.$watch('pet.date_added', () => {
                 this.updateUrgencyStatus();
             });
+            
+            // Setup image upload handlers
+            this.$nextTick(() => {
+                this.setupImageHandlers();
+            });
+        },
+        
+        setupImageHandlers() {
+            const fileInput = document.getElementById(`modal-images-${petId}`);
+            const dropZone = document.getElementById(`modal-dropZone-${petId}`);
+            
+            if (!fileInput || !dropZone) return;
+            
+            // Click to upload
+            dropZone.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            // Drag and drop
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.add('border-purple-500', 'bg-purple-100');
+            });
+            
+            dropZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.remove('border-purple-500', 'bg-purple-100');
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.remove('border-purple-500', 'bg-purple-100');
+                
+                const files = Array.from(e.dataTransfer.files);
+                this.handleNewImages(files);
+            });
+            
+            // File input change
+            fileInput.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+                this.handleNewImages(files);
+            });
+        },
+        
+        handleNewImages(files) {
+            const existingCount = this.pet.images ? this.pet.images.length : 0;
+            const remainingSlots = 5 - existingCount - this.newImageFiles.length;
+            
+            if (files.length > remainingSlots) {
+                alert(`You can only upload ${remainingSlots} more image(s). Maximum is 5 total.`);
+                return;
+            }
+            
+            // Validate files
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            for (let file of files) {
+                if (file.size > 2097152) {
+                    alert(`File "${file.name}" is too large. Max size is 2MB.`);
+                    return;
+                }
+                if (!allowedTypes.includes(file.type)) {
+                    alert(`File "${file.name}" is not a valid image type.`);
+                    return;
+                }
+            }
+            
+            // Add files and create previews
+            this.newImageFiles = this.newImageFiles.concat(files);
+            
+            // Create previews
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.newImagePreviews.push(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            });
+            
+            // Update file input
+            const fileInput = document.getElementById(`modal-images-${petId}`);
+            if (fileInput) {
+                const dataTransfer = new DataTransfer();
+                this.newImageFiles.forEach(file => dataTransfer.items.add(file));
+                fileInput.files = dataTransfer.files;
+            }
+        },
+        
+        removeNewImage(index) {
+            this.newImageFiles.splice(index, 1);
+            this.newImagePreviews.splice(index, 1);
+            
+            // Update file input
+            const fileInput = document.getElementById(`modal-images-${petId}`);
+            if (fileInput) {
+                const dataTransfer = new DataTransfer();
+                this.newImageFiles.forEach(file => dataTransfer.items.add(file));
+                fileInput.files = dataTransfer.files;
+            }
+        },
+        
+        clearNewImages() {
+            this.newImageFiles = [];
+            this.newImagePreviews = [];
+            const fileInput = document.getElementById(`modal-images-${petId}`);
+            if (fileInput) {
+                fileInput.value = '';
+            }
+        },
+        
+        deleteImage(imageId, index) {
+            if (confirm('Are you sure you want to delete this image?')) {
+                this.deletedImageIds.push(imageId);
+                this.pet.images.splice(index, 1);
+            }
         },
         
         forceUpdateFormFields() {
@@ -528,6 +752,7 @@ function editPetModal(petId, petData) {
                     is_undergoing_treatment: !!data.is_undergoing_treatment,
                     date_added: dateValue,
                     image_url: data.image_url || '/images/default-pet.jpg',
+                    images: data.images || [],
                     is_urgent: !!data.is_urgent,
                     days_in_shelter: data.days_in_shelter || 0
                 };
@@ -599,6 +824,13 @@ function editPetModal(petId, petData) {
                 if (Array.isArray(this.pet.characteristics)) {
                     this.pet.characteristics.forEach(char => {
                         formData.append('characteristics[]', char);
+                    });
+                }
+                
+                // Add deleted image IDs
+                if (this.deletedImageIds.length > 0) {
+                    this.deletedImageIds.forEach(id => {
+                        formData.append('delete_images[]', id);
                     });
                 }
                 

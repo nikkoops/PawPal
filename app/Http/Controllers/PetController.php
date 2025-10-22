@@ -29,6 +29,7 @@ class PetController extends Controller
                     'location' => $this->getLocation($pet),
                     'description' => $pet->description, // CRITICAL: No generated descriptions
                     'image' => $this->getImageUrl($pet),
+                    'image_gallery' => $pet->image_gallery, // Multiple images support
                     'is_vaccinated' => $pet->is_vaccinated,
                     'is_neutered' => $pet->is_neutered,
                     'is_dewormed' => $pet->is_dewormed,

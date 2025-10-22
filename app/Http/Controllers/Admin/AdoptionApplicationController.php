@@ -10,7 +10,7 @@ class AdoptionApplicationController extends Controller
 {
     public function index(Request $request)
     {
-        $query = AdoptionApplication::with(['pet']);
+        $query = AdoptionApplication::with(['pet.images']); // Eager load pet and its images
         
         // Filter by shelter location if user has one assigned
         $user = auth()->user();
@@ -255,7 +255,7 @@ class AdoptionApplicationController extends Controller
      */
     public function filter(Request $request)
     {
-        $query = AdoptionApplication::with(['pet']);
+        $query = AdoptionApplication::with(['pet.images']); // Eager load pet and its images
 
         // Filter by status if provided
         if ($request->has('status') && $request->get('status') !== '') {
@@ -315,7 +315,7 @@ class AdoptionApplicationController extends Controller
 
     public function export(Request $request)
     {
-        $query = AdoptionApplication::with(['pet']);
+        $query = AdoptionApplication::with(['pet.images']); // Eager load pet and its images
         
         // Filter by shelter location if user has one assigned
         $user = auth()->user();

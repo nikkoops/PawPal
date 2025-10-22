@@ -41,12 +41,37 @@
     }
 
         <div class="pet-modal-grid">
-          <!-- Pet Image Section -->
+          <!-- Pet Image Section with Carousel -->
           <div class="pet-image-container">
             <div style="position: relative;">
-              <img id="modalImage" class="pet-modal-image" src="" alt="">
+              <!-- Image Carousel -->
+              <div class="image-carousel-container">
+                <img id="modalImage" class="pet-modal-image" src="" alt="">
+                
+                <!-- Navigation Arrows -->
+                <button id="prevImageBtn" class="carousel-arrow carousel-arrow-left" onclick="previousImage()" style="display: none;">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                  </svg>
+                </button>
+                <button id="nextImageBtn" class="carousel-arrow carousel-arrow-right" onclick="nextImage()" style="display: none;">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </button>
+                
+                <!-- Image Counter -->
+                <div id="imageCounter" class="image-counter" style="display: none;">
+                  <span id="currentImageIndex">1</span>/<span id="totalImages">1</span>
+                </div>
+              </div>
+              
               <div id="modalUrgentBadge" class="urgent-badge" style="position: absolute; top: 1rem; left: 1rem; display: none;">
                 🚨 Urgent: Adopt this week
+              </div>
+              
+              <!-- Thumbnail Strip -->
+              <div id="thumbnailStrip" class="thumbnail-strip" style="display: none;">
               </div>
             </div>
           </div>
@@ -629,13 +654,126 @@
       space-y: 1rem;
     }
 
+    .image-carousel-container {
+      position: relative;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
     .pet-modal-image {
       width: 100%;
       height: 400px;
       object-fit: cover;
-      border-radius: 0.5rem;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
       position: relative;
+      display: block;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      color: #9333ea;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .carousel-arrow:hover {
+      background: #9333ea;
+      color: white;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 10px 15px -3px rgba(147, 51, 234, 0.3), 0 4px 6px -2px rgba(147, 51, 234, 0.2);
+    }
+
+    .carousel-arrow:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    .carousel-arrow-left {
+      left: 16px;
+    }
+
+    .carousel-arrow-right {
+      right: 16px;
+    }
+
+    .image-counter {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      color: #1f2937;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      z-index: 10;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .thumbnail-strip {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      overflow-x: auto;
+      padding: 8px 4px;
+      scrollbar-width: thin;
+      scrollbar-color: #9333ea #f3f4f6;
+    }
+
+    .thumbnail-strip::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .thumbnail-strip::-webkit-scrollbar-track {
+      background: #f3f4f6;
+      border-radius: 10px;
+    }
+
+    .thumbnail-strip::-webkit-scrollbar-thumb {
+      background: #9333ea;
+      border-radius: 10px;
+    }
+
+    .thumbnail-strip::-webkit-scrollbar-thumb:hover {
+      background: #7e22ce;
+    }
+
+    .thumbnail {
+      width: 90px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .thumbnail:hover {
+      border-color: #9333ea;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(147, 51, 234, 0.2);
+    }
+
+    .thumbnail.active {
+      border-color: #9333ea;
+      box-shadow: 0 0 0 2px #9333ea, 0 4px 6px -1px rgba(147, 51, 234, 0.3);
+      transform: scale(1.05);
     }
 
     .pet-image-badge {
@@ -1146,10 +1284,53 @@
         document.getElementById('modalHeaderName').textContent = `Meet ${pet.name}`;
         document.getElementById('modalHeaderBadge').textContent = pet.type;
         
-        // Handle image safely
+        // Handle image gallery
         const modalImage = document.getElementById('modalImage');
-        modalImage.src = pet.image || '';
-        modalImage.alt = pet.name;
+        window.currentPetImages = pet.image_gallery || (pet.image ? [pet.image] : []);
+        window.currentImageIndex = 0;
+        
+        console.log('Pet image_gallery:', pet.image_gallery);
+        console.log('window.currentPetImages:', window.currentPetImages);
+        console.log('Length:', window.currentPetImages.length);
+        
+        if (modalImage && window.currentPetImages.length > 0) {
+          modalImage.src = window.currentPetImages[0];
+          modalImage.alt = pet.name;
+          
+          // Show/hide carousel controls
+          const prevBtn = document.getElementById('prevImageBtn');
+          const nextBtn = document.getElementById('nextImageBtn');
+          const counter = document.getElementById('imageCounter');
+          const thumbnailStrip = document.getElementById('thumbnailStrip');
+          
+          console.log('prevBtn:', prevBtn);
+          console.log('nextBtn:', nextBtn);
+          console.log('Images length:', window.currentPetImages.length);
+          
+          if (window.currentPetImages.length > 1) {
+            console.log('Showing carousel controls...');
+            if (prevBtn) {
+              prevBtn.style.display = 'flex';
+              console.log('PrevBtn display set to flex');
+            }
+            if (nextBtn) {
+              nextBtn.style.display = 'flex';
+              console.log('NextBtn display set to flex');
+            }
+            if (counter) counter.style.display = 'block';
+            if (thumbnailStrip) thumbnailStrip.style.display = 'flex';
+            
+            const totalImagesEl = document.getElementById('totalImages');
+            if (totalImagesEl) totalImagesEl.textContent = window.currentPetImages.length;
+            updateImageCounter();
+            renderThumbnails();
+          } else {
+            if (prevBtn) prevBtn.style.display = 'none';
+            if (nextBtn) nextBtn.style.display = 'none';
+            if (counter) counter.style.display = 'none';
+            if (thumbnailStrip) thumbnailStrip.style.display = 'none';
+          }
+        }
         
         document.getElementById('aboutPetName').textContent = pet.name;
         document.getElementById('modalDescription').textContent = pet.description || 'No description available';
@@ -1244,6 +1425,69 @@
       });
     }
 
+    // Image carousel functions
+    window.currentPetImages = [];
+    window.currentImageIndex = 0;
+
+    function nextImage() {
+      if (window.currentPetImages.length <= 1) return;
+      window.currentImageIndex = (window.currentImageIndex + 1) % window.currentPetImages.length;
+      updateCarouselImage();
+    }
+
+    function previousImage() {
+      if (window.currentPetImages.length <= 1) return;
+      window.currentImageIndex = (window.currentImageIndex - 1 + window.currentPetImages.length) % window.currentPetImages.length;
+      updateCarouselImage();
+    }
+
+    function goToImage(index) {
+      window.currentImageIndex = index;
+      updateCarouselImage();
+    }
+
+    function updateCarouselImage() {
+      const modalImage = document.getElementById('modalImage');
+      if (modalImage && window.currentPetImages.length > 0) {
+        modalImage.src = window.currentPetImages[window.currentImageIndex];
+        updateImageCounter();
+        updateThumbnails();
+      }
+    }
+
+    function updateImageCounter() {
+      const currentIndexEl = document.getElementById('currentImageIndex');
+      if (currentIndexEl) {
+        currentIndexEl.textContent = window.currentImageIndex + 1;
+      }
+    }
+
+    function renderThumbnails() {
+      const thumbnailStrip = document.getElementById('thumbnailStrip');
+      if (!thumbnailStrip) return;
+      
+      thumbnailStrip.innerHTML = '';
+      
+      window.currentPetImages.forEach((imgSrc, index) => {
+        const thumb = document.createElement('img');
+        thumb.src = imgSrc;
+        thumb.className = 'thumbnail' + (index === 0 ? ' active' : '');
+        thumb.onclick = () => goToImage(index);
+        thumbnailStrip.appendChild(thumb);
+      });
+    }
+
+    function updateThumbnails() {
+      const thumbnails = document.querySelectorAll('.thumbnail');
+      thumbnails.forEach((thumb, index) => {
+        if (index === window.currentImageIndex) {
+          thumb.classList.add('active');
+        } else {
+          thumb.classList.remove('active');
+        }
+      });
+    }
+
     // Initialize the page
     document.addEventListener('DOMContentLoaded', function() {
       renderPets();
@@ -1290,19 +1534,26 @@
       
       // Handle scroll down detection
       let lastScrollTop = 0;
+      const navLinks = document.querySelectorAll('nav a');
+      
       window.addEventListener('scroll', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const petsSection = document.querySelector('#pets-section');
+        
+        if (!petsSection) return;
+        
         const petsSectionTop = petsSection.offsetTop;
         
         // If user scrolls down past the hero section, make Find Pets bold
         if (scrollTop > petsSectionTop - window.innerHeight * 0.5) {
           navLinks.forEach(l => l.classList.remove('active'));
-          document.querySelector('a[href="#pets-section"]').classList.add('active');
+          const findPetsLink = document.querySelector('a[href="#pets-section"]');
+          if (findPetsLink) findPetsLink.classList.add('active');
         } else if (scrollTop < petsSectionTop - window.innerHeight * 0.7) {
           // If scrolled back up to near the top, make Home bold
           navLinks.forEach(l => l.classList.remove('active'));
-          document.querySelector('a[href="#home-section"]').classList.add('active');
+          const homeLink = document.querySelector('a[href="#home-section"]');
+          if (homeLink) homeLink.classList.add('active');
         }
         
         lastScrollTop = scrollTop;
@@ -1329,9 +1580,34 @@
           <!-- Pet Image Section -->
           <div class="pet-image-container">
             <div style="position: relative;">
-              <img id="modalImage" class="pet-modal-image" src="" alt="">
+              <!-- Image Carousel -->
+              <div class="image-carousel-container">
+                <img id="modalImage" class="pet-modal-image" src="" alt="">
+                
+                <!-- Navigation Arrows -->
+                <button id="prevImageBtn" class="carousel-arrow carousel-arrow-left" onclick="previousImage()" style="display: none;">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                  </svg>
+                </button>
+                <button id="nextImageBtn" class="carousel-arrow carousel-arrow-right" onclick="nextImage()" style="display: none;">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </button>
+                
+                <!-- Image Counter -->
+                <div id="imageCounter" class="image-counter" style="display: none;">
+                  <span id="currentImageIndex">1</span>/<span id="totalImages">1</span>
+                </div>
+              </div>
+              
               <div id="modalUrgentBadge" class="urgent-badge" style="position: absolute; top: 1rem; left: 1rem; display: none;">
                 🚨 Urgent: Adopt this week
+              </div>
+              
+              <!-- Thumbnail Strip -->
+              <div id="thumbnailStrip" class="thumbnail-strip" style="display: none;">
               </div>
             </div>
             

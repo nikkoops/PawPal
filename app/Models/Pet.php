@@ -56,6 +56,66 @@ class Pet extends Model
         return $this->hasMany(AdoptionApplication::class);
     }
 
+    /**
+     * Get all images for this pet
+     */
+    public function images()
+    {
+        return $this->hasMany(PetImage::class)->ordered();
+    }
+
+    /**
+     * Get the primary image for this pet
+     */
+    public function primaryImage()
+    {
+        return $this->hasOne(PetImage::class)->where('is_primary', true);
+    }
+
+    /**
+     * Get the primary image URL or the first image URL
+     */
+    public function getPrimaryImageUrlAttribute()
+    {
+        $primary = $this->primaryImage;
+        if ($primary) {
+            return $primary->image_url;
+        }
+
+        $firstImage = $this->images()->first();
+        if ($firstImage) {
+            return $firstImage->image_url;
+        }
+
+        // Fallback to old single image field if it exists
+        if ($this->image) {
+            return $this->image_url;
+        }
+
+        return asset('images/default-pet.png');
+    }
+
+    /**
+     * Get all image URLs as an array
+     */
+    public function getImageGalleryAttribute()
+    {
+        $images = $this->images()->get();
+        
+        if ($images->count() > 0) {
+            return $images->map(function($image) {
+                return $image->image_url;
+            })->toArray();
+        }
+
+        // Fallback to old single image field if it exists
+        if ($this->image) {
+            return [$this->image_url];
+        }
+
+        return [asset('images/default-pet.png')];
+    }
+
     public function getCharacteristicsListAttribute()
     {
         return $this->characteristics ? implode(', ', $this->characteristics) : '';
@@ -174,24 +234,38 @@ class Pet extends Model
     
     /**
      * Get the image URL for the pet
+     * Checks pet_images table first, then falls back to old image field
      */
     public function getImageUrlAttribute()
     {
-        if (!$this->image) {
-            return null;
-        }
-
-        // Generate clean URL without double slashes
-        // Remove 'pets/' prefix if it exists since we'll add it
-        $imagePath = str_replace('pets/', '', $this->image);
-        
-        // Build URL with proper formatting - ensure port 8000 for Docker
-        $baseUrl = request()->getSchemeAndHttpHost();
-        if (strpos($baseUrl, ':8000') === false && strpos($baseUrl, 'localhost') !== false) {
-            $baseUrl = str_replace('localhost', 'localhost:8000', $baseUrl);
+        // First, try to get from pet_images table (new system)
+        $primaryImage = $this->images()->where('is_primary', true)->first();
+        if ($primaryImage) {
+            return $primaryImage->image_url;
         }
         
-        return $baseUrl . '/storage/pets/' . $imagePath;
+        // If no primary image, get the first image
+        $firstImage = $this->images()->orderBy('display_order')->first();
+        if ($firstImage) {
+            return $firstImage->image_url;
+        }
+        
+        // Fall back to old single image field for backwards compatibility
+        if ($this->image) {
+            // Generate clean URL without double slashes
+            // Remove 'pets/' prefix if it exists since we'll add it
+            $imagePath = str_replace('pets/', '', $this->image);
+            
+            // Build URL with proper formatting - ensure port 8000 for Docker
+            $baseUrl = request()->getSchemeAndHttpHost();
+            if (strpos($baseUrl, ':8000') === false && strpos($baseUrl, 'localhost') !== false) {
+                $baseUrl = str_replace('localhost', 'localhost:8000', $baseUrl);
+            }
+            
+            return $baseUrl . '/storage/pets/' . $imagePath;
+        }
+        
+        return null;
     }
 
     /**

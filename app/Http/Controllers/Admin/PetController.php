@@ -20,7 +20,7 @@ class PetController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Pet::query();
+        $query = Pet::with('images'); // Eager load images
         
         // Filter by shelter location if user has one assigned
         $user = auth()->user();
@@ -80,7 +80,9 @@ class PetController extends Controller
             'age' => 'nullable|numeric|min:0|max:25',
             'gender' => 'required|in:male,female',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Keep for backwards compatibility
+            'images' => 'nullable|array|min:1|max:5', // New: Support multiple images
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Each image validation
             'size' => 'nullable|in:small,medium,large',
             'location' => 'nullable|string|max:255',
             'characteristics' => 'nullable|array',
@@ -132,6 +134,7 @@ class PetController extends Controller
             $data['characteristics'] = array_filter($data['characteristics']);
         }
 
+        // Handle old single image upload for backwards compatibility
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             try {
                 $file = $request->file('image');
@@ -170,6 +173,41 @@ class PetController extends Controller
 
         $pet = Pet::create($data);
 
+        // Handle multiple image uploads
+        if ($request->hasFile('images')) {
+            $uploadedImages = $request->file('images');
+            $imageCount = count($uploadedImages);
+            
+            // Ensure directory exists
+            if (!is_dir(public_path('storage/pets'))) {
+                mkdir(public_path('storage/pets'), 0755, true);
+            }
+            
+            foreach ($uploadedImages as $index => $image) {
+                if ($image->isValid()) {
+                    try {
+                        // Store image
+                        $path = $image->storePublicly('pets', 'public');
+                        
+                        // Copy to public directory
+                        copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+                        
+                        // Create PetImage record
+                        \App\Models\PetImage::create([
+                            'pet_id' => $pet->id,
+                            'image_path' => $path,
+                            'display_order' => $index,
+                            'is_primary' => $index === 0, // First image is primary
+                        ]);
+                        
+                        \Log::info("Pet image {$index} uploaded", ['path' => $path]);
+                    } catch (\Exception $e) {
+                        \Log::error("Error uploading pet image {$index}", ['error' => $e->getMessage()]);
+                    }
+                }
+            }
+        }
+
         return redirect()->route('admin.shelter.pets.index')->with('success', 'Pet created successfully!');
     }
 
@@ -194,6 +232,7 @@ class PetController extends Controller
                     'is_neutered' => $pet->is_neutered,
                     'date_added' => $pet->date_added ? $pet->date_added->format('Y-m-d') : null,
                     'image_url' => $pet->image_url,
+                    'image_gallery' => $pet->image_gallery,
                 ]
             ]);
         }
@@ -216,6 +255,10 @@ class PetController extends Controller
                 'gender' => 'required|in:male,female',
                 'description' => 'nullable|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'images' => 'nullable|array|max:5',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'delete_images' => 'nullable|array',
+                'delete_images.*' => 'integer|exists:pet_images,id',
                 'size' => 'nullable|in:small,medium,large',
                 'location' => 'nullable|string|max:255',
                 'characteristics' => 'nullable|array',
@@ -299,6 +342,67 @@ class PetController extends Controller
 
             // Update the pet
             $pet->update($data);
+
+            // Handle image deletion
+            if ($request->has('delete_images')) {
+                foreach ($request->input('delete_images') as $imageId) {
+                    $petImage = \App\Models\PetImage::find($imageId);
+                    if ($petImage && $petImage->pet_id === $pet->id) {
+                        // Delete file from storage
+                        if (Storage::disk('public')->exists($petImage->image_path)) {
+                            Storage::disk('public')->delete($petImage->image_path);
+                        }
+                        // Delete from public directory
+                        if (file_exists(public_path('storage/' . $petImage->image_path))) {
+                            unlink(public_path('storage/' . $petImage->image_path));
+                        }
+                        $petImage->delete();
+                    }
+                }
+            }
+
+            // Handle new image uploads
+            if ($request->hasFile('images')) {
+                $currentImageCount = $pet->images()->count();
+                $newImages = $request->file('images');
+                $totalAfterUpload = $currentImageCount + count($newImages);
+                
+                // Validate total count doesn't exceed 5
+                if ($totalAfterUpload > 5) {
+                    if ($request->wantsJson()) {
+                        return response()->json([
+                            'errors' => ['images' => ['Cannot upload more than 5 images total. Currently have ' . $currentImageCount . ' images.']]
+                        ], 422);
+                    }
+                    return redirect()->back()->with('error', 'Cannot upload more than 5 images total. Currently have ' . $currentImageCount . ' images.')->withInput();
+                }
+                
+                // Ensure directory exists
+                if (!is_dir(public_path('storage/pets'))) {
+                    mkdir(public_path('storage/pets'), 0755, true);
+                }
+                
+                // Get the highest display order
+                $maxOrder = $pet->images()->max('display_order') ?? -1;
+                
+                foreach ($newImages as $index => $image) {
+                    if ($image->isValid()) {
+                        try {
+                            $path = $image->storePublicly('pets', 'public');
+                            copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+                            
+                            \App\Models\PetImage::create([
+                                'pet_id' => $pet->id,
+                                'image_path' => $path,
+                                'display_order' => $maxOrder + $index + 1,
+                                'is_primary' => $currentImageCount === 0 && $index === 0,
+                            ]);
+                        } catch (\Exception $e) {
+                            \Log::error("Error uploading pet image", ['error' => $e->getMessage()]);
+                        }
+                    }
+                }
+            }
             
             // Refresh the pet model to get updated values
             $pet = $pet->fresh();

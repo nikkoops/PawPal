@@ -98,6 +98,14 @@
                         'is_undergoing_treatment' => $pet->is_undergoing_treatment,
                         'date_added' => $actualDateToPass,
                         'image_url' => $pet->image_url,
+                        'images' => $pet->images->map(function($image) {
+                            return [
+                                'id' => $image->id,
+                                'image_url' => $image->image_url,
+                                'is_primary' => $image->is_primary,
+                                'display_order' => $image->display_order
+                            ];
+                        })->toArray(),
                         'is_urgent' => $pet->is_urgent,
                         'days_in_shelter' => $pet->days_in_shelter,
                         '_debug_card_date' => $pet->date_added ? $pet->date_added->format('M d, Y') : $pet->created_at->format('M d, Y')

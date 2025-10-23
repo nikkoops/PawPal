@@ -97,7 +97,7 @@
                     </svg>
                     <span class="characteristic-label">Vaccinated</span>
                   </div>
-                  <span id="modalVaccinated" class="characteristic-badge badge-no">No</span>
+                  <span id="modalVaccinated" class="characteristic-badge badge-no">✕</span>
                 </div>
 
                 <div class="characteristic-item">
@@ -107,7 +107,7 @@
                     </svg>
                     <span class="characteristic-label">Spayed/Neutered</span>
                   </div>
-                  <span id="modalSpayedNeutered" class="characteristic-badge badge-no">No</span>
+                  <span id="modalSpayedNeutered" class="characteristic-badge badge-no">✕</span>
                 </div>
 
                 <div class="characteristic-item">
@@ -117,7 +117,7 @@
                     </svg>
                     <span class="characteristic-label">Dewormed</span>
                   </div>
-                  <span id="modalDewormed" class="characteristic-badge badge-no">No</span>
+                  <span id="modalDewormed" class="characteristic-badge badge-no">✕</span>
                 </div>
 
                 <div class="characteristic-item">
@@ -127,7 +127,7 @@
                     </svg>
                     <span class="characteristic-label">Tick/Flea Treated</span>
                   </div>
-                  <span id="modalTickFleaTreated" class="characteristic-badge badge-no">No</span>
+                  <span id="modalTickFleaTreated" class="characteristic-badge badge-no">✕</span>
                 </div>
 
                 <div class="characteristic-item">
@@ -137,7 +137,7 @@
                     </svg>
                     <span class="characteristic-label">On Preventive Medication</span>
                   </div>
-                  <span id="modalPreventiveMedication" class="characteristic-badge badge-no">No</span>
+                  <span id="modalPreventiveMedication" class="characteristic-badge badge-no">✕</span>
                 </div>
 
                 <div class="characteristic-item">
@@ -147,7 +147,7 @@
                     </svg>
                     <span class="characteristic-label">Has Special Medical Needs</span>
                   </div>
-                  <span id="modalSpecialMedicalNeeds" class="characteristic-badge badge-no">No</span>
+                  <span id="modalSpecialMedicalNeeds" class="characteristic-badge badge-no">✕</span>
                 </div>
 
                 <div class="characteristic-item">
@@ -157,7 +157,7 @@
                     </svg>
                     <span class="characteristic-label">Disabled / Mobility Impaired</span>
                   </div>
-                  <span id="modalMobilityImpaired" class="characteristic-badge badge-no">No</span>
+                  <span id="modalMobilityImpaired" class="characteristic-badge badge-no">✕</span>
                 </div>
 
                 <div class="characteristic-item">
@@ -167,7 +167,7 @@
                     </svg>
                     <span class="characteristic-label">Undergoing Treatment</span>
                   </div>
-                  <span id="modalUndergoingTreatment" class="characteristic-badge badge-no">No</span>
+                  <span id="modalUndergoingTreatment" class="characteristic-badge badge-no">✕</span>
                 </div>
               </div>
             </div>
@@ -888,10 +888,16 @@
     }
 
     .characteristic-badge {
-      padding: 0.2rem 0.7rem;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .characteristic-value {
@@ -901,13 +907,23 @@
     }
 
     .badge-yes {
-      background: #22c55e;
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
       color: white;
     }
 
+    .badge-yes:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 8px rgba(34, 197, 94, 0.3);
+    }
+
     .badge-no {
-      background: #ef4444;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
       color: white;
+    }
+
+    .badge-no:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
     }
 
     .modal-actions {
@@ -1282,7 +1298,7 @@
       try {
         // Populate modal with pet data
         document.getElementById('modalHeaderName').textContent = `Meet ${pet.name}`;
-        document.getElementById('modalHeaderBadge').textContent = pet.type;
+        document.getElementById('modalHeaderBadge').textContent = pet.type.charAt(0).toUpperCase() + pet.type.slice(1);
         
         // Handle image gallery
         const modalImage = document.getElementById('modalImage');
@@ -1345,43 +1361,43 @@
         // Update health badges safely
         const vaccinated = document.getElementById('modalVaccinated');
         if (vaccinated) {
-          vaccinated.textContent = pet.is_vaccinated ? 'Yes' : 'No';
+          vaccinated.innerHTML = pet.is_vaccinated ? '✓' : '✕';
           vaccinated.className = `characteristic-badge ${pet.is_vaccinated ? 'badge-yes' : 'badge-no'}`;
         }
         
         const spayedNeutered = document.getElementById('modalSpayedNeutered');
         if (spayedNeutered) {
-          spayedNeutered.textContent = pet.is_neutered ? 'Yes' : 'No';
+          spayedNeutered.innerHTML = pet.is_neutered ? '✓' : '✕';
           spayedNeutered.className = `characteristic-badge ${pet.is_neutered ? 'badge-yes' : 'badge-no'}`;
         }
         
         const dewormed = document.getElementById('modalDewormed');
         if (dewormed) {
-          dewormed.textContent = pet.is_dewormed ? 'Yes' : 'No';
+          dewormed.innerHTML = pet.is_dewormed ? '✓' : '✕';
           dewormed.className = `characteristic-badge ${pet.is_dewormed ? 'badge-yes' : 'badge-no'}`;
         }
         
         const preventiveMedication = document.getElementById('modalPreventiveMedication');
         if (preventiveMedication) {
-          preventiveMedication.textContent = pet.on_preventive_medication ? 'Yes' : 'No';
+          preventiveMedication.innerHTML = pet.on_preventive_medication ? '✓' : '✕';
           preventiveMedication.className = `characteristic-badge ${pet.on_preventive_medication ? 'badge-yes' : 'badge-no'}`;
         }
         
         const specialMedicalNeeds = document.getElementById('modalSpecialMedicalNeeds');
         if (specialMedicalNeeds) {
-          specialMedicalNeeds.textContent = pet.has_special_medical_needs ? 'Yes' : 'No';
+          specialMedicalNeeds.innerHTML = pet.has_special_medical_needs ? '✓' : '✕';
           specialMedicalNeeds.className = `characteristic-badge ${pet.has_special_medical_needs ? 'badge-yes' : 'badge-no'}`;
         }
         
         const mobilityImpaired = document.getElementById('modalMobilityImpaired');
         if (mobilityImpaired) {
-          mobilityImpaired.textContent = pet.is_mobility_impaired ? 'Yes' : 'No';
+          mobilityImpaired.innerHTML = pet.is_mobility_impaired ? '✓' : '✕';
           mobilityImpaired.className = `characteristic-badge ${pet.is_mobility_impaired ? 'badge-yes' : 'badge-no'}`;
         }
         
         const undergoingTreatment = document.getElementById('modalUndergoingTreatment');
         if (undergoingTreatment) {
-          undergoingTreatment.textContent = pet.is_undergoing_treatment ? 'Yes' : 'No';
+          undergoingTreatment.innerHTML = pet.is_undergoing_treatment ? '✓' : '✕';
           undergoingTreatment.className = `characteristic-badge ${pet.is_undergoing_treatment ? 'badge-yes' : 'badge-no'}`;
         }
         

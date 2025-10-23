@@ -129,25 +129,47 @@
 
 <!-- Application Detail Modal -->
 <div id="applicationModal" class="fixed inset-0 z-50 hidden">
-    <div class="fixed inset-0 bg-black/50" onclick="closeApplicationModal()"></div>
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeApplicationModal()"></div>
     <div class="fixed inset-0 flex items-center justify-center p-4">
-        <div class="bg-card rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div class="p-6 border-b border-border">
-                <h2 class="text-xl font-serif font-bold text-foreground">Application Details</h2>
-            </div>
-            
-            <div class="p-6 space-y-6">
-                <!-- Application details will be loaded here -->
-                <div class="text-center py-12">
-                    <i data-lucide="file-text" class="h-16 w-16 text-muted-foreground/50 mx-auto mb-4"></i>
-                    <p class="text-muted-foreground">Select an application to view details</p>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
+            <!-- Header with gradient -->
+            <div class="bg-white border-b border-gray-200 p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold flex items-center text-gray-900">
+                            <i data-lucide="file-text" class="h-6 w-6 mr-3 text-orange-500"></i>
+                            Application Details
+                        </h2>
+                        <p class="text-gray-600 text-sm mt-1">Review and manage adoption application</p>
+                    </div>
+                    <button onclick="closeApplicationModal()" class="text-gray-500 hover:bg-gray-100 rounded-lg p-2 transition-colors">
+                        <i data-lucide="x" class="h-6 w-6"></i>
+                    </button>
                 </div>
             </div>
             
-            <div class="p-6 border-t border-border flex justify-end space-x-3">
-                <button onclick="closeApplicationModal()" class="btn-secondary">Close</button>
-                <button class="btn-success">Approve</button>
-                <button class="btn-destructive">Reject</button>
+            <!-- Content area with scroll -->
+            <div class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <!-- Application details will be loaded here -->
+                <div class="text-center py-12">
+                    <i data-lucide="file-text" class="h-16 w-16 text-gray-300 mx-auto mb-4"></i>
+                    <p class="text-gray-500 text-lg">Select an application to view details</p>
+                </div>
+            </div>
+            
+            <!-- Footer with action buttons -->
+            <div class="p-6 bg-white border-t border-gray-200 flex justify-end space-x-3">
+                <button onclick="closeApplicationModal()" class="px-6 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold rounded-lg transition-colors">
+                    Close
+                </button>
+                <button class="btn-success px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors flex items-center">
+                    <i data-lucide="check" class="h-4 w-4 mr-2"></i>
+                    Approve
+                </button>
+                <button class="btn-destructive px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors flex items-center">
+                    <i data-lucide="x" class="h-4 w-4 mr-2"></i>
+                    Reject
+                </button>
             </div>
         </div>
     </div>
@@ -158,11 +180,11 @@ function viewApplication(id) {
     document.getElementById('applicationModal').classList.remove('hidden');
     
     // Show loading state
-    const modalContent = document.querySelector('#applicationModal .p-6.space-y-6');
+    const modalContent = document.querySelector('#applicationModal .flex-1.overflow-y-auto');
     modalContent.innerHTML = `
-        <div class="text-center py-12">
-            <div class="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p class="text-muted-foreground">Loading application details...</p>
+        <div class="text-center py-16">
+            <div class="animate-spin h-12 w-12 border-4 border-orange-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p class="text-gray-600 text-lg font-medium">Loading application details...</p>
         </div>
     `;
     
@@ -182,15 +204,23 @@ function viewApplication(id) {
             return response.json();
         })
         .then(data => {
+            // Debug logging
+            console.log('Application data received:', data);
+            console.log('Documents:', data.documents);
+            console.log('Home photos:', data.documents?.home_photos);
+            
             // Render application details
             renderApplicationDetails(data, modalContent);
         })
         .catch(error => {
             console.error('Error fetching application details:', error);
             modalContent.innerHTML = `
-                <div class="text-center py-12 text-red-500">
-                    <i data-lucide="alert-triangle" class="h-16 w-16 mx-auto mb-4"></i>
-                    <p>Error loading application details. Please try again.</p>
+                <div class="text-center py-16">
+                    <div class="bg-red-100 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="alert-triangle" class="h-10 w-10 text-red-600"></i>
+                    </div>
+                    <p class="text-red-600 text-lg font-semibold mb-2">Error Loading Application</p>
+                    <p class="text-gray-500">Please try again or contact support if the issue persists.</p>
                 </div>
             `;
             // Initialize icons
@@ -203,62 +233,64 @@ function viewApplication(id) {
 function renderApplicationDetails(data, container) {
     // Create HTML for application details
     const html = `
-        <div class="space-y-8">
+        <div class="p-6 space-y-6">
             <!-- Applicant Section -->
-            <div class="rounded-lg bg-gray-50/80 border border-gray-200 p-5 shadow-sm">
-                <h3 class="text-lg font-bold flex items-center mb-4 text-primary">
+            <div class="rounded-xl bg-gradient-to-br from-orange-50 to-orange-100/50 border border-orange-200 p-6 shadow-md">
+                <h3 class="text-lg font-bold flex items-center mb-5 text-orange-700">
                     <i data-lucide="user" class="h-5 w-5 mr-2"></i>
                     Applicant Information
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Name</span>
-                        <span class="block text-base font-medium">${data.applicant.name}</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="bg-white/70 rounded-lg p-4 border border-orange-100">
+                        <span class="block text-xs text-orange-600 font-semibold uppercase mb-2 tracking-wide">Name</span>
+                        <span class="block text-base font-semibold text-gray-800">${data.applicant.name}</span>
                     </div>
-                    <div>
-                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Email</span>
-                        <span class="block text-base font-medium">${data.applicant.email}</span>
+                    <div class="bg-white/70 rounded-lg p-4 border border-orange-100">
+                        <span class="block text-xs text-orange-600 font-semibold uppercase mb-2 tracking-wide">Email</span>
+                        <span class="block text-base font-medium text-gray-800">${data.applicant.email}</span>
                     </div>
-                    <div>
-                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Phone</span>
-                        <span class="block text-base font-medium">${data.applicant.phone}</span>
+                    <div class="bg-white/70 rounded-lg p-4 border border-orange-100">
+                        <span class="block text-xs text-orange-600 font-semibold uppercase mb-2 tracking-wide">Phone</span>
+                        <span class="block text-base font-medium text-gray-800">${data.applicant.phone}</span>
                     </div>
-                    <div>
-                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Date of Birth</span>
-                        <span class="block text-base font-medium">${data.applicant.birth_date || 'Not provided'}</span>
+                    <div class="bg-white/70 rounded-lg p-4 border border-orange-100">
+                        <span class="block text-xs text-orange-600 font-semibold uppercase mb-2 tracking-wide">Date of Birth</span>
+                        <span class="block text-base font-medium text-gray-800">${data.applicant.birth_date || 'Not provided'}</span>
                     </div>
-                    <div>
-                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Occupation</span>
-                        <span class="block text-base font-medium">${data.applicant.occupation || 'Not provided'}</span>
+                    <div class="bg-white/70 rounded-lg p-4 border border-orange-100">
+                        <span class="block text-xs text-orange-600 font-semibold uppercase mb-2 tracking-wide">Occupation</span>
+                        <span class="block text-base font-medium text-gray-800">${data.applicant.occupation || 'Not provided'}</span>
                     </div>
-                    <div>
-                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Address</span>
-                        <span class="block text-base font-medium">${data.applicant.address || 'Not provided'}</span>
+                    <div class="bg-white/70 rounded-lg p-4 border border-orange-100 md:col-span-2">
+                        <span class="block text-xs text-orange-600 font-semibold uppercase mb-2 tracking-wide">Address</span>
+                        <span class="block text-base font-medium text-gray-800">${data.applicant.address || 'Not provided'}</span>
                     </div>
                 </div>
             </div>
 
             <!-- Pet Section -->
-            <div class="rounded-lg bg-blue-50/60 border border-blue-100 p-5 shadow-sm">
-                <h3 class="text-lg font-bold flex items-center mb-4 text-blue-700">
+            <div class="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/50 border border-blue-200 p-6 shadow-md">
+                <h3 class="text-lg font-bold flex items-center mb-5 text-blue-700">
                     <i data-lucide="paw-print" class="h-5 w-5 mr-2"></i>
                     Pet Information
                 </h3>
-                <div class="flex items-center space-x-5">
+                <div class="bg-white/70 rounded-lg p-5 border border-blue-100">
                     ${data.pet ? `
-                        <img src="${data.pet.image || '/images/pet-placeholder.png'}" 
-                             alt="${data.pet.name}" 
-                             class="h-20 w-20 rounded-full object-cover border-2 border-blue-200 shadow">
-                        <div>
-                            <span class="block text-lg font-semibold text-blue-900">${data.pet.name}</span>
-                            <span class="block text-sm text-blue-700">${data.pet.breed}</span>
-                            <span class="block text-xs text-gray-400">Pet ID: ${data.pet.id}</span>
+                        <div class="flex items-center space-x-5">
+                            <img src="${data.pet.image || '/images/pet-placeholder.png'}" 
+                                 alt="${data.pet.name}" 
+                                 class="h-24 w-24 rounded-2xl object-cover border-3 border-blue-300 shadow-lg">
+                            <div class="flex-1">
+                                <h4 class="text-xl font-bold text-blue-900 mb-1">${data.pet.name}</h4>
+                                <p class="text-base text-blue-700 mb-1">${data.pet.breed}</p>
+                                <p class="text-sm text-gray-500">Pet ID: <span class="font-mono font-semibold">${data.pet.id}</span></p>
+                            </div>
                         </div>
                     ` : `
-                        <div>
-                            <span class="text-muted-foreground">No pet selected for this application</span>
+                        <div class="text-center py-4">
+                            <span class="text-gray-500">No pet selected for this application</span>
                             ${data.application && data.application.pet_id ? 
-                              `<span class="text-xs text-red-400">Broken link: Pet ID ${data.application.pet_id} exists but can't be found</span>` : 
+                              `<p class="text-sm text-red-400 mt-2">⚠️ Pet ID ${data.application.pet_id} not found</p>` : 
                               ''}
                         </div>
                     `}
@@ -266,27 +298,29 @@ function renderApplicationDetails(data, container) {
             </div>
 
             <!-- Form Answers Section -->
-            <div class="rounded-lg bg-green-50/60 border border-green-100 p-5 shadow-sm">
-                <h3 class="text-lg font-bold flex items-center mb-4 text-green-700">
+            <div class="rounded-xl bg-gradient-to-br from-green-50 to-green-100/50 border border-green-200 p-6 shadow-md">
+                <h3 class="text-lg font-bold flex items-center mb-5 text-green-700">
                     <i data-lucide="clipboard-list" class="h-5 w-5 mr-2"></i>
                     Application Answers
                 </h3>
-                <div class="space-y-6">
+                <div class="space-y-4">
                     ${renderFormAnswers(data.answers)}
                 </div>
             </div>
 
+            <!-- Documents Section -->
+            ${renderDocumentsSection(data.documents)}
 
             <!-- Application Status Section -->
-            <div class="border-t border-border pt-4 mt-2">
-                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                    <div>
-                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Application Status</span>
-                        <span class="block font-medium">${getStatusBadge(data.application.status)}</span>
+            <div class="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100/50 border border-gray-200 p-6 shadow-md">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="bg-white/70 rounded-lg p-4 border border-gray-200">
+                        <span class="block text-xs text-gray-600 font-semibold uppercase mb-2 tracking-wide">Application Status</span>
+                        <div class="mt-1">${getStatusBadge(data.application.status)}</div>
                     </div>
-                    <div>
-                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Date Applied</span>
-                        <span class="block font-medium">${data.application.created_at}</span>
+                    <div class="bg-white/70 rounded-lg p-4 border border-gray-200">
+                        <span class="block text-xs text-gray-600 font-semibold uppercase mb-2 tracking-wide">Date Applied</span>
+                        <span class="block text-base font-semibold text-gray-800">${data.application.created_at}</span>
                     </div>
                 </div>
             </div>
@@ -304,13 +338,13 @@ function renderApplicationDetails(data, container) {
 
 function renderFormAnswers(answers) {
     if (!answers || Object.keys(answers).length === 0) {
-        return '<p class="text-muted-foreground">No form answers provided</p>';
+        return '<div class="text-center py-6"><p class="text-gray-500">No form answers provided</p></div>';
     }
     
     // Filter out some keys we don't want to display
-    const excludedKeys = ['_token', 'pet_name'];
+    const excludedKeys = ['_token', 'pet_name', 'id_upload_path', 'home_photos_paths'];
     
-    let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+    let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
     
     // Format and display each answer
     for (const [key, value] of Object.entries(answers)) {
@@ -334,9 +368,9 @@ function renderFormAnswers(answers) {
         }
         
         html += `
-            <div class="space-y-1">
-                <p class="text-sm text-muted-foreground">${formattedKey}</p>
-                <p class="font-medium">${formattedValue}</p>
+            <div class="bg-white/70 rounded-lg p-4 border border-green-100">
+                <p class="text-xs text-green-600 font-semibold uppercase mb-2 tracking-wide">${formattedKey}</p>
+                <p class="font-medium text-gray-800 break-words">${formattedValue}</p>
             </div>
         `;
     }
@@ -345,16 +379,107 @@ function renderFormAnswers(answers) {
     return html;
 }
 
+function renderDocumentsSection(documents) {
+    console.log('renderDocumentsSection called with:', documents);
+    
+    if (!documents || (!documents.id_upload && (!documents.home_photos || documents.home_photos.length === 0))) {
+        console.log('No documents to display');
+        return '';
+    }
+
+    let html = `
+        <div class="rounded-xl bg-gradient-to-br from-purple-50 to-purple-100/50 border border-purple-200 p-6 shadow-md">
+            <h3 class="text-lg font-bold flex items-center mb-5 text-purple-700">
+                <i data-lucide="file-image" class="h-5 w-5 mr-2"></i>
+                Uploaded Documents
+            </h3>
+            <div class="space-y-5">
+    `;
+
+    // Valid ID Section
+    if (documents.id_upload) {
+        console.log('ID upload path:', documents.id_upload);
+        const isImage = documents.id_upload.match(/\.(jpg|jpeg|png|gif)$/i);
+        html += `
+            <div class="bg-white/70 rounded-lg p-4 border border-purple-100">
+                <p class="text-xs text-purple-600 font-semibold uppercase mb-3 tracking-wide">Valid ID</p>
+                ${isImage ? `
+                    <a href="${documents.id_upload}" target="_blank" class="block">
+                        <img src="${documents.id_upload}" alt="Valid ID" class="max-w-full h-auto rounded-lg border-2 border-purple-200 hover:border-purple-400 transition-colors cursor-pointer">
+                    </a>
+                ` : `
+                    <a href="${documents.id_upload}" target="_blank" class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors">
+                        <i data-lucide="download" class="h-4 w-4 mr-2"></i>
+                        Download ID Document
+                    </a>
+                `}
+            </div>
+        `;
+    }
+
+    // Home Photos Section
+    if (documents.home_photos && documents.home_photos.length > 0) {
+        console.log('Home photos array:', documents.home_photos);
+        html += `
+            <div class="bg-white/70 rounded-lg p-4 border border-purple-100">
+                <p class="text-xs text-purple-600 font-semibold uppercase mb-3 tracking-wide">Home Photos (${documents.home_photos.length})</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+        `;
+        
+        documents.home_photos.forEach((photo, index) => {
+            console.log(`Home photo ${index}:`, photo);
+            html += `
+                <a href="${photo}" target="_blank" class="block group">
+                    <img src="${photo}" alt="Home Photo ${index + 1}" 
+                         class="w-full h-32 object-cover rounded-lg border-2 border-purple-200 group-hover:border-purple-400 transition-colors cursor-pointer"
+                         onerror="console.error('Failed to load image:', '${photo}'); this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'100\\'%3E%3Crect fill=\\'%23ddd\\' width=\\'100\\' height=\\'100\\'/%3E%3Ctext x=\\'50%25\\' y=\\'50%25\\' text-anchor=\\'middle\\' dy=\\'.3em\\' fill=\\'%23999\\'%3EImage Error%3C/text%3E%3C/svg%3E'">
+                </a>
+            `;
+        });
+        
+        html += `
+                </div>
+            </div>
+        `;
+    }
+
+    html += `
+            </div>
+        </div>
+    `;
+
+    return html;
+}
+
 function getStatusBadge(status) {
-    const statusColors = {
-        'pending': 'bg-yellow-100 text-yellow-800',
-        'approved': 'bg-green-100 text-green-800',
-        'rejected': 'bg-red-100 text-red-800'
+    const statusConfig = {
+        'pending': { 
+            bg: 'bg-gradient-to-r from-yellow-100 to-yellow-200', 
+            text: 'text-yellow-800',
+            icon: '⏳'
+        },
+        'approved': { 
+            bg: 'bg-gradient-to-r from-green-100 to-green-200', 
+            text: 'text-green-800',
+            icon: '✓'
+        },
+        'rejected': { 
+            bg: 'bg-gradient-to-r from-red-100 to-red-200', 
+            text: 'text-red-800',
+            icon: '✕'
+        }
+    };
+    
+    const config = statusConfig[status] || { 
+        bg: 'bg-gradient-to-r from-gray-100 to-gray-200', 
+        text: 'text-gray-800',
+        icon: '•'
     };
     
     const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ');
     
-    return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[status] || 'bg-gray-100 text-gray-800'}">
+    return `<span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-bold ${config.bg} ${config.text} shadow-sm border border-current/20">
+        <span class="mr-2">${config.icon}</span>
         ${formattedStatus}
     </span>`;
 }

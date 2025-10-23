@@ -136,8 +136,50 @@ Route::post('/submit-adoption', function (Request $request) {
         }
     }
 
+    // Store uploaded home photos
+    $homePhotosPaths = [];
+    Log::info('Checking for home photos', [
+        'hasFile' => $request->hasFile('homePhotos'),
+        'files_count' => $request->hasFile('homePhotos') ? count($request->file('homePhotos')) : 0
+    ]);
+    
+    if ($request->hasFile('homePhotos')) {
+        try {
+            $files = $request->file('homePhotos');
+            Log::info('Processing home photos', ['count' => count($files)]);
+            foreach ($files as $index => $file) {
+                if ($file && $file->isValid()) {
+                    $path = $file->store('home_photos', 'public');
+                    $homePhotosPaths[] = $path;
+                    Log::info('Home photo uploaded successfully', [
+                        'index' => $index,
+                        'path' => $path,
+                        'original_name' => $file->getClientOriginalName()
+                    ]);
+                } else {
+                    Log::warning('Invalid home photo file', ['index' => $index]);
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error('Home photos upload error: ' . $e->getMessage());
+        }
+    } else {
+        Log::warning('No home photos files found in request');
+    }
+
     // Save adoption application
-    $answers = $request->except(['idUpload']);
+    $answers = $request->except(['idUpload', 'homePhotos', '_token']);
+    
+    // Remove any homePhotos key that might have snuck in
+    unset($answers['homePhotos']);
+    
+    // Add file paths to answers
+    if ($idPath) {
+        $answers['id_upload_path'] = $idPath;
+    }
+    if (!empty($homePhotosPaths)) {
+        $answers['home_photos_paths'] = $homePhotosPaths;
+    }
     
     try {
         // Create application with basic fields

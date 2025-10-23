@@ -157,6 +157,12 @@ class AdoptionApplicationController extends Controller
                 'other_pets' => $answers['otherPets'] ?? '',
                 'past_pets' => $answers['pastPets'] ?? '',
             ],
+            'documents' => [
+                'id_upload' => isset($answers['id_upload_path']) ? asset('storage/' . $answers['id_upload_path']) : null,
+                'home_photos' => isset($answers['home_photos_paths']) ? array_map(function($path) {
+                    return asset('storage/' . $path);
+                }, $answers['home_photos_paths']) : []
+            ],
             'answers' => $answers // Complete form data for the JavaScript renderFormAnswers function
         ];
         

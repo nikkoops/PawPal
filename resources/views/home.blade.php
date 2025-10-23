@@ -55,7 +55,7 @@
                   </svg>
                 </button>
                 <button id="nextImageBtn" class="carousel-arrow carousel-arrow-right" onclick="nextImage()" style="display: none;">
-                  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg width="24" height="24" fill="none" stroke="#fff" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                   </svg>
                 </button>
@@ -1591,7 +1591,7 @@
                   </svg>
                 </button>
                 <button id="nextImageBtn" class="carousel-arrow carousel-arrow-right" onclick="nextImage()" style="display: none;">
-                  <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg width="24" height="24" fill="none" stroke="#fff" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                   </svg>
                 </button>

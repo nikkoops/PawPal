@@ -505,6 +505,31 @@
                 </select>
               </div>
 
+              <div class="form-group" style="margin-top: 2rem;">
+                <label class="form-label" style="margin-bottom: 1rem;">Please attach photos of your home. This helps us get to know your living environment and ensure it’s suitable for the pet you wish to adopt.</label>
+                <ol class="pl-0 mb-3 text-base text-foreground" style="padding-left: 0.1rem; list-style-position: inside; font-size: 0.95em;">
+                  <li><span class="form-label">Front of the house</span></li>
+                  <li><span class="form-label">Street photo</span></li>
+                  <li><span class="form-label">Living room</span></li>
+                  <li><span class="form-label">Dining area</span></li>
+                  <li><span class="form-label">Kitchen</span></li>
+                  <li><span class="form-label">Bedroom/s (if you pet will have access)</span></li>
+                  <li><span class="form-label">Windows (if adopting a cat)</span></li>
+                  <li><span class="form-label">Front & backyard (if adopting a dog)</span></li>
+                </ol>
+                <div style="height: 1.5rem;"></div>
+                <label class="form-label" style="margin-bottom: 0.5rem;">We value your privacy. Your photos will not be used for purposes other than this adoption application. <span class="required-asterisk">*</span></label>
+                <div class="upload-area" id="homePhotosArea" style="border: 1px dashed #ccc; border-radius: 8px; padding: 2.5rem 1.5rem; background: #f7f8fa; margin-bottom: 0.5rem; text-align: center; cursor: pointer;" tabindex="0">
+                  <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; display: block;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                  </svg>
+                  <p class="text-sm text-gray-600">Click to upload or drag and drop</p>
+                  <p class="text-xs text-gray-500 mt-1">JPG, PNG up to 8 files, 8MB each</p>
+                  <input type="file" id="homePhotos" name="homePhotos[]" multiple accept="image/*" class="hidden" required>
+                  <div id="homePhotosFeedback" style="text-align:center; font-size:0.98em; color:#666; margin-top:0.5rem; min-height:1.2em;"></div>
+                </div>
+              </div>
+
               <div class="form-group">
                 <label class="form-label">Are any members of your household allergic to animals? <span class="required-asterisk">*</span></label>
                 <div class="radio-group">
@@ -610,7 +635,7 @@
 
               <div class="form-group">
                 <label for="idUpload" class="form-label">Upload a valid ID <span class="required-asterisk">*</span></label>
-                <div class="upload-area" onclick="document.getElementById('idUpload').click()">
+                <div class="upload-area" id="idUploadArea" onclick="document.getElementById('idUpload').click()">
                   <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                   </svg>
@@ -633,7 +658,7 @@
 
             <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">
               Next
-              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="icon" fill="none" stroke="#fff" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
             </button>
@@ -645,6 +670,84 @@
   </div>
 
   <script>
+    // Enforce max 8 files for homePhotos and drag/drop UI
+    document.addEventListener('DOMContentLoaded', function() {
+      var homePhotosInput = document.getElementById('homePhotos');
+      var homePhotosArea = document.getElementById('homePhotosArea');
+      var homePhotosFeedback = document.getElementById('homePhotosFeedback');
+
+      // Click or keyboard triggers file input
+      if (homePhotosArea && homePhotosInput) {
+        homePhotosArea.addEventListener('click', function(e) {
+          homePhotosInput.click();
+        });
+        homePhotosArea.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            homePhotosInput.click();
+          }
+        });
+        // Drag and drop
+        homePhotosArea.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          homePhotosArea.style.background = '#f3f4f6';
+        });
+        homePhotosArea.addEventListener('dragleave', function(e) {
+          e.preventDefault();
+          homePhotosArea.style.background = '#fcfbf7';
+        });
+        homePhotosArea.addEventListener('drop', function(e) {
+          e.preventDefault();
+          homePhotosArea.style.background = '#fcfbf7';
+          if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            if (e.dataTransfer.files.length > 8) {
+              alert('You can only upload up to 8 photos.');
+              homePhotosInput.value = '';
+              if (homePhotosFeedback) homePhotosFeedback.textContent = '';
+              return;
+            }
+            // Create a DataTransfer to limit to 8 files if needed
+            let files = e.dataTransfer.files;
+            if (files.length > 8) files = Array.from(files).slice(0, 8);
+            const dt = new DataTransfer();
+            Array.from(files).forEach(f => dt.items.add(f));
+            homePhotosInput.files = dt.files;
+            var event = new Event('change');
+            homePhotosInput.dispatchEvent(event);
+          }
+        });
+      }
+      if (homePhotosInput) {
+        homePhotosInput.addEventListener('change', function(e) {
+          if (this.files.length > 8) {
+            alert('You can only upload up to 8 photos.');
+            this.value = '';
+            if (homePhotosFeedback) homePhotosFeedback.textContent = '';
+            // Reset upload area
+            homePhotosArea.innerHTML = `<svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; display: block;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg><p class=\"text-sm text-gray-600\">Click to upload or drag and drop</p><p class=\"text-xs text-gray-500 mt-1\">JPG, PNG up to 8 files, 8MB each</p><input type=\"file\" id=\"homePhotos\" name=\"homePhotos[]\" multiple accept=\"image/*\" class=\"hidden\" required><div id=\"homePhotosFeedback\" style=\"text-align:center; font-size:0.98em; color:#666; margin-top:0.5rem; min-height:1.2em;\"></div>`;
+            return;
+          }
+          if (this.files.length > 0) {
+            let names = Array.from(this.files).map(f => f.name).join(', ');
+            homePhotosArea.innerHTML = `<svg class=\"upload-icon\" fill=\"none\" stroke=\"#9ca3af\" viewBox=\"0 0 24 24\" style=\"width: 40px; height: 40px; margin: 0 auto 0.5rem; display: block;\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z\"></path></svg><p class=\"text-sm text-gray-600\">${this.files.length} photo(s) uploaded</p><p class=\"text-xs text-gray-500 mt-1\">${names}</p><p class=\"text-xs text-gray-500 mt-1\">Click to change files</p><input type=\"file\" id=\"homePhotos\" name=\"homePhotos[]\" multiple accept=\"image/*\" class=\"hidden\" required>`;
+            // Re-bind the input event
+            var newInput = homePhotosArea.querySelector('#homePhotos');
+            if (newInput) {
+              newInput.addEventListener('change', arguments.callee);
+            }
+          } else {
+            homePhotosArea.innerHTML = `<svg class=\"upload-icon\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" style=\"width: 40px; height: 40px; margin: 0 auto 0.5rem; display: block;\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12\"></path></svg><p class=\"text-sm text-gray-600\">Click to upload or drag and drop</p><p class=\"text-xs text-gray-500 mt-1\">JPG, PNG up to 8 files, 8MB each</p><input type=\"file\" id=\"homePhotos\" name=\"homePhotos[]\" multiple accept=\"image/*\" class=\"hidden\" required><div id=\"homePhotosFeedback\" style=\"text-align:center; font-size:0.98em; color:#666; margin-top:0.5rem; min-height:1.2em;\"></div>`;
+            // Re-bind the input event
+            var newInput = homePhotosArea.querySelector('#homePhotos');
+            if (newInput) {
+              newInput.addEventListener('change', arguments.callee);
+            }
+          }
+        });
+        // On page load, clear feedback
+        if (homePhotosFeedback) homePhotosFeedback.textContent = '';
+      }
+    });
     let currentStep = 1;
     const totalSteps = 3;
 
@@ -730,7 +833,7 @@
       
       if (currentStep === totalSteps) {
         nextBtn.innerHTML = `
-          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="icon" fill="none" stroke="#fff" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
           </svg>
           Submit Application
@@ -744,7 +847,7 @@
       } else {
         nextBtn.innerHTML = `
           Next
-          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="icon" fill="none" stroke="#fff" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
           </svg>
         `;
@@ -785,14 +888,16 @@
     document.getElementById('idUpload').addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (file) {
-        const uploadArea = document.querySelector('.upload-area');
-        uploadArea.innerHTML = `
-          <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <p class="text-sm text-gray-600">File uploaded: ${file.name}</p>
-          <p class="text-xs text-gray-500 mt-1">Click to change file</p>
-        `;
+        const uploadArea = document.getElementById('idUploadArea');
+        if (uploadArea) {
+          uploadArea.innerHTML = `
+            <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <p class="text-sm text-gray-600">File uploaded: ${file.name}</p>
+            <p class="text-xs text-gray-500 mt-1">Click to change file</p>
+          `;
+        }
       }
     });
   </script>

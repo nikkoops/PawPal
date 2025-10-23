@@ -28,10 +28,17 @@ Route::get('/pets/{id}', [PetController::class, 'show'])->name('pets.show');
 // API endpoint to get pet details by name
 Route::get('/api/pets/by-name/{name}', [PetController::class, 'getByName']);
 
+// Adoption acknowledgment page (shown first)
 Route::get('/adopt', function () {
     $petName = request()->query('pet');
-    return view('adopt', ['petName' => $petName]);
+    return view('adoption-acknowledgment', ['petName' => $petName]);
 });
+
+// Adoption application form (shown after acknowledgment)
+Route::get('/adoption/application', function () {
+    $petName = request()->query('pet');
+    return view('adopt', ['petName' => $petName]);
+})->name('adoption.application');
 
 Route::get('/about', function () {
     return view('about');
@@ -73,7 +80,7 @@ Route::post('/submit-adoption', function (Request $request) {
         'email' => 'required|email|max:255',
         'birthDate' => 'required|date',
         'occupation' => 'required|string|max:255',
-        'idUpload' => $request->hasFile('idUpload') ? 'file|mimes:png,jpg,jpeg,pdf|max:10240' : 'required',
+        'idUpload' => $request->hasFile('idUpload') ? 'file|mimes:png,jpg,jpeg,pdf|max:5120' : 'required',
         // other fields are optional or validated client-side
     ];
     

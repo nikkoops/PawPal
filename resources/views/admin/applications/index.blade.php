@@ -205,103 +205,88 @@ function renderApplicationDetails(data, container) {
     const html = `
         <div class="space-y-8">
             <!-- Applicant Section -->
-            <div class="space-y-4">
-                <h3 class="text-lg font-semibold flex items-center">
-                    <i data-lucide="user" class="h-5 w-5 mr-2 text-primary"></i>
+            <div class="rounded-lg bg-gray-50/80 border border-gray-200 p-5 shadow-sm">
+                <h3 class="text-lg font-bold flex items-center mb-4 text-primary">
+                    <i data-lucide="user" class="h-5 w-5 mr-2"></i>
                     Applicant Information
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-2">
-                        <p class="text-sm text-muted-foreground">Name</p>
-                        <p class="font-medium">${data.applicant.name}</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Name</span>
+                        <span class="block text-base font-medium">${data.applicant.name}</span>
                     </div>
-                    <div class="space-y-2">
-                        <p class="text-sm text-muted-foreground">Email</p>
-                        <p class="font-medium">${data.applicant.email}</p>
+                    <div>
+                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Email</span>
+                        <span class="block text-base font-medium">${data.applicant.email}</span>
                     </div>
-                    <div class="space-y-2">
-                        <p class="text-sm text-muted-foreground">Phone</p>
-                        <p class="font-medium">${data.applicant.phone}</p>
+                    <div>
+                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Phone</span>
+                        <span class="block text-base font-medium">${data.applicant.phone}</span>
                     </div>
-                    <div class="space-y-2">
-                        <p class="text-sm text-muted-foreground">Date of Birth</p>
-                        <p class="font-medium">${data.applicant.birth_date || 'Not provided'}</p>
+                    <div>
+                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Date of Birth</span>
+                        <span class="block text-base font-medium">${data.applicant.birth_date || 'Not provided'}</span>
                     </div>
-                    <div class="space-y-2">
-                        <p class="text-sm text-muted-foreground">Occupation</p>
-                        <p class="font-medium">${data.applicant.occupation || 'Not provided'}</p>
+                    <div>
+                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Occupation</span>
+                        <span class="block text-base font-medium">${data.applicant.occupation || 'Not provided'}</span>
                     </div>
-                    <div class="space-y-2">
-                        <p class="text-sm text-muted-foreground">Address</p>
-                        <p class="font-medium">${data.applicant.address || 'Not provided'}</p>
+                    <div>
+                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Address</span>
+                        <span class="block text-base font-medium">${data.applicant.address || 'Not provided'}</span>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Pet Section -->
-            <div class="space-y-4">
-                <h3 class="text-lg font-semibold flex items-center">
-                    <i data-lucide="paw-print" class="h-5 w-5 mr-2 text-primary"></i>
+            <div class="rounded-lg bg-blue-50/60 border border-blue-100 p-5 shadow-sm">
+                <h3 class="text-lg font-bold flex items-center mb-4 text-blue-700">
+                    <i data-lucide="paw-print" class="h-5 w-5 mr-2"></i>
                     Pet Information
                 </h3>
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-5">
                     ${data.pet ? `
                         <img src="${data.pet.image || '/images/pet-placeholder.png'}" 
                              alt="${data.pet.name}" 
-                             class="h-16 w-16 rounded-full object-cover">
+                             class="h-20 w-20 rounded-full object-cover border-2 border-blue-200 shadow">
                         <div>
-                            <p class="font-medium text-lg">${data.pet.name}</p>
-                            <p class="text-muted-foreground">${data.pet.breed}</p>
-                            <p class="text-xs text-gray-400">Pet ID: ${data.pet.id}</p>
+                            <span class="block text-lg font-semibold text-blue-900">${data.pet.name}</span>
+                            <span class="block text-sm text-blue-700">${data.pet.breed}</span>
+                            <span class="block text-xs text-gray-400">Pet ID: ${data.pet.id}</span>
                         </div>
                     ` : `
                         <div>
-                            <p class="text-muted-foreground">No pet selected for this application</p>
+                            <span class="text-muted-foreground">No pet selected for this application</span>
                             ${data.application && data.application.pet_id ? 
-                              `<p class="text-xs text-red-400">Broken link: Pet ID ${data.application.pet_id} exists but can't be found</p>` : 
+                              `<span class="text-xs text-red-400">Broken link: Pet ID ${data.application.pet_id} exists but can't be found</span>` : 
                               ''}
                         </div>
                     `}
                 </div>
             </div>
-            
+
             <!-- Form Answers Section -->
-            <div class="space-y-4">
-                <h3 class="text-lg font-semibold flex items-center">
-                    <i data-lucide="clipboard-list" class="h-5 w-5 mr-2 text-primary"></i>
+            <div class="rounded-lg bg-green-50/60 border border-green-100 p-5 shadow-sm">
+                <h3 class="text-lg font-bold flex items-center mb-4 text-green-700">
+                    <i data-lucide="clipboard-list" class="h-5 w-5 mr-2"></i>
                     Application Answers
                 </h3>
                 <div class="space-y-6">
                     ${renderFormAnswers(data.answers)}
                 </div>
             </div>
-            
-            <!-- Admin Notes Section -->
-            <div class="space-y-4">
-                <h3 class="text-lg font-semibold flex items-center">
-                    <i data-lucide="clipboard" class="h-5 w-5 mr-2 text-primary"></i>
-                    Admin Notes
-                </h3>
-                <textarea 
-                    id="admin-notes" 
-                    class="w-full input min-h-[100px]" 
-                    placeholder="Add notes about this application..."
-                >${data.application.admin_notes || ''}</textarea>
-                <button onclick="saveAdminNotes(${data.id})" class="btn-secondary btn-sm">
-                    Save Notes
-                </button>
-            </div>
-            
+
+
             <!-- Application Status Section -->
-            <div class="border-t border-border pt-4">
-                <div class="flex items-center justify-between">
+            <div class="border-t border-border pt-4 mt-2">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div>
-                        <p class="text-sm text-muted-foreground">Application Status</p>
-                        <p class="font-medium">${getStatusBadge(data.application.status)}</p>
+                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Application Status</span>
+                        <span class="block font-medium">${getStatusBadge(data.application.status)}</span>
                     </div>
                     <div>
-                        <p class="text-sm text-muted-foreground">Date Applied</p>
-                        <p class="font-medium">${data.application.created_at}</p>
+                        <span class="block text-xs text-gray-500 font-semibold uppercase mb-1">Date Applied</span>
+                        <span class="block font-medium">${data.application.created_at}</span>
                     </div>
                 </div>
             </div>

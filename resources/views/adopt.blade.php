@@ -10,23 +10,23 @@
     :root {
       --background: #ffffff;
       --foreground: #374151;
-      --card: #f0fdf4;
+      --card: #ffffff;
       --card-foreground: #374151;
       --popover: #ffffff;
       --popover-foreground: #374151;
-      --primary: #15803d;
+      --primary: #fe7701;
       --primary-foreground: #ffffff;
-      --secondary: #84cc16;
-      --secondary-foreground: #374151;
-      --muted: #f0fdf4;
-      --muted-foreground: #374151;
-      --accent: #84cc16;
+      --secondary: #ff9534;
+      --secondary-foreground: #ffffff;
+      --muted: #f9fafb;
+      --muted-foreground: #6b7280;
+      --accent: #fe7701;
       --accent-foreground: #ffffff;
       --destructive: #e63946;
       --destructive-foreground: #ffffff;
-      --border: #d1d5db;
-      --input: #f0fdf4;
-      --ring: #84cc16;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --ring: #fe7701;
       --radius: 0.5rem;
     }
 
@@ -38,15 +38,55 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-      background-color: var(--background);
+      background: linear-gradient(135deg, #fff5eb 0%, #ffe8d6 100%);
       color: var(--foreground);
       line-height: 1.6;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Paw prints background pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(254, 119, 1, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(254, 119, 1, 0.03) 0%, transparent 50%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .paw-print {
+      position: fixed;
+      font-size: 2rem;
+      opacity: 0.05;
+      color: #fe7701;
+      z-index: 0;
+      pointer-events: none;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .paw-1 { top: 10%; left: 10%; animation-delay: 0s; }
+    .paw-2 { top: 20%; right: 15%; animation-delay: 2s; }
+    .paw-3 { top: 40%; left: 5%; animation-delay: 4s; }
+    .paw-4 { top: 60%; right: 10%; animation-delay: 6s; }
+    .paw-5 { top: 80%; left: 20%; animation-delay: 8s; }
+    .paw-6 { bottom: 10%; right: 20%; animation-delay: 10s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
     }
 
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -59,15 +99,52 @@
       max-width: 64rem;
       background-color: white;
       max-height: 90vh;
-      overflow-y: auto;
-      border-radius: calc(var(--radius) + 4px);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.5s ease-out;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .modal-header {
-      background-color: #f3f4f6;
+      background: linear-gradient(135deg, #fe7701 0%, #ff9534 100%);
+      color: white;
       padding: 2rem;
-      position: relative;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      overflow: hidden;
+      flex-shrink: 0;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .modal-header::before {
+      content: '🐾';
+      position: absolute;
+      font-size: 8rem;
+      opacity: 0.1;
+      top: -1rem;
+      right: -1rem;
+      animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.1; }
+      50% { transform: scale(1.05); opacity: 0.15; }
     }
 
     .header-content {
@@ -75,6 +152,8 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
     }
 
     .header-left {
@@ -87,7 +166,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-radius: var(--radius);
+      border-radius: 12px;
       font-weight: 500;
       transition: all 0.2s;
       cursor: pointer;
@@ -97,69 +176,87 @@
     }
 
     .btn-ghost {
-      background: transparent;
-      color: var(--foreground);
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
       padding: 0.5rem;
       width: 40px;
       height: 40px;
+      backdrop-filter: blur(10px);
     }
 
     .btn-ghost:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
     }
 
     .btn-primary {
-      background: #fe7701;
+      background: linear-gradient(135deg, #fe7701 0%, #ff9534 100%);
       color: white;
       padding: 0.75rem 1.5rem;
       gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(254, 119, 1, 0.3);
     }
 
     .btn-primary:hover {
-      background: #c1431d;
+      background: linear-gradient(135deg, #ff9534 0%, #fe7701 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(254, 119, 1, 0.4);
     }
 
     .btn-outline {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--foreground);
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: white;
       padding: 0.75rem 1.5rem;
       gap: 0.5rem;
+      backdrop-filter: blur(10px);
     }
 
     .btn-outline:hover {
-      background: #f9fafb;
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
     }
 
     .modal-title {
       font-size: 2rem;
-      font-weight: bold;
-      color: #1f2937;
+      font-weight: 700;
+      color: white;
       margin: 0;
+      position: relative;
+      z-index: 1;
     }
 
     .step-info {
-      color: #6b7280;
+      color: rgba(255, 255, 255, 0.95);
       font-size: 1rem;
+      position: relative;
+      z-index: 1;
     }
 
     .progress-bar {
       width: 100%;
-      background-color: #e5e7eb;
+      background-color: rgba(255, 255, 255, 0.3);
       border-radius: 9999px;
       height: 0.5rem;
       overflow: hidden;
+      position: relative;
+      z-index: 1;
     }
 
     .progress-fill {
       height: 100%;
-      background-color: #fe7701;
+      background-color: white;
       transition: width 0.3s ease;
       border-radius: 9999px;
+      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.5);
     }
 
     .modal-content {
-      padding: 2rem;
+      padding: 2.5rem 2rem;
+      background: white;
+      flex: 1;
+      overflow-y: auto;
     }
 
     .form-section {
@@ -170,13 +267,18 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #ffe8d6;
     }
 
     .section-title {
       font-size: 1.25rem;
-      font-weight: 600;
+      font-weight: 700;
       color: #1f2937;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .form-grid {
@@ -225,30 +327,36 @@
     }
 
     .form-label {
-      font-weight: 500;
+      font-weight: 600;
       color: #374151;
       font-size: 0.875rem;
     }
 
     /* Style for required field asterisks */
     .required-asterisk {
-      color: #b91c1c;
+      color: #fe7701;
+      font-weight: bold;
     }
 
     .form-input, .form-textarea, .form-select {
       padding: 0.75rem;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
       background-color: #f9fafb;
       color: var(--foreground);
       font-size: 0.875rem;
-      transition: border-color 0.2s;
+      transition: all 0.3s;
     }
 
     .form-input:focus, .form-textarea:focus, .form-select:focus {
       outline: none;
-      border-color: var(--ring);
-      box-shadow: 0 0 0 2px rgba(132, 204, 22, 0.2);
+      border-color: #fe7701;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(254, 119, 1, 0.1);
+    }
+
+    .form-input:hover, .form-textarea:hover, .form-select:hover {
+      border-color: #fed7aa;
     }
 
     .form-textarea {
@@ -259,49 +367,78 @@
     .radio-group {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.75rem;
       margin-top: 0.5rem;
     }
 
     .radio-item {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .radio-item:hover {
+      background: white;
+      border-color: #fed7aa;
+      transform: translateX(4px);
+    }
+
+    .radio-item:has(input:checked) {
+      background: #fff7ed;
+      border-color: #fe7701;
+      box-shadow: 0 2px 8px rgba(254, 119, 1, 0.1);
     }
 
     .radio-input {
-      width: 1rem;
-      height: 1rem;
+      width: 1.25rem;
+      height: 1.25rem;
       accent-color: #fe7701;
+      cursor: pointer;
+    }
+
+    .radio-item label {
+      cursor: pointer;
+      flex: 1;
     }
 
     .upload-area {
       margin-top: 0.5rem;
-      border: 2px dashed var(--border);
-      border-radius: var(--radius);
+      border: 2px dashed #fed7aa;
+      border-radius: 12px;
       padding: 2rem;
       text-align: center;
       background-color: #f9fafb;
       cursor: pointer;
-      transition: border-color 0.2s;
+      transition: all 0.3s;
     }
 
     .upload-area:hover {
-      border-color: var(--ring);
+      border-color: #fe7701;
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(254, 119, 1, 0.1);
     }
 
     .upload-icon {
-      width: 2rem;
-      height: 2rem;
+      width: 2.5rem;
+      height: 2.5rem;
       margin: 0 auto 0.5rem;
-      color: #9ca3af;
+      color: #fe7701;
     }
 
     .footer-actions {
       display: flex;
       justify-content: space-between;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      background: #fffbf6;
+      border-top: 2px solid #ffe8d6;
+      border-radius: 0 0 16px 16px;
       margin-top: 2rem;
     }
 
@@ -358,6 +495,14 @@
   </style>
 </head>
 <body>
+  <!-- Floating paw prints -->
+  <div class="paw-print paw-1">🐾</div>
+  <div class="paw-print paw-2">🐾</div>
+  <div class="paw-print paw-3">🐾</div>
+  <div class="paw-print paw-4">🐾</div>
+  <div class="paw-print paw-5">🐾</div>
+  <div class="paw-print paw-6">🐾</div>
+
   <div class="modal-overlay" id="applicationModal">
     <div class="modal-card">
       <!-- Header -->
@@ -606,12 +751,28 @@
 
               <div class="form-group">
                 <label for="hoursAlone" class="form-label">How many hours in an average workday will your pet be left alone? <span class="required-asterisk">*</span></label>
-                <input type="text" id="hoursAlone" name="hoursAlone" class="form-input" placeholder="e.g., 6-8 hours" required>
+                <select id="hoursAlone" name="hoursAlone" class="form-select" required>
+                  <option value="">Select hours</option>
+                  <option value="0-2 hours">0-2 hours</option>
+                  <option value="2-4 hours">2-4 hours</option>
+                  <option value="4-6 hours">4-6 hours</option>
+                  <option value="6-8 hours">6-8 hours</option>
+                  <option value="8-10 hours">8-10 hours</option>
+                  <option value="More than 10 hours">More than 10 hours</option>
+                </select>
               </div>
 
               <div class="form-group">
                 <label for="timeCommitment" class="form-label">How much time are you willing to dedicate to pet care and bonding per day? <span class="required-asterisk">*</span></label>
-                <input type="text" id="timeCommitment" name="timeCommitment" class="form-input" placeholder="e.g., 2-3 hours" required>
+                <select id="timeCommitment" name="timeCommitment" class="form-select" required>
+                  <option value="">Select time</option>
+                  <option value="Less than 1 hour">Less than 1 hour</option>
+                  <option value="1-2 hours">1-2 hours</option>
+                  <option value="2-3 hours">2-3 hours</option>
+                  <option value="3-4 hours">3-4 hours</option>
+                  <option value="4-5 hours">4-5 hours</option>
+                  <option value="More than 5 hours">More than 5 hours</option>
+                </select>
               </div>
 
               <div class="form-group">

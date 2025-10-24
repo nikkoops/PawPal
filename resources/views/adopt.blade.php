@@ -1196,56 +1196,67 @@
   <!-- Success Modal -->
   <div id="successModal" class="success-modal-overlay" style="display: none;">
     <div class="success-modal-card">
+      <!-- Floating paw prints decoration -->
+      <div class="floating-paws">
+        <span class="float-paw paw-float-1">🐾</span>
+        <span class="float-paw paw-float-2">🐾</span>
+        <span class="float-paw paw-float-3">🐾</span>
+        <span class="float-paw paw-float-4">🐾</span>
+      </div>
+
       <div class="success-modal-content">
         <!-- Close button -->
-        <div class="success-modal-close-container">
-          <button class="success-modal-close" onclick="closeSuccessModal()">
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          </button>
-        </div>
+        <button class="success-modal-close" onclick="closeSuccessModal()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
 
-        <!-- Success icon with celebration -->
+        <!-- Success icon with animated gradient -->
         <div class="success-icon-container">
+          <div class="success-icon-bg-circle"></div>
           <div class="success-icon-circle">
             <svg class="success-check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
             </svg>
           </div>
-          <!-- Decorative paw prints -->
-          <div class="paw-print paw-1">🐾</div>
-          <div class="paw-print paw-2">🐾</div>
-          <div class="paw-print paw-3">🐾</div>
+          <!-- Sparkles -->
+          <div class="sparkle sparkle-1">✨</div>
+          <div class="sparkle sparkle-2">✨</div>
+          <div class="sparkle sparkle-3">✨</div>
         </div>
 
         <!-- Main heading -->
         <div class="success-heading">
           <h2 class="success-title">Congratulations!</h2>
           <p class="success-subtitle">
-            Your application for <span id="successPetName">Bella</span> has been submitted successfully!
+            Your application for <span class="pet-name-highlight" id="successPetName">Bella</span> has been submitted successfully!
           </p>
         </div>
 
-        <!-- Next steps -->
+        <!-- Next steps with icons -->
         <div class="success-steps">
           <h3 class="success-steps-title">
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            <svg class="heart-icon" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
             </svg>
             What happens next?
           </h3>
           <div class="success-steps-list">
             <div class="success-step">
-              <svg class="step-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
+              <div class="step-icon-circle">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
               <span>Our team will review your application within 24-48 hours</span>
             </div>
             <div class="success-step">
-              <svg class="step-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-              </svg>
+              <div class="step-icon-circle">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+              </div>
               <span>You'll receive an email with next steps and scheduling information</span>
             </div>
           </div>
@@ -1254,6 +1265,10 @@
         <!-- Action buttons -->
         <div class="success-buttons">
           <button class="success-btn-primary" onclick="viewMorePets()">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
             View More Pets
           </button>
           <button class="success-btn-secondary" onclick="closeSuccessModal()">
@@ -1261,9 +1276,9 @@
           </button>
         </div>
 
-        <!-- Thank you message -->
+        <!-- Thank you message with heart -->
         <p class="success-thank-you">
-          Thank you for choosing to adopt and give <span id="successPetNameThankYou">Bella</span> a loving home! 💕
+          Thank you for choosing to adopt and give <span class="pet-name-highlight" id="successPetNameThankYou">Bella</span> a loving home! 💕
         </p>
       </div>
     </div>
@@ -1274,218 +1289,338 @@
     .success-modal-overlay {
       position: fixed;
       inset: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
       z-index: 50;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 1rem;
-      animation: fadeIn 0.3s ease-out;
+      animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .success-modal-card {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.5rem;
+      background: linear-gradient(135deg, #ffffff 0%, #fff9f5 100%);
+      border: 2px solid rgba(254, 119, 1, 0.1);
+      border-radius: 1.5rem;
       max-width: 28rem;
       width: 100%;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      animation: zoomIn 0.3s ease-out;
+      box-shadow: 
+        0 20px 60px -12px rgba(254, 119, 1, 0.25),
+        0 0 0 1px rgba(254, 119, 1, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      animation: modalSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Floating paws decoration */
+    .floating-paws {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .float-paw {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.08;
+      animation: floatPaw 8s infinite ease-in-out;
+    }
+
+    .paw-float-1 {
+      top: 10%;
+      left: 5%;
+      animation-delay: 0s;
+    }
+
+    .paw-float-2 {
+      top: 20%;
+      right: 10%;
+      animation-delay: 2s;
+      font-size: 1.5rem;
+    }
+
+    .paw-float-3 {
+      bottom: 15%;
+      left: 10%;
+      animation-delay: 4s;
+      font-size: 1.8rem;
+    }
+
+    .paw-float-4 {
+      bottom: 10%;
+      right: 5%;
+      animation-delay: 6s;
     }
 
     .success-modal-content {
-      padding: 0.15rem 2rem 2rem 2rem;
+      padding: 2rem;
       text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1.5rem;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
-
-    .success-modal-close-container {
-      display: flex;
-      justify-content: flex-end;
-      margin-right: -0.5rem;
+      position: relative;
+      z-index: 1;
     }
 
     .success-modal-close {
-      background: transparent;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(254, 119, 1, 0.1);
       border: none;
       padding: 0.5rem;
       border-radius: 50%;
       cursor: pointer;
-      transition: background-color 0.2s;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .success-modal-close svg {
+      width: 1rem;
+      height: 1rem;
+      color: #fe7701;
     }
 
     .success-modal-close:hover {
-      background-color: #f3f4f6;
+      background: #fe7701;
+      transform: rotate(90deg);
+    }
+
+    .success-modal-close:hover svg {
+      color: white;
     }
 
     .success-icon-container {
       position: relative;
       display: flex;
       justify-content: center;
-      margin-bottom: 0.25rem;
+      align-items: center;
+      margin: 0 auto;
+      width: 6rem;
+      height: 6rem;
+    }
+
+    .success-icon-bg-circle {
+      position: absolute;
+      width: 6rem;
+      height: 6rem;
+      background: linear-gradient(135deg, rgba(254, 119, 1, 0.1) 0%, rgba(254, 119, 1, 0.2) 100%);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
     }
 
     .success-icon-circle {
-      width: 5rem;
-      height: 5rem;
-      background: #fe7701;
+      width: 4.5rem;
+      height: 4.5rem;
+      background: linear-gradient(135deg, #fe7701 0%, #ff9534 100%);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: pulse 2s infinite;
+      animation: iconPop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+      box-shadow: 
+        0 10px 30px rgba(254, 119, 1, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      position: relative;
+      z-index: 1;
     }
 
     .success-check-icon {
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 2rem;
+      height: 2rem;
       color: white;
       stroke-width: 3;
+      animation: checkDraw 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
     }
 
-    .paw-print {
+    .sparkle {
       position: absolute;
-      font-size: 1.5rem;
-      animation: bounce 1s infinite;
-      color: #fe7701;
+      font-size: 1.25rem;
+      animation: sparkleFloat 2s infinite ease-in-out;
     }
 
-    .paw-1 {
+    .sparkle-1 {
       top: -0.5rem;
-      left: -1rem;
+      left: 0.5rem;
       animation-delay: 0s;
     }
 
-    .paw-2 {
-      top: -1rem;
+    .sparkle-2 {
+      top: 0.5rem;
       right: -0.5rem;
-      font-size: 1.25rem;
-      animation-delay: 0.15s;
+      animation-delay: 0.7s;
     }
 
-    .paw-3 {
-      bottom: -0.5rem;
-      left: 0.5rem;
-      font-size: 1.125rem;
-      animation-delay: 0.3s;
+    .sparkle-3 {
+      bottom: 0rem;
+      left: -0.25rem;
+      animation-delay: 1.4s;
     }
 
     .success-heading {
       display: flex;
       flex-direction: column;
-      gap: 0.125rem;
+      gap: 0.5rem;
     }
 
     .success-title {
-      font-size: 1.5rem;
+      font-size: 1.75rem;
       font-weight: 900;
-      color: #1f2937;
+      background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       font-family: serif;
+      animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
     }
 
     .success-subtitle {
-      font-size: 0.875rem;
+      font-size: 0.9375rem;
       color: #6b7280;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.5;
+      animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+    }
+
+    .pet-name-highlight {
+      color: #fe7701;
+      font-weight: 600;
     }
 
     .success-steps {
-      background: #f9fafb;
-      border-radius: 0.5rem;
-      padding: 0.75rem;
+      background: linear-gradient(135deg, rgba(254, 119, 1, 0.05) 0%, rgba(254, 119, 1, 0.08) 100%);
+      border: 1px solid rgba(254, 119, 1, 0.15);
+      border-radius: 1rem;
+      padding: 1.25rem;
       text-align: left;
+      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
     }
 
     .success-steps-title {
       font-weight: 700;
-      color: #374151;
+      color: #1f2937;
       display: flex;
       align-items: center;
-      gap: 0.25rem;
-      margin-bottom: 0.5rem;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 0.75rem;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 0.9375rem;
     }
 
-    .success-steps-title .icon {
-      color: #374151;
-      width: 0.75rem;
-      height: 0.75rem;
+    .heart-icon {
+      width: 1.125rem;
+      height: 1.125rem;
+      color: #fe7701;
+      animation: heartBeat 1.5s infinite;
     }
 
     .success-steps-list {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.875rem;
     }
 
     .success-step {
       display: flex;
       align-items: flex-start;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-      color: #6b7280;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      gap: 0.75rem;
+      font-size: 0.8125rem;
+      color: #4b5563;
+      line-height: 1.5;
     }
 
-    .step-icon {
-      width: 0.75rem;
-      height: 0.75rem;
-      color: #fe7701;
-      margin-top: 0.125rem;
+    .step-icon-circle {
+      width: 1.75rem;
+      height: 1.75rem;
+      background: linear-gradient(135deg, #fe7701 0%, #ff9534 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(254, 119, 1, 0.25);
+    }
+
+    .step-icon-circle svg {
+      width: 1rem;
+      height: 1rem;
+      color: white;
     }
 
     .success-buttons {
       display: flex;
-      gap: 0.5rem;
-      padding-top: 0.75rem;
+      gap: 0.75rem;
+      padding-top: 0.5rem;
+      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
     }
 
     .success-btn-primary {
       flex: 1;
-      background: #fe7701;
+      background: linear-gradient(135deg, #fe7701 0%, #ff9534 100%);
       color: white;
       border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 0.375rem;
-      font-weight: 500;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.2s;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 0.75rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(254, 119, 1, 0.3);
+    }
+
+    .success-btn-primary svg {
+      width: 1.125rem;
+      height: 1.125rem;
     }
 
     .success-btn-primary:hover {
-      background: #c1431d;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(254, 119, 1, 0.4);
+    }
+
+    .success-btn-primary:active {
+      transform: translateY(0);
     }
 
     .success-btn-secondary {
       flex: 1;
-      background: transparent;
+      background: white;
       color: #fe7701;
-      border: 2px solid #fe7701;
-      padding: 0.5rem 1rem;
-      border-radius: 0.375rem;
-      font-weight: 500;
+      border: 2px solid rgba(254, 119, 1, 0.3);
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 0.75rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      font-size: 0.875rem;
     }
 
     .success-btn-secondary:hover {
-      background: rgba(147, 51, 234, 0.1);
+      background: rgba(254, 119, 1, 0.05);
+      border-color: #fe7701;
+      transform: translateY(-2px);
+    }
+
+    .success-btn-secondary:active {
+      transform: translateY(0);
     }
 
     .success-thank-you {
-      font-size: 0.75rem;
+      font-size: 0.8125rem;
       color: #6b7280;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.5;
+      animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
     }
 
     /* Animations */
@@ -1494,25 +1629,147 @@
       to { opacity: 1; }
     }
 
-    @keyframes zoomIn {
+    @keyframes modalSlideUp {
       from { 
         opacity: 0;
-        transform: scale(0.95);
+        transform: translateY(30px) scale(0.95);
       }
       to { 
         opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes iconPop {
+      0% { 
+        transform: scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% { 
         transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes checkDraw {
+      0% {
+        stroke-dasharray: 100;
+        stroke-dashoffset: 100;
+      }
+      100% {
+        stroke-dasharray: 100;
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    @keyframes sparkleFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translateY(-10px) rotate(180deg);
+        opacity: 1;
+      }
+    }
+
+    @keyframes floatPaw {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-15px) rotate(10deg);
+      }
+    }
+
+    @keyframes heartBeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+      25% {
+        transform: scale(1.1);
+      }
+      50% {
+        transform: scale(1);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .success-modal-content {
+        padding: 1.5rem;
+        gap: 1.25rem;
+      }
+
+      .success-title {
+        font-size: 1.5rem;
+      }
+
+      .success-buttons {
+        flex-direction: column;
+      }
+
+      .success-icon-container {
+        width: 5rem;
+        height: 5rem;
+      }
+
+      .success-icon-bg-circle {
+        width: 5rem;
+        height: 5rem;
+      }
+
+      .success-icon-circle {
+        width: 4rem;
+        height: 4rem;
+      }
     }
   </style>
 
@@ -1690,27 +1947,33 @@
         // Try to parse JSON; if parsing fails show generic error
         let data;
         try {
-          // For error responses, get the response text first to debug
-          if (!res.ok) {
-            const responseText = await res.text();
-            console.error('Error response text:', responseText);
-            try {
-              // Try to parse it as JSON anyway
-              data = JSON.parse(responseText);
-            } catch (jsonErr) {
-              // If it's not JSON, just use the text as message
-              console.error('Failed to parse error response as JSON', jsonErr);
+          // Always get response text first for debugging
+          const responseText = await res.text();
+          console.log('Response status:', res.status);
+          console.log('Response text (first 500 chars):', responseText.substring(0, 500));
+          
+          try {
+            // Try to parse as JSON
+            data = JSON.parse(responseText);
+            console.log('Successfully parsed JSON:', data);
+          } catch (jsonErr) {
+            // If it's not JSON, log the error and show message
+            console.error('Failed to parse response as JSON:', jsonErr);
+            console.error('Full response text:', responseText);
+            
+            if (!res.ok) {
               msgEl.style.display = 'block';
-              msgEl.textContent = 'Server error: ' + responseText.substring(0, 100) + '...';
-              return;
+              msgEl.textContent = 'Server error: ' + responseText.substring(0, 200);
+            } else {
+              msgEl.style.display = 'block';
+              msgEl.textContent = 'Unexpected server response format.';
             }
-          } else {
-            data = await res.json();
+            return;
           }
         } catch (err) {
-          console.error('Non-JSON response', err);
+          console.error('Error reading response:', err);
           msgEl.style.display = 'block';
-          msgEl.textContent = 'Unexpected server response. Check the browser console and server logs.';
+          msgEl.textContent = 'Failed to read server response.';
           return;
         }
 

@@ -1805,6 +1805,8 @@
 
     function closeSuccessModal() {
       document.getElementById('successModal').style.display = 'none';
+      // Redirect to homepage after closing success modal
+      window.location.href = '/';
     }
 
     function closeApplicationModal() {

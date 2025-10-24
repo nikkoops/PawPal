@@ -162,14 +162,6 @@
                 <button onclick="closeApplicationModal()" class="px-6 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold rounded-lg transition-colors">
                     Close
                 </button>
-                <button class="btn-success px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors flex items-center">
-                    <i data-lucide="check" class="h-4 w-4 mr-2"></i>
-                    Approve
-                </button>
-                <button class="btn-destructive px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors flex items-center">
-                    <i data-lucide="x" class="h-4 w-4 mr-2"></i>
-                    Reject
-                </button>
             </div>
         </div>
     </div>
@@ -187,13 +179,6 @@ function viewApplication(id) {
             <p class="text-gray-600 text-lg font-medium">Loading application details...</p>
         </div>
     `;
-    
-    // Set up the buttons for this application
-    const approveBtn = document.querySelector('#applicationModal .btn-success');
-    const rejectBtn = document.querySelector('#applicationModal .btn-destructive');
-    
-    approveBtn.onclick = () => updateStatus(id, 'approved');
-    rejectBtn.onclick = () => updateStatus(id, 'rejected');
     
     // Fetch application details via AJAX
     fetch(`/admin/shelter/applications/${id}/details`)

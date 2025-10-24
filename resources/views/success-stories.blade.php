@@ -59,7 +59,7 @@
         }
         
         .gradient-bg {
-            background: linear-gradient(135deg, #faf8f3 0%, #f7f4ef 50%, #f4f0eb 100%);
+            background: #fff8ed;
             position: relative;
             min-height: 100vh;
         }
@@ -71,7 +71,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, #faf8f3 0%, #f7f4ef 25%, #f4f0eb 50%, #f1ede7 75%, #eee9e3 100%);
+            background: #fff8ed;
             opacity: 0.1;
             animation: gradientShift 8s ease-in-out infinite;
         }
@@ -194,7 +194,7 @@
         }
         
         .story-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            background: #ffebdd;
             backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 

@@ -48,6 +48,10 @@ Route::get('/learn-more', function () {
     return view('learn-more');
 });
 
+Route::get('/success-stories', function () {
+    return view('success-stories');
+});
+
 Route::get('/contact', function () {
     return view('contact-us', [
         'pet' => request()->query('pet'),

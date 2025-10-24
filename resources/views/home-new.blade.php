@@ -613,6 +613,7 @@
           <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="#pets-section">Find Pets</a></li>
+            <li><a href="/success-stories">Success Stories</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/contact">Contact</a></li>
           </ul>
@@ -728,6 +729,7 @@
           <ul class="space-y-2">
             <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
             <li><a href="#pets-section" class="text-gray-400 hover:text-white">Find Pets</a></li>
+            <li><a href="/success-stories" class="text-gray-400 hover:text-white">Success Stories</a></li>
             <li><a href="/about" class="text-gray-400 hover:text-white">About Us</a></li>
             <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
           </ul>

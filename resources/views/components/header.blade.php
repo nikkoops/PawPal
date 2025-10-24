@@ -205,6 +205,7 @@
       <div class="nav-desktop">
         <a href="{{ route('home') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}">Home</a>
         <a href="{{ route('home') }}#pets-section" class="nav-link">Find Pets</a>
+        <a href="{{ url('/success-stories') }}" class="nav-link {{ Request::is('success-stories') ? 'active' : '' }}">Success Stories</a>
         <a href="{{ url('/learn-more') }}" class="nav-link {{ Request::is('learn-more') ? 'active' : '' }}">Learn More</a>
         <a href="{{ url('/contact') }}" class="nav-link {{ Request::is('contact') ? 'active' : '' }}">Contact Us</a>
         <button onclick="openRoleModal()" class="nav-signin-btn">
@@ -225,6 +226,7 @@
       <div class="nav-mobile-links">
         <a href="{{ route('home') }}" class="nav-mobile-link {{ Request::is('/') ? 'active' : '' }}">Home</a>
         <a href="{{ route('home') }}#pets-section" class="nav-mobile-link">Find Pets</a>
+        <a href="{{ url('/success-stories') }}" class="nav-mobile-link {{ Request::is('success-stories') ? 'active' : '' }}">Success Stories</a>
         <a href="{{ url('/learn-more') }}" class="nav-mobile-link {{ Request::is('learn-more') ? 'active' : '' }}">Learn More</a>
         <a href="{{ url('/contact') }}" class="nav-mobile-link {{ Request::is('contact') ? 'active' : '' }}">Contact Us</a>
         <button onclick="openRoleModal()" class="nav-mobile-signin">

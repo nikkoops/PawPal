@@ -503,7 +503,7 @@
                 <div class="story-section group story-card rounded-3xl overflow-hidden animate-fade-in-up hover-lift p-8 lg:p-12">
                     <div class="grid md:grid-cols-2 gap-12 items-center">
                         <!-- Image Section -->
-                        <div class="relative animate-slide-in-left">
+                        <div class="relative animate-slide-in-left mt-8">
                             <div class="relative rounded-3xl shadow-2xl overflow-hidden" style="width: fit-content; height: fit-content;">
                                 <div class="relative" id="minnie-carousel" style="line-height: 0; font-size: 0; width: fit-content; height: fit-content;">
                                 <img src="{{ asset('images/Image (1).jpeg') }}" alt="MINNIE - Image 1" class="story-image block transition-transform duration-700 group-hover:scale-105" data-index="0" style="display: block; margin: 0; padding: 0; border: 0; width: auto; height: auto;">
@@ -528,13 +528,6 @@
                                 <span id="minnie-counter">1 / 4</span>
                             </div>
                             
-                            <!-- Floating Success Badge -->
-                            <div class="absolute top-6 left-6 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-6 py-3 rounded-full text-sm font-bold shadow-xl animate-pulse-glow">
-                                <span class="flex items-center gap-2">
-                                    ✨ Success Story
-                                </span>
-                            </div>
-                            
                             <!-- Love Indicator -->
                             <div class="absolute top-6 right-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                 <div class="bg-red-500/90 text-white p-3 rounded-full animate-heartbeat">
@@ -549,20 +542,20 @@
                         <!-- Enhanced Content Section -->
                         <div class="animate-slide-in-right">
                             <div class="mb-8 text-left">
-                                <div class="inline-flex items-center gap-3 bg-gradient-to-r from-orange-100 to-amber-100 rounded-full px-6 py-3 mb-6 border border-orange-200">
-                                    <svg class="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                                <div class="inline-flex items-center gap-2 mb-4">
+                                    <svg class="w-4 h-4 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                     </svg>
-                                    <span class="text-orange-700 font-bold uppercase tracking-wider text-sm">Former Shelter Dog</span>
+                                    <span class="text-orange-600 font-bold uppercase tracking-wider text-xs">Former Shelter Dog</span>
                                 </div>
-                                <h2 class="text-6xl lg:text-7xl font-black text-gray-900 mb-6 tracking-tight text-shadow text-left">MINNIE</h2>
+                                <h2 class="text-4xl lg:text-5xl font-black text-gray-900 mb-6 tracking-tight text-shadow text-left">MINNIE</h2>
                             </div>
                             
                             <!-- Enhanced Story Info Card -->
                             <div class="bg-gradient-to-br from-slate-800 via-slate-900 to-gray-900 rounded-3xl p-10 mb-10 text-white shadow-2xl border border-slate-700/50 hover:border-orange-500/30 transition-all duration-500 text-left">
                                 <div class="relative text-left">
                                     <div class="absolute -top-2 -right-2 w-4 h-4 bg-orange-500 rounded-full animate-pulse"></div>
-                                    <p class="text-xl leading-relaxed mb-10 text-slate-100 text-left">
+                                    <p class="text-base leading-relaxed mb-6 text-slate-100 text-justify">
                                         From being the star of our Luvapawlooza Adoption Drive in Ayala Malls Serin to finding her fur-ever home 🥹
                                         <span class="text-orange-400 font-bold bg-orange-400/10 px-2 py-1 rounded-lg">Minnie</span> has always been a playful, sweet, and affectionate fur baby since she arrived at our adoption house, pero ngayon, ang kanyang fur-mily na ang magiging receiving end ng kanyang pagkamalambing! 🐶
                                     </p>
@@ -575,7 +568,7 @@
                                                 </svg>
                                                 <p class="text-orange-400 uppercase tracking-wider font-bold text-sm">FURPARENTS</p>
                                             </div>
-                                            <p class="font-semibold text-white text-lg text-left">Maria and Jose Santos</p>
+                                            <p class="font-semibold text-white text-base text-left">Maria and Jose Santos</p>
                                         </div>
                                         <div class="bg-gradient-to-br from-slate-700/80 to-slate-800/80 rounded-2xl p-6 border border-slate-600/50 hover:border-orange-400/50 transition-all duration-300 text-left">
                                             <div class="flex items-center gap-3 mb-3">
@@ -584,29 +577,29 @@
                                                 </svg>
                                                 <p class="text-orange-400 uppercase tracking-wider font-bold text-sm">LOCATION</p>
                                             </div>
-                                            <p class="font-semibold text-white text-lg text-left">Alfonso, Cavite - Philippines</p>
+                                            <p class="font-semibold text-white text-base text-left">Alfonso, Cavite - Philippines</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="mb-10 text-left">
-                                <p class="text-gray-700 text-xl leading-relaxed font-medium text-left">
+                            <div class="mb-8 text-left">
+                                <p class="text-gray-700 text-base leading-relaxed font-medium text-left">
                                     You, too, can open your home to a shelter animal and change their life forever. 
-                                    <span class="text-2xl">✨</span>
+                                    <span class="text-xl">✨</span>
                                 </p>
                             </div>
                             
                             <!-- Enhanced Action Buttons -->
-                            <div class="flex flex-col sm:flex-row gap-6">
-                                <a href="{{ route('home') }}" class="enhanced-btn group text-white font-bold py-5 px-10 rounded-2xl transition-all duration-400 flex items-center justify-center gap-4 shadow-2xl relative z-10">
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <a href="{{ route('home') }}" class="enhanced-btn group text-white font-semibold text-sm py-4 px-8 rounded-2xl transition-all duration-400 flex items-center justify-center gap-3 shadow-2xl relative z-10">
                                     <span class="relative z-10">Apply Now</span>
-                                    <svg class="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                     </svg>
                                 </a>
-                                <button onclick="toggleLove('minnie')" id="minnie-love-btn" class="group border-3 border-orange-500 text-orange-600 hover:bg-orange-50 hover:border-orange-600 font-bold py-5 px-10 rounded-2xl transition-all duration-400 flex items-center justify-center gap-4 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105">
-                                    <svg class="w-7 h-7 group-hover:scale-125 transition-transform duration-300 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <button onclick="toggleLove('minnie')" id="minnie-love-btn" class="group border-3 border-orange-500 text-orange-600 hover:bg-orange-50 hover:border-orange-600 font-semibold text-sm py-4 px-8 rounded-2xl transition-all duration-400 flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105">
+                                    <svg class="w-6 h-6 group-hover:scale-125 transition-transform duration-300 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                                     </svg>
                                     <span>Love This Story</span>
@@ -621,21 +614,21 @@
                     <div class="grid md:grid-cols-2 gap-12 items-center">
                         <!-- Content Section -->
                         <div class="animate-slide-in-left order-2 lg:order-1">
-                            <div class="mb-8 text-left">
-                                <div class="inline-flex items-center gap-3 bg-gradient-to-r from-orange-100 to-amber-100 rounded-full px-6 py-3 mb-6 border border-orange-200">
-                                    <svg class="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                            <div class="mb-6 text-left">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <svg class="w-4 h-4 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                     </svg>
-                                    <span class="text-orange-700 font-bold uppercase tracking-wider text-sm">Former Shelter Dog</span>
+                                    <span class="text-orange-600 font-bold uppercase tracking-wider text-xs">Former Shelter Dog</span>
                                 </div>
-                                <h2 class="text-6xl lg:text-7xl font-black text-gray-900 mb-6 tracking-tight text-shadow text-left">DELLO</h2>
+                                <h2 class="text-3xl lg:text-4xl font-black text-gray-900 mb-4 tracking-tight text-shadow text-left">DELLO</h2>
                             </div>
                             
                             <!-- Enhanced Story Info Card -->
-                            <div class="bg-gradient-to-br from-slate-800 via-slate-900 to-gray-900 rounded-3xl p-10 mb-10 text-white shadow-2xl border border-slate-700/50 hover:border-orange-500/30 transition-all duration-500 text-left">
+                            <div class="bg-gradient-to-br from-slate-800 via-slate-900 to-gray-900 rounded-3xl p-8 mb-6 text-white shadow-2xl border border-slate-700/50 hover:border-orange-500/30 transition-all duration-500 text-left">
                                 <div class="relative text-left">
                                     <div class="absolute -top-2 -right-2 w-4 h-4 bg-orange-500 rounded-full animate-pulse"></div>
-                                    <p class="text-xl leading-relaxed mb-10 text-slate-100 text-left">
+                                    <p class="text-base leading-relaxed mb-8 text-slate-100 text-justify">
                                         Our <span class="text-orange-400 font-bold bg-orange-400/10 px-2 py-1 rounded-lg">Dello</span> is the first aspaw we rescued from Laguna, and we've witnessed his journey to complete recovery and transformation, from being a shy and scared 4-month-old puppy, to being a joyful, hyper, and attention-seeking doggo. He even had his photos taken during our Paw-sion for Photos session and showed off his goofy and lovable personality!
                                     </p>
                                     
@@ -647,7 +640,7 @@
                                                 </svg>
                                                 <p class="text-orange-400 uppercase tracking-wider font-bold text-sm">FURPARENTS</p>
                                             </div>
-                                            <p class="font-semibold text-white text-lg text-left">Anthony and Lisa Cruz</p>
+                                            <p class="font-semibold text-white text-base text-left">Anthony and Lisa Cruz</p>
                                         </div>
                                         <div class="bg-gradient-to-br from-slate-700/80 to-slate-800/80 rounded-2xl p-6 border border-slate-600/50 hover:border-orange-400/50 transition-all duration-300 text-left">
                                             <div class="flex items-center gap-3 mb-3">
@@ -656,29 +649,29 @@
                                                 </svg>
                                                 <p class="text-orange-400 uppercase tracking-wider font-bold text-sm">LOCATION</p>
                                             </div>
-                                            <p class="font-semibold text-white text-lg text-left">Quezon City - Philippines</p>
+                                            <p class="font-semibold text-white text-base text-left">Quezon City - Philippines</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="mb-10 text-left">
-                                <p class="text-gray-700 text-xl leading-relaxed font-medium text-left">
+                            <div class="mb-8 text-left">
+                                <p class="text-gray-700 text-base leading-relaxed font-medium text-left">
                                     Start your adoption journey today and give a deserving pet their second chance at happiness. 
-                                    <span class="text-2xl">🏠</span>
+                                    <span class="text-xl">🏠</span>
                                 </p>
                             </div>
                             
                             <!-- Enhanced Action Buttons -->
-                            <div class="flex flex-col sm:flex-row gap-6">
-                                <a href="{{ route('home') }}" class="enhanced-btn group text-white font-bold py-5 px-10 rounded-2xl transition-all duration-400 flex items-center justify-center gap-4 shadow-2xl relative z-10">
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <a href="{{ route('home') }}" class="enhanced-btn group text-white font-semibold text-sm py-4 px-8 rounded-2xl transition-all duration-400 flex items-center justify-center gap-3 shadow-2xl relative z-10">
                                     <span class="relative z-10">Apply Now</span>
-                                    <svg class="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                     </svg>
                                 </a>
-                                <button onclick="toggleLove('dello')" id="dello-love-btn" class="group border-3 border-orange-500 text-orange-600 hover:bg-orange-50 hover:border-orange-600 font-bold py-5 px-10 rounded-2xl transition-all duration-400 flex items-center justify-center gap-4 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105">
-                                    <svg class="w-7 h-7 group-hover:scale-125 transition-transform duration-300 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <button onclick="toggleLove('dello')" id="dello-love-btn" class="group border-3 border-orange-500 text-orange-600 hover:bg-orange-50 hover:border-orange-600 font-semibold text-sm py-4 px-8 rounded-2xl transition-all duration-400 flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105">
+                                    <svg class="w-6 h-6 group-hover:scale-125 transition-transform duration-300 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                                     </svg>
                                     <span>Love This Story</span>
@@ -687,7 +680,7 @@
                         </div>
                         
                         <!-- Image Section -->
-                        <div class="relative animate-slide-in-right order-1 lg:order-2">
+                        <div class="relative animate-slide-in-right order-1 lg:order-2 mt-8">
                             <div class="relative rounded-3xl shadow-2xl overflow-hidden" style="width: fit-content; height: fit-content;">
                                 <div class="relative" id="dello-carousel" style="line-height: 0; font-size: 0; width: fit-content; height: fit-content;">
                                     <img src="{{ asset('images/Image (10).jpeg') }}" alt="DELLO - Image 1" class="story-image block transition-all duration-700" data-index="0" style="display: block; margin: 0; padding: 0; border: 0; width: auto; height: auto;">
@@ -713,13 +706,6 @@
                                     <span id="dello-counter">1 / 4</span>
                                 </div>
                                 
-                                <!-- Floating Success Badge -->
-                                <div class="absolute top-6 left-6 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-6 py-3 rounded-full text-sm font-bold shadow-xl animate-pulse-glow">
-                                    <span class="flex items-center gap-2">
-                                        ✨ Success Story
-                                    </span>
-                                </div>
-                                
                                 <!-- Love Indicator -->
                                 <div class="absolute top-6 right-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                     <div class="bg-red-500/90 text-white p-3 rounded-full animate-heartbeat">
@@ -730,89 +716,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Enhanced Call-to-Action Footer -->
-    <section class="relative py-24 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-gray-900 to-black"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-orange-900/20 to-transparent"></div>
-        
-        <!-- Floating particles for footer -->
-        <div class="absolute inset-0 pointer-events-none">
-            <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-orange-400 rounded-full animate-pulse opacity-60"></div>
-            <div class="absolute top-1/2 right-1/3 w-3 h-3 bg-amber-300 rounded-full animate-pulse opacity-40" style="animation-delay: 1s;"></div>
-            <div class="absolute bottom-1/3 left-1/2 w-2 h-2 bg-orange-500 rounded-full animate-pulse opacity-50" style="animation-delay: 2s;"></div>
-        </div>
-        
-        <div class="relative max-w-6xl mx-auto px-4 text-center">
-            <div class="animate-fade-in-up">
-                <!-- Header -->
-                <div class="mb-16">
-                    <div class="inline-flex items-center gap-3 glass-effect rounded-full px-8 py-4 shadow-xl mb-8">
-                        <svg class="w-8 h-8 text-orange-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                        <span class="text-orange-400 font-bold uppercase tracking-wider text-lg">Ready to make a difference?</span>
-                    </div>
-                    
-                    <h2 class="text-5xl md:text-6xl lg:text-7xl font-black mb-8">
-                        <span class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                            Your FURever Friend
-                        </span>
-                        <br>
-                        <span class="bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text text-transparent">
-                            Awaits You
-                        </span>
-                    </h2>
-                    
-                    <p class="text-xl md:text-2xl text-gray-300 leading-relaxed max-w-4xl mx-auto mb-12">
-                        Join the thousands of families who have found their perfect companion through PawPal. 
-                        <br class="hidden md:block">
-                        <span class="text-orange-400 font-semibold">Every adoption saves two lives</span> - the pet you adopt and the space you create for another rescue.
-                    </p>
-                </div>
-                
-                <!-- Enhanced Action Buttons -->
-                <div class="flex flex-col md:flex-row gap-8 justify-center items-center mb-16">
-                    <a href="{{ route('home') }}" class="enhanced-btn group text-white font-bold py-6 px-12 rounded-2xl transition-all duration-400 flex items-center justify-center gap-4 shadow-2xl text-xl">
-                        <svg class="w-8 h-8 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                        </svg>
-                        <span>Start Your Adoption Journey</span>
-                        <svg class="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                    
-                    <button class="group glass-effect border-2 border-orange-400/50 text-orange-400 hover:bg-orange-400/10 hover:border-orange-400 font-bold py-6 px-12 rounded-2xl transition-all duration-400 flex items-center justify-center gap-4 shadow-xl hover:shadow-2xl text-xl">
-                        <svg class="w-8 h-8 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
-                        </svg>
-                        <span>Share These Stories</span>
-                    </button>
-                </div>
-                
-                <!-- Enhanced Stats Display -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-                    <div class="story-card rounded-2xl p-8 hover-lift">
-                        <div class="text-4xl md:text-5xl font-black text-orange-400 mb-3">500+</div>
-                        <div class="text-gray-300 font-semibold text-lg">Successful Adoptions</div>
-                    </div>
-                    <div class="story-card rounded-2xl p-8 hover-lift">
-                        <div class="text-4xl md:text-5xl font-black text-amber-400 mb-3">24/7</div>
-                        <div class="text-gray-300 font-semibold text-lg">Support Available</div>
-                    </div>
-                    <div class="story-card rounded-2xl p-8 hover-lift">
-                        <div class="text-4xl md:text-5xl font-black text-yellow-400 mb-3">98%</div>
-                        <div class="text-gray-300 font-semibold text-lg">Happy Families</div>
-                    </div>
-                    <div class="story-card rounded-2xl p-8 hover-lift">
-                        <div class="text-4xl md:text-5xl font-black text-orange-400 mb-3">5+</div>
-                        <div class="text-gray-300 font-semibold text-lg">Years of Love</div>
                     </div>
                 </div>
             </div>

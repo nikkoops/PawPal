@@ -261,101 +261,51 @@
         }
         
         .paw-print {
-            position: absolute;
-            width: 50px;
-            height: 45px;
+            position: fixed;
+            font-size: 5rem;
             opacity: 0.15;
+            color: #ff8c42;
+            z-index: 0;
             pointer-events: none;
+            animation: pawFloat 20s infinite ease-in-out;
         }
         
-        /* Main paw pad */
-        .paw-print::before {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 20px;
-            background: #f39c42;
-            border-radius: 50% 50% 60% 60%;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        /* Not needed for this style */
-        .paw-print::after {
-            display: none;
-        }
-        
-        .paw-print .toe {
-            position: absolute;
-            background: #f39c42;
-            border-radius: 50%;
-        }
-        
-        .paw-print .toe:nth-child(1) {
-            width: 9px;
-            height: 12px;
-            top: 0;
-            left: 12px;
-            transform: rotate(-10deg);
-        }
-        
-        .paw-print .toe:nth-child(2) {
-            width: 10px;
-            height: 14px;
-            top: -3px;
-            left: 20px;
-            transform: rotate(0deg);
-        }
-        
-        .paw-print .toe:nth-child(3) {
-            width: 9px;
-            height: 12px;
-            top: 0;
-            right: 12px;
-            transform: rotate(10deg);
-        }
+        .paw-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .paw-2 { top: 20%; right: 15%; animation-delay: 2s; }
+        .paw-3 { top: 40%; left: 5%; animation-delay: 4s; }
+        .paw-4 { top: 60%; right: 10%; animation-delay: 6s; }
+        .paw-5 { top: 80%; left: 20%; animation-delay: 8s; }
+        .paw-6 { bottom: 10%; right: 20%; animation-delay: 10s; }
+        .paw-7 { top: 30%; right: 25%; animation-delay: 3s; }
+        .paw-8 { top: 50%; left: 15%; animation-delay: 7s; }
+        .paw-9 { top: 70%; right: 30%; animation-delay: 9s; }
+        .paw-10 { top: 35%; left: 80%; animation-delay: 5s; }
         
         @keyframes pawFloat {
             0%, 100% { 
-                transform: translateY(0px) rotate(0deg); 
-                opacity: 0.1;
-            }
-            25% { 
-                transform: translateY(-10px) rotate(5deg); 
-                opacity: 0.15;
+                transform: translateY(0px);
+                opacity: 0.08;
             }
             50% { 
-                transform: translateY(-15px) rotate(0deg); 
-                opacity: 0.2;
+                transform: translateY(-20px);
+                opacity: 0.12;
             }
-            75% { 
-                transform: translateY(-8px) rotate(-5deg); 
-                opacity: 0.15;
-            }
-        }
-        
-        .paw-print.animate {
-            animation: pawFloat 8s ease-in-out infinite;
-        }
-        
-        .paw-print.animate:nth-child(2n) {
-            animation-delay: 2s;
-            animation-duration: 10s;
-        }
-        
-        .paw-print.animate:nth-child(3n) {
-            animation-delay: 4s;
-            animation-duration: 12s;
-        }
-        
-        .paw-print.animate:nth-child(4n) {
-            animation-delay: 6s;
-            animation-duration: 9s;
         }
     </style>
 </head>
 <body class="gradient-bg min-h-screen">
+    <!-- Paw Print Background -->
+    <div class="paw-print paw-1">🐾</div>
+    <div class="paw-print paw-2">🐾</div>
+    <div class="paw-print paw-3">🐾</div>
+    <div class="paw-print paw-4">🐾</div>
+    <div class="paw-print paw-5">🐾</div>
+    <div class="paw-print paw-6">🐾</div>
+    <div class="paw-print paw-7">🐾</div>
+    <div class="paw-print paw-8">🐾</div>
+    <div class="paw-print paw-9">🐾</div>
+    <div class="paw-print paw-10">🐾</div>
+    
     <!-- Floating Particles -->
     <div class="fixed inset-0 pointer-events-none z-0">
         <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
@@ -369,109 +319,15 @@
         <div class="particle" style="left: 90%; animation-delay: 0.5s;"></div>
     </div>
     
-    <!-- Paw Print Background Decorations -->
-    <div class="fixed inset-0 pointer-events-none z-0">
-        <!-- Top Section Paws -->
-        <div class="paw-print animate" style="top: 10%; left: 15%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-        <div class="paw-print animate" style="top: 20%; right: 20%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-        <div class="paw-print animate" style="top: 35%; left: 8%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-        <div class="paw-print animate" style="top: 45%; right: 12%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-        
-        <!-- Middle Section Paws -->
-        <div class="paw-print animate" style="top: 55%; left: 18%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-        <div class="paw-print animate" style="top: 65%; right: 25%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-        <div class="paw-print animate" style="top: 75%; left: 10%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-        <div class="paw-print animate" style="top: 85%; right: 15%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-        
-        <!-- Additional Scattered Paws -->
-        <div class="paw-print animate" style="top: 30%; left: 85%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-        <div class="paw-print animate" style="top: 50%; left: 90%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-        <div class="paw-print animate" style="top: 70%; right: 5%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-        <div class="paw-print animate" style="top: 25%; left: 5%;">
-            <div class="toe"></div>
-            <div class="toe"></div>
-            <div class="toe"></div>
-        </div>
-    </div>
-    
-    <!-- Enhanced Background Pattern -->
-    <div class="fixed inset-0 opacity-5 pointer-events-none">
-        <div class="absolute top-20 left-10 w-32 h-32 bg-orange-300 rounded-full blur-3xl animate-float"></div>
-        <div class="absolute top-1/3 right-20 w-40 h-40 bg-amber-300 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
-        <div class="absolute bottom-1/3 left-1/4 w-36 h-36 bg-yellow-300 rounded-full blur-3xl animate-float" style="animation-delay: 4s;"></div>
-        <div class="absolute bottom-20 right-1/3 w-28 h-28 bg-orange-400 rounded-full blur-3xl animate-float" style="animation-delay: 6s;"></div>
-    </div>
-
     <!-- Header -->
     <x-header />
 
     <!-- Enhanced Hero Section -->
     <section class="relative py-10 px-4 overflow-hidden">
-        <!-- Decorative Elements -->
-        <div class="absolute top-10 right-10 opacity-20 animate-float">
-            <svg class="w-20 h-20 text-orange-400" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-        </div>
-        <div class="absolute bottom-10 left-10 opacity-20 animate-float" style="animation-delay: 3s;">
-            <svg class="w-16 h-16 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-            </svg>
-        </div>
         
         <div class="max-w-6xl mx-auto text-center">
             <!-- Enhanced Page Header -->
             <section class="relative py-8 overflow-hidden mb-8">
-                <!-- Floating particles for header -->
-                <div class="absolute inset-0 pointer-events-none">
-                    <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-orange-400 rounded-full animate-pulse opacity-60"></div>
-                    <div class="absolute top-1/2 right-1/3 w-3 h-3 bg-amber-400 rounded-full animate-pulse opacity-40" style="animation-delay: 1s;"></div>
-                    <div class="absolute bottom-1/3 left-1/2 w-2 h-2 bg-orange-500 rounded-full animate-pulse opacity-50" style="animation-delay: 2s;"></div>
-                </div>
                 
                 <div class="relative max-w-6xl mx-auto px-4 text-center">
                     <div class="animate-fade-in-up">

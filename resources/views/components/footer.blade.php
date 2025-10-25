@@ -37,6 +37,7 @@
         <hr class="my-8" style="border-color: #fe7701;">
         <div class="text-center">
             <p style="color: #374151;">&copy; 2025 PawPal. All rights reserved. Made with ❤️ for pets in need.</p>
+            <p class="text-sm mt-2" style="color: #6b7280;">Version 1.1.0</p>
         </div>
     </div>
 </footer>

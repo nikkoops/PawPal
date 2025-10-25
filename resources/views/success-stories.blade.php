@@ -813,5 +813,8 @@
             });
         });
     </script>
+
+    <!-- Footer -->
+    @include('components.footer')
 </body>
 </html>

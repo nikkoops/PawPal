@@ -516,7 +516,7 @@
             </button>
             <div>
               <h1 class="modal-title">Adopt <span id="petName">Bella</span></h1>
-              <p class="step-info">Step <span id="currentStep">1</span> of 3</p>
+              <p class="step-info"><span id="stepLabel">Step 1: Personal Information</span></p>
             </div>
           </div>
           <button class="btn btn-ghost" onclick="closePage()">
@@ -1085,8 +1085,13 @@
     fetchPetDetails();
 
     function updateUI() {
-      // Update step indicator
-      document.getElementById('currentStep').textContent = currentStep;
+      // Update step indicator with descriptive labels
+      const stepLabels = [
+        'Step 1: Personal Information',
+        'Step 2: Living Situation',
+        'Step 3: Pet Care Experience'
+      ];
+      document.getElementById('stepLabel').textContent = stepLabels[currentStep - 1];
       
       // Update progress bar
       const progress = (currentStep / totalSteps) * 100;

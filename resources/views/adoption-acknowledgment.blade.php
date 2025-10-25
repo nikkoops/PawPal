@@ -307,6 +307,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
+                <button onclick="window.location.href='/'" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 28px; color: #fff; cursor: pointer; line-height: 1; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; opacity: 0.9; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">&times;</button>
                 <h1>🐾 PAWPAL Adoption Application</h1>
                 @if(!empty($petName))
                     <div class="pet-name">for {{ $petName }}</div>

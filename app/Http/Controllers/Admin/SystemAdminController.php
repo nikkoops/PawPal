@@ -166,24 +166,24 @@ class SystemAdminController extends Controller
     public function analytics()
     {
         // Shelter Capacities (group pets by location)
-        $shelterCapacities = Pet::selectRaw('location, COUNT(*) as current, location as shelter_name')
-            ->whereNotNull('location')
+        $shelterCapacities = Pet::whereNotNull('location')
+            ->where('is_available', true)
+            ->selectRaw('location, COUNT(*) as current')
             ->groupBy('location')
             ->get()
             ->map(function($shelter) {
-                // Define max capacities for each shelter (you can adjust these or store in DB)
                 $maxCapacities = [
                     'Malabon' => 18, 'Muntinlupa' => 18, 'Taguig' => 30, 'Manila' => 30,
                     'Quezon City' => 40, 'Caloocan' => 25, 'Las Piñas' => 20, 'Makati' => 25,
                     'Mandaluyong' => 22, 'Marikina' => 20, 'Navotas' => 16, 'Parañaque' => 24,
                     'Pasay' => 20, 'Pasig' => 28, 'San Juan' => 26, 'Valenzuela' => 20
                 ];
-                
-                $maximum = $maxCapacities[$shelter->location] ?? 20;
+                $location = $shelter->location;
+                $displayName = preg_replace('/\s*Shelter$/i', '', $location) . ' Shelter';
+                $maximum = $maxCapacities[$location] ?? 20;
                 $percentFull = $shelter->current > 0 ? round(($shelter->current / $maximum) * 100) : 0;
-                
                 return [
-                    'shelter' => $shelter->location . ' Shelter',
+                    'shelter' => $displayName,
                     'current' => $shelter->current,
                     'maximum' => $maximum,
                     'percent_full' => $percentFull,

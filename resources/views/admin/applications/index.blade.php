@@ -327,7 +327,7 @@ function renderFormAnswers(answers) {
     }
     
     // Filter out some keys we don't want to display
-    const excludedKeys = ['_token', 'pet_name', 'id_upload_path', 'home_photos_paths'];
+    const excludedKeys = ['_token', 'pet_name', 'id_upload_path', 'home_photos_paths', 'idUploadUrl', 'homePhotosUrls'];
     
     let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
     

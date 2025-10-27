@@ -44,8 +44,25 @@
 
           /* Main Content Styles */
           .gradient-bg {
-              background: linear-gradient(to bottom, #ffecdd, #ffe8d6);
+              background: #fff8ed;
+              position: relative;
               min-height: 100vh;
+          }
+          .gradient-bg::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: #fff8ed;
+              opacity: 0.1;
+              animation: gradientShift 8s ease-in-out infinite;
+              z-index: 0;
+          }
+          @keyframes gradientShift {
+              0%, 100% { transform: translateX(-100%); }
+              50% { transform: translateX(0); }
           }
 
           /* Hero Section - matching Learn More page scale */
@@ -60,14 +77,7 @@
               text-align: center;
           }
 
-          .hero-content h1 {
-              font-size: 3rem;
-              font-weight: bold;
-              color: #111827;
-              margin-bottom: 1.5rem;
-              line-height: 1.1;
-              font-family: 'Montserrat', sans-serif;
-          }
+          /* .hero-content h1 { font-size: 3rem; ... } removed to allow Tailwind classes to control size */
 
           .hero-content p {
               font-size: 0.875rem;
@@ -303,7 +313,10 @@
           <!-- Hero Section -->
           <section class="hero-section">
               <div class="hero-content">
-                  <h1 class="text-balance">Contact Us</h1>
+                                                                                                                      <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-6 text-center drop-shadow-lg font-[Inter,sans-serif] whitespace-nowrap">
+                                                                                                                        <span class="font-black font-[Inter,sans-serif] bg-gradient-to-r from-slate-800 via-slate-600 to-slate-800 bg-clip-text text-transparent">Contact </span>
+                                                                                                                        <span class="font-black font-[Inter,sans-serif] bg-gradient-to-r from-orange-600 via-orange-500 to-amber-400 bg-clip-text text-transparent">PawPal</span>
+                                                                                                                </h1>
                   <p class="text-pretty">
                       Have questions about pet adoption, volunteering, or our services? We're here to help you<br>
                       connect with your perfect companion and support our mission of<br>
@@ -316,7 +329,7 @@
           <section style="background: white;">
               <div class="section">
                   <div class="section-header">
-                      <h2>Get in Touch</h2>
+                      <h2 class="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-400 to-yellow-400 mb-4 tracking-tight font-[Montserrat,Inter,sans-serif] drop-shadow-lg text-center" style="background-image: linear-gradient(90deg, #f97316 0%, #fb923c 50%, #fde047 100%); color: transparent; -webkit-background-clip: text; background-clip: text;">Get in Touch</h2>
                       <p>
                           Connect with us through any channel. We're here to help animals find loving homes across the Philippines.
                       </p>
@@ -374,7 +387,7 @@
           <section style="background: #ffecdd;">
               <div class="section">
                   <div class="section-header">
-                      <h2>Support Our Mission</h2>
+                      <h2 class="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-400 to-yellow-400 mb-4 tracking-tight font-[Montserrat,Inter,sans-serif] drop-shadow-lg text-center" style="background-image: linear-gradient(90deg, #f97316 0%, #fb923c 50%, #fde047 100%); color: transparent; -webkit-background-clip: text; background-clip: text;">Support Our Mission</h2>
                       <p>
                           Every peso helps provide food, medical care, and shelter for rescued animals across the Philippines.
                       </p>
@@ -489,124 +502,59 @@
           </section>
 
 
-          <!-- Enhanced For Animal Shelters & Rescue Organizations (Orange Theme) -->
-          <section style="background: linear-gradient(135deg, #fff8ed 70%, #ffe8d6 100%);">
-              <div class="section">
-                  <div class="text-center mb-10">
-                      <span class="inline-block bg-orange-100 text-orange-700 font-semibold rounded-full px-4 py-2 text-sm mb-4">Partner With Us</span>
-                      <h2 class="text-3xl md:text-4xl font-extrabold text-orange-600 mb-2">For Animal Shelters & Rescue Organizations</h2>
-                      <p class="text-lg text-orange-900 max-w-2xl mx-auto">Join our network of shelters and rescue organizations dedicated to finding loving homes for animals in need.</p>
-                  </div>
 
-                  <!-- Requirements as Cards -->
-                  <div class="max-w-5xl mx-auto mb-12">
-                      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
-                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 21V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14M3 21h18"/></svg>
-                              </div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-1">Shelter Name</h4>
-                              <p class="text-orange-700">Official name of your organization</p>
-                          </div>
-                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
-                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>
-                              </div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-1">Location & Address</h4>
-                              <p class="text-orange-700">City/Province and complete address if possible</p>
-                          </div>
-                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
-                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                              </div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-1">Contact Person</h4>
-                              <p class="text-orange-700">Name and position of primary contact</p>
-                          </div>
-                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
-                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M22 4L12 14.01 2 4"/></svg>
-                              </div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-1">Email Address</h4>
-                              <p class="text-orange-700">Official email for communication</p>
-                          </div>
-                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
-                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92V19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2.08"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M8 3.13a4 4 0 0 0 0 7.75"/></svg>
-                              </div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-1">Contact Number</h4>
-                              <p class="text-orange-700">Phone number for direct contact</p>
-                          </div>
-                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
-                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7c0 6 8 10 8 10z"/></svg>
-                              </div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-1">Proof of Legitimacy</h4>
-                              <p class="text-orange-700">Registration or legitimacy documentation</p>
-                          </div>
-                      </div>
-                  </div>
-
-                  <!-- Additional Info Section -->
-                  <div class="max-w-4xl mx-auto mb-12 space-y-6">
-                      <div class="bg-white border-l-4 border-orange-400 p-8 rounded-xl flex items-start gap-4">
-                          <svg class="h-6 w-6 text-orange-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
-                          <div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-2">Brief Shelter Overview</h4>
-                              <p class="text-orange-700">Include how long your organization has been operating, your mission, animal types, and any special programs or services.</p>
-                          </div>
-                      </div>
-                      <div class="bg-white border-l-4 border-orange-400 p-8 rounded-xl flex items-start gap-4">
-                          <svg class="h-6 w-6 text-orange-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>
-                          <div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-2">Social Media & Web Presence</h4>
-                              <p class="text-orange-700">If available, provide links to your website, Facebook, Instagram, or other social media accounts. This helps us verify your organization.</p>
-                          </div>
-                      </div>
-                  </div>
-
-                  <!-- Application Process Steps -->
-                  <div class="max-w-5xl mx-auto mb-12">
-                      <div class="text-center mb-10">
-                          <h3 class="text-2xl font-bold text-orange-700 mb-2">Application Process</h3>
-                          <p class="text-orange-800">Follow these simple steps to become a PawPal partner</p>
-                      </div>
-                      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                          <div class="relative flex flex-col items-center text-center">
-                              <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mb-4">01</div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-1">Prepare Your Information</h4>
-                              <p class="text-orange-700 text-sm">Gather all required details about your shelter including mission, animal types, and social media links.</p>
-                          </div>
-                          <div class="relative flex flex-col items-center text-center">
-                              <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mb-4">02</div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-1">Submit Application</h4>
-                              <p class="text-orange-700 text-sm">Send your complete information to <span class="font-semibold">adopt@pawpal.com</span> with all required documentation.</p>
-                          </div>
-                          <div class="relative flex flex-col items-center text-center">
-                              <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mb-4">03</div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-1">Review & Verification</h4>
-                              <p class="text-orange-700 text-sm">Our team will review your application and verify your organization within 24-48 hours.</p>
-                          </div>
-                          <div class="relative flex flex-col items-center text-center">
-                              <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mb-4">04</div>
-                              <h4 class="text-lg font-bold text-orange-900 mb-1">Partnership Onboarding</h4>
-                              <p class="text-orange-700 text-sm">Once approved, we'll guide you through setup and get you connected to our network.</p>
-                          </div>
-                      </div>
-                  </div>
-
-                  <!-- CTA Section -->
-                  <div class="max-w-3xl mx-auto mb-4">
-                      <div class="bg-gradient-to-br from-orange-500 via-orange-400 to-yellow-400 rounded-2xl shadow-2xl p-10 text-center">
-                          <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Ready to Partner With Us?</h3>
-                          <p class="text-lg text-orange-50 mb-6">Send your shelter information to our team and let's work together to help more animals find their forever homes.</p>
-                          <a href="mailto:adopt@pawpal.com" class="inline-block bg-white hover:bg-orange-50 text-orange-600 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 shadow">Email: adopt@pawpal.com</a>
-                          <div class="pt-8 border-t border-white/20 mt-8">
-                              <p class="text-orange-50 text-sm">Our team will review your application within 24-48 hours and reach out with next steps.</p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </section>
+                    <!-- For Animal Shelters & Rescue Organizations Section (Pixel-Perfect Screenshot Match) -->
+                    <section class="py-14 px-4">
+                        <div class="max-w-6xl mx-auto bg-gradient-to-br from-orange-50 via-white to-orange-100 rounded-[2.5rem] shadow-[0_25px_50px_-12px_rgba(255,140,0,0.15)] border border-orange-200 p-12 relative backdrop-blur-md">
+                            <div class="absolute -top-4 -right-4 w-8 h-8 bg-orange-400 rounded-full animate-pulse shadow-lg"></div>
+                                            <div class="text-center mb-10">
+                                                <h2 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-400 to-yellow-400 mb-2 tracking-tight font-[Montserrat,Inter,sans-serif] drop-shadow-lg whitespace-nowrap">For Animal Shelters & Rescue Organizations</h2>
+                                                <p class="text-sm text-gray-700 max-w-2xl mx-auto font-normal">Are you a shelter or rescue group interested in partnering with PAWPAL? We welcome organizations who share our mission of helping animals find loving, forever homes!</p>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                                                <div class="bg-white/80 rounded-2xl border border-orange-300 shadow-lg p-8 flex flex-col justify-between">
+                                                    <div>
+                                                        <div class="flex items-center gap-2 mb-3">
+                                                            <i data-lucide="info" class="w-5 h-5 text-orange-400"></i>
+                                                            <h3 class="text-base font-bold text-orange-700">Required Information for Admin Shelter Application:</h3>
+                                                        </div>
+                                                                            <ul class="list-disc pl-6 text-gray-900 space-y-2 text-sm leading-6">
+                                                                                <li><span class="font-semibold">Shelter Name</span></li>
+                                                                                <li><span class="font-semibold">Location</span> (City/Province + Complete Address if possible)</li>
+                                                                                <li><span class="font-semibold">Contact Person</span> (Name & Position)</li>
+                                                                                <li><span class="font-semibold">Official Email Address</span></li>
+                                                                                <li><span class="font-semibold">Contact Number</span></li>
+                                                                                <li><span class="font-semibold">Brief Shelter Overview</span> (e.g., how long operating, mission, animal types)</li>
+                                                                                <li><span class="font-semibold">Website / Facebook / Instagram</span> (if available)</li>
+                                                                                <li><span class="font-semibold">Proof of Legitimacy / Registration</span> (if applicable)</li>
+                                                                            </ul>
+                                                    </div>
+                                                </div>
+                                <div class="flex flex-col gap-6 justify-center">
+                                                                            <div class="bg-gradient-to-br from-orange-100 via-orange-50 to-white border border-orange-200 rounded-xl p-6 shadow-md">
+                                                                                <div class="flex items-center gap-2 mb-1">
+                                                                                    <i data-lucide="mail" class="w-4 h-4 text-orange-500"></i>
+                                                                                    <span class="font-semibold text-orange-700 text-base">How to Apply:</span>
+                                                                                </div>
+                                                                                <span class="text-gray-700 text-sm">Please send the above details by email to
+                                                                                    <a href="mailto:adopt@pawpal.com" class="text-orange-600 underline hover:text-orange-800 font-semibold">adopt@pawpal.com</a>.
+                                                                                </span>
+                                                                            </div>
+                                                                            <div class="bg-gradient-to-br from-yellow-100 via-yellow-50 to-white border border-yellow-200 rounded-xl p-6 shadow-md">
+                                                                                <div class="flex items-center gap-2 mb-1">
+                                                                                    <i data-lucide="star" class="w-4 h-4 text-yellow-500"></i>
+                                                                                    <span class="font-semibold text-yellow-700 text-base">What Happens Next?</span>
+                                                                                </div>
+                                                                                <span class="text-gray-700 text-sm">Our team will review your information, verify your organization, and reach out for onboarding if you meet our partnership criteria.</span>
+                                                                            </div>
+                                </div>
+                            </div>
+                                              <p class="text-orange-600 text-base text-center mt-8 tracking-tight">
+                                                Let's work together to help more animals find their forever homes!
+                                                <span aria-label="paw" role="img">🐾</span> <span aria-label="heart" role="img">❤️</span>
+                                            </p>
+                        </div>
+                    </section>
 
           <!-- Emergency Contact Section -->
           <section style="background: white;">

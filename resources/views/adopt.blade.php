@@ -822,6 +822,35 @@
                 </div>
               </div>
 
+              <!-- Interview & Visitation Section (Original: separate date and time fields) -->
+              <div class="form-group">
+                <label class="form-label">Preferred date for online interview <span class="required-asterisk">*</span></label>
+                <input type="date" name="interviewDate" class="form-input" required>
+                <div class="form-note text-xs text-gray-500 mt-1">We can't guarantee the availability of your requested time.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Preferred time for online interview <span class="required-asterisk">*</span></label>
+                <div class="flex gap-2">
+                  <select name="interviewHour" class="form-input w-20" required>
+                    <option value="" disabled selected>Hour</option>
+                    @for ($h = 1; $h <= 12; $h++)
+                      <option value="{{ $h }}">{{ $h }}</option>
+                    @endfor
+                  </select>
+                  <select name="interviewMinute" class="form-input w-20" required>
+                    <option value="" disabled selected>Min</option>
+                    @for ($m = 0; $m < 60; $m+=5)
+                      <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</option>
+                    @endfor
+                  </select>
+                  <select name="interviewPeriod" class="form-input w-20" required>
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                </div>
+                <div class="form-note text-xs text-gray-500 mt-1">We can't guarantee the availability of your requested time.</div>
+              </div>
+
               <div class="form-group">
                 <label for="idUpload" class="form-label">Upload a valid ID <span class="required-asterisk">*</span></label>
                 <div class="upload-area" id="idUploadArea" onclick="document.getElementById('idUpload').click()">
@@ -1161,24 +1190,55 @@
     // Initialize
     updateUI();
     
-    // Set up Next/Submit button click handler
-    const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) {
-      nextBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        // Check if we're on the last step
-        if (currentStep === totalSteps) {
-          console.log('Submit button clicked - calling submitForm');
-          submitForm();
-        } else {
-          console.log('Next button clicked - going to next step');
-          nextStep();
+    // Attach Next/Prev handlers after DOM is ready to avoid timing issues
+    document.addEventListener('DOMContentLoaded', function() {
+      // Robustly find buttons
+      const nextBtn = document.getElementById('nextBtn') || document.querySelector('.btn-primary#nextBtn');
+      const prevBtn = document.getElementById('prevBtn') || document.querySelector('.btn-outline#prevBtn');
+
+      if (nextBtn) {
+        // Remove any previous handler we may have added in development to avoid duplicates
+        if (window.__pawpal_next_handler) {
+          try { nextBtn.removeEventListener('click', window.__pawpal_next_handler); } catch (e) {}
         }
-        return false;
-      });
-    }
+
+        window.__pawpal_next_handler = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          try {
+            if (currentStep === totalSteps) {
+              console.log('Submit button clicked - calling submitForm');
+              submitForm();
+            } else {
+              console.log('Next button clicked - going to next step', { currentStep });
+              nextStep();
+            }
+          } catch (err) {
+            console.error('Error in Next handler', err);
+          }
+          return false;
+        };
+
+        nextBtn.addEventListener('click', window.__pawpal_next_handler, { passive: false });
+        // Ensure button is clickable
+        nextBtn.disabled = false;
+        nextBtn.style.pointerEvents = 'auto';
+      } else {
+        console.warn('Next button element not found when attaching handler');
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          try { prevStep(); } catch (err) { console.error('Error in Prev handler', err); }
+          return false;
+        }, { passive: false });
+      }
+
+      // Re-run UI update once handlers are attached
+      try { updateUI(); } catch (e) { console.warn('updateUI failed after attaching handlers', e); }
+    });
 
     // File upload feedback
     document.getElementById('idUpload').addEventListener('change', function(e) {
@@ -1672,36 +1732,7 @@
 
     @keyframes slideDown {
       from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        opacity
 
     @keyframes pulse {
       0%, 100% {

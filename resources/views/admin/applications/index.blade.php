@@ -282,6 +282,34 @@ function renderApplicationDetails(data, container) {
                 </div>
             </div>
 
+
+
+
+
+
+
+            <!-- Interview Time Section (Yellow) -->
+            <div class="rounded-xl bg-gradient-to-br from-yellow-50 to-yellow-100/50 border border-yellow-300 p-6 shadow-md mb-6">
+                <h3 class="text-lg font-bold flex items-center mb-5 text-yellow-700">
+                    <i data-lucide="clock" class="h-5 w-5 mr-2"></i>
+                    Interview Schedule
+                </h3>
+                <div class="space-y-2">
+                    <div class="bg-white/70 rounded-lg p-4 border border-yellow-100">
+                        <span class="block text-xs text-yellow-600 font-semibold uppercase mb-2 tracking-wide">Interview Date</span>
+                        <span class="block text-base font-semibold text-gray-800">${data.answers.interviewDate || 'Not provided'}</span>
+                    </div>
+                    <div class="bg-white/70 rounded-lg p-4 border border-yellow-100">
+                        <span class="block text-xs text-yellow-600 font-semibold uppercase mb-2 tracking-wide">Interview Time</span>
+                        <span class="block text-base font-semibold text-gray-800">
+                            ${data.answers.interviewHour && data.answers.interviewMinute && data.answers.interviewPeriod
+                                ? `${parseInt(data.answers.interviewHour, 10)}:${data.answers.interviewMinute.toString().padStart(2, '0')} ${data.answers.interviewPeriod}`
+                                : 'Not provided'}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
             <!-- Form Answers Section -->
             <div class="rounded-xl bg-gradient-to-br from-green-50 to-green-100/50 border border-green-200 p-6 shadow-md">
                 <h3 class="text-lg font-bold flex items-center mb-5 text-green-700">
@@ -327,21 +355,23 @@ function renderFormAnswers(answers) {
     }
     
     // Filter out some keys we don't want to display
-    const excludedKeys = ['_token', 'pet_name', 'id_upload_path', 'home_photos_paths', 'idUploadUrl', 'homePhotosUrls'];
+    const excludedKeys = ['_token', 'pet_name', 'id_upload_path', 'home_photos_paths', 'idUploadUrl', 'homePhotosUrls', 'interviewDate', 'interviewHour', 'interviewMinute', 'interviewPeriod'];
     
     let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
     
-    // Format and display each answer
+    // Compose preferred time string if all parts exist
+    const hasTime = answers.interviewHour && answers.interviewMinute && answers.interviewPeriod;
+    const preferredTime = hasTime ? `${parseInt(answers.interviewHour, 10)}:${answers.interviewMinute.toString().padStart(2, '0')} ${answers.interviewPeriod}` : null;
+
     for (const [key, value] of Object.entries(answers)) {
-        if (excludedKeys.includes(key)) continue;
-        
+        if (excludedKeys.includes(key) || ['interviewHour','interviewMinute','interviewPeriod'].includes(key)) continue;
+
         const formattedKey = key
             .replace(/([A-Z])/g, ' $1') // Add spaces before capital letters
             .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
             .replace(/([a-z])(\d)/g, '$1 $2'); // Add space between letter and number
-        
+
         let formattedValue = value;
-        // Format value based on type
         if (typeof value === 'boolean') {
             formattedValue = value ? 'Yes' : 'No';
         } else if (value === 'yes' || value === 'no') {
@@ -351,11 +381,15 @@ function renderFormAnswers(answers) {
         } else if (typeof value === 'object') {
             formattedValue = JSON.stringify(value);
         }
-        
+
         html += `
             <div class="bg-white/70 rounded-lg p-4 border border-green-100">
                 <p class="text-xs text-green-600 font-semibold uppercase mb-2 tracking-wide">${formattedKey}</p>
-                <p class="font-medium text-gray-800 break-words">${formattedValue}</p>
+                <p class="font-medium text-gray-800 break-words">${
+                    key === 'interviewDate' && preferredTime
+                        ? formattedValue + '<br><span style=\"font-size:13px; color:#666;\">Preferred time: ' + preferredTime + '</span>'
+                        : formattedValue
+                }</p>
             </div>
         `;
     }

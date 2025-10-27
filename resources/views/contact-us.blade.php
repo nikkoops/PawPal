@@ -488,42 +488,122 @@
               </div>
           </section>
 
-          <!-- Enhanced For Animal Shelters & Rescue Organizations -->
+
+          <!-- Enhanced For Animal Shelters & Rescue Organizations (Orange Theme) -->
           <section style="background: linear-gradient(135deg, #fff8ed 70%, #ffe8d6 100%);">
               <div class="section">
-                  <div class="section-header text-center">
-                      <h2 class="text-2xl md:text-3xl font-extrabold text-orange-600 mb-2">
-                          For Animal Shelters & Rescue Organizations
-                      </h2>
-                      <p class="text-base text-gray-700 max-w-2xl mx-auto">
-                          Are you a shelter or rescue group interested in partnering with PAWPAL? We welcome organizations who share our mission of helping animals find loving, forever homes!
-                      </p>
+                  <div class="text-center mb-10">
+                      <span class="inline-block bg-orange-100 text-orange-700 font-semibold rounded-full px-4 py-2 text-sm mb-4">Partner With Us</span>
+                      <h2 class="text-3xl md:text-4xl font-extrabold text-orange-600 mb-2">For Animal Shelters & Rescue Organizations</h2>
+                      <p class="text-lg text-orange-900 max-w-2xl mx-auto">Join our network of shelters and rescue organizations dedicated to finding loving homes for animals in need.</p>
                   </div>
-                  <div class="max-w-2xl mx-auto bg-white/90 rounded-2xl shadow-2xl border border-orange-200 p-8 mb-8">
-                      <h3 class="text-lg font-semibold mb-4 text-orange-600">
-                          Required Information for Admin Shelter Application:
-                      </h3>
-                      <ul class="list-disc pl-6 text-gray-800 mb-6 space-y-2">
-                          <li><span class="font-medium">Shelter Name</span></li>
-                          <li><span class="font-medium">Location</span> (City/Province + Complete Address if possible)</li>
-                          <li><span class="font-medium">Contact Person</span> (Name & Position)</li>
-                          <li><span class="font-medium">Official Email Address</span></li>
-                          <li><span class="font-medium">Contact Number</span></li>
-                          <li><span class="font-medium">Brief Shelter Overview</span> (e.g., how long operating, mission, animal types)</li>
-                          <li><span class="font-medium">Website / Facebook / Instagram</span> (if available)</li>
-                          <li><span class="font-medium">Proof of Legitimacy / Registration</span> (if applicable)</li>
-                      </ul>
-                      <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded-lg mb-4">
-                          <span class="font-semibold text-orange-700">How to Apply:</span> Please send the above details by email to
-                          <a href="mailto:adopt@pawpal.com" class="text-orange-600 underline hover:text-orange-800 font-semibold">adopt@pawpal.com</a>.
+
+                  <!-- Requirements as Cards -->
+                  <div class="max-w-5xl mx-auto mb-12">
+                      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
+                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 21V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14M3 21h18"/></svg>
+                              </div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-1">Shelter Name</h4>
+                              <p class="text-orange-700">Official name of your organization</p>
+                          </div>
+                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
+                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>
+                              </div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-1">Location & Address</h4>
+                              <p class="text-orange-700">City/Province and complete address if possible</p>
+                          </div>
+                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
+                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                              </div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-1">Contact Person</h4>
+                              <p class="text-orange-700">Name and position of primary contact</p>
+                          </div>
+                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
+                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M22 4L12 14.01 2 4"/></svg>
+                              </div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-1">Email Address</h4>
+                              <p class="text-orange-700">Official email for communication</p>
+                          </div>
+                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
+                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92V19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2.08"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M8 3.13a4 4 0 0 0 0 7.75"/></svg>
+                              </div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-1">Contact Number</h4>
+                              <p class="text-orange-700">Phone number for direct contact</p>
+                          </div>
+                          <div class="bg-white border-2 border-orange-200 rounded-xl shadow p-8 flex flex-col items-center text-center hover:border-orange-400 transition">
+                              <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+                                  <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7c0 6 8 10 8 10z"/></svg>
+                              </div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-1">Proof of Legitimacy</h4>
+                              <p class="text-orange-700">Registration or legitimacy documentation</p>
+                          </div>
                       </div>
-                      <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-lg mb-4">
-                          <span class="font-semibold text-amber-700">What Happens Next?</span> Our team will review your information, verify your organization, and reach out for onboarding if you meet our partnership criteria.
+                  </div>
+
+                  <!-- Additional Info Section -->
+                  <div class="max-w-4xl mx-auto mb-12 space-y-6">
+                      <div class="bg-white border-l-4 border-orange-400 p-8 rounded-xl flex items-start gap-4">
+                          <svg class="h-6 w-6 text-orange-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+                          <div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-2">Brief Shelter Overview</h4>
+                              <p class="text-orange-700">Include how long your organization has been operating, your mission, animal types, and any special programs or services.</p>
+                          </div>
                       </div>
-                      <p class="font-medium text-orange-600 text-base flex items-center gap-2 mt-4" style="white-space: nowrap;">
-                          Let's work together to help more animals find their forever homes!
-                          <span aria-label="paw" role="img">🐾</span><span aria-label="heart" role="img">❤️</span>
-                      </p>
+                      <div class="bg-white border-l-4 border-orange-400 p-8 rounded-xl flex items-start gap-4">
+                          <svg class="h-6 w-6 text-orange-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>
+                          <div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-2">Social Media & Web Presence</h4>
+                              <p class="text-orange-700">If available, provide links to your website, Facebook, Instagram, or other social media accounts. This helps us verify your organization.</p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Application Process Steps -->
+                  <div class="max-w-5xl mx-auto mb-12">
+                      <div class="text-center mb-10">
+                          <h3 class="text-2xl font-bold text-orange-700 mb-2">Application Process</h3>
+                          <p class="text-orange-800">Follow these simple steps to become a PawPal partner</p>
+                      </div>
+                      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                          <div class="relative flex flex-col items-center text-center">
+                              <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mb-4">01</div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-1">Prepare Your Information</h4>
+                              <p class="text-orange-700 text-sm">Gather all required details about your shelter including mission, animal types, and social media links.</p>
+                          </div>
+                          <div class="relative flex flex-col items-center text-center">
+                              <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mb-4">02</div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-1">Submit Application</h4>
+                              <p class="text-orange-700 text-sm">Send your complete information to <span class="font-semibold">adopt@pawpal.com</span> with all required documentation.</p>
+                          </div>
+                          <div class="relative flex flex-col items-center text-center">
+                              <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mb-4">03</div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-1">Review & Verification</h4>
+                              <p class="text-orange-700 text-sm">Our team will review your application and verify your organization within 24-48 hours.</p>
+                          </div>
+                          <div class="relative flex flex-col items-center text-center">
+                              <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mb-4">04</div>
+                              <h4 class="text-lg font-bold text-orange-900 mb-1">Partnership Onboarding</h4>
+                              <p class="text-orange-700 text-sm">Once approved, we'll guide you through setup and get you connected to our network.</p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- CTA Section -->
+                  <div class="max-w-3xl mx-auto mb-4">
+                      <div class="bg-gradient-to-br from-orange-500 via-orange-400 to-yellow-400 rounded-2xl shadow-2xl p-10 text-center">
+                          <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Ready to Partner With Us?</h3>
+                          <p class="text-lg text-orange-50 mb-6">Send your shelter information to our team and let's work together to help more animals find their forever homes.</p>
+                          <a href="mailto:adopt@pawpal.com" class="inline-block bg-white hover:bg-orange-50 text-orange-600 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 shadow">Email: adopt@pawpal.com</a>
+                          <div class="pt-8 border-t border-white/20 mt-8">
+                              <p class="text-orange-50 text-sm">Our team will review your application within 24-48 hours and reach out with next steps.</p>
+                          </div>
+                      </div>
                   </div>
               </div>
           </section>

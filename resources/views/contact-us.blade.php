@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="en">
   <head>
       <meta charset="UTF-8">
@@ -484,6 +484,46 @@
                           <i data-lucide="heart" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"></i>
                           Start Your Donation Today
                       </a>
+                  </div>
+              </div>
+          </section>
+
+          <!-- Enhanced For Animal Shelters & Rescue Organizations -->
+          <section style="background: linear-gradient(135deg, #fff8ed 70%, #ffe8d6 100%);">
+              <div class="section">
+                  <div class="section-header text-center">
+                      <h2 class="text-2xl md:text-3xl font-extrabold text-orange-600 mb-2">
+                          For Animal Shelters & Rescue Organizations
+                      </h2>
+                      <p class="text-base text-gray-700 max-w-2xl mx-auto">
+                          Are you a shelter or rescue group interested in partnering with PAWPAL? We welcome organizations who share our mission of helping animals find loving, forever homes!
+                      </p>
+                  </div>
+                  <div class="max-w-2xl mx-auto bg-white/90 rounded-2xl shadow-2xl border border-orange-200 p-8 mb-8">
+                      <h3 class="text-lg font-semibold mb-4 text-orange-600">
+                          Required Information for Admin Shelter Application:
+                      </h3>
+                      <ul class="list-disc pl-6 text-gray-800 mb-6 space-y-2">
+                          <li><span class="font-medium">Shelter Name</span></li>
+                          <li><span class="font-medium">Location</span> (City/Province + Complete Address if possible)</li>
+                          <li><span class="font-medium">Contact Person</span> (Name & Position)</li>
+                          <li><span class="font-medium">Official Email Address</span></li>
+                          <li><span class="font-medium">Contact Number</span></li>
+                          <li><span class="font-medium">Brief Shelter Overview</span> (e.g., how long operating, mission, animal types)</li>
+                          <li><span class="font-medium">Website / Facebook / Instagram</span> (if available)</li>
+                          <li><span class="font-medium">Proof of Legitimacy / Registration</span> (if applicable)</li>
+                      </ul>
+                      <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded-lg mb-4">
+                          <span class="font-semibold text-orange-700">How to Apply:</span> Please send the above details by email to
+                          <a href="mailto:adopt@pawpal.com" class="text-orange-600 underline hover:text-orange-800 font-semibold">adopt@pawpal.com</a>.
+                      </div>
+                      <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-lg mb-4">
+                          <span class="font-semibold text-amber-700">What Happens Next?</span> Our team will review your information, verify your organization, and reach out for onboarding if you meet our partnership criteria.
+                      </div>
+                      <p class="font-medium text-orange-600 text-base flex items-center gap-2 mt-4" style="white-space: nowrap;">
+                          Let's work together to help more animals find their forever homes!
+                          <span aria-label="paw" role="img">🐾</span><span aria-label="heart" role="img">❤️</span>
+                      </p>
                   </div>
               </div>
           </section>

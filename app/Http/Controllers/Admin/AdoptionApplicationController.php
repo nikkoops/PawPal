@@ -10,6 +10,15 @@ class AdoptionApplicationController extends Controller
 {
     public function index(Request $request)
     {
+        // Debug: Log the most recent application regardless of filters
+        $latestApp = \App\Models\AdoptionApplication::orderBy('created_at', 'desc')->first();
+        \Illuminate\Support\Facades\Log::info('Latest Adoption Application', [
+            'id' => $latestApp?->id,
+            'created_at' => $latestApp?->created_at,
+            'status' => $latestApp?->status,
+            'pet_id' => $latestApp?->pet_id,
+            'answers' => $latestApp?->answers,
+        ]);
         $query = AdoptionApplication::with(['pet.images']); // Eager load pet and its images
         
         // Filter by shelter location if user has one assigned
@@ -110,7 +119,7 @@ class AdoptionApplicationController extends Controller
         $answers = $application->answers ?? [];
         
         // Format data for the application modal
-        $details = [
+    $details = [
             'id' => $application->id,
             'applicant' => [
                 'name' => ($answers['firstName'] ?? '') . ' ' . ($answers['lastName'] ?? ''),
@@ -158,10 +167,8 @@ class AdoptionApplicationController extends Controller
                 'past_pets' => $answers['pastPets'] ?? '',
             ],
             'documents' => [
-                'id_upload' => isset($answers['id_upload_path']) ? asset('storage/' . $answers['id_upload_path']) : null,
-                'home_photos' => isset($answers['home_photos_paths']) ? array_map(function($path) {
-                    return asset('storage/' . $path);
-                }, $answers['home_photos_paths']) : []
+                'id_upload' => $answers['idUploadUrl'] ?? null,
+                'home_photos' => isset($answers['homePhotosUrls']) && is_array($answers['homePhotosUrls']) ? $answers['homePhotosUrls'] : [],
             ],
             'answers' => $answers // Complete form data for the JavaScript renderFormAnswers function
         ];

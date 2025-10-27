@@ -8,6 +8,7 @@ use App\Models\Pet;
 use App\Models\AdoptionApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class SystemAdminController extends Controller
@@ -84,7 +85,20 @@ class SystemAdminController extends Controller
             $userData['shelter_location'] = $validated['shelter_location'];
         }
 
+        // Keep the plain password so we can email credentials to the new admin
+        $plainPassword = $validated['password'];
+
         $user = User::create($userData);
+
+        // If the created user is a shelter admin, send them a welcome email with credentials
+        if ($user->role === 'shelter_admin') {
+            try {
+                Mail::mailer('failover')->to($user->email)->send(new \App\Mail\ShelterAccountCreatedMail($user, $plainPassword));
+            } catch (\Exception $e) {
+                // Log but don't prevent creation
+                \Log::error('Failed to send shelter account created email', ['email' => $user->email, 'exception' => $e->getMessage()]);
+            }
+        }
 
         return redirect()->route('admin.system.users')
             ->with('success', 'User created successfully!');

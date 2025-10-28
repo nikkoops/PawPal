@@ -4,7 +4,7 @@
         <div class="bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden">
             <!-- Modal Header -->
             <div class="px-6 py-4 border-b border-gray-200">
-                <h3 id="modal-title" class="text-lg font-semibold text-gray-900"></h3>
+                <h3 id="modal-title" class="text-lg font-semibold text-gray-900 gradient-title"></h3>
             </div>
             
             <!-- Modal Body -->
@@ -53,6 +53,25 @@
         #modalContent {
             max-width: calc(100vw - 2rem);
         }
+    }
+
+    /* Gradient title tuned to match site header reference (stronger stops, weight, and shadow)
+       This uses both background-clip and -webkit-text-fill-color for broad browser support. */
+    #modal-title.gradient-title,
+    .gradient-title {
+        background: linear-gradient(90deg, #ff5a00 0%, #ff7b00 35%, #f4ac1dff 70%, #f2a11fff 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent; /* for WebKit/Chrome */
+        color: transparent;
+        display: inline-block;
+        background-size: 100% 100%;
+        font-weight: 800; /* match bolder display in reference */
+        -webkit-font-smoothing: antialiased;
+        /* stronger shadow / drop-shadow to match the reference look */
+        text-shadow: 0 6px 18px rgba(0,0,0,0.10);
+        filter: drop-shadow(0 8px 14px rgba(255,123,25,0.06));
+        line-height: 1.05;
     }
 </style>
 

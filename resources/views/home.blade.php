@@ -594,16 +594,36 @@
       margin: 0 0 0.5rem 0;
     }
 
+    /* Gradient text class tuned to match the page header reference image.
+       Stronger stops, bold weight, and heavier shadow/drop-shadow for the 'PawPal' effect. */
+    .modal-header h1.gradient-title,
+    .gradient-title {
+      background: linear-gradient(90deg, #ff5a00 0%, #ff7b00 35%, #ffb200 70%, #ffd23a 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      display: inline-block;
+      background-size: 100% 100%;
+      font-weight: 800;
+      -webkit-font-smoothing: antialiased;
+      text-shadow: 0 6px 18px rgba(0,0,0,0.10);
+      filter: drop-shadow(0 8px 14px rgba(255,123,25,0.06));
+      line-height: 1.05;
+    }
+
     .modal-header-badge {
       display: inline-flex;
       align-items: center;
-      background: var(--secondary);
-      color: var(--secondary-foreground);
-      padding: 0.25rem 0.75rem;
+      background: linear-gradient(135deg, #ff912b 0%, #ff7b00 100%);
+      color: #ffffff;
+      padding: 0.35rem 0.9rem;
       border-radius: 9999px;
-      font-size: 0.875rem;
-      font-weight: 500;
+      font-size: 0.95rem;
+      font-weight: 600;
       margin-right: 0.5rem;
+      box-shadow: 0 6px 18px rgba(255,121,25,0.14);
+      text-shadow: 0 1px 0 rgba(0,0,0,0.06);
     }
 
     .urgent-badge {
@@ -880,6 +900,13 @@
       width: 1rem;
       height: 1rem;
       color: var(--muted-foreground);
+    }
+
+    /* Color icons based on characteristic state
+       (use site accent orange instead of green/red per request) */
+    .characteristic-item.char-yes .characteristic-icon,
+    .characteristic-item.char-no .characteristic-icon {
+      color: #ff7b00; /* orange accent */
     }
 
     .characteristic-label {
@@ -1315,7 +1342,14 @@
       
       try {
         // Populate modal with pet data
-        document.getElementById('modalHeaderName').textContent = `Meet ${pet.name}`;
+        // Put the pet name in its own span so we can style it with the gradient while keeping "Meet" in the default color.
+        const petNameEl = document.getElementById('modalPetName');
+        if (petNameEl) {
+          petNameEl.textContent = pet.name;
+        } else {
+          // Fallback for older markup: set the whole heading text
+          document.getElementById('modalHeaderName').textContent = `Meet ${pet.name}`;
+        }
         document.getElementById('modalHeaderBadge').textContent = pet.type.charAt(0).toUpperCase() + pet.type.slice(1);
         
         // Handle image gallery
@@ -1381,42 +1415,77 @@
         if (vaccinated) {
           vaccinated.innerHTML = pet.is_vaccinated ? '✓' : '✕';
           vaccinated.className = `characteristic-badge ${pet.is_vaccinated ? 'badge-yes' : 'badge-no'}`;
+          const vaccinatedItem = vaccinated.closest('.characteristic-item');
+          if (vaccinatedItem) {
+            vaccinatedItem.classList.toggle('char-yes', !!pet.is_vaccinated);
+            vaccinatedItem.classList.toggle('char-no', !pet.is_vaccinated);
+          }
         }
         
         const spayedNeutered = document.getElementById('modalSpayedNeutered');
         if (spayedNeutered) {
           spayedNeutered.innerHTML = pet.is_neutered ? '✓' : '✕';
           spayedNeutered.className = `characteristic-badge ${pet.is_neutered ? 'badge-yes' : 'badge-no'}`;
+          const spayedItem = spayedNeutered.closest('.characteristic-item');
+          if (spayedItem) {
+            spayedItem.classList.toggle('char-yes', !!pet.is_neutered);
+            spayedItem.classList.toggle('char-no', !pet.is_neutered);
+          }
         }
         
         const dewormed = document.getElementById('modalDewormed');
         if (dewormed) {
           dewormed.innerHTML = pet.is_dewormed ? '✓' : '✕';
           dewormed.className = `characteristic-badge ${pet.is_dewormed ? 'badge-yes' : 'badge-no'}`;
+          const dewormedItem = dewormed.closest('.characteristic-item');
+          if (dewormedItem) {
+            dewormedItem.classList.toggle('char-yes', !!pet.is_dewormed);
+            dewormedItem.classList.toggle('char-no', !pet.is_dewormed);
+          }
         }
         
         const preventiveMedication = document.getElementById('modalPreventiveMedication');
         if (preventiveMedication) {
           preventiveMedication.innerHTML = pet.on_preventive_medication ? '✓' : '✕';
           preventiveMedication.className = `characteristic-badge ${pet.on_preventive_medication ? 'badge-yes' : 'badge-no'}`;
+          const preventiveItem = preventiveMedication.closest('.characteristic-item');
+          if (preventiveItem) {
+            preventiveItem.classList.toggle('char-yes', !!pet.on_preventive_medication);
+            preventiveItem.classList.toggle('char-no', !pet.on_preventive_medication);
+          }
         }
         
         const specialMedicalNeeds = document.getElementById('modalSpecialMedicalNeeds');
         if (specialMedicalNeeds) {
           specialMedicalNeeds.innerHTML = pet.has_special_medical_needs ? '✓' : '✕';
           specialMedicalNeeds.className = `characteristic-badge ${pet.has_special_medical_needs ? 'badge-yes' : 'badge-no'}`;
+          const specialItem = specialMedicalNeeds.closest('.characteristic-item');
+          if (specialItem) {
+            specialItem.classList.toggle('char-yes', !!pet.has_special_medical_needs);
+            specialItem.classList.toggle('char-no', !pet.has_special_medical_needs);
+          }
         }
         
         const mobilityImpaired = document.getElementById('modalMobilityImpaired');
         if (mobilityImpaired) {
           mobilityImpaired.innerHTML = pet.is_mobility_impaired ? '✓' : '✕';
           mobilityImpaired.className = `characteristic-badge ${pet.is_mobility_impaired ? 'badge-yes' : 'badge-no'}`;
+          const mobilityItem = mobilityImpaired.closest('.characteristic-item');
+          if (mobilityItem) {
+            mobilityItem.classList.toggle('char-yes', !!pet.is_mobility_impaired);
+            mobilityItem.classList.toggle('char-no', !pet.is_mobility_impaired);
+          }
         }
         
         const undergoingTreatment = document.getElementById('modalUndergoingTreatment');
         if (undergoingTreatment) {
           undergoingTreatment.innerHTML = pet.is_undergoing_treatment ? '✓' : '✕';
           undergoingTreatment.className = `characteristic-badge ${pet.is_undergoing_treatment ? 'badge-yes' : 'badge-no'}`;
+          const undergoingItem = undergoingTreatment.closest('.characteristic-item');
+          if (undergoingItem) {
+            undergoingItem.classList.toggle('char-yes', !!pet.is_undergoing_treatment);
+            undergoingItem.classList.toggle('char-no', !pet.is_undergoing_treatment);
+          }
         }
         
         // Show/hide urgent badge based on pet's urgent property
@@ -1601,7 +1670,7 @@
       <!-- Header -->
       <div class="modal-header">
         <button class="modal-close">&times;</button>
-        <h1 id="modalHeaderName">Meet Duke</h1>
+  <h1 id="modalHeaderName">Meet <span id="modalPetName" class="gradient-title">Duke</span></h1>
         <div>
           <span id="modalHeaderBadge" class="modal-header-badge">Dog</span>
           <span style="color: #6b7280;">• Available for adoption</span>

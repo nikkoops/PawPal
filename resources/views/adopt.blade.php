@@ -537,6 +537,7 @@
           @csrf
           <!-- Hidden fields for pet information -->
           <input type="hidden" name="pet_id" id="petId">
+          <input type="hidden" name="pet_name" id="petNameHidden">
           <input type="hidden" name="pet_type" id="petType">
           <input type="hidden" name="pet_breed" id="petBreed">
           <!-- Step 1: Personal Information -->
@@ -1061,6 +1062,8 @@
     const urlParams = new URLSearchParams(window.location.search);
     const petName = urlParams.get('pet') || 'Bella';
     document.getElementById('petName').textContent = petName;
+  const petNameHidden = document.getElementById('petNameHidden');
+  if (petNameHidden) petNameHidden.value = petName;
     
     // Fetch pet details by name to populate hidden fields
     async function fetchPetDetails() {
@@ -1098,7 +1101,9 @@
             );
           } else {
             console.warn('Pet details not found or invalid for:', petName);
-            customAlert('Warning: Could not load pet details. Your form submission may not be associated with the correct pet.', 'warning');
+            // Ensure hidden pet name is still populated so the server can associate the application by name
+            if (petNameHidden) petNameHidden.value = petName;
+            customAlert('Warning: Could not load pet details. Your form submission may not be associated with the correct pet ID, but the pet name will be submitted.', 'warning');
           }
         } else {
           console.error('Failed to fetch pet details:', response.status);
@@ -1196,6 +1201,10 @@
       const nextBtn = document.getElementById('nextBtn') || document.querySelector('.btn-primary#nextBtn');
       const prevBtn = document.getElementById('prevBtn') || document.querySelector('.btn-outline#prevBtn');
 
+      // Submission guard to prevent double submissions
+      if (typeof window.__pawpal_isSubmitting === 'undefined') {
+        window.__pawpal_isSubmitting = false;
+      }
       if (nextBtn) {
         // Remove any previous handler we may have added in development to avoid duplicates
         if (window.__pawpal_next_handler) {
@@ -1207,6 +1216,11 @@
           e.stopPropagation();
           try {
             if (currentStep === totalSteps) {
+              // Prevent double-click / duplicate submits
+              if (window.__pawpal_isSubmitting) {
+                console.warn('Submission already in progress - ignoring additional click');
+                return false;
+              }
               console.log('Submit button clicked - calling submitForm');
               submitForm();
             } else {
@@ -1853,8 +1867,30 @@
       window.location.href = '/#pets-section';
     }
 
+    // Helper to re-enable submit/next buttons after an error or when appropriate
+    function reEnableSubmitButtons() {
+      window.__pawpal_isSubmitting = false;
+      try {
+        const nextBtn = document.getElementById('nextBtn');
+        if (nextBtn) {
+          nextBtn.disabled = false;
+          nextBtn.style.pointerEvents = 'auto';
+          nextBtn.removeAttribute('aria-busy');
+        }
+        const prevBtn = document.getElementById('prevBtn');
+        if (prevBtn) prevBtn.disabled = false;
+      } catch (e) {
+        console.warn('Failed to re-enable submit buttons', e);
+      }
+    }
+
     // Submit form via AJAX to backend
     async function submitForm() {
+      // Prevent duplicate submissions
+      if (window.__pawpal_isSubmitting) {
+        console.warn('submitForm called while another submission is in progress. Ignoring.');
+        return;
+      }
       console.log('submitForm called');
       const form = document.getElementById('adoptionForm');
       
@@ -1894,6 +1930,21 @@
       }
 
       console.log('Form is valid, preparing submission');
+      // Mark as submitting and disable Next button to prevent double clicks
+      window.__pawpal_isSubmitting = true;
+      try {
+        const nextBtnDis = document.getElementById('nextBtn');
+        if (nextBtnDis) {
+          nextBtnDis.disabled = true;
+          nextBtnDis.style.pointerEvents = 'none';
+          nextBtnDis.setAttribute('aria-busy', 'true');
+        }
+        const prevBtnDis = document.getElementById('prevBtn');
+        if (prevBtnDis) prevBtnDis.disabled = true;
+      } catch (e) {
+        console.warn('Failed to disable navigation buttons', e);
+      }
+
       const formData = new FormData(form);
       
       // Ensure file input is included
@@ -1970,6 +2021,7 @@
         if (res.status === 419) {
           // CSRF token mismatch or session expired
           customAlert('Session expired or CSRF token mismatch. Please reload the page and try again.', 'warning');
+          reEnableSubmitButtons();
           return;
         }
 
@@ -1979,6 +2031,7 @@
           console.warn('validation error', data.errors);
           msgEl.style.display = 'block';
           msgEl.textContent = firstError;
+          reEnableSubmitButtons();
           return;
         }
 
@@ -2006,6 +2059,7 @@
               msgEl.style.display = 'block';
               msgEl.textContent = 'Unexpected server response format.';
             }
+            reEnableSubmitButtons();
             return;
           }
         } catch (err) {
@@ -2039,11 +2093,15 @@
           } else {
             msgEl.textContent = 'Submission failed. Please try again.';
           }
+          // Re-enable so the user can try again
+          reEnableSubmitButtons();
         }
       } catch (err) {
         console.error(err);
         msgEl.style.display = 'block';
         msgEl.textContent = 'An error occurred while submitting the form. Check the console for details.';
+        // Network or unexpected error - allow retry
+        reEnableSubmitButtons();
       }
     }
   </script>

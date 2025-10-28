@@ -567,24 +567,25 @@
       position: absolute;
       top: 1rem;
       right: 1rem;
-      color: var(--foreground);
+      color: #ff7b00; /* orange close icon */
       font-size: 1.5rem;
-      font-weight: bold;
+      font-weight: 700;
       cursor: pointer;
       border: none;
-      background: rgba(0, 0, 0, 0.1);
-      padding: 0.5rem;
-      border-radius: var(--radius);
-      transition: all 0.2s;
-      width: 40px;
-      height: 40px;
-      display: flex;
+      background: transparent; /* remove background */
+      padding: 0.25rem 0.35rem;
+      border-radius: 6px;
+      transition: color 0.15s ease, transform 0.12s ease;
+      width: auto;
+      height: auto;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
     }
 
     .modal-close:hover {
-      background: rgba(0, 0, 0, 0.2);
+      color: #ff9f1c;
+      transform: translateY(-1px);
     }
 
     .modal-header h1 {

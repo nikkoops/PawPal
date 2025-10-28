@@ -121,6 +121,38 @@
             margin: 0 auto;
         }
 
+        /* Adoption steps */
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .step-icon {
+            width: 3rem;
+            height: 3rem;
+            background: #fe7701;
+            color: white;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 6px 18px rgba(254,119,1,0.18);
+        }
+
+        .step-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-desc {
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
         .section-header {
             text-align: center;
             margin-bottom: 2.5rem;
@@ -293,39 +325,51 @@
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 2rem;">
-                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                        <div style="width: 2rem; height: 2rem; background: #fe7701; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
-                            1
-                        </div>
+                    <div class="step-item">
+                        <div class="step-icon"><i data-lucide="search" style="width:22px;height:22px; color: white;"></i></div>
                         <div>
-                            <h3 style="margin-bottom: 0.5rem; font-weight: 600; font-size: 1rem;">Discover & Apply for Adoption</h3>
-                            <p style="color: #6b7280; line-height: 1.6;">
-                                Browse through our list of adorable pets available for adoption. Once you find your match, submit an adoption application directly.
-                            </p>
+                            <div class="step-title">Discover & Apply for Adoption</div>
+                            <div class="step-desc">Browse through our list of adorable pets available for adoption. Once you find your match, submit an adoption application directly.</div>
                         </div>
                     </div>
 
-                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                        <div style="width: 2rem; height: 2rem; background: #fe7701; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
-                            2
-                        </div>
+                    <div class="step-item">
+                        <div class="step-icon"><i data-lucide="clipboard" style="width:22px;height:22px; color: white;"></i></div>
                         <div>
-                            <h3 style="margin-bottom: 0.5rem; font-weight: 600; font-size: 1rem;">Connect</h3>
-                            <p style="color: #6b7280; line-height: 1.6;">
-                                After your application is reviewed, a Zoom meeting will be scheduled with the shelter staff to get to know your potential new companion and discuss any questions.
-                            </p>
+                            <div class="step-title">Submit Application</div>
+                            <div class="step-desc">Fill out the adoption form, submit a valid ID, and provide pictures or videos of your home environment.</div>
                         </div>
                     </div>
 
-                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                        <div style="width: 2rem; height: 2rem; background: #fe7701; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
-                            3
-                        </div>
+                    <div class="step-item">
+                        <div class="step-icon"><i data-lucide="message-circle" style="width:22px;height:22px; color: white;"></i></div>
                         <div>
-                            <h3 style="margin-bottom: 0.5rem; font-weight: 600; font-size: 1rem;">Adopt & Welcome Home</h3>
-                            <p style="color: #6b7280; line-height: 1.6;">
-                                Once approved, complete the adoption paperwork online and get ready to welcome your new furry friend into your home!
-                            </p>
+                            <div class="step-title">Connect & Interview</div>
+                            <div class="step-desc">After your application is reviewed, a meeting will be scheduled via Viber or Telegram to discuss your readiness and get to know you better.</div>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-icon"><i data-lucide="home" style="width:22px;height:22px; color: white;"></i></div>
+                        <div>
+                            <div class="step-title">Home Check & Approval</div>
+                            <div class="step-desc">Once approved, our team will personally deliver your chosen pet to your home to verify the environment and finalize the adoption.</div>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-icon"><i data-lucide="file-text" style="width:22px;height:22px; color: white;"></i></div>
+                        <div>
+                            <div class="step-title">Sign & Prepare</div>
+                            <div class="step-desc">You’ll sign the adoption contract and prepare essentials like food, leash, and vitamins. Pets come with medical history records and 1 month of free medication if needed.</div>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-icon"><i data-lucide="heart" style="width:22px;height:22px; color: white;"></i></div>
+                        <div>
+                            <div class="step-title">Post-Adoption Support</div>
+                            <div class="step-desc">We provide one-year follow-up and lifetime support to ensure your pet is happy, healthy, and loved in their new home.</div>
                         </div>
                     </div>
                 </div>

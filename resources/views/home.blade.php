@@ -1122,6 +1122,24 @@
   <!-- Header -->
   @include('components.header')
 
+  <style>
+    /* Mild zoom effect for hero images */
+    .hero-zoom {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      transform-origin: center;
+      will-change: transform;
+    }
+    .hero-zoom:hover,
+    .hero-zoom:focus {
+      transform: scale(1.04);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+    }
+    /* Disable hover scale on small screens for layout stability */
+    @media (max-width: 768px) {
+      .hero-zoom { transform: none; }
+    }
+  </style>
+
   <div class="gradient-bg">
     <!-- Hero Section -->
     <section id="home-section" class="hero-section">
@@ -1146,12 +1164,12 @@
         <!-- Hero Images Grid -->
         <div class="hero-images">
           <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <img src="images/senior-dog-with-gray-muzzle-loyal-expression.jpg" alt="Rocky - Senior Dog" style="height: 200px; object-fit: cover; border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" onerror="this.src='images/placeholder-pet.jpg'">
-            <img src="images/orange-and-white-kitten-playful-expression.png" alt="Orange and White Kitten" style="height: 130px; object-fit: cover; border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" onerror="this.src='images/placeholder-pet.jpg'">
+            <img class="hero-zoom" src="{{ asset('images/biyaya top left.png') }}" alt="Top Left" style="height: 220px; object-fit: cover; border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" onerror="this.src='{{ asset('images/placeholder-pet.jpg') }}'">
+            <img class="hero-zoom" src="{{ asset('images/biyaya bottom left.png') }}" alt="Top Right" style="height: 150px; object-fit: cover; border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" onerror="this.src='{{ asset('images/placeholder-pet.jpg') }}'">
           </div>
           <div style="display: flex; flex-direction: column; gap: 1rem; padding-top: 2rem;">
-            <img src="images/golden-retriever-puppy-happy-face.png" alt="Golden Retriever Puppy" style="height: 130px; object-fit: cover; border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-            <img src="images/tabby-cat-with-green-eyes-alert.png" alt="Milo - Tabby Cat" style="height: 200px; object-fit: cover; border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+            <img class="hero-zoom" src="{{ asset('images/biyaya top right.png') }}" alt="Bottom Left" style="height: 150px; object-fit: cover; border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" onerror="this.src='{{ asset('images/placeholder-pet.jpg') }}'">
+            <img class="hero-zoom" src="{{ asset('images/biyaya bottom right.png') }}" alt="Bottom Right" style="height: 220px; object-fit: cover; border-radius: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" onerror="this.src='{{ asset('images/placeholder-pet.jpg') }}'">
           </div>
         </div>
       </div>

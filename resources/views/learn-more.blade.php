@@ -50,7 +50,8 @@
 
         /* Hero Section - matching Home page scale */
         .hero-section {
-            padding: 4rem 1rem;
+            /* reduced vertical padding for a tighter layout */
+            padding: 2.5rem 1rem;
             background: #ffecdd;
         }
 
@@ -116,7 +117,8 @@
 
         /* Section styles */
         .section {
-            padding: var(--spacing-xl) var(--spacing-md);
+            /* reduce top/bottom padding to tighten spacing */
+            padding: 2rem var(--spacing-md);
             max-width: var(--container-width);
             margin: 0 auto;
         }
@@ -125,12 +127,13 @@
         .step-item {
             display: flex;
             align-items: flex-start;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .step-icon {
-            width: 3rem;
-            height: 3rem;
+            /* slightly smaller round icon to reduce visual bulk */
+            width: 2.25rem;
+            height: 2.25rem;
             background: #fe7701;
             color: white;
             border-radius: 9999px;
@@ -138,14 +141,18 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 6px 18px rgba(254,119,1,0.18);
+            box-shadow: 0 6px 18px rgba(254,119,1,0.14);
         }
 
         .step-title {
             font-size: 1.125rem;
             font-weight: 700;
-            color: #111827;
+            /* Gradient text to match Contact Us page */
+            color: transparent;
             margin-bottom: 0.25rem;
+            background-image: linear-gradient(90deg, #f97316 0%, #fb923c 50%, #fde047 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
         }
 
         .step-desc {
@@ -153,15 +160,68 @@
             line-height: 1.7;
         }
 
+        /* Accordion behaviour */
+        .step-panel {
+            border-radius: 0.75rem;
+            /* tighter panel padding */
+            padding: 0.25rem 0.25rem;
+        }
+
+        .step-header {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            cursor: pointer;
+            /* reduced paddings for denser layout */
+            padding: 0.375rem 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.18s, transform 0.12s;
+        }
+
+        .step-header:focus {
+            outline: 3px solid rgba(254,119,1,0.18);
+            outline-offset: 2px;
+        }
+
+        .step-header:hover { background: rgba(254,119,1,0.03); }
+
+        .step-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.32s ease, padding 0.24s ease;
+            padding: 0 0.75rem;
+        }
+
+        .step-panel.open .step-body {
+            max-height: 400px; /* enough for our content */
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .step-toggle .toggle-icon {
+            transition: transform 0.28s ease;
+            color: rgba(17,24,39,0.7);
+        }
+
+        .step-panel.open .step-toggle .toggle-icon {
+            transform: rotate(180deg);
+            color: #fe7701;
+        }
+
         .section-header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            /* smaller gap under headers */
+            margin-bottom: 1.5rem;
         }
 
         .section-header h2 {
             font-size: 2.5rem;
             font-weight: bold;
-            color: #111827;
+            /* Use same gradient treatment as Contact Us for consistency */
+            color: transparent;
+            background-image: linear-gradient(90deg, #f97316 0%, #fb923c 50%, #fde047 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
             margin-bottom: 0.75rem;
             font-family: 'Montserrat', sans-serif;
         }
@@ -215,7 +275,7 @@
             }
             
             .hero-section {
-                padding: 3rem 1rem;
+                padding: 1.5rem 1rem;
             }
             
             .section-header h2 {
@@ -247,11 +307,12 @@
 
   <div class="gradient-bg">
         <!-- Hero Section -->
-        <section class="hero-section">
+                <section class="hero-section">
             <div class="hero-content">
                 <h1 class="text-balance">
-                    Everything You Need to Know<br>
-                    About Pet Adoption
+                    <span class="font-black font-[Inter,sans-serif] bg-gradient-to-r from-slate-800 via-slate-600 to-slate-800 bg-clip-text text-transparent">Everything You Need to Know</span>
+                    <br>
+                    <span class="font-black font-[Inter,sans-serif] bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 bg-clip-text text-transparent">About Pet Adoption</span>
                 </h1>
                 <p class="text-pretty">
                     Discover the joy of giving a rescued pet a loving home. Learn about our adoption process, pet care
@@ -324,53 +385,71 @@
                     </p>
                 </div>
 
-                <div style="display: flex; flex-direction: column; gap: 2rem;">
-                    <div class="step-item">
-                        <div class="step-icon"><i data-lucide="search" style="width:22px;height:22px; color: white;"></i></div>
-                        <div>
-                            <div class="step-title">Discover & Apply for Adoption</div>
-                            <div class="step-desc">Browse through our list of adorable pets available for adoption. Once you find your match, submit an adoption application directly.</div>
+                <div class="steps-accordion" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div class="step-panel">
+                        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+                            <div class="step-icon"><i data-lucide="search" class="lucide-icon" style="width:22px;height:22px; color: white;"></i></div>
+                            <div style="flex:1">
+                                <div class="step-title">Discover & Apply for Adoption</div>
+                            </div>
+                            <div class="step-toggle"><i data-lucide="chevron-down" class="toggle-icon"></i></div>
                         </div>
+                        <div class="step-body"><p class="step-desc">Browse through our list of adorable pets available for adoption. Once you find your match, submit an adoption application directly.</p></div>
                     </div>
 
-                    <div class="step-item">
-                        <div class="step-icon"><i data-lucide="clipboard" style="width:22px;height:22px; color: white;"></i></div>
-                        <div>
-                            <div class="step-title">Submit Application</div>
-                            <div class="step-desc">Fill out the adoption form, submit a valid ID, and provide pictures or videos of your home environment.</div>
+                    <div class="step-panel">
+                        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+                            <div class="step-icon"><i data-lucide="clipboard" class="lucide-icon" style="width:22px;height:22px; color: white;"></i></div>
+                            <div style="flex:1">
+                                <div class="step-title">Submit Application</div>
+                            </div>
+                            <div class="step-toggle"><i data-lucide="chevron-down" class="toggle-icon"></i></div>
                         </div>
+                        <div class="step-body"><p class="step-desc">Fill out the adoption form, submit a valid ID, and provide pictures or videos of your home environment.</p></div>
                     </div>
 
-                    <div class="step-item">
-                        <div class="step-icon"><i data-lucide="message-circle" style="width:22px;height:22px; color: white;"></i></div>
-                        <div>
-                            <div class="step-title">Connect & Interview</div>
-                            <div class="step-desc">After your application is reviewed, a meeting will be scheduled via Viber or Telegram to discuss your readiness and get to know you better.</div>
+                    <div class="step-panel">
+                        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+                            <div class="step-icon"><i data-lucide="message-circle" class="lucide-icon" style="width:22px;height:22px; color: white;"></i></div>
+                            <div style="flex:1">
+                                <div class="step-title">Connect & Interview</div>
+                            </div>
+                            <div class="step-toggle"><i data-lucide="chevron-down" class="toggle-icon"></i></div>
                         </div>
+                        <div class="step-body"><p class="step-desc">After your application is reviewed, a meeting will be scheduled via Viber or Telegram to discuss your readiness and get to know you better.</p></div>
                     </div>
 
-                    <div class="step-item">
-                        <div class="step-icon"><i data-lucide="home" style="width:22px;height:22px; color: white;"></i></div>
-                        <div>
-                            <div class="step-title">Home Check & Approval</div>
-                            <div class="step-desc">Once approved, our team will personally deliver your chosen pet to your home to verify the environment and finalize the adoption.</div>
+                    <div class="step-panel">
+                        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+                            <div class="step-icon"><i data-lucide="home" class="lucide-icon" style="width:22px;height:22px; color: white;"></i></div>
+                            <div style="flex:1">
+                                <div class="step-title">Home Check & Approval</div>
+                            </div>
+                            <div class="step-toggle"><i data-lucide="chevron-down" class="toggle-icon"></i></div>
                         </div>
+                        <div class="step-body"><p class="step-desc">Once approved, our team will personally deliver your chosen pet to your home to verify the environment and finalize the adoption.</p></div>
                     </div>
 
-                    <div class="step-item">
-                        <div class="step-icon"><i data-lucide="file-text" style="width:22px;height:22px; color: white;"></i></div>
-                        <div>
-                            <div class="step-title">Sign & Prepare</div>
-                            <div class="step-desc">You’ll sign the adoption contract and prepare essentials like food, leash, and vitamins. Pets come with medical history records and 1 month of free medication if needed.</div>
+                    <div class="step-panel">
+                        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+                            <div class="step-icon"><i data-lucide="file-text" class="lucide-icon" style="width:22px;height:22px; color: white;"></i></div>
+                            <div style="flex:1">
+                                <div class="step-title">Sign & Prepare</div>
+                            </div>
+                            <div class="step-toggle"><i data-lucide="chevron-down" class="toggle-icon"></i></div>
                         </div>
+                        <div class="step-body"><p class="step-desc">You’ll sign the adoption contract and prepare essentials like food, leash, and vitamins. Pets come with medical history records and 1 month of free medication if needed.</p></div>
                     </div>
 
-                    <div class="step-item">
-                        <div class="step-icon"><i data-lucide="heart" style="width:22px;height:22px; color: white;"></i></div>
-                        <div>
-                            <div class="step-title">Post-Adoption Support</div>
-                            <div class="step-desc">We provide one-year follow-up and lifetime support to ensure your pet is happy, healthy, and loved in their new home.</div>
+                    <div class="step-panel">
+                        <div class="step-header" role="button" tabindex="0" aria-expanded="false">
+                            <div class="step-icon"><i data-lucide="heart" class="lucide-icon" style="width:22px;height:22px; color: white;"></i></div>
+                            <div style="flex:1">
+                                <div class="step-title">Post-Adoption Support</div>
+                            </div>
+                            <div class="step-toggle"><i data-lucide="chevron-down" class="toggle-icon"></i></div>
                         </div>
+                        <div class="step-body"><p class="step-desc">We provide one-year follow-up and lifetime support to ensure your pet is happy, healthy, and loved in their new home.</p></div>
                     </div>
                 </div>
             </div>
@@ -476,120 +555,40 @@
         @include('components.footer')
     </div>
 
-    <!-- Role Selection Modal -->
-    <div id="roleModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] hidden items-center justify-center">
-        <div class="bg-white rounded-2xl max-w-2xl w-[90%] max-h-[90vh] overflow-y-auto shadow-2xl">
-            <!-- Modal Header -->
-            <div class="p-8 pb-6 border-b relative">
-                <h2 class="text-3xl font-bold text-gray-900">Welcome to PawPal</h2>
-                <p class="text-gray-600 mt-2">Please select your role to continue</p>
-                <button onclick="closeRoleModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg w-8 h-8 flex items-center justify-center transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Modal Body -->
-            <div class="p-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- System Admin Card -->
-                    <div onclick="selectRole('system_admin')" class="role-card cursor-pointer border-2 border-gray-200 rounded-xl p-8 text-center transition-all hover:border-blue-500 hover:shadow-lg hover:-translate-y-1">
-                        <div class="text-6xl mb-4">🔧</div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">System Admin</h3>
-                        <p class="text-sm text-gray-600 leading-relaxed">
-                            Full system access with permissions to manage all shelters, users, and system settings
-                        </p>
-                    </div>
-                    
-                    <!-- Shelter Admin Card -->
-                    <div onclick="selectRole('shelter_admin')" class="role-card cursor-pointer border-2 border-gray-200 rounded-xl p-8 text-center transition-all hover:border-blue-500 hover:shadow-lg hover:-translate-y-1">
-                        <div class="text-6xl mb-4">🏠</div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Shelter Admin</h3>
-                        <p class="text-sm text-gray-600 leading-relaxed">
-                            Manage your shelter's pets, applications, and adoption processes
-                        </p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Modal Footer -->
-            <div class="px-8 pb-8 pt-6 border-t flex justify-end gap-4">
-                <button onclick="closeRoleModal()" class="px-6 py-2.5 rounded-lg font-semibold text-gray-700 border border-gray-300 hover:bg-gray-50 transition-colors">
-                    Cancel
-                </button>
-                <button id="continueBtn" onclick="continueToLogin()" disabled class="px-6 py-2.5 rounded-lg font-semibold text-white bg-orange-600 hover:bg-[#c1431d] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors">
-                    Continue
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <style>
-        .role-card.selected {
-            border-color: #3b82f6 !important;
-            background-color: #eff6ff;
-        }
-    </style>
+    
 
     <script>
-        let selectedRole = null;
-
-        function openRoleModal() {
-            const modal = document.getElementById('roleModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeRoleModal() {
-            const modal = document.getElementById('roleModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.style.overflow = 'auto';
-            selectedRole = null;
-            
-            // Reset selected state
-            document.querySelectorAll('.role-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            document.getElementById('continueBtn').disabled = true;
-        }
-
-        function selectRole(role) {
-            selectedRole = role;
-            
-            // Remove selected class from all cards
-            document.querySelectorAll('.role-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked card
-            event.currentTarget.classList.add('selected');
-            
-            // Enable continue button
-            document.getElementById('continueBtn').disabled = false;
-        }
-
-        function continueToLogin() {
-            if (selectedRole) {
-                window.location.href = `/admin/login?role=${selectedRole}`;
-            }
-        }
-
-        // Close modal when clicking outside
+        // Accordion interactivity for adoption steps
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('roleModal');
-            if (modal) {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        closeRoleModal();
+            const panels = document.querySelectorAll('.step-panel');
+            panels.forEach(panel => {
+                const header = panel.querySelector('.step-header');
+                const body = panel.querySelector('.step-body');
+
+                function toggle(openFromKeyboard = false) {
+                    const isOpen = panel.classList.contains('open');
+                    if (isOpen) {
+                        panel.classList.remove('open');
+                        header.setAttribute('aria-expanded', 'false');
+                    } else {
+                        panel.classList.add('open');
+                        header.setAttribute('aria-expanded', 'true');
+                    }
+                }
+
+                header.addEventListener('click', () => toggle());
+                header.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggle(true);
                     }
                 });
+            });
+
+            // Recreate Lucide icons in case new elements were added dynamically
+            if (window.lucide && typeof lucide.createIcons === 'function') {
+                lucide.createIcons();
             }
-            
-            // Initialize Lucide Icons
-            lucide.createIcons();
         });
     </script>
 
